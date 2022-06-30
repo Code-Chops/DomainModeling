@@ -1,0 +1,70 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <VersionPrefix>0.0.2</VersionPrefix>
+        <PackageReleaseNotes>Added some comments</PackageReleaseNotes>
+        <TargetFramework>net6.0</TargetFramework>
+        <LangVersion>10</LangVersion>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <Title>CodeChops.DomainDrivenDesign.DomainModeling</Title>
+        <AssemblyName>CodeChops.DomainDrivenDesign.DomainModeling</AssemblyName>
+        <RootNamespace>CodeChops.DomainDrivenDesign.DomainModeling</RootNamespace>
+        <PackageId>CodeChops.DomainDrivenDesign.DomainModeling</PackageId>
+        <Authors>CodeChops (@Code-Chops), Max Bergman</Authors>
+        <Company>CodeChops</Company>
+        <PackageProjectUrl>https://github.com/code-chops/DomainDrivenDesign.DomainModeling</PackageProjectUrl>
+        <PackageTags>CodeChops;CodeChops.DomainDrivenDesign.DomainModeling;DomainDrivenDesign;DomainModeling;</PackageTags>
+        <RepositoryUrl>https://github.com/code-chops/DomainDrivenDesign.DomainModeling</RepositoryUrl>
+        <RepositoryType>Git</RepositoryType>
+        <PublishRepositoryUrl>true</PublishRepositoryUrl>
+        <PackageIcon>icon.png</PackageIcon>
+        <PackageLicenseFile>LICENSE</PackageLicenseFile>
+        <Copyright>Copyright (c) CodeChops 2022</Copyright>
+        <Description>
+            Easy domain modeling in accordance with the principles of Domain Driven Design.
+        </Description>
+        <AnalysisLevel>latest</AnalysisLevel>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <EnablePreviewFeatures>true</EnablePreviewFeatures>  
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)' == 'Debug' And '$(LocalNuGetPackagesFolder)' != null">
+        <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+        <CompilerGeneratedFilesOutputPath>$(LocalNuGetPackagesFolder)\..\_sourcegenerated</CompilerGeneratedFilesOutputPath>
+    </PropertyGroup>
+
+    <!-- Creates local nuget packages if environment variable LocalNuGetPackagesFolder is configured -->
+    <Target Name="AddNugetPackage" AfterTargets="Pack" Condition="'$(Configuration)' == 'Debug' And '$(LocalNuGetPackagesFolder)' != null">
+        <Exec Command="$(LocalNuGetPackagesFolder)\nuget.exe add $(OutputPath)..\$(PackageId).$(PackageVersion).nupkg -source $(LocalNuGetPackagesFolder)" />
+    </Target>
+
+    <ItemGroup>
+        <None Include="Properties\LICENSE" Pack="true" PackagePath="" />
+        <None Include="Properties\icon.png" Pack="true" Visible="true" PackagePath="" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <InternalsVisibleTo Include="$(AssemblyName).UnitTests" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="codechops.identities" Version="0.0.3" />
+    </ItemGroup>
+
+    <PropertyGroup>
+        <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <!-- CA1822: Instance member does not access instance data and can be marked as static -->
+        <!-- CS1573: Undocumented public symbol while -doc compiler option is used -->
+        <!-- CS1591: Missing XML comment for publicly visible type -->
+        <!-- CA1816: Dispose() should call GC.SuppressFinalize()-->
+        <NoWarn>CA1822,CS1573,CS1591,CA1816</NoWarn>
+        <DebugType>none</DebugType>
+    </PropertyGroup>
+</Project>

@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <VersionPrefix>0.0.5</VersionPrefix>
-        <PackageReleaseNotes>Updated identities pacakge.</PackageReleaseNotes>
+        <PackageReleaseNotes>Updated identities package.</PackageReleaseNotes>
         <TargetFramework>net6.0</TargetFramework>
         <LangVersion>10</LangVersion>
     </PropertyGroup>

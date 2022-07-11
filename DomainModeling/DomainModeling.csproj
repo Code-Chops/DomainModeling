@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <VersionPrefix>0.0.4</VersionPrefix>
-        <PackageReleaseNotes>Fixed source generation output dir.</PackageReleaseNotes>
+        <VersionPrefix>0.0.5</VersionPrefix>
+        <PackageReleaseNotes>Updated identities pacakge.</PackageReleaseNotes>
         <TargetFramework>net6.0</TargetFramework>
         <LangVersion>10</LangVersion>
     </PropertyGroup>
@@ -52,7 +52,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="Codechops.Identities" Version="0.0.6" />
+      <PackageReference Include="Codechops.Identities" Version="0.0.7" />
     </ItemGroup>
 
     <PropertyGroup>

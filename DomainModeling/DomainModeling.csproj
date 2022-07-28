@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <VersionPrefix>0.0.9</VersionPrefix>
-        <PackageReleaseNotes>Updated identities package.</PackageReleaseNotes>
+        <VersionPrefix>0.1.0</VersionPrefix>
+        <PackageReleaseNotes>Added DDD comments. Number implements ValueObject. Fixed equality of ValueObjects and Entities. Added EntityID source generation (with generic parameter or default) and tests. Only release local package in release mode.</PackageReleaseNotes>
         <TargetFramework>net6.0</TargetFramework>
         <LangVersion>10</LangVersion>
     </PropertyGroup>
@@ -21,7 +21,7 @@
         <PublishRepositoryUrl>true</PublishRepositoryUrl>
         <PackageIcon>icon.png</PackageIcon>
         <PackageLicenseFile>LICENSE</PackageLicenseFile>
-        <Copyright>Copyright (c) CodeChops 2022</Copyright>
+        <Copyright>Copyright (c) CodeChops $([System.DateTime]::Now.ToString(yyyy))</Copyright>
         <Description>
             Easy domain modeling in accordance with the principles of Domain Driven Design.
         </Description>
@@ -30,15 +30,14 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <EnablePreviewFeatures>true</EnablePreviewFeatures>
-        <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
     </PropertyGroup>
 
-    <!-- Removes local nuget packages, so the package will be replaced when it exists -->
-    <Target Name="RemoveNugetPackage" AfterTargets="Pack" Condition="'$(LocalNuGetPackagesFolder)' != null">
-        <Exec Command="rmdir $(LocalNuGetPackagesFolder)\$(PackageId)\$(PackageVersion)\ /s /q" />
-    </Target>
-    <!-- Creates local nuget packages if environment variable LocalNuGetPackagesFolder is configured -->
-    <Target Name="AddNugetPackage" AfterTargets="Pack" Condition="'$(LocalNuGetPackagesFolder)' != null">
+    <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+        <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+    </PropertyGroup>
+    
+    <!-- Creates local nuget packages if in release mode and environment variable LocalNuGetPackagesFolder is configured -->
+    <Target Name="AddNugetPackage" AfterTargets="Pack" Condition="'$(Configuration)' == 'Release' AND '$(LocalNuGetPackagesFolder)' != null">
         <Exec Command="$(LocalNuGetPackagesFolder)\nuget.exe add $(OutputPath)..\$(PackageId).$(PackageVersion).nupkg -source $(LocalNuGetPackagesFolder)" />
     </Target>
 
@@ -52,7 +51,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="Codechops.Identities" Version="0.1.9" />
+        <PackageReference Include="Codechops.Identities" Version="0.4.2" />
+        <ProjectReference Include="..\DomainModeling.SourceGeneration\DomainModeling.SourceGeneration.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
     </ItemGroup>
 
     <PropertyGroup>
@@ -66,5 +66,9 @@
         <!-- CA1816: Dispose() should call GC.SuppressFinalize()-->
         <NoWarn>CA1822,CS1573,CS1591,CA1816</NoWarn>
         <DebugType>none</DebugType>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+      <DebugType>pdbonly</DebugType>
     </PropertyGroup>
 </Project>

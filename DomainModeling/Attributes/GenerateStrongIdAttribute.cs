@@ -1,5 +1,8 @@
 ﻿namespace CodeChops.DomainDrivenDesign.DomainModeling.Attributes;
 
+/// <summary>
+/// Uses ULong as integral value of the ID.
+/// </summary>
 public sealed class GenerateEntityId : GenerateEntityId<uint>
 {
 }
@@ -8,10 +11,4 @@ public sealed class GenerateEntityId : GenerateEntityId<uint>
 public class GenerateEntityId<TNumber> : Attribute
 	where TNumber : struct, IComparable<TNumber>, IEquatable<TNumber>, IConvertible
 {
-	public string IntegralType { get; }
-	
-	public GenerateEntityId()
-	{
-		this.IntegralType = typeof(TNumber).FullName;
-	}
 }

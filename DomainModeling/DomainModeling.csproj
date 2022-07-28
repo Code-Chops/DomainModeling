@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <VersionPrefix>0.1.0</VersionPrefix>
-        <PackageReleaseNotes>Added DDD comments. Number implements ValueObject. Fixed equality of ValueObjects and Entities. Added EntityID source generation (with generic parameter or default) and tests. Only release local package in release mode.</PackageReleaseNotes>
+        <VersionPrefix>0.1.1</VersionPrefix>
+        <PackageReleaseNotes>Removed property of GenerateStrongIdAttribute.</PackageReleaseNotes>
         <TargetFramework>net6.0</TargetFramework>
         <LangVersion>10</LangVersion>
     </PropertyGroup>

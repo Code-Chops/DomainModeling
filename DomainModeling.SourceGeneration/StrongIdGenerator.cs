@@ -45,7 +45,7 @@ using System;
 {{
 	public override {idName} Id {{ get; }} = new();
 
-	public partial record {idName} : global::CodeChops.Identities.NumberId<{idName}, {entity.IdIntegralType}> 
+	public partial record {idName} : global::CodeChops.Identities.Id<{idName}, {entity.IdIntegralType}> 
 	{{ 
 		public {idName}({entity.IdIntegralType} value) : base(value) {{ }}
 		public {idName}() : base() {{ }}

@@ -1,6 +1,4 @@
-﻿using System.Diagnostics;
-
-namespace CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration;
+﻿namespace CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration;
 
 internal static class SyntaxReceiver
 {

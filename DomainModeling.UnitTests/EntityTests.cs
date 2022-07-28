@@ -4,7 +4,7 @@ namespace CodeChops.DomainDrivenDesign.DomainModeling.UnitTests;
 
 public class EntityTests
 {
-	private record IdMock : NumberId<IdMock, int>
+	private record IdMock : Id<IdMock, int>
 	{
 		public IdMock(int value) : base(value) { }
 		public IdMock() { }

@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <VersionPrefix>0.1.1</VersionPrefix>
-        <PackageReleaseNotes>Removed property of GenerateStrongIdAttribute.</PackageReleaseNotes>
+        <VersionPrefix>0.1.2</VersionPrefix>
+        <PackageReleaseNotes>Stopped using NumberId at source creation.</PackageReleaseNotes>
         <TargetFramework>net6.0</TargetFramework>
         <LangVersion>10</LangVersion>
     </PropertyGroup>
@@ -51,7 +51,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Codechops.Identities" Version="0.4.2" />
+        <PackageReference Include="Codechops.Identities" Version="0.4.5" />
         <ProjectReference Include="..\DomainModeling.SourceGeneration\DomainModeling.SourceGeneration.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
     </ItemGroup>
 

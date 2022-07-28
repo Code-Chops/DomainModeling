@@ -1,6 +1,4 @@
-﻿using CodeChops.GenericMath;
-
-namespace CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration.UnitTests;
+﻿namespace CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration.UnitTests;
 
 [GenerateEntityId<byte>]
 public partial class EntityWithByteIdMock1 : Entity
@@ -18,14 +16,14 @@ public class IdGenerationTests
 	public void ExplicitId_ShouldBe_Generated()
 	{
 		var entity = new EntityWithByteIdMock1();
-		Assert.Equal(typeof(byte), ((INumber)entity.Id.GetValue()).GetIntegralType());
+		Assert.Equal(typeof(byte), entity.Id.Value.GetType());
 	}
 	
 	[Fact]
 	public void ImplicitId_ShouldBe_Generated()
 	{
 		var entity = new EntityWithByteIdMock2();
-		Assert.Equal(typeof(uint), ((INumber)entity.Id.GetValue()).GetIntegralType());
+		Assert.Equal(typeof(uint), entity.Id.Value.GetType());
 	}
 
 }

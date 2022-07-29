@@ -25,5 +25,4 @@ public class IdGenerationTests
 		var entity = new EntityWithByteIdMock2();
 		Assert.Equal(typeof(uint), entity.Id.Value.GetType());
 	}
-
 }

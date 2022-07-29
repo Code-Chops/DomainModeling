@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <VersionPrefix>0.1.2</VersionPrefix>
-        <PackageReleaseNotes>Stopped using NumberId at source creation.</PackageReleaseNotes>
+        <VersionPrefix>0.1.3</VersionPrefix>
+        <PackageReleaseNotes>Cleaned up project files.</PackageReleaseNotes>
         <TargetFramework>net6.0</TargetFramework>
         <LangVersion>10</LangVersion>
     </PropertyGroup>
@@ -51,7 +51,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Codechops.Identities" Version="0.4.5" />
+        <PackageReference Include="Codechops.Identities" Version="0.4.6" />
         <ProjectReference Include="..\DomainModeling.SourceGeneration\DomainModeling.SourceGeneration.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
     </ItemGroup>
 
@@ -60,15 +60,9 @@
     </PropertyGroup>
 
     <PropertyGroup>
-        <!-- CA1822: Instance member does not access instance data and can be marked as static -->
-        <!-- CS1573: Undocumented public symbol while -doc compiler option is used -->
         <!-- CS1591: Missing XML comment for publicly visible type -->
-        <!-- CA1816: Dispose() should call GC.SuppressFinalize()-->
-        <NoWarn>CA1822,CS1573,CS1591,CA1816</NoWarn>
-        <DebugType>none</DebugType>
-    </PropertyGroup>
-
-    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-      <DebugType>pdbonly</DebugType>
+        <!-- CS1573: Undocumented public symbol while -doc compiler option is used -->
+        <!-- CA1822: Instance member does not access instance data and can be marked as static -->
+        <NoWarn>CS1591,CS1573,CA1822</NoWarn>
     </PropertyGroup>
 </Project>

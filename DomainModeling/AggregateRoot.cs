@@ -19,7 +19,7 @@
 /// Aggregate roots are being used by <see cref="IApplicationService"/>s, repositories, public APIs, etc.
 /// </para>
 /// </summary>
-public abstract partial class AggregateRoot<TSelf> : Entity
+public abstract class AggregateRoot<TSelf> : Entity
 	where TSelf : AggregateRoot<TSelf>
 {
 }

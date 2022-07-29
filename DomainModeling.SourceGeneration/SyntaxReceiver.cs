@@ -25,8 +25,10 @@ internal static class SyntaxReceiver
 		if (type is null || type.IsAbstract || type.IsStatic || type.TypeKind != TypeKind.Class || !typeDeclarationSyntax.Modifiers.Any(m =>  m.IsKind(SyntaxKind.PartialKeyword)))
 			return null;
 		
+		// Check for attribute with explicit integral type.
 		if (!type.HasAttribute(AttributeName, AttributeNamespace, out var attribute, expectedGenericTypeParamCount: 1))
 		{
+			// Check for attribute without an explicit integral type.
 			if (!type.HasAttribute(AttributeName, AttributeNamespace, out attribute, expectedGenericTypeParamCount: 0))
 				return null;
 		}

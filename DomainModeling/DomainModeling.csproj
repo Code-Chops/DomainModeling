@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <VersionPrefix>0.2.1</VersionPrefix>
-        <PackageReleaseNotes>Id is an value object.</PackageReleaseNotes>
+        <VersionPrefix>0.2.2</VersionPrefix>
+        <PackageReleaseNotes>Changed IHas(Static)TypeId and added IHasId to entity.</PackageReleaseNotes>
         <TargetFramework>net6.0</TargetFramework>
         <LangVersion>10</LangVersion>
     </PropertyGroup>

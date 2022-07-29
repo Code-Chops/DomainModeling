@@ -4,7 +4,7 @@
 /// Contains a type discriminator. 
 /// </summary>
 public interface IHasTypeId<out TId>
-	where TId : Id
+	where TId : IId
 {
 	TId TypeId { get; }
 }
@@ -14,5 +14,5 @@ public interface IHasTypeId<out TId>
 /// </summary>
 public interface IHasTypeId
 {
-	Id GetTypeId();
+	IId GetTypeId();
 }

@@ -8,11 +8,11 @@ namespace CodeChops.DomainDrivenDesign.DomainModeling;
 /// They can belong to only one single <see cref="AggregateRoot{TSelf}"/>.
 /// </para>
 /// </summary>
-public abstract class Entity : IDomainObject, IEquatable<Entity?>
+public abstract class Entity : IHasId, IDomainObject, IEquatable<Entity?>
 {
 	public override string ToString() => $"{{{this.GetType().Name} Id={this.Id}}}";
 
-	public abstract IId Id { get; }
+	public abstract Id Id { get; }
 	
 	public sealed override int GetHashCode()
 	{

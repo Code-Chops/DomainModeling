@@ -1,4 +1,6 @@
-﻿namespace CodeChops.DomainDrivenDesign.DomainModeling;
+﻿using CodeChops.DomainDrivenDesign.DomainModeling.Identities;
+
+namespace CodeChops.DomainDrivenDesign.DomainModeling;
 
 /// <summary>
 /// <para>

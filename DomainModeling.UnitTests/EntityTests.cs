@@ -1,6 +1,4 @@
-﻿using CodeChops.Identities;
-
-namespace CodeChops.DomainDrivenDesign.DomainModeling.UnitTests;
+﻿namespace CodeChops.DomainDrivenDesign.DomainModeling.UnitTests;
 
 public class EntityTests
 {

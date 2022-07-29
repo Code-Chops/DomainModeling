@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Diagnostics.CodeAnalysis;
 using CodeChops.DomainDrivenDesign.DomainModeling.Helpers;
+using CodeChops.DomainDrivenDesign.DomainModeling.Identities;
 
 namespace CodeChops.DomainDrivenDesign.DomainModeling;
 

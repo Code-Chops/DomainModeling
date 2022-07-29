@@ -40,7 +40,7 @@ public abstract record Id<TSelf, TValue> : Id
 	}
 }
 
-public abstract record Id : IId
+public abstract record Id : ValueObject, IId
 {
 	public abstract object GetValue();
 	public abstract bool HasDefaultValue { get; }

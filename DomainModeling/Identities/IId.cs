@@ -1,6 +1,6 @@
 ﻿namespace CodeChops.DomainDrivenDesign.DomainModeling.Identities;
 
-public interface IId
+public interface IId : IValueObject
 {
 	bool HasDefaultValue { get; }
 	object GetValue();

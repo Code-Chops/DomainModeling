@@ -23,6 +23,6 @@ public class IdGenerationTests
 	public void ImplicitId_ShouldBe_Generated()
 	{
 		var entity = new EntityWithByteIdMock2();
-		Assert.Equal(typeof(uint), entity.Id.Value.GetType());
+		Assert.Equal(typeof(ulong), entity.Id.Value.GetType());
 	}
 }

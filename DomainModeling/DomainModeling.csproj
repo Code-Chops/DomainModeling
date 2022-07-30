@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <VersionPrefix>0.3.0</VersionPrefix>
-        <PackageReleaseNotes>Renamed strongly type ID generation (attribute).</PackageReleaseNotes>
+        <VersionPrefix>0.4.0</VersionPrefix>
+        <PackageReleaseNotes>Creates ID equality when needed.</PackageReleaseNotes>
         <TargetFramework>net6.0</TargetFramework>
         <LangVersion>10</LangVersion>
     </PropertyGroup>
@@ -52,7 +52,6 @@
 
     <ItemGroup>
         <ProjectReference Include="..\DomainModeling.SourceGeneration\DomainModeling.SourceGeneration.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
-        <None Include="..\DomainModeling.SourceGeneration\bin\$(Configuration)\netstandard2.0\$(AssemblyName).SourceGeneration.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
     </ItemGroup>
 
     <PropertyGroup>

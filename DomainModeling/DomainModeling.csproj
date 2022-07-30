@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <VersionPrefix>0.2.3</VersionPrefix>
-        <PackageReleaseNotes>Included extra source generation reference.</PackageReleaseNotes>
+        <VersionPrefix>0.3.0</VersionPrefix>
+        <PackageReleaseNotes>Renamed strongly type ID generation (attribute).</PackageReleaseNotes>
         <TargetFramework>net6.0</TargetFramework>
         <LangVersion>10</LangVersion>
     </PropertyGroup>
@@ -38,20 +38,20 @@
 
     <!-- Creates local nuget packages if in release mode and environment variable LocalNuGetPackagesFolder is configured -->
     <Target Name="AddNugetPackage" AfterTargets="Pack" Condition="'$(Configuration)' == 'Release' AND '$(LocalNuGetPackagesFolder)' != null">
-        <Exec Command="$(LocalNuGetPackagesFolder)\nuget.exe add $(OutputPath)..\$(PackageId).$(PackageVersion).nupkg -source $(LocalNuGetPackagesFolder)"/>
+        <Exec Command="$(LocalNuGetPackagesFolder)\nuget.exe add $(OutputPath)..\$(PackageId).$(PackageVersion).nupkg -source $(LocalNuGetPackagesFolder)" />
     </Target>
 
     <ItemGroup>
-        <None Include="Properties\LICENSE" Pack="true" PackagePath=""/>
-        <None Include="Properties\icon.png" Pack="true" Visible="true" PackagePath=""/>
+        <None Include="Properties\LICENSE" Pack="true" PackagePath="" />
+        <None Include="Properties\icon.png" Pack="true" Visible="true" PackagePath="" />
     </ItemGroup>
 
     <ItemGroup>
-        <InternalsVisibleTo Include="$(AssemblyName).UnitTests"/>
+        <InternalsVisibleTo Include="$(AssemblyName).UnitTests" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\DomainModeling.SourceGeneration\DomainModeling.SourceGeneration.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false"/>
+        <ProjectReference Include="..\DomainModeling.SourceGeneration\DomainModeling.SourceGeneration.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
         <None Include="..\DomainModeling.SourceGeneration\bin\$(Configuration)\netstandard2.0\$(AssemblyName).SourceGeneration.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
     </ItemGroup>
 

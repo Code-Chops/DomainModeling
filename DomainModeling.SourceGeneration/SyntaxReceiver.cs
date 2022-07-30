@@ -3,9 +3,9 @@
 internal static class SyntaxReceiver
 {
 	private const string AttributeNamespace = "CodeChops.DomainDrivenDesign.DomainModeling.Attributes";
-	private const string AttributeName = "GenerateEntityId";
+	private const string AttributeName = "GenerateStronglyTypedId";
 	
-	public static bool CheckIfIsProbablyEntity(SyntaxNode node, CancellationToken cancellationToken)
+	public static bool CheckIfProbablyNeedsStronglyTypedId(SyntaxNode node, CancellationToken cancellationToken)
 	{
 		if (node is not ClassDeclarationSyntax classDeclaration)
 			return false;
@@ -17,7 +17,7 @@ internal static class SyntaxReceiver
 		return attribute is not null;
 	}
 
-	public static EntityModel? GetEntityModel(GeneratorSyntaxContext context, CancellationToken cancellationToken)
+	public static DataModel? GetModel(GeneratorSyntaxContext context, CancellationToken cancellationToken)
 	{
 		var typeDeclarationSyntax = (ClassDeclarationSyntax)context.Node;
 		var type = context.SemanticModel.GetDeclaredSymbol(typeDeclarationSyntax);
@@ -33,7 +33,7 @@ internal static class SyntaxReceiver
 				return null;
 		}
 		
-		var data = new EntityModel(type, attribute!.AttributeClass!.TypeArguments.SingleOrDefault()?.Name ?? "uint");
+		var data = new DataModel(type, attribute!.AttributeClass!.TypeArguments.SingleOrDefault()?.Name ?? "uint");
 		return data;
 	}
 }

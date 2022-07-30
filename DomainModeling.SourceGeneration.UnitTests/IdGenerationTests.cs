@@ -1,11 +1,11 @@
 ﻿namespace CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration.UnitTests;
 
-[GenerateEntityId<byte>]
+[GenerateStronglyTypedId<byte>]
 public partial class EntityWithByteIdMock1 : Entity
 {
 }
 
-[GenerateEntityId]
+[GenerateStronglyTypedId]
 public partial class EntityWithByteIdMock2 : Entity
 {
 }

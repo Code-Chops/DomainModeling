@@ -37,9 +37,7 @@ internal static class SyntaxReceiver
 			? null 
 			: type.ContainingNamespace.ToDisplayString();
 		var isEntityBase = name == StronglyTypedIdGenerator.EntityName && @namespace == StronglyTypedIdGenerator.EntityNamespace;
-		
-		if (isEntityBase != type.IsAbstract) return null;
-		
+
 		var data = new DataModel(
 			Name: name, 
 			Namespace: @namespace, 

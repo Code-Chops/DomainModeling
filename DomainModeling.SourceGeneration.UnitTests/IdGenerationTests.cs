@@ -10,6 +10,12 @@ public partial class EntityWithByteIdMock2 : Entity
 {
 }
 
+[GenerateStronglyTypedId]
+public partial record RecordWithId : IValueObject
+{
+}
+
+
 public class IdGenerationTests
 {
 	[Fact]
@@ -23,6 +29,13 @@ public class IdGenerationTests
 	public void ImplicitId_ShouldBe_Generated()
 	{
 		var entity = new EntityWithByteIdMock2();
+		Assert.Equal(typeof(ulong), entity.Id.Value.GetType());
+	}
+	
+	[Fact]
+	public void RecordId_ShouldBe_Generated()
+	{
+		var entity = new RecordWithId();
 		Assert.Equal(typeof(ulong), entity.Id.Value.GetType());
 	}
 }

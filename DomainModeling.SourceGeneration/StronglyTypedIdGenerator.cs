@@ -70,7 +70,7 @@ using CodeChops.DomainDrivenDesign.DomainModeling.Identities;
 
 		string GetIdCreation()
 		{
-			if (data.ClassType == ClassType.EntityBase)
+			if (data.GenerationMethod == GenerationMethod.EntityBase)
 			{
 				return $@"
 	public abstract Id Id {{ get; }}
@@ -78,7 +78,7 @@ using CodeChops.DomainDrivenDesign.DomainModeling.Identities;
 			}
 
 			var code = $@"
-	public {(data.ClassType == ClassType.EntityImplementation ? "override " : "")}{idName} Id {{ get; }} = new();
+	public {(data.GenerationMethod == GenerationMethod.EntityImplementation ? "override " : "")}{idName} Id {{ get; }} = new();
 
 	public partial record {idName} : global::CodeChops.DomainDrivenDesign.DomainModeling.Identities.Id<{idName}, {data.IdIntegralType}> 
 	{{ 
@@ -91,7 +91,7 @@ using CodeChops.DomainDrivenDesign.DomainModeling.Identities;
 
 		string GetEqualityComparison()
 		{
-			if (data.ClassType == ClassType.EntityImplementation)
+			if (data.GenerationMethod is GenerationMethod.EntityImplementation or GenerationMethod.Record)
 				return "";
 					
 			var code = @"

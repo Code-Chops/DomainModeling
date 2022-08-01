@@ -1,15 +1,16 @@
-﻿using System.Diagnostics;
-
-namespace CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration;
+﻿namespace CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration;
 
 internal static class SyntaxReceiver
 {
 	public static bool CheckIfProbablyNeedsStronglyTypedId(SyntaxNode node, CancellationToken cancellationToken)
 	{
-		if (node is not ClassDeclarationSyntax classDeclaration)
+		if (node is not TypeDeclarationSyntax typeDeclarationSyntax)
 			return false;
 		
-		var attribute = classDeclaration.AttributeLists
+		if (typeDeclarationSyntax is not ClassDeclarationSyntax and not RecordDeclarationSyntax)
+			return false;
+		
+		var attribute = typeDeclarationSyntax.AttributeLists
 			.SelectMany(list => list.Attributes)
 			.SingleOrDefault(attribute => attribute.Name.HasAttributeName(StronglyTypedIdGenerator.AttributeName, cancellationToken));
 
@@ -18,7 +19,7 @@ internal static class SyntaxReceiver
 
 	public static DataModel? GetModel(GeneratorSyntaxContext context, CancellationToken cancellationToken)
 	{
-		var typeDeclarationSyntax = (ClassDeclarationSyntax)context.Node;
+		var typeDeclarationSyntax = (TypeDeclarationSyntax)context.Node;
 		var type = context.SemanticModel.GetDeclaredSymbol(typeDeclarationSyntax);
 		
 		if (type is null || type.IsStatic || type.TypeKind != TypeKind.Class || !typeDeclarationSyntax.Modifiers.Any(m =>  m.IsKind(SyntaxKind.PartialKeyword)))
@@ -43,19 +44,22 @@ internal static class SyntaxReceiver
 			Namespace: @namespace, 
 			Declaration: type.GetObjectDeclaration(),
 			IdIntegralType: attribute!.AttributeClass!.TypeArguments.SingleOrDefault()?.Name ?? "ulong",
-			ClassType: GetClassType(type, isEntityBase));
+			GenerationMethod: GetClassType(type, isEntityBase));
 		
 		return data;
 		
-		static ClassType GetClassType(INamedTypeSymbol type, bool isEntityBase)
+		static GenerationMethod GetClassType(INamedTypeSymbol type, bool isEntityBase)
 		{
 			if (isEntityBase)
-				return ClassType.EntityBase;
+				return GenerationMethod.EntityBase;
 
 			if (type.IsOrInheritsClass(interf => interf.IsType(StronglyTypedIdGenerator.EntityName, StronglyTypedIdGenerator.EntityNamespace), out _))
-				return ClassType.EntityImplementation;
+				return GenerationMethod.EntityImplementation;
 
-			return ClassType.Other;
+			if (type.IsRecord)
+				return GenerationMethod.Record;
+			
+			return GenerationMethod.Class;
 		}
 	}
 }

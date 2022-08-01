@@ -78,7 +78,7 @@ using CodeChops.DomainDrivenDesign.DomainModeling.Identities;
 			}
 
 			var code = $@"
-	public override {idName} Id {{ get; }} = new();
+	public {(data.ClassType == ClassType.EntityImplementation ? "override " : "")}{idName} Id {{ get; }} = new();
 
 	public partial record {idName} : global::CodeChops.DomainDrivenDesign.DomainModeling.Identities.Id<{idName}, {data.IdIntegralType}> 
 	{{ 

@@ -4,17 +4,16 @@
         <Version>1.0.2</Version>
         <AssemblyName>CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration</AssemblyName>
         <RootNamespace>CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration</RootNamespace>
-        <LangVersion>10</LangVersion>
         <TargetFramework>netstandard2.0</TargetFramework>
-        <LangVersion>latest</LangVersion>
+        <LangVersion>10</LangVersion>
+        <AnalysisLevel>latest</AnalysisLevel>
         <Nullable>enable</Nullable>
         <EnablePreviewFeatures>true</EnablePreviewFeatures>
         <ImplicitUsings>enable</ImplicitUsings>
         <IsPackable>false</IsPackable>
-    </PropertyGroup>
-
-    <PropertyGroup>
-        <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
+        <DevelopmentDependency>true</DevelopmentDependency>
+        <IncludeBuildOutput>false</IncludeBuildOutput>
+        <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
     </PropertyGroup>
 
     <ItemGroup>

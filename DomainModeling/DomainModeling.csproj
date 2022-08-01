@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <VersionPrefix>0.4.2</VersionPrefix>
-        <PackageReleaseNotes>Trying to fix source generator reference.</PackageReleaseNotes>
+        <VersionPrefix>0.5.0</VersionPrefix>
+        <PackageReleaseNotes>Finally fixed source generator reference.</PackageReleaseNotes>
         <TargetFramework>net6.0</TargetFramework>
         <LangVersion>10</LangVersion>
     </PropertyGroup>
@@ -52,6 +52,9 @@
 
     <ItemGroup>
         <ProjectReference Include="..\DomainModeling.SourceGeneration\DomainModeling.SourceGeneration.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+        <!-- Package the generator in the analyzer directory of the nuget package -->
+        <None Include="..\DomainModeling.SourceGeneration/bin/$(Configuration)/netstandard2.0/$(AssemblyName).SourceGeneration.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+        <None Include="..\DomainModeling.SourceGeneration/bin/$(Configuration)/netstandard2.0/CodeChops.SourceGeneration.Utilities.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false"  />
     </ItemGroup>
 
     <PropertyGroup>

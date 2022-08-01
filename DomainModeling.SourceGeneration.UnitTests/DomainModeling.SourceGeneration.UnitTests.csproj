@@ -5,10 +5,6 @@
         <Version>1.0.0</Version>
         <AssemblyName>CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration.UnitTests</AssemblyName>
         <RootNamespace>CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration.UnitTests</RootNamespace>
-        <Authors>Max Bergman (@Code-Chops)</Authors>
-        <Company>CodeChops</Company>
-        <Summary>Unit tests for domain modeling source generation</Summary>
-        <Description>Unit tests for domain modeling source generation</Description>
         <TargetFramework>net6.0</TargetFramework>
         <LangVersion>10</LangVersion>
         <AnalysisLevel>latest</AnalysisLevel>
@@ -22,17 +18,13 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.2.0"/>
-        <PackageReference Include="Microsoft.TestPlatform.TestHost" Version="17.2.0"/>
-        <PackageReference Include="xunit" Version="2.4.1"/>
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.2.0" />
+        <PackageReference Include="xunit" Version="2.4.1" />
         <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
-            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
             <PrivateAssets>all</PrivateAssets>
-        </PackageReference>
-        <PackageReference Include="coverlet.collector" Version="3.1.2">
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-            <PrivateAssets>all</PrivateAssets>
         </PackageReference>
+        <PackageReference Include="CodeChops.SourceGeneration.Utilities" Version="0.1.8" PrivateAssets="all" GeneratePathProperty="true" />
     </ItemGroup>
 
     <ItemGroup>

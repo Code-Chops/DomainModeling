@@ -8,11 +8,3 @@ public interface IHasStaticTypeId<out TTypeId>
 {
 	public static abstract TTypeId StaticTypeId { get; }
 }
-
-/// <summary>
-/// Used to get the static type ID of runtime types (when the type is not known).
-/// </summary>
-public interface IHasStaticTypeId
-{
-	Id GetStaticTypeId();
-}

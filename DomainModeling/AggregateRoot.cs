@@ -17,6 +17,7 @@
 /// </para>
 /// <para>
 /// Aggregate roots are being used by <see cref="IApplicationService"/>s, repositories, public APIs, etc.
+/// Aggregates can only reference to each other by id.
 /// </para>
 /// </summary>
 public abstract class AggregateRoot<TSelf> : Entity

@@ -20,7 +20,6 @@
 /// Aggregates can only reference to each other by id.
 /// </para>
 /// </summary>
-public abstract class AggregateRoot<TSelf> : Entity
-	where TSelf : AggregateRoot<TSelf>
+public abstract class AggregateRoot : Entity
 {
 }

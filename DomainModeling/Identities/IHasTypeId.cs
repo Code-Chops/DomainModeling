@@ -14,5 +14,5 @@ public interface IHasTypeId<out TId>
 /// </summary>
 public interface IHasTypeId
 {
-	IId GetTypeId();
+	Id GetTypeId();
 }

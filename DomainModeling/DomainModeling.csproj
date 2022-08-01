@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <VersionPrefix>0.5.7</VersionPrefix>
-        <PackageReleaseNotes>IHasStaticTypeId from IId to Id.</PackageReleaseNotes>
+        <VersionPrefix>0.5.8</VersionPrefix>
+        <PackageReleaseNotes>Generic IHasStaticTypeId from IId to Id.</PackageReleaseNotes>
         <TargetFramework>net6.0</TargetFramework>
         <LangVersion>10</LangVersion>
     </PropertyGroup>

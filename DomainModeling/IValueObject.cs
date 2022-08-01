@@ -3,7 +3,7 @@
 /// <summary>
 /// <para>
 /// Should be immutable, lightweight, should have structural equality, and therefore shouldn't contain an ID.
-/// Put most of the business logic in these objects. These objects can belong to multiple <see cref="AggregateRoot{TSelf}"/>s.
+/// Put most of the business logic in these objects. These objects can belong to multiple <see cref="AggregateRoot"/>s.
 /// </para>
 /// <para>
 /// Value objects generally have a zero lifespan; they can be created and destroyed with ease.

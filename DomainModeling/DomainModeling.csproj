@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <VersionPrefix>0.5.4</VersionPrefix>
-        <PackageReleaseNotes>Aggregate root not generic anymore.</PackageReleaseNotes>
+        <VersionPrefix>0.5.5</VersionPrefix>
+        <PackageReleaseNotes>Fixed aggregate root comments.</PackageReleaseNotes>
         <TargetFramework>net6.0</TargetFramework>
         <LangVersion>10</LangVersion>
     </PropertyGroup>

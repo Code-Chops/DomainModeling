@@ -7,7 +7,7 @@ namespace CodeChops.DomainDrivenDesign.DomainModeling.Identities;
 /// </summary>
 /// <typeparam name="TValue">The type of the value of the identifier.</typeparam>
 /// <typeparam name="TSelf"></typeparam>
-public abstract record Id<TSelf, TValue> : Id
+public abstract record Id<TSelf, TValue> : Id, IId<TValue>
 	where TSelf : Id<TSelf, TValue>
 	where TValue : IEquatable<TValue>, IComparable<TValue>
 {

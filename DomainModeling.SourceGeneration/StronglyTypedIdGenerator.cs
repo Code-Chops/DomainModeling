@@ -94,7 +94,7 @@ using CodeChops.DomainDrivenDesign.DomainModeling.Identities;
 			if (data.GenerationMethod is GenerationMethod.EntityImplementation or GenerationMethod.Record)
 				return "";
 					
-			var code = @"
+			var code = @$"
 	public sealed override int GetHashCode()
 	{{
 		return this.Id.HasDefaultValue
@@ -104,12 +104,12 @@ using CodeChops.DomainDrivenDesign.DomainModeling.Identities;
 	
 	public sealed override bool Equals(object? obj)
 	{{
-		return obj is Entity other 
+		return obj is {className} other 
 		       && obj.GetType() == this.GetType() 
 		       && this.Equals(other);
 	}}
 
-	public bool Equals(Entity? other)
+	public bool Equals({className}? other)
 	{{
 		if (other is null) return false;
 		if (ReferenceEquals(this, other)) return true;

@@ -3,6 +3,7 @@
 /// <summary>
 /// This enum is just used for domain modeling reference and not for any logic. 
 /// </summary>
+[Obsolete]
 public enum Informational
 {
 	/// <summary>

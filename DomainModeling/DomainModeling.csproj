@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <VersionPrefix>0.5.10</VersionPrefix>
-        <PackageReleaseNotes>Updated packages and added generic IId.</PackageReleaseNotes>
+        <VersionPrefix>0.5.11</VersionPrefix>
+        <PackageReleaseNotes>Made readableentitydictionary an entity with IId.</PackageReleaseNotes>
         <TargetFramework>net6.0</TargetFramework>
         <LangVersion>10</LangVersion>
     </PropertyGroup>

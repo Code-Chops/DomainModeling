@@ -11,7 +11,7 @@ public abstract record Id<TSelf, TValue> : Id, IId<TValue>
 	where TSelf : Id<TSelf, TValue>
 	where TValue : IEquatable<TValue>, IComparable<TValue>
 {
-	public sealed override string ToString() => $"{{{this.GetType().Name} Id={this.Value}}}";
+	public override string ToString() => $"{{{this.GetType().Name} Id={this.Value}}}";
 
 	/// <summary>
 	/// Used to create new instances when explicitly casting.

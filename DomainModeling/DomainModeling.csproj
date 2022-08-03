@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <VersionPrefix>0.5.11</VersionPrefix>
-        <PackageReleaseNotes>Made readableentitydictionary an entity with IId.</PackageReleaseNotes>
+        <VersionPrefix>0.5.12</VersionPrefix>
+        <PackageReleaseNotes>Removed sealed from Id.ToString.</PackageReleaseNotes>
         <TargetFramework>net6.0</TargetFramework>
         <LangVersion>10</LangVersion>
     </PropertyGroup>

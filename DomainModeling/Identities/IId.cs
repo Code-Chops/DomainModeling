@@ -1,6 +1,6 @@
 ﻿namespace CodeChops.DomainDrivenDesign.DomainModeling.Identities;
 
-public interface IId<out TValue> : IId 
+public interface IId<out TValue>
 	where TValue : IEquatable<TValue>, IComparable<TValue>
 {
 	TValue Value { get; }

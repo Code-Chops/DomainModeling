@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <VersionPrefix>0.5.14</VersionPrefix>
-        <PackageReleaseNotes>Added Id-suffix to file name.</PackageReleaseNotes>
+        <VersionPrefix>0.5.15</VersionPrefix>
+        <PackageReleaseNotes>Placed ID object out of class. Made ReadableEntityDictionary more simple. Added generic IHasId to concrete class.</PackageReleaseNotes>
         <TargetFramework>net6.0</TargetFramework>
         <LangVersion>10</LangVersion>
     </PropertyGroup>

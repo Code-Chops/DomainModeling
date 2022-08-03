@@ -32,7 +32,7 @@ public class StronglyTypedIdGenerator : IIncrementalGenerator
 				? model.Name 
 				: $"{model.Namespace}.{model.Name}";
 			
-			context.AddSource($"{fileName}.g.cs", SourceText.From(code, Encoding.UTF8));
+			context.AddSource($"{fileName}Id.g.cs", SourceText.From(code, Encoding.UTF8));
 		}
 	}
 

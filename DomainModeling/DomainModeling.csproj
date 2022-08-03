@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <VersionPrefix>0.5.13</VersionPrefix>
-        <PackageReleaseNotes>Made ID._value protected.</PackageReleaseNotes>
+        <VersionPrefix>0.5.14</VersionPrefix>
+        <PackageReleaseNotes>Added Id-suffix to file name.</PackageReleaseNotes>
         <TargetFramework>net6.0</TargetFramework>
         <LangVersion>10</LangVersion>
     </PropertyGroup>

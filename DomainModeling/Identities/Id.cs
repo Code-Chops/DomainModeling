@@ -28,8 +28,8 @@ public abstract record Id<TSelf, TValue> : Id, IId<TValue>
 
 	// ReSharper disable once MemberCanBePrivate.Global
 	public TValue Value => this._value;
-	// ReSharper disable once InconsistentNaming
-	private TValue _value { get; init; }
+	// ReSharper disable once MemberCanBePrivate.Global
+	protected TValue _value { get; init; }
 	
 	public override bool HasDefaultValue => this.Value.Equals(DefaultValue);
 	private static readonly TValue DefaultValue = default!;

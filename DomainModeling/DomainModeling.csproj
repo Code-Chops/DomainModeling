@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <VersionPrefix>0.8.1</VersionPrefix>
-        <PackageReleaseNotes>Re-added tuple id.</PackageReleaseNotes>
+        <VersionPrefix>0.8.2</VersionPrefix>
+        <PackageReleaseNotes>Created constructor for mutable collections.</PackageReleaseNotes>
         <TargetFramework>net6.0</TargetFramework>
         <LangVersion>10</LangVersion>
     </PropertyGroup>

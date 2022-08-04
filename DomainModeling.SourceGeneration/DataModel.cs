@@ -1,4 +1,4 @@
-﻿namespace CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration.Models;
+﻿namespace CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration;
 
 public enum GenerationMethod
 {

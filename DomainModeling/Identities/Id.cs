@@ -3,9 +3,15 @@
 namespace CodeChops.DomainDrivenDesign.DomainModeling.Identities;
 
 /// <summary>
-/// An abstract identifier with a generic type as value.
+///  An abstract identifier with an ulong as primitive value (default).
 /// </summary>
-/// <typeparam name="TValue">The type of the value of the identifier.</typeparam>
+public abstract record Id<TSelf>(ulong Value) : Id<TSelf, ulong>(Value)
+	where TSelf : Id<TSelf, ulong>;
+
+/// <summary>
+/// An abstract identifier with a generic type as primitive value.
+/// </summary>
+/// <typeparam name="TValue">The primitive value of the identifier.</typeparam>
 /// <typeparam name="TSelf"></typeparam>
 public abstract record Id<TSelf, TValue> : Id, IId<TValue>
 	where TSelf : Id<TSelf, TValue>

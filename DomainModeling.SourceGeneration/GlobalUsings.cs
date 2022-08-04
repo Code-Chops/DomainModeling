@@ -5,4 +5,3 @@ global using Microsoft.CodeAnalysis.CSharp;
 global using Microsoft.CodeAnalysis.CSharp.Syntax;
  
 global using CodeChops.SourceGeneration.Utilities.Extensions;
-global using CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration.Models;

@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <VersionPrefix>0.7.0</VersionPrefix>
-        <PackageReleaseNotes>Added ReadOnlyValueObjectDictionary and ReadableEntityDictionary.</PackageReleaseNotes>
+        <VersionPrefix>0.8.0</VersionPrefix>
+        <PackageReleaseNotes>Added ID with default primitive value of ulong. Added (im)mutable domain object list and tests. Renamed dictionaries and added tests.</PackageReleaseNotes>
         <TargetFramework>net6.0</TargetFramework>
         <LangVersion>10</LangVersion>
     </PropertyGroup>

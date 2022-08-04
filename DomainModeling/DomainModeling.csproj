@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <VersionPrefix>0.5.16</VersionPrefix>
-        <PackageReleaseNotes>Changed ReadableEntityDictionary so it has a strongly typed ID.</PackageReleaseNotes>
+        <VersionPrefix>0.6.0</VersionPrefix>
+        <PackageReleaseNotes>Renamed ID to Identity.</PackageReleaseNotes>
         <TargetFramework>net6.0</TargetFramework>
         <LangVersion>10</LangVersion>
     </PropertyGroup>

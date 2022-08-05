@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <VersionPrefix>0.8.3</VersionPrefix>
-        <PackageReleaseNotes>Created factory ICreatable and IHasEmptyInstance.</PackageReleaseNotes>
+        <VersionPrefix>0.8.4</VersionPrefix>
+        <PackageReleaseNotes>Removed generic type constraints on factories.</PackageReleaseNotes>
         <TargetFramework>net6.0</TargetFramework>
         <LangVersion>10</LangVersion>
     </PropertyGroup>

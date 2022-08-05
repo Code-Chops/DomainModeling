@@ -5,7 +5,6 @@
 /// </summary>
 /// <typeparam name="T">The type to be created.</typeparam>
 public interface ICreatable<out T>
-	where T : class
 {
 	static abstract T Create();
 }

@@ -1,8 +1,9 @@
-﻿using CodeChops.DomainDrivenDesign.DomainModeling.Helpers;
+﻿using CodeChops.DomainDrivenDesign.DomainModeling.Factories;
+using CodeChops.DomainDrivenDesign.DomainModeling.Helpers;
 
 namespace CodeChops.DomainDrivenDesign.DomainModeling.Collections;
 
-public abstract record ImmutableDomainObjectList<TDomainObject>(ImmutableList<TDomainObject> List) : IValueObject, IReadOnlyList<TDomainObject>
+public record ImmutableDomainObjectList<TDomainObject>(ImmutableList<TDomainObject> List) : IValueObject, IReadOnlyList<TDomainObject>, IHasEmptyInstance<ImmutableDomainObjectList<TDomainObject>>
 	where TDomainObject : IDomainObject
 {
 	#region Comparison
@@ -22,6 +23,8 @@ public abstract record ImmutableDomainObjectList<TDomainObject>(ImmutableList<TD
 
 	#endregion
 	
+	public static ImmutableDomainObjectList<TDomainObject> Empty { get; } = new(new List<TDomainObject>().ToImmutableList());
+
 	// ReSharper disable once MemberCanBePrivate.Global
 	protected ImmutableList<TDomainObject> List { get; } = List;
 

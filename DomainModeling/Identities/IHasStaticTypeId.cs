@@ -3,8 +3,7 @@ namespace CodeChops.DomainDrivenDesign.DomainModeling.Identities;
 /// <summary>
 /// Contains a static type discriminator. 
 /// </summary>
-public interface IHasStaticTypeId<out TTypeId>
-	where TTypeId : Id
+public interface IHasStaticTypeId
 {
-	public static abstract TTypeId StaticTypeId { get; }
+	public static abstract Id StaticTypeId { get; }
 }

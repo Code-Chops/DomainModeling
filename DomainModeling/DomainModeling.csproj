@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <VersionPrefix>0.8.5</VersionPrefix>
-        <PackageReleaseNotes>IHasStaticTypeId without generic parameter.</PackageReleaseNotes>
+        <VersionPrefix>0.8.7</VersionPrefix>
+        <PackageReleaseNotes>IHasStaticTypeId with generic parameter.</PackageReleaseNotes>
         <TargetFramework>net6.0</TargetFramework>
         <LangVersion>10</LangVersion>
     </PropertyGroup>

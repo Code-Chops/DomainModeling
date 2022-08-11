@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <VersionPrefix>0.8.7</VersionPrefix>
-        <PackageReleaseNotes>IHasStaticTypeId with generic parameter.</PackageReleaseNotes>
+        <VersionPrefix>0.8.8</VersionPrefix>
+        <PackageReleaseNotes>ID now has a default value and doesn't throw when not provided.</PackageReleaseNotes>
         <TargetFramework>net6.0</TargetFramework>
         <LangVersion>10</LangVersion>
     </PropertyGroup>

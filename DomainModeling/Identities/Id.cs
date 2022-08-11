@@ -40,9 +40,14 @@ public abstract record Id<TSelf, TValue> : Id, IId<TValue>
 	public override bool HasDefaultValue => this.Value.Equals(DefaultValue);
 	private static readonly TValue DefaultValue = default!;
 
-	protected Id(TValue? value = default)
+	protected Id(TValue value)
 	{
-		this._value = value ?? throw new InvalidOperationException($"Can't create ID {this.GetType().Name} with a NULL-value ({typeof(TValue).Name}).");
+		this._value = value;
+	}
+	
+	protected Id()
+	{
+		this._value = default!;
 	}
 }
 

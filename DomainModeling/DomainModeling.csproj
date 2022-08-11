@@ -7,13 +7,13 @@
         <LangVersion>10</LangVersion>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
-        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <EnablePreviewFeatures>true</EnablePreviewFeatures>
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <VersionPrefix>0.8.9</VersionPrefix>
-        <PackageReleaseNotes>Cleanup project files.</PackageReleaseNotes>
+        <VersionPrefix>0.8.10</VersionPrefix>
+        <PackageReleaseNotes>Updated package references.</PackageReleaseNotes>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainDrivenDesign.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>
         <PackageId>CodeChops.DomainDrivenDesign.DomainModeling</PackageId>
@@ -27,7 +27,6 @@
         <PackageIcon>icon.png</PackageIcon>
         <PackageLicenseFile>LICENSE</PackageLicenseFile>
         <Copyright>Copyright (c) CodeChops $([System.DateTime]::Now.ToString(yyyy))</Copyright>
-        <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)' == 'Debug'">

@@ -11,8 +11,8 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <VersionPrefix>0.8.10</VersionPrefix>
-        <PackageReleaseNotes>Updated package references.</PackageReleaseNotes>
+        <VersionPrefix>0.8.11</VersionPrefix>
+        <PackageReleaseNotes>Added GenericTypeParam support for StronglyGeneratedIds.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainDrivenDesign.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>
@@ -48,7 +48,7 @@
         <InternalsVisibleTo Include="$(AssemblyName).IntegrationTests" />
     </ItemGroup>
 
-    <ItemGroup Label="PackageReferences">
+    <ItemGroup Label="ProjectReferences">
         <ProjectReference Include="..\DomainModeling.SourceGeneration\DomainModeling.SourceGeneration.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
         <!-- Package the generator in the analyzer directory of the nuget package -->
         <None Include="..\DomainModeling.SourceGeneration/bin/$(Configuration)/netstandard2.0/$(AssemblyName).SourceGeneration.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />

@@ -33,14 +33,14 @@ internal static class SyntaxReceiver
 				return null;
 		}
 
-		var name = type.Name;
 		var @namespace = type.ContainingNamespace!.IsGlobalNamespace 
 			? null 
 			: type.ContainingNamespace.ToDisplayString();
-		var isEntityBase = name == StronglyTypedIdGenerator.EntityName && @namespace == StronglyTypedIdGenerator.EntityNamespace;
+		var isEntityBase = type.Name == StronglyTypedIdGenerator.EntityName && @namespace == StronglyTypedIdGenerator.EntityNamespace;
 
 		var data = new DataModel(
-			Name: name, 
+			Name: type.Name,
+			GenericTypeParameters: typeDeclarationSyntax.TypeParameterList?.ToFullString(),
 			Namespace: @namespace, 
 			Declaration: type.GetObjectDeclaration(),
 			IdIntegralType: attribute!.AttributeClass!.TypeArguments.SingleOrDefault()?.Name ?? "ulong",

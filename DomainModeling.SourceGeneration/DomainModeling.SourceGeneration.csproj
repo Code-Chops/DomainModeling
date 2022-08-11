@@ -1,12 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <Version>1.0.2</Version>
+    <PropertyGroup Label="Main">
         <AssemblyName>CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration</AssemblyName>
         <RootNamespace>CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration</RootNamespace>
         <TargetFramework>netstandard2.0</TargetFramework>
         <LangVersion>10</LangVersion>
-        <AnalysisLevel>latest</AnalysisLevel>
         <Nullable>enable</Nullable>
         <EnablePreviewFeatures>true</EnablePreviewFeatures>
         <ImplicitUsings>enable</ImplicitUsings>
@@ -15,15 +13,6 @@
         <IncludeBuildOutput>false</IncludeBuildOutput>
         <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
     </PropertyGroup>
-
-    <ItemGroup>
-        <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.2.0" PrivateAssets="all" />
-        <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.3">
-            <PrivateAssets>all</PrivateAssets>
-            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-        </PackageReference>
-        <PackageReference Include="CodeChops.SourceGeneration.Utilities" Version="0.1.8" PrivateAssets="all" GeneratePathProperty="true" />
-    </ItemGroup>
 
     <PropertyGroup>
         <GetTargetPathDependsOn>$(GetTargetPathDependsOn);GetDependencyTargetPaths</GetTargetPathDependsOn>
@@ -34,11 +23,14 @@
             <TargetPathWithTargetPlatformMoniker Include="$(PkgCodeChops_SourceGeneration_Utilities)\lib\netstandard2.0\CodeChops.SourceGeneration.Utilities.dll" IncludeRuntimeDependency="false" />
         </ItemGroup>
     </Target>
+    
+    <ItemGroup Label="PackageReferences">
+        <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.2.0" PrivateAssets="all" />
+        <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.3">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="CodeChops.SourceGeneration.Utilities" Version="0.1.8" PrivateAssets="all" GeneratePathProperty="true" />
+    </ItemGroup>
 
-    <PropertyGroup>
-        <!-- CS1591: Missing XML comment for publicly visible type -->
-        <!-- CS1573: Undocumented public symbol while -doc compiler option is used -->
-        <!-- CA1822: Instance member does not access instance data and can be marked as static -->
-        <NoWarn>CS1591,CS1573,CA1822</NoWarn>
-    </PropertyGroup>
 </Project>

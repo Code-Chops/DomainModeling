@@ -1,35 +1,33 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <VersionPrefix>0.8.8</VersionPrefix>
-        <PackageReleaseNotes>ID now has a default value and doesn't throw when not provided.</PackageReleaseNotes>
-        <TargetFramework>net6.0</TargetFramework>
-        <LangVersion>10</LangVersion>
-    </PropertyGroup>
-
-    <PropertyGroup>
-        <Title>CodeChops.DomainDrivenDesign.DomainModeling</Title>
+    <PropertyGroup Label="Main">
         <AssemblyName>CodeChops.DomainDrivenDesign.DomainModeling</AssemblyName>
         <RootNamespace>CodeChops.DomainDrivenDesign.DomainModeling</RootNamespace>
-        <PackageId>CodeChops.DomainDrivenDesign.DomainModeling</PackageId>
-        <Authors>CodeChops (@Code-Chops), Max Bergman</Authors>
-        <Company>CodeChops</Company>
-        <PackageProjectUrl>https://github.com/code-chops/DomainDrivenDesign.DomainModeling</PackageProjectUrl>
-        <PackageTags>CodeChops;CodeChops.DomainDrivenDesign.DomainModeling;DomainDrivenDesign;DomainModeling</PackageTags>
-        <RepositoryUrl>https://github.com/code-chops/DomainDrivenDesign.DomainModeling</RepositoryUrl>
-        <RepositoryType>Git</RepositoryType>
-        <PublishRepositoryUrl>true</PublishRepositoryUrl>
-        <PackageIcon>icon.png</PackageIcon>
-        <PackageLicenseFile>LICENSE</PackageLicenseFile>
-        <Copyright>Copyright (c) CodeChops $([System.DateTime]::Now.ToString(yyyy))</Copyright>
-        <Description>
-            Easy domain modeling in accordance with the principles of Domain Driven Design.
-        </Description>
-        <AnalysisLevel>latest</AnalysisLevel>
+        <TargetFramework>net6.0</TargetFramework>
+        <LangVersion>10</LangVersion>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <EnablePreviewFeatures>true</EnablePreviewFeatures>
+    </PropertyGroup>
+
+    <PropertyGroup Label="Package">
+        <VersionPrefix>0.8.9</VersionPrefix>
+        <PackageReleaseNotes>Cleanup project files.</PackageReleaseNotes>
+        <Title>CodeChops.DomainDrivenDesign.DomainModeling</Title>
+        <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>
+        <PackageId>CodeChops.DomainDrivenDesign.DomainModeling</PackageId>
+        <PackageProjectUrl>https://github.com/code-chops/DomainDrivenDesign.DomainModeling</PackageProjectUrl>
+        <PackageTags>CodeChops;CodeChops.DomainDrivenDesign.DomainModeling;DomainDrivenDesign;DomainModeling</PackageTags>
+        <RepositoryUrl>https://github.com/code-chops/DomainDrivenDesign.DomainModeling</RepositoryUrl>
+        <PublishRepositoryUrl>true</PublishRepositoryUrl>
+        <Authors>CodeChops (@Code-Chops), Max Bergman</Authors>
+        <Company>CodeChops</Company>
+        <RepositoryType>Git</RepositoryType>
+        <PackageIcon>icon.png</PackageIcon>
+        <PackageLicenseFile>LICENSE</PackageLicenseFile>
+        <Copyright>Copyright (c) CodeChops $([System.DateTime]::Now.ToString(yyyy))</Copyright>
+        <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
@@ -41,30 +39,21 @@
         <Exec Command="$(LocalNuGetPackagesFolder)\nuget.exe add $(OutputPath)..\$(PackageId).$(PackageVersion).nupkg -source $(LocalNuGetPackagesFolder)" />
     </Target>
 
-    <ItemGroup>
+    <ItemGroup Label="PackageAssets">
         <None Include="Properties\LICENSE" Pack="true" PackagePath="" />
         <None Include="Properties\icon.png" Pack="true" Visible="true" PackagePath="" />
     </ItemGroup>
 
-    <ItemGroup>
+    <ItemGroup Label="InternalsVisibleTo">
         <InternalsVisibleTo Include="$(AssemblyName).UnitTests" />
+        <InternalsVisibleTo Include="$(AssemblyName).IntegrationTests" />
     </ItemGroup>
 
-    <ItemGroup>
+    <ItemGroup Label="PackageReferences">
         <ProjectReference Include="..\DomainModeling.SourceGeneration\DomainModeling.SourceGeneration.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
         <!-- Package the generator in the analyzer directory of the nuget package -->
         <None Include="..\DomainModeling.SourceGeneration/bin/$(Configuration)/netstandard2.0/$(AssemblyName).SourceGeneration.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
         <None Include="..\DomainModeling.SourceGeneration/bin/$(Configuration)/netstandard2.0/CodeChops.SourceGeneration.Utilities.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
     </ItemGroup>
 
-    <PropertyGroup>
-        <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
-    </PropertyGroup>
-
-    <PropertyGroup>
-        <!-- CS1591: Missing XML comment for publicly visible type -->
-        <!-- CS1573: Undocumented public symbol while -doc compiler option is used -->
-        <!-- CA1822: Instance member does not access instance data and can be marked as static -->
-        <NoWarn>CS1591,CS1573,CA1822</NoWarn>
-    </PropertyGroup>
 </Project>

@@ -17,8 +17,7 @@ public record ImmutableDomainObjectList<TDomainObject>(ImmutableList<TDomainObje
 	{
 		if (ReferenceEquals(this, other)) return true;
 		if (other is null) return false;
-		if (!this.SequenceEqual(other)) return false;
-		return true;
+		return this.SequenceEqual(other);
 	}
 
 	#endregion

@@ -11,8 +11,8 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <VersionPrefix>0.8.11</VersionPrefix>
-        <PackageReleaseNotes>Added GenericTypeParam support for StronglyGeneratedIds.</PackageReleaseNotes>
+        <Version>0.8.12</Version>
+        <PackageReleaseNotes>Interfaces of mutable List and Dictionary.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainDrivenDesign.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>

@@ -6,9 +6,9 @@ public abstract class MutableDomainObjectList<TDomainObject> : Entity, IReadOnly
 	where TDomainObject : IDomainObject
 {
 	// ReSharper disable once MemberCanBePrivate.Global
-	protected List<TDomainObject> List { get; }
+	protected IList<TDomainObject> List { get; }
 
-	protected MutableDomainObjectList(List<TDomainObject> list)
+	protected MutableDomainObjectList(IList<TDomainObject> list)
 	{
 		this.List = list;
 	}

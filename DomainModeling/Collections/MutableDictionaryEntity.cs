@@ -13,7 +13,7 @@ public abstract class MutableDomainObjectDictionary<TId, TDomainObject> : Entity
 	
 	public TDomainObject this[TId id] => this.Dictionary.TryGetValue(id, out var value) 
 		? value 
-		:  throw ExceptionHelpers.KeyNotFoundException<MutableDomainObjectDictionary<TId, TDomainObject>, TId>(id);
+		: throw ExceptionHelpers.KeyNotFoundException<MutableDomainObjectDictionary<TId, TDomainObject>, TId>(id);
 	public IEnumerable<TId> Keys => this.Dictionary.Keys;
 	public IEnumerable<TDomainObject> Values => this.Dictionary.Values;
 	public int Count => this.Dictionary.Count;

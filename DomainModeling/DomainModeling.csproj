@@ -11,8 +11,8 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>0.10.0</Version>
-        <PackageReleaseNotes>Changed naming of collections and made mutable collections abstract.</PackageReleaseNotes>
+        <Version>0.10.1</Version>
+        <PackageReleaseNotes>Fixed SingletonId.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainDrivenDesign.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>

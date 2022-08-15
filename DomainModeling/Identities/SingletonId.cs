@@ -7,8 +7,12 @@ public record SingletonId<TEntity> : Id<SingletonId<TEntity>, string>
     where TEntity : Entity
 {
     public static SingletonId<TEntity> Instance { get; } = new();
-    
-    private SingletonId()
+
+    protected SingletonId(string _)
+    {
+    }
+
+    protected SingletonId()
     {
     }
 }

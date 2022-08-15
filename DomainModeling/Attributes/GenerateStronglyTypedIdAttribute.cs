@@ -29,7 +29,14 @@ public sealed class GenerateStronglyTypedId : Attribute
 public sealed class GenerateStronglyTypedId<TPrimitive> : Attribute
 	where TPrimitive : IEquatable<TPrimitive>, IComparable<TPrimitive>
 {
-	/// <param name="baseType">If not provided, the base type will be an ID with ulong as primitive value.</param>
+	/// <param name="baseType">
+	/// <para>If not provided, the base type will be an ID with ulong as primitive value.</para>
+	/// <para>If a type is provided with open generic parameters, the following will be generated:</para>
+	/// <list type="bullet">
+	/// <item>The first open parameter will be filled in by the generated ID.</item>
+	/// <item>The second open parameter will be filled in by the primitive type.</item>
+	/// </list>
+	/// </param>
 	/// <param name="name">If not provided, 'Identity' will be the default name.</param>
 	public GenerateStronglyTypedId(Type? baseType = null, string? name = null)
 	{

@@ -9,13 +9,8 @@ public abstract class MutableDomainObjectDictionary<TId, TDomainObject> : Entity
 	where TDomainObject : IDomainObject
 {
 	// ReSharper disable once MemberCanBePrivate.Global
-	protected IDictionary<TId, TDomainObject> Dictionary { get; }
-
-	protected MutableDomainObjectDictionary(IDictionary<TId, TDomainObject> dictionary)
-	{
-		this.Dictionary = dictionary;
-	}
-
+	protected abstract IDictionary<TId, TDomainObject> Dictionary { get; }
+	
 	public TDomainObject this[TId id] => this.Dictionary.TryGetValue(id, out var value) 
 		? value 
 		:  throw ExceptionHelpers.KeyNotFoundException<MutableDomainObjectDictionary<TId, TDomainObject>, TId>(id);

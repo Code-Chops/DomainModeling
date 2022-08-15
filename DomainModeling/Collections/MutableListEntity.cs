@@ -6,13 +6,8 @@ public abstract class MutableDomainObjectList<TDomainObject> : Entity, IReadOnly
 	where TDomainObject : IDomainObject
 {
 	// ReSharper disable once MemberCanBePrivate.Global
-	protected IList<TDomainObject> List { get; }
-
-	protected MutableDomainObjectList(IList<TDomainObject> list)
-	{
-		this.List = list;
-	}
-
+	protected abstract IList<TDomainObject> List { get; }
+	
 	public int Count => this.List.Count;
 	public TDomainObject this[int index] => this.List.ElementAtOrDefault(index) ?? throw ExceptionHelpers.IndexOutOfRangeException<ImmutableDomainObjectList<TDomainObject>>(index);
 	IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();

@@ -2,7 +2,7 @@
 
 public class ImmutableDictionaryTests
 {
-	private record MockId(ulong Value) : Id<MockId>(Value);
+	private record MockId(ulong Value) : Id<MockId, ulong>(Value);
 	private record ValueObjectMock(int Value) : IValueObject;
 	
 	private record DictionaryMock(ImmutableDictionary<MockId, ValueObjectMock> Dictionary) : ImmutableDomainObjectDictionary<MockId, ValueObjectMock>(Dictionary);

@@ -16,17 +16,19 @@
 
     <ItemGroup Label="ProjectReferences">
         <ProjectReference Include="..\DomainModeling\DomainModeling.csproj" />
-        <ProjectReference Include="..\DomainModeling.SourceGeneration\DomainModeling.SourceGeneration.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+        <ProjectReference Include="..\DomainModeling.SourceGeneration\DomainModeling.SourceGeneration.csproj" OutputItemType="Analyzer" />
     </ItemGroup>
 
     <ItemGroup Label="PackageReferences">
+        <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="4.2.0" />
+        <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.2.0" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.3.0" />
         <PackageReference Include="xunit" Version="2.4.2" />
         <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="CodeChops.SourceGeneration.Utilities" Version="0.1.10" PrivateAssets="all" GeneratePathProperty="true" />
+        <PackageReference Include="CodeChops.SourceGeneration.Utilities" Version="0.1.11" PrivateAssets="all" GeneratePathProperty="true" />
     </ItemGroup>
 
 </Project>

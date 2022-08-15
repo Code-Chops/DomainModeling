@@ -3,44 +3,48 @@
 namespace CodeChops.DomainDrivenDesign.DomainModeling.Identities;
 
 /// <summary>
-///  An abstract identifier with an ulong as primitive value (default).
-/// </summary>
-public abstract record Id<TSelf>(ulong Value) : Id<TSelf, ulong>(Value)
-	where TSelf : Id<TSelf, ulong>;
-
-/// <summary>
 /// An abstract identifier with a generic type as primitive value.
 /// </summary>
-/// <typeparam name="TValue">The primitive value of the identifier.</typeparam>
-/// <typeparam name="TSelf"></typeparam>
-public abstract record Id<TSelf, TValue> : Id, IId<TValue>
-	where TSelf : Id<TSelf, TValue>
-	where TValue : IEquatable<TValue>, IComparable<TValue>
+/// <typeparam name="TPrimitive">The primitive value of the identifier.</typeparam>
+public abstract record Id<TSelf, TPrimitive> : Id<TPrimitive>
+	where TSelf : Id<TSelf, TPrimitive>
+	where TPrimitive : IEquatable<TPrimitive>, IComparable<TPrimitive>
+{
+	/// <summary>
+	/// Create new instances when explicitly casting. Used to avoid the new() constraint.
+	/// </summary>
+	private static readonly TSelf CachedUninitializedMember = (TSelf)FormatterServices.GetUninitializedObject(typeof(TSelf));
+
+	public static explicit operator Id<TSelf, TPrimitive>(TPrimitive value) => CachedUninitializedMember with { _value = value };
+	public static implicit operator TPrimitive(Id<TSelf, TPrimitive> id) => id.Value;
+	
+	protected Id(TPrimitive value)
+		: base(value)
+	{
+	}
+
+	protected Id()
+	{
+	}
+}
+
+public abstract record Id<TPrimitive> : Id, IId<TPrimitive>
+	where TPrimitive : IEquatable<TPrimitive>, IComparable<TPrimitive>
 {
 	public override string ToString() => $"{{{this.GetType().Name} Id={this.Value}}}";
 
 	/// <summary>
-	/// Used to create new instances when explicitly casting.
-	/// </summary>
-	private static readonly TSelf CachedUninitializedMember = (TSelf)FormatterServices.GetUninitializedObject(typeof(TSelf));
-
-	public static explicit operator Id<TSelf, TValue>(TValue value) => CachedUninitializedMember with { _value = value };
-	public static implicit operator TValue(Id<TSelf, TValue> id) => id.Value;
-
-	/// <summary>
 	/// Warning. Probably performs boxing!
 	/// </summary>
-	public override object GetValue() => this.Value;
+	public sealed override object GetValue() => this.Value;
 
-	// ReSharper disable once MemberCanBePrivate.Global
-	public TValue Value => this._value;
-	// ReSharper disable once MemberCanBePrivate.Global
-	protected TValue _value { get; init; }
+	public TPrimitive Value => this._value;
+	protected TPrimitive _value { get; init; }
 	
-	public override bool HasDefaultValue => this.Value.Equals(DefaultValue);
-	private static readonly TValue DefaultValue = default!;
+	public sealed override bool HasDefaultValue => this.Value.Equals(DefaultValue);
+	private static readonly TPrimitive DefaultValue = default!;
 
-	protected Id(TValue value)
+	protected Id(TPrimitive value)
 	{
 		this._value = value;
 	}
@@ -53,6 +57,7 @@ public abstract record Id<TSelf, TValue> : Id, IId<TValue>
 
 public abstract record Id : ValueObject, IId
 {
+	public override string ToString() => $"{{{this.GetType().Name} Id={this.GetValue()}}}";
 	public abstract object GetValue();
 	public abstract bool HasDefaultValue { get; }
 }

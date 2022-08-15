@@ -11,8 +11,8 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>0.8.12</Version>
-        <PackageReleaseNotes>Interfaces of mutable List and Dictionary.</PackageReleaseNotes>
+        <Version>0.9.0</Version>
+        <PackageReleaseNotes>Create GUID or Tuple IDs or any other custom ID.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainDrivenDesign.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>

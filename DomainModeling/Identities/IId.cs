@@ -1,9 +1,9 @@
 ﻿namespace CodeChops.DomainDrivenDesign.DomainModeling.Identities;
 
-public interface IId<out TValue>
-	where TValue : IEquatable<TValue>, IComparable<TValue>
+public interface IId<out TPrimitive>
+	where TPrimitive : IEquatable<TPrimitive>, IComparable<TPrimitive>
 {
-	TValue Value { get; }
+	TPrimitive Value { get; }
 }
 
 public interface IId : IValueObject

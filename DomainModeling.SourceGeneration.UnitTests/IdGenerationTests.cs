@@ -11,14 +11,17 @@ public partial class EntityWithByteIdMock2 : Entity
 }
 
 [GenerateStronglyTypedId]
-public partial record RecordWithId : IValueObject
-{
-}
+public partial record RecordWithId;
 
 [GenerateStronglyTypedId]
-public partial record ClassWithGenericType<T>: IValueObject
-{
-}
+public partial record RecordWithGenericType<T>;
+
+[GenerateStronglyTypedId<string>(typeof(Identities.Guid<>))]
+public partial record RecordWithGuidId;
+
+[GenerateStronglyTypedId<(string, string)>(typeof(Identities.TupleId<,>))]
+public partial record RecordWithTupleId;
+
 
 public class IdGenerationTests
 {
@@ -46,7 +49,7 @@ public class IdGenerationTests
 	[Fact]
 	public void ClassWithGenericType_Id_ShouldBe_Generated()
 	{
-		var entity = new ClassWithGenericType<int>();
+		var entity = new RecordWithGenericType<int>();
 		Assert.Equal(typeof(ulong), entity.Id.Value.GetType());
 	}
 }

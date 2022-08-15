@@ -12,54 +12,100 @@ internal static class SyntaxReceiver
 		
 		var attribute = typeDeclarationSyntax.AttributeLists
 			.SelectMany(list => list.Attributes)
-			.SingleOrDefault(attribute => attribute.Name.HasAttributeName(StronglyTypedIdGenerator.AttributeName, cancellationToken));
+			.SingleOrDefault(attribute => attribute.Name.HasAttributeName(SourceBuilder.AttributeName, cancellationToken));
 
 		return attribute is not null;
 	}
 
-	public static DataModel? GetModel(GeneratorSyntaxContext context, CancellationToken cancellationToken)
+	public static DataModel? GetModel(TypeDeclarationSyntax typeDeclarationSyntax, SemanticModel semanticModel)
 	{
-		var typeDeclarationSyntax = (TypeDeclarationSyntax)context.Node;
-		var type = context.SemanticModel.GetDeclaredSymbol(typeDeclarationSyntax);
+		var type = semanticModel.GetDeclaredSymbol(typeDeclarationSyntax);
 		
 		if (type is null || type.IsStatic || type.TypeKind != TypeKind.Class || !typeDeclarationSyntax.Modifiers.Any(m =>  m.IsKind(SyntaxKind.PartialKeyword)))
 			return null;
 		
 		// Check for attribute with explicit integral type.
-		if (!type.HasAttribute(StronglyTypedIdGenerator.AttributeName, StronglyTypedIdGenerator.AttributeNamespace, out var attribute, expectedGenericTypeParamCount: 1))
+		if (!type.HasAttribute(SourceBuilder.AttributeName, SourceBuilder.AttributeNamespace, out var attribute, expectedGenericTypeParamCount: 1))
 		{
 			// Check for attribute without an explicit integral type.
-			if (!type.HasAttribute(StronglyTypedIdGenerator.AttributeName, StronglyTypedIdGenerator.AttributeNamespace, out attribute, expectedGenericTypeParamCount: 0))
+			if (!type.HasAttribute(SourceBuilder.AttributeName, SourceBuilder.AttributeNamespace, out attribute, expectedGenericTypeParamCount: 0))
 				return null;
 		}
 
+		if (attribute is null) return null;
+		
 		var @namespace = type.ContainingNamespace!.IsGlobalNamespace 
 			? null 
 			: type.ContainingNamespace.ToDisplayString();
-		var isEntityBase = type.Name == StronglyTypedIdGenerator.EntityName && @namespace == StronglyTypedIdGenerator.EntityNamespace;
+		var isEntityBase = type.Name == SourceBuilder.EntityName && @namespace == SourceBuilder.EntityNamespace;
 
+		var idName = GetIdName(attribute, type);
+		var (baseType, primitiveType) = GetTypeNames(attribute, type, idName);
+		
 		var data = new DataModel(
-			Name: type.Name,
-			GenericTypeParameters: typeDeclarationSyntax.TypeParameterList?.ToFullString(),
+			OuterClassName: type.Name,
+			OuterClassGenericTypeParameters: typeDeclarationSyntax.TypeParameterList?.ToFullString(),
 			Namespace: @namespace, 
-			Declaration: type.GetObjectDeclaration(),
-			IdIntegralType: attribute!.AttributeClass!.TypeArguments.SingleOrDefault()?.Name ?? "ulong",
+			OuterClassDeclaration: type.GetObjectDeclaration(),
+			IdName: idName,
+			IdPrimitiveType: primitiveType,
+			IdBaseType: baseType,
 			GenerationMethod: GetClassType(type, isEntityBase));
 		
 		return data;
-		
-		static GenerationMethod GetClassType(INamedTypeSymbol type, bool isEntityBase)
+	}
+
+	private static string GetIdName(AttributeData attribute, INamedTypeSymbol type)
+	{
+		var idName = SourceBuilder.DefaultIdName;
+		if (attribute.TryGetArguments(out var argumentConstantByNames) && argumentConstantByNames!.TryGetValue("name", out var providedIdName) && providedIdName.Value is not null)
 		{
-			if (isEntityBase)
-				return GenerationMethod.EntityBase;
+			if (providedIdName.Value is not string value)
+				throw new InvalidCastException($"Unable to cast value of \"name\" to string, from attribute for {attribute.AttributeClass?.Name} of class {type.Name}.");
 
-			if (type.IsOrInheritsClass(interf => interf.IsType(StronglyTypedIdGenerator.EntityName, StronglyTypedIdGenerator.EntityNamespace), out _))
-				return GenerationMethod.EntityImplementation;
-
-			if (type.IsRecord)
-				return GenerationMethod.Record;
-			
-			return GenerationMethod.Class;
+			idName = value;
 		}
+
+		return idName;
+	}
+
+	private static (string BaseType, string PrimitiveType) GetTypeNames(AttributeData attribute, INamedTypeSymbol type, string idName)
+	{
+		var primitiveType = SourceBuilder.DefaultIdPrimitiveType;
+		
+		// Get the primitive type using the generic parameter of the attribute. 
+		var genericParameterName = attribute.AttributeClass?.TypeArguments.SingleOrDefault();
+		if (genericParameterName is not null)
+			primitiveType = genericParameterName.GetTypeNameWithGenericParameters();
+
+		// Get the primitive type as provided in the constructor of the attribute.
+		if (attribute.TryGetArguments(out var argumentConstantByNames) && argumentConstantByNames!.TryGetValue("baseType", out var providedBaseType) && providedBaseType.Value is not null)
+		{
+			if (providedBaseType.Value is not ITypeSymbol value)
+				throw new InvalidCastException($"Unable to cast value of \"baseType\" to {nameof(ITypeSymbol)}, from attribute for {attribute.AttributeClass?.Name} of class {type.Name}.");
+
+			var baseType = value.GetTypeNameWithGenericParameters().Replace(" ", "");
+			baseType = baseType.Replace("<>", $"<{idName}>");
+			baseType = baseType.Replace("<,>", $"<{idName}, {primitiveType}>");
+			
+			return (baseType, primitiveType);
+		}
+		
+		return ($"Id<{idName}, {primitiveType}>", primitiveType);
+		
+	}
+
+	private static GenerationMethod GetClassType(INamedTypeSymbol type, bool isEntityBase)
+	{
+		if (isEntityBase)
+			return GenerationMethod.EntityBase;
+
+		if (type.IsOrInheritsClass(interf => interf.IsType(SourceBuilder.EntityName, SourceBuilder.EntityNamespace), out _))
+			return GenerationMethod.EntityImplementation;
+
+		if (type.IsRecord)
+			return GenerationMethod.Record;
+			
+		return GenerationMethod.Class;
 	}
 }

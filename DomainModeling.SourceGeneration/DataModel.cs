@@ -1,3 +1,3 @@
 ﻿namespace CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration;
 
-public record DataModel(string Name, string? GenericTypeParameters, string? Namespace, string Declaration, string IdIntegralType, GenerationMethod GenerationMethod);
+public record DataModel(string OuterClassName, string? OuterClassGenericTypeParameters, string? Namespace, string OuterClassDeclaration, string IdName, string IdPrimitiveType, string IdBaseType, GenerationMethod GenerationMethod);

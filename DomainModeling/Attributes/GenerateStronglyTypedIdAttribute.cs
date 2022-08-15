@@ -1,13 +1,18 @@
 ﻿namespace CodeChops.DomainDrivenDesign.DomainModeling.Attributes;
 
 /// <summary>
-/// <para>
 /// <inheritdoc cref="GenerateStronglyTypedId{TNumber}"/>
+/// <para>
+/// The primitive type of the ID is ulong (default).
 /// </para>
-/// Uses ulong (default) as integral value of the ID.
 /// </summary>
-public sealed class GenerateStronglyTypedId : GenerateStronglyTypedId<ulong>
+[AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct)]
+public sealed class GenerateStronglyTypedId : Attribute
 {
+	public GenerateStronglyTypedId(string? name = null)
+	{
+		// These parameters will be read from the attribute arguments itself.
+	}
 }
 
 /// <summary>
@@ -19,9 +24,15 @@ public sealed class GenerateStronglyTypedId : GenerateStronglyTypedId<ulong>
 /// If the ID has a default value, comparison is done by their reference.
 /// </para>
 /// </summary>
-/// <typeparam name="TNumber">The integral type that will be used for the ID (ulong, int, etc.).</typeparam>
-[AttributeUsage(AttributeTargets.Class)]
-public class GenerateStronglyTypedId<TNumber> : Attribute
-	where TNumber : struct, IComparable<TNumber>, IEquatable<TNumber>, IConvertible
+/// <typeparam name="TPrimitive">The primitive value of the ID.</typeparam>
+[AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct)]
+public sealed class GenerateStronglyTypedId<TPrimitive> : Attribute
+	where TPrimitive : IEquatable<TPrimitive>, IComparable<TPrimitive>
 {
+	/// <param name="baseType">If not provided, the base type will be an ID with ulong as primitive value.</param>
+	/// <param name="name">If not provided, 'Identity' will be the default name.</param>
+	public GenerateStronglyTypedId(Type? baseType = null, string? name = null)
+	{
+		// These parameters will be read from the attribute arguments itself.
+	}
 }

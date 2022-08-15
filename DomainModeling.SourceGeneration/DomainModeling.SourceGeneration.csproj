@@ -14,6 +14,11 @@
         <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
     </PropertyGroup>
 
+    <ItemGroup Label="InternalsVisibleTo">
+        <InternalsVisibleTo Include="$(AssemblyName).UnitTests" />
+        <InternalsVisibleTo Include="$(AssemblyName).IntegrationTests" />
+    </ItemGroup>
+    
     <PropertyGroup>
         <GetTargetPathDependsOn>$(GetTargetPathDependsOn);GetDependencyTargetPaths</GetTargetPathDependsOn>
     </PropertyGroup>
@@ -30,7 +35,7 @@
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="CodeChops.SourceGeneration.Utilities" Version="0.1.10" PrivateAssets="all" GeneratePathProperty="true" />
+        <PackageReference Include="CodeChops.SourceGeneration.Utilities" Version="0.1.11" PrivateAssets="all" GeneratePathProperty="true" />
     </ItemGroup>
 
 </Project>

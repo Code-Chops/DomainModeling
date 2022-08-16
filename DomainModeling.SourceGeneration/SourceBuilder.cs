@@ -10,7 +10,8 @@ public class SourceBuilder : IIncrementalGenerator
 	internal const string EntityNamespace			= "CodeChops.DomainDrivenDesign.DomainModeling";
 	internal const string EntityName				= "Entity";
 	internal const string IdNamespace				= "CodeChops.DomainDrivenDesign.DomainModeling.Identities";
-	internal const string DefaultIdName				= "Identity";
+	internal const string DefaultIdTypeName			= "Identity";
+	internal const string DefaultIdPropertyName		= "Id";
 	internal const string DefaultIdPrimitiveType	= "UInt64";
 	
 	public void Initialize(IncrementalGeneratorInitializationContext context)
@@ -35,7 +36,7 @@ public class SourceBuilder : IIncrementalGenerator
 				? model.OuterClassName 
 				: $"{model.Namespace}.{model.OuterClassName}";
 			
-			context.AddSource($"{fileName}.{model.IdName}.g.cs", SourceText.From(code, Encoding.UTF8));
+			context.AddSource($"{fileName}.{model.IdTypeName}.g.cs", SourceText.From(code, Encoding.UTF8));
 		}
 	}
 
@@ -53,7 +54,7 @@ using CodeChops.DomainDrivenDesign.DomainModeling.Identities;
 {GetClassDeclaration()}
 {{	
 	{GetIdPropertyCreation()}
-	{GetIdObjectCreation(data.GenerationMethod, data.IdName, data.IdBaseType, data.IdPrimitiveType)}
+	{GetIdObjectCreation(data.GenerationMethod, data.IdTypeName, data.IdBaseType, data.IdPrimitiveType)}
 	{GetEqualityComparison()}
 }}
 
@@ -73,11 +74,11 @@ using CodeChops.DomainDrivenDesign.DomainModeling.Identities;
 
 		string GetClassDeclaration()
 		{
-			var iHasIdImplementation = data.GenerationMethod == GenerationMethod.EntityBase
+			var iHasIdImplementation = data.GenerationMethod == GenerationMethod.EntityBase || data.IdPropertyName != DefaultIdPropertyName 
 				? null
-				: $": IHasId<{className}.{data.IdName}>";
+				: $" : IHasId<{className}.{data.IdTypeName}>";
 			
-			var code = $"{data.OuterClassDeclaration} {className} {iHasIdImplementation}";
+			var code = $"{data.OuterClassDeclaration} {className}{iHasIdImplementation}";
 			return code;
 		}
 		
@@ -85,13 +86,13 @@ using CodeChops.DomainDrivenDesign.DomainModeling.Identities;
 		{
 			if (data.GenerationMethod == GenerationMethod.EntityBase)
 			{
-				return @"
-	public abstract Id Id { get; }
+				return @$"
+	public abstract Id {data.IdPropertyName} {{ get; }}
 ";
 			}
 
 			var code = $@"
-	public {(data.GenerationMethod == GenerationMethod.EntityImplementation ? "override " : "")}{data.IdName} Id {{ get; }} = new();
+	public {(data.GenerationMethod == GenerationMethod.EntityImplementation ? "override " : "")}{data.IdTypeName} {data.IdPropertyName} {{ get; }} = new();
 ";
 
 			return code;
@@ -128,14 +129,13 @@ using CodeChops.DomainDrivenDesign.DomainModeling.Identities;
 
 			return code;
 		}
-	}
-	
-	internal static string? GetIdObjectCreation(GenerationMethod generationMethod, string idName, string idBaseType, string? idPrimitiveType)
-	{
-		if (generationMethod == GenerationMethod.EntityBase)
-			return null;
+		
+		static string? GetIdObjectCreation(GenerationMethod generationMethod, string idName, string idBaseType, string? idPrimitiveType)
+		{
+			if (generationMethod == GenerationMethod.EntityBase)
+				return null;
 			
-		var code = $@"
+			var code = $@"
 	public partial record {idName} : {idBaseType}
 	{{ 
 		public {idName}({idPrimitiveType} value) : base(value) {{ }}
@@ -143,6 +143,7 @@ using CodeChops.DomainDrivenDesign.DomainModeling.Identities;
 	}}
 ";
 
-		return code;
+			return code;
+		}
 	}
 }

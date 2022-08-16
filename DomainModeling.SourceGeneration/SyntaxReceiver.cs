@@ -39,15 +39,17 @@ internal static class SyntaxReceiver
 			: type.ContainingNamespace.ToDisplayString();
 		var isEntityBase = type.Name == SourceBuilder.EntityName && @namespace == SourceBuilder.EntityNamespace;
 
-		var idName = GetIdName(attribute, type);
-		var (baseType, primitiveType) = GetTypeNames(attribute, type, idName);
+		var idTypeName = GetIdTypeName(attribute, type);
+		var idPropertyName = GetIdPropertyName(attribute, type);
+		var (baseType, primitiveType) = GetTypeNames(attribute, type, idTypeName);
 		
 		var data = new DataModel(
 			OuterClassName: type.Name,
 			OuterClassGenericTypeParameters: typeDeclarationSyntax.TypeParameterList?.ToFullString(),
 			Namespace: @namespace, 
 			OuterClassDeclaration: type.GetObjectDeclaration(),
-			IdName: idName,
+			IdTypeName: idTypeName,
+			IdPropertyName: idPropertyName,
 			IdPrimitiveType: primitiveType,
 			IdBaseType: baseType,
 			GenerationMethod: GetClassType(type, isEntityBase));
@@ -55,9 +57,9 @@ internal static class SyntaxReceiver
 		return data;
 	}
 
-	private static string GetIdName(AttributeData attribute, INamedTypeSymbol type)
+	private static string GetIdTypeName(AttributeData attribute, INamedTypeSymbol type)
 	{
-		var idName = SourceBuilder.DefaultIdName;
+		var idName = SourceBuilder.DefaultIdTypeName;
 		if (attribute.TryGetArguments(out var argumentConstantByNames) && argumentConstantByNames!.TryGetValue("name", out var providedIdName) && providedIdName.Value is not null)
 		{
 			if (providedIdName.Value is not string value)
@@ -67,6 +69,20 @@ internal static class SyntaxReceiver
 		}
 
 		return idName;
+	}
+	
+	private static string GetIdPropertyName(AttributeData attribute, INamedTypeSymbol type)
+	{
+		var idPropertyName = SourceBuilder.DefaultIdPropertyName;
+		if (attribute.TryGetArguments(out var argumentConstantByNames) && argumentConstantByNames!.TryGetValue("propertyName", out var providedIdName) && providedIdName.Value is not null)
+		{
+			if (providedIdName.Value is not string value)
+				throw new InvalidCastException($"Unable to cast value of \"propertyName\" to string, from attribute for {attribute.AttributeClass?.Name} of class {type.Name}.");
+
+			idPropertyName = value;
+		}
+
+		return idPropertyName;
 	}
 
 	private static (string BaseType, string PrimitiveType) GetTypeNames(AttributeData attribute, INamedTypeSymbol type, string idName)
@@ -92,7 +108,6 @@ internal static class SyntaxReceiver
 		}
 		
 		return ($"Id<{idName}, {primitiveType}>", primitiveType);
-		
 	}
 
 	private static GenerationMethod GetClassType(INamedTypeSymbol type, bool isEntityBase)

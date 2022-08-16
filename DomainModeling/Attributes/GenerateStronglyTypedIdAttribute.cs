@@ -9,9 +9,11 @@
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct)]
 public sealed class GenerateStronglyTypedId : Attribute
 {
-	public GenerateStronglyTypedId(string? name = null)
+	/// <param name="name">If not provided, 'Identity' will be the default name.</param>
+	/// <param name="propertyName">If not provided, 'Id' will be the default property name.</param>
+	public GenerateStronglyTypedId(string? name = null, string? propertyName = null)
 	{
-		// These parameters will be read from the attribute arguments itself.
+		// These parameters will be read from the attribute arguments itself and therefore don't need to be assigned.
 	}
 }
 
@@ -38,8 +40,9 @@ public sealed class GenerateStronglyTypedId<TPrimitive> : Attribute
 	/// </list>
 	/// </param>
 	/// <param name="name">If not provided, 'Identity' will be the default name.</param>
-	public GenerateStronglyTypedId(Type? baseType = null, string? name = null)
+	/// <param name="propertyName">If not provided, 'Id' will be the default property name.</param>
+	public GenerateStronglyTypedId(Type? baseType = null, string? name = null, string? propertyName = null)
 	{
-		// These parameters will be read from the attribute arguments itself.
+		// These parameters will be read from the attribute arguments itself and therefore don't need to be assigned.
 	}
 }

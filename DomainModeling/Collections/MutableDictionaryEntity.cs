@@ -8,8 +8,7 @@ public abstract class MutableDomainObjectDictionary<TId, TDomainObject> : Entity
 	where TId : IId
 	where TDomainObject : IDomainObject
 {
-	// ReSharper disable once MemberCanBePrivate.Global
-	protected abstract IDictionary<TId, TDomainObject> Dictionary { get; }
+	protected abstract IReadOnlyDictionary<TId, TDomainObject> Dictionary { get; }
 	
 	public TDomainObject this[TId id] => this.Dictionary.TryGetValue(id, out var value) 
 		? value 

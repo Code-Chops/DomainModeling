@@ -22,4 +22,5 @@
 /// </summary>
 public abstract class AggregateRoot : Entity
 {
+	public override string ToString() => $"{this.GetType().Name} ({nameof(AggregateRoot)})";
 }

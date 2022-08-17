@@ -31,7 +31,7 @@ public abstract record Id<TSelf, TPrimitive> : Id<TPrimitive>
 public abstract record Id<TPrimitive> : Id, IId<TPrimitive>
 	where TPrimitive : IEquatable<TPrimitive>, IComparable<TPrimitive>
 {
-	public override string ToString() => $"{{{this.GetType().Name} Id={this.Value}}}";
+	public override string ToString() => $"{this.GetType().Name} {{ Id = {this.Value}, PrimitiveType = {typeof(TPrimitive).Name} }}";
 
 	/// <summary>
 	/// Warning. Probably performs boxing!
@@ -57,7 +57,7 @@ public abstract record Id<TPrimitive> : Id, IId<TPrimitive>
 
 public abstract record Id : ValueObject, IId
 {
-	public override string ToString() => $"{{{this.GetType().Name} Id={this.GetValue()}}}";
+	public override string ToString() => $"{this.GetType().Name} {{ Id = {this.GetValue()} }}";
 	public abstract object GetValue();
 	public abstract bool HasDefaultValue { get; }
 }

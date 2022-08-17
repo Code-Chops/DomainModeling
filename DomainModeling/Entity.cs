@@ -12,5 +12,5 @@ namespace CodeChops.DomainDrivenDesign.DomainModeling;
 [GenerateStronglyTypedId]
 public abstract partial class Entity : IHasId, IDomainObject, IEquatable<Entity?>
 {
-	public override string ToString() => $"{this.GetType().Name} {{ Id={this.Id} }}";
+	public override string ToString() => $"{this.GetType().Name} {{ Id = {this.Id} }}";
 }

@@ -6,6 +6,8 @@ namespace CodeChops.DomainDrivenDesign.DomainModeling.Collections;
 public record ImmutableDomainObjectList<TDomainObject>(ImmutableList<TDomainObject> List) : IValueObject, IReadOnlyList<TDomainObject>, IHasEmptyInstance<ImmutableDomainObjectList<TDomainObject>>
 	where TDomainObject : IDomainObject
 {
+	public override string ToString() => $"{this.GetType().Name} {{ {nameof(TDomainObject)} = {typeof(TDomainObject).Name} }}";
+	
 	#region Comparison
 
 	public override int GetHashCode()

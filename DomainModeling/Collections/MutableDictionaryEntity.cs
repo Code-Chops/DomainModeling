@@ -8,6 +8,8 @@ public abstract class MutableDomainObjectDictionary<TId, TDomainObject> : Entity
 	where TId : IId
 	where TDomainObject : IDomainObject
 {
+	public override string ToString() => $"{this.GetType().Name} {{ {nameof(TId)} = {typeof(TId).Name}, {nameof(TDomainObject)} = {typeof(TDomainObject).Name} }}";
+	
 	protected abstract IReadOnlyDictionary<TId, TDomainObject> Dictionary { get; }
 	
 	public TDomainObject this[TId id] => this.Dictionary.TryGetValue(id, out var value) 

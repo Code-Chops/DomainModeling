@@ -11,8 +11,8 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>0.11.0</Version>
-        <PackageReleaseNotes>Added configurable ID property.</PackageReleaseNotes>
+        <Version>0.11.1</Version>
+        <PackageReleaseNotes>Added ToString to classes.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainDrivenDesign.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>

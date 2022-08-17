@@ -5,6 +5,8 @@ namespace CodeChops.DomainDrivenDesign.DomainModeling.Collections;
 public abstract class MutableDomainObjectList<TDomainObject> : Entity, IReadOnlyList<TDomainObject>
 	where TDomainObject : IDomainObject
 {
+	public override string ToString() => $"{this.GetType().Name} {{ {nameof(TDomainObject)} = {typeof(TDomainObject).Name} }}";
+	
 	protected abstract IReadOnlyList<TDomainObject> List { get; }
 	
 	public int Count => this.List.Count;

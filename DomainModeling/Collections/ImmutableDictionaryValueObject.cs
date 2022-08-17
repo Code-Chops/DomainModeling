@@ -9,6 +9,8 @@ public record ImmutableDomainObjectDictionary<TId, TDomainObject>(ImmutableDicti
 	where TId : IId
 	where TDomainObject : IDomainObject
 {
+	public override string ToString() => $"{this.GetType().Name} {{ {nameof(TId)} = {typeof(TId).Name}, {nameof(TDomainObject)} = {typeof(TDomainObject).Name} }}";
+	
 	#region Comparison
 	
 	public override int GetHashCode()

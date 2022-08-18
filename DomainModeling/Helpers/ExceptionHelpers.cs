@@ -1,6 +1,6 @@
 ﻿namespace CodeChops.DomainDrivenDesign.DomainModeling.Helpers;
 
-public static class ExceptionHelpers
+public static partial class ExceptionHelpers
 {
     public static ArgumentNullException ArgumentNullException<TArgument>()                  
         => new(typeof(TArgument).Name);

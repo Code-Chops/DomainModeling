@@ -22,7 +22,11 @@
     <PropertyGroup>
         <GetTargetPathDependsOn>$(GetTargetPathDependsOn);GetDependencyTargetPaths</GetTargetPathDependsOn>
     </PropertyGroup>
-
+    
+    <ItemGroup>
+        <CompilerVisibleProperty Include="RootNamespace"/>
+    </ItemGroup>
+    
     <Target Name="GetDependencyTargetPaths">
         <ItemGroup>
             <TargetPathWithTargetPlatformMoniker Include="$(PkgCodeChops_SourceGeneration_Utilities)\lib\netstandard2.0\CodeChops.SourceGeneration.Utilities.dll" IncludeRuntimeDependency="false" />
@@ -35,7 +39,7 @@
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="CodeChops.SourceGeneration.Utilities" Version="0.1.11" PrivateAssets="all" GeneratePathProperty="true" />
+        <PackageReference Include="CodeChops.SourceGeneration.Utilities" Version="0.3.0" PrivateAssets="all" GeneratePathProperty="true" />
     </ItemGroup>
 
 </Project>

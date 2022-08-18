@@ -1,4 +1,6 @@
 ﻿using System.Collections.Immutable;
+using CodeChops.SourceGeneration.Utilities;
+using Microsoft.CodeAnalysis.Diagnostics;
 
 namespace CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration;
 
@@ -21,12 +23,13 @@ public class SourceBuilder : IIncrementalGenerator
 				predicate: SyntaxReceiver.CheckIfProbablyNeedsStronglyTypedId,
 				transform: static (context, _) => SyntaxReceiver.GetModel((TypeDeclarationSyntax)context.Node, context.SemanticModel))
 			.Where(static model => model is not null)
-			.Collect();
+			.Collect()
+			.Combine(context.AnalyzerConfigOptionsProvider);
 		
-		context.RegisterSourceOutput(source: valueProvider, action: CreateSource!);
+		context.RegisterSourceOutput(source: valueProvider, action: static (context, valueProvider) => CreateSource(context, valueProvider.Left!, valueProvider.Right));
 	}
 	
-	private static void CreateSource(SourceProductionContext context, ImmutableArray<DataModel> models)
+	private static void CreateSource(SourceProductionContext context, ImmutableArray<DataModel> models, AnalyzerConfigOptionsProvider configOptionsProvider)
 	{
 		foreach (var model in models)
 		{
@@ -35,8 +38,11 @@ public class SourceBuilder : IIncrementalGenerator
 			var fileName = model.Namespace is null 
 				? model.OuterClassName 
 				: $"{model.Namespace}.{model.OuterClassName}";
+
+			fileName = $"{fileName}.{model.IdTypeName}";
+			fileName = FileNameHelpers.GetFileName(fileName, configOptionsProvider);
 			
-			context.AddSource($"{fileName}.{model.IdTypeName}.g.cs", SourceText.From(code, Encoding.UTF8));
+			context.AddSource(fileName, SourceText.From(code, Encoding.UTF8));
 		}
 	}
 

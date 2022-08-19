@@ -1,6 +1,6 @@
 ﻿namespace CodeChops.DomainDrivenDesign.DomainModeling.Collections;
 
-public record ImmutableDomainObjectList<TDomainObject>(ImmutableList<TDomainObject> List) : IValueObject, IReadOnlyList<TDomainObject>, IHasEmptyInstance<ImmutableDomainObjectList<TDomainObject>>
+public record ImmutableListValueObject<TDomainObject> : IValueObject, IReadOnlyList<TDomainObject>, IHasEmptyInstance<ImmutableListValueObject<TDomainObject>>
 	where TDomainObject : IDomainObject
 {
 	public override string ToString() => this.ToEasyString(new { TDomainObject = typeof(TDomainObject).Name });
@@ -12,7 +12,7 @@ public record ImmutableDomainObjectList<TDomainObject>(ImmutableList<TDomainObje
 			? 1
 			: 2;
 
-	public virtual bool Equals(ImmutableDomainObjectList<TDomainObject>? other)
+	public virtual bool Equals(ImmutableListValueObject<TDomainObject>? other)
 	{
 		if (ReferenceEquals(this, other)) return true;
 		if (other is null) return false;
@@ -21,16 +21,22 @@ public record ImmutableDomainObjectList<TDomainObject>(ImmutableList<TDomainObje
 
 	#endregion
 	
-	public static ImmutableDomainObjectList<TDomainObject> Empty { get; } = new(new List<TDomainObject>().ToImmutableList());
+	public static ImmutableListValueObject<TDomainObject> Empty { get; } = new(new List<TDomainObject>().ToImmutableList());
 
 	// ReSharper disable once MemberCanBePrivate.Global
-	protected ImmutableList<TDomainObject> List { get; } = List;
+	protected ImmutableList<TDomainObject> List { get; }
+
+	public ImmutableListValueObject(ImmutableList<TDomainObject> list)
+	{
+		this.List = list;
+	}
 
 	public int Count => this.List.Count;
+	
 	public virtual TDomainObject this[int index] 
-		=> this.List.ElementAtOrDefault(index) ?? throw IndexOutOfRangeException<ImmutableDomainObjectList<TDomainObject>>.Create(index);
+		=> this.List.ElementAtOrDefault(index) ?? throw IndexOutOfRangeException<ImmutableListValueObject<TDomainObject>>.Create(index);
 	public virtual TDomainObject this[int index, [CallerMemberName] string? callerName = null] 
-		=> this.List.ElementAtOrDefault(index) ?? throw IndexOutOfRangeException<ImmutableDomainObjectList<TDomainObject>>.Create(index, callerName);
+		=> this.List.ElementAtOrDefault(index) ?? throw IndexOutOfRangeException<ImmutableListValueObject<TDomainObject>>.Create(index, callerName);
 
 	IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
 	public IEnumerator<TDomainObject> GetEnumerator() => this.List.GetEnumerator();

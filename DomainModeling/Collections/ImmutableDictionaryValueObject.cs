@@ -1,6 +1,6 @@
 ﻿namespace CodeChops.DomainDrivenDesign.DomainModeling.Collections;
 
-public record ImmutableDomainObjectDictionary<TId, TDomainObject> : IValueObject, IReadOnlyDictionary<TId, TDomainObject>, IHasEmptyInstance<ImmutableDomainObjectDictionary<TId, TDomainObject>> 
+public record ImmutableDictionaryValueObject<TId, TDomainObject> : IValueObject, IReadOnlyDictionary<TId, TDomainObject>, IHasEmptyInstance<ImmutableDictionaryValueObject<TId, TDomainObject>> 
 	where TId : IId where TDomainObject : IDomainObject
 {
 	public override string ToString() => this.ToEasyString(new { TId = typeof(TId).Name, TDomainObject = typeof(TDomainObject).Name });
@@ -12,7 +12,7 @@ public record ImmutableDomainObjectDictionary<TId, TDomainObject> : IValueObject
 			? 1
 			: 2;
 	
-	public virtual bool Equals(ImmutableDomainObjectDictionary<TId, TDomainObject>? other)
+	public virtual bool Equals(ImmutableDictionaryValueObject<TId, TDomainObject>? other)
 	{
 		if (ReferenceEquals(this, other)) return true;
 		if (other is null) return false;
@@ -22,12 +22,12 @@ public record ImmutableDomainObjectDictionary<TId, TDomainObject> : IValueObject
 
 	#endregion
 	
-	public static ImmutableDomainObjectDictionary<TId, TDomainObject> Empty { get; } = new(new Dictionary<TId, TDomainObject>().ToImmutableDictionary());
+	public static ImmutableDictionaryValueObject<TId, TDomainObject> Empty { get; } = new(new Dictionary<TId, TDomainObject>().ToImmutableDictionary());
 	
 	// ReSharper disable once MemberCanBePrivate.Global
 	protected ImmutableDictionary<TId, TDomainObject> Dictionary { get; }
 
-	public ImmutableDomainObjectDictionary(ImmutableDictionary<TId, TDomainObject> dictionary)
+	public ImmutableDictionaryValueObject(ImmutableDictionary<TId, TDomainObject> dictionary)
 	{
 		this.Dictionary = dictionary;
 	}

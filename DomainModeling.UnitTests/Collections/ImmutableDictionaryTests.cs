@@ -6,7 +6,7 @@ public class ImmutableDictionaryTests
 	// ReSharper disable once NotAccessedPositionalProperty.Local
 	private record ValueObjectMock(int Value) : IValueObject;
 	
-	private record DictionaryMock(ImmutableDictionary<MockId, ValueObjectMock> Dictionary) : ImmutableDomainObjectDictionary<MockId, ValueObjectMock>(Dictionary);
+	private record Mock(ImmutableDictionary<MockId, ValueObjectMock> Dictionary) : ImmutableDictionaryValueObject<MockId, ValueObjectMock>(Dictionary);
 
 	[Fact]
 	public void Dictionary_With_SameKeys_SameValues_ShouldBeEqual()
@@ -23,7 +23,7 @@ public class ImmutableDictionaryTests
 			[new(2)] = new(3),
 		}.ToImmutableDictionary();
 
-		Assert.Equal(new DictionaryMock(dictionary1), new DictionaryMock(dictionary2));
+		Assert.Equal(new Mock(dictionary1), new Mock(dictionary2));
 	}
 	
 	[Fact]
@@ -41,7 +41,7 @@ public class ImmutableDictionaryTests
 			[new(3)] = new(3),
 		}.ToImmutableDictionary();
 
-		Assert.NotEqual(new DictionaryMock(dictionary1), new DictionaryMock(dictionary2));
+		Assert.NotEqual(new Mock(dictionary1), new Mock(dictionary2));
 	}
 	
 	[Fact]
@@ -59,6 +59,6 @@ public class ImmutableDictionaryTests
 			[new(2)] = new(2),
 		}.ToImmutableDictionary();
 
-		Assert.NotEqual(new DictionaryMock(dictionary1), new DictionaryMock(dictionary2));
+		Assert.NotEqual(new Mock(dictionary1), new Mock(dictionary2));
 	}
 }

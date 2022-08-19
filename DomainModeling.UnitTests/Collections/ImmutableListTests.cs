@@ -5,7 +5,7 @@ public class ImmutableListTests
 	// ReSharper disable once NotAccessedPositionalProperty.Local
 	private record ValueObjectMock(int Value) : IValueObject;
 	
-	private record ListMock(ImmutableList<ValueObjectMock> List) : ImmutableDomainObjectList<ValueObjectMock>(List);
+	private record Mock(ImmutableList<ValueObjectMock> List) : ImmutableListValueObject<ValueObjectMock>(List);
 
 	[Fact]
 	public void Lists_With_SameValues_ShouldBeEqual()
@@ -22,7 +22,7 @@ public class ImmutableListTests
 			new(3),
 		}.ToImmutableList();
 
-		Assert.Equal(new ListMock(list1), new ListMock(list2));
+		Assert.Equal(new Mock(list1), new Mock(list2));
 	}
 	
 	[Fact]
@@ -40,6 +40,6 @@ public class ImmutableListTests
 			new(2),
 		}.ToImmutableList();
 
-		Assert.NotEqual(new ListMock(list1), new ListMock(list2));
+		Assert.NotEqual(new Mock(list1), new Mock(list2));
 	}
 }

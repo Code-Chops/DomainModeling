@@ -11,8 +11,8 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>0.15.3</Version>
-        <PackageReleaseNotes>Made thrower creator more flexible.</PackageReleaseNotes>
+        <Version>0.15.4</Version>
+        <PackageReleaseNotes>Fixed parameters parameter of custom exception Create.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainDrivenDesign.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>

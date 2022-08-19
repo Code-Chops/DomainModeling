@@ -7,6 +7,6 @@ public class DomainObjectKeyNotFoundException<TId, TDomainObject> : CustomExcept
 	public static DomainObjectKeyNotFoundException<TId, TDomainObject> Create(TId id, string? callerName = null) 
 		=> new ($"{ErrorMessage}. {nameof(Id)} = {id}, {nameof(callerName)} = {callerName}");
 
-	public static DomainObjectKeyNotFoundException<TId, TDomainObject> Create(string? parameters = null) => new(parameters);
-	private DomainObjectKeyNotFoundException(string? parameters) : base(parameters) { }
+	public static DomainObjectKeyNotFoundException<TId, TDomainObject> Create(object? parameters = null) => new(parameters);
+	private DomainObjectKeyNotFoundException(object? parameters) : base(parameters) { }
 }

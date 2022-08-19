@@ -8,6 +8,6 @@ public class IndexOutOfRangeException<TCollection> : CustomException<IndexOutOfR
 	public static IndexOutOfRangeException<TCollection> Create(int index, string? callerName = null) 
 		=> new($"{ErrorMessage}. {nameof(index)} = {index}, {nameof(callerName)} = {callerName}");
 
-	public static IndexOutOfRangeException<TCollection> Create(string? parameters = null) => new(parameters);
-	private IndexOutOfRangeException(string? parameters) : base(parameters) { }
+	public static IndexOutOfRangeException<TCollection> Create(object? parameters = null) => new(parameters);
+	private IndexOutOfRangeException(object? parameters) : base(parameters) { }
 }

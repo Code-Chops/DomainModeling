@@ -10,7 +10,7 @@ public static class Validate
 	public static ExceptionPredicate If(bool shouldThrowException, [CallerArgumentExpression("shouldThrowException")] string? argumentText = null) 
 		=> new(shouldThrowException, argumentText);
 	
-	public static void Throw<TException>(string? argumentText, object? parameters = null)
+	public static void Throw<TException>(string? argumentText = null, object? parameters = null)
 		where TException : Exception, ICustomException<TException>
 	{
 		var extraInfo = argumentText is null ? null : $" argument: {argumentText}.";

@@ -11,8 +11,8 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>0.11.2</Version>
-        <PackageReleaseNotes>Added auto-global usings, shorter source generated files.</PackageReleaseNotes>
+        <Version>0.12.0</Version>
+        <PackageReleaseNotes>Added custom exceptions and easy string.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainDrivenDesign.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>

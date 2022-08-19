@@ -11,6 +11,7 @@ public sealed class GenerateStronglyTypedId : Attribute
 {
 	/// <param name="name">If not provided, 'Identity' will be the default name.</param>
 	/// <param name="propertyName">If not provided, 'Id' will be the default property name.</param>
+	// ReSharper disable twice UnusedParameter.Local
 	public GenerateStronglyTypedId(string? name = null, string? propertyName = null)
 	{
 		// These parameters will be read from the attribute arguments itself and therefore don't need to be assigned.

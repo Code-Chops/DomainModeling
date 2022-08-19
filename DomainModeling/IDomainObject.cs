@@ -5,4 +5,5 @@
 /// </summary>
 public interface IDomainObject
 {
+	string ToString();
 }

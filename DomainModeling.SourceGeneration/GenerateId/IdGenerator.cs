@@ -2,7 +2,7 @@
 using CodeChops.SourceGeneration.Utilities;
 using Microsoft.CodeAnalysis.Diagnostics;
 
-namespace CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration;
+namespace CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration.GenerateId;
 
 [Generator]
 public class SourceBuilder : IIncrementalGenerator

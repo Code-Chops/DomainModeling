@@ -2,6 +2,7 @@
 
 public class ValueObjectTests
 {
+	// ReSharper disable once NotAccessedPositionalProperty.Local
 	private record ValueObjectMock(int Value) : IValueObject;
 
 	[Fact]

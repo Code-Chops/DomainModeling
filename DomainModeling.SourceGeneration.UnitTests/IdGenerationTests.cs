@@ -14,12 +14,13 @@ public partial class EntityWithByteIdMock2 : Entity
 public partial record RecordWithId;
 
 [GenerateStronglyTypedId]
+// ReSharper disable once UnusedTypeParameter
 public partial record RecordWithGenericType<T>;
 
-[GenerateStronglyTypedId<string>(typeof(Identities.Guid<>))]
+[GenerateStronglyTypedId<string>(typeof(Guid<>))]
 public partial record RecordWithGuidId;
 
-[GenerateStronglyTypedId<(string, string)>(typeof(Identities.TupleId<,>))]
+[GenerateStronglyTypedId<(string, string)>(typeof(TupleId<,>))]
 public partial record RecordWithTupleId;
 
 

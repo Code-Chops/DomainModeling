@@ -1,6 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-
-namespace CodeChops.DomainDrivenDesign.DomainModeling.Identities;
+﻿namespace CodeChops.DomainDrivenDesign.DomainModeling.Identities;
 
 /// <summary>
 /// An ID consisting of other IDs. Be aware that the individual types of the tuple elements implement IEquatable and IComparable.

@@ -1,8 +1,9 @@
-﻿namespace CodeChops.DomainDrivenDesign.DomainModeling.UnitTests;
+﻿namespace CodeChops.DomainDrivenDesign.DomainModeling.UnitTests.Collections;
 
 public class ImmutableDictionaryTests
 {
 	private record MockId(ulong Value) : Id<MockId, ulong>(Value);
+	// ReSharper disable once NotAccessedPositionalProperty.Local
 	private record ValueObjectMock(int Value) : IValueObject;
 	
 	private record DictionaryMock(ImmutableDictionary<MockId, ValueObjectMock> Dictionary) : ImmutableDomainObjectDictionary<MockId, ValueObjectMock>(Dictionary);

@@ -1,4 +1,4 @@
-namespace CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration;
+namespace CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration.GenerateId;
 
 public enum GenerationMethod
 {

@@ -24,7 +24,7 @@
     </PropertyGroup>
     
     <ItemGroup>
-        <CompilerVisibleProperty Include="RootNamespace"/>
+        <CompilerVisibleProperty Include="RootNamespace" />
     </ItemGroup>
     
     <Target Name="GetDependencyTargetPaths">

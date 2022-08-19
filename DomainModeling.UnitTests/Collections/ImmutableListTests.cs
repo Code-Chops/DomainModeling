@@ -1,7 +1,8 @@
-﻿namespace CodeChops.DomainDrivenDesign.DomainModeling.UnitTests;
+﻿namespace CodeChops.DomainDrivenDesign.DomainModeling.UnitTests.Collections;
 
 public class ImmutableListTests
 {
+	// ReSharper disable once NotAccessedPositionalProperty.Local
 	private record ValueObjectMock(int Value) : IValueObject;
 	
 	private record ListMock(ImmutableList<ValueObjectMock> List) : ImmutableDomainObjectList<ValueObjectMock>(List);

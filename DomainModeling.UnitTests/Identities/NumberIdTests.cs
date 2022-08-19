@@ -1,4 +1,4 @@
-﻿namespace CodeChops.DomainDrivenDesign.DomainModeling.UnitTests;
+﻿namespace CodeChops.DomainDrivenDesign.DomainModeling.UnitTests.Identities;
 
 public class NumberIdTests
 {

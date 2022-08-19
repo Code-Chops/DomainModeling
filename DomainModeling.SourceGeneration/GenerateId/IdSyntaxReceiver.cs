@@ -1,4 +1,4 @@
-﻿namespace CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration;
+﻿namespace CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration.GenerateId;
 
 internal static class SyntaxReceiver
 {

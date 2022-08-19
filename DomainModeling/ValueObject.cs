@@ -6,7 +6,7 @@
 /// </summary>
 public abstract record ValueObject : IValueObject
 {
-	public override string ToString() => $"{this.GetType().Name} {{ HashCode = {this.GetHashCode()} }}";
+	public override string ToString() => this.ToEasyString(new { GetHashCode = this.GetHashCode() });
 }
 
 /// <summary>
@@ -16,15 +16,14 @@ public abstract record ValueObject : IValueObject
 public abstract class ValueObject<TSelf> : IValueObject
 	where TSelf : ValueObject<TSelf>
 {
-	public override string ToString() => $"{this.GetType().Name} {{ HashCode = {this.GetHashCode()} }}";
+	public override string ToString() => this.ToEasyString(new { GetHashCode = this.GetHashCode() });
 	
-	protected abstract bool Equals(TSelf Other);
+	protected abstract bool Equals(TSelf other);
 	public abstract override int GetHashCode();
 	
 	public override bool Equals(object? obj)
 	{
 		if (obj is not TSelf valueObject) return false;
-		if (ReferenceEquals(valueObject, null)) return false;
 		return this.Equals(valueObject);
 	}
 	

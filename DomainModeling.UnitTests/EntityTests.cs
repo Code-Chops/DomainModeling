@@ -44,7 +44,7 @@ public class EntityTests
 		var id1 = new EntityMock1(new IdMock(1));
 		var id2 = new EntityMock2(new IdMock(1));
 		
-		Assert.NotEqual((Entity)id1, (Entity)id2);
+		Assert.NotEqual(id1, (Entity)id2);
 	}
 	
 	[Fact]

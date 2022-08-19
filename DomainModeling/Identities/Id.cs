@@ -31,14 +31,15 @@ public abstract record Id<TSelf, TPrimitive> : Id<TPrimitive>
 public abstract record Id<TPrimitive> : Id, IId<TPrimitive>
 	where TPrimitive : IEquatable<TPrimitive>, IComparable<TPrimitive>
 {
-	public override string ToString() => $"{this.GetType().Name} {{ Id = {this.Value}, PrimitiveType = {typeof(TPrimitive).Name} }}";
-
+	public override string ToString() => this.ToEasyString(new { this.Value, PrimitiveType = typeof(TPrimitive).Name });
+	
 	/// <summary>
 	/// Warning. Probably performs boxing!
 	/// </summary>
 	public sealed override object GetValue() => this.Value;
 
 	public TPrimitive Value => this._value;
+	// ReSharper disable once InconsistentNaming
 	protected TPrimitive _value { get; init; }
 	
 	public sealed override bool HasDefaultValue => this.Value.Equals(DefaultValue);
@@ -57,7 +58,7 @@ public abstract record Id<TPrimitive> : Id, IId<TPrimitive>
 
 public abstract record Id : ValueObject, IId
 {
-	public override string ToString() => $"{this.GetType().Name} {{ Id = {this.GetValue()} }}";
+	public override string ToString() => this.ToEasyString(new { Value = this.GetValue() });
 	public abstract object GetValue();
 	public abstract bool HasDefaultValue { get; }
 }

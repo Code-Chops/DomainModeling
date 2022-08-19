@@ -8,7 +8,8 @@ public record SingletonId<TEntity> : Id<SingletonId<TEntity>, string>
 {
     public static SingletonId<TEntity> Instance { get; } = new();
 
-    protected SingletonId()
+    // ReSharper disable once UnusedParameter.Local
+    protected SingletonId(string? _ = null)
     {
     }
 }

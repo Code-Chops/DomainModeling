@@ -2,7 +2,7 @@
 
 namespace CodeChops.DomainDrivenDesign.DomainModeling.Exceptions;
 
-public class NullArgumentException : System.ArgumentNullException, ICustomException<NullArgumentException>
+public class NullArgumentException : ArgumentNullException, ICustomException<NullArgumentException>
 {
 	public static string ErrorMessage => nameof(ArgumentNullException);
 

@@ -1,6 +1,4 @@
-﻿using CodeChops.DomainDrivenDesign.DomainModeling.Helpers;
-
-namespace CodeChops.DomainDrivenDesign.DomainModeling.Extensions;
+﻿namespace CodeChops.DomainDrivenDesign.DomainModeling.Extensions;
 
 public static class DomainObjectExtensions
 {

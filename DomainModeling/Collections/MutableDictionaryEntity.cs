@@ -6,14 +6,9 @@ public abstract class MutableDictionaryEntity<TId, TDomainObject> : Entity, IRea
 {
 	public override string ToString() => this.ToEasyString(new { TId = typeof(TId).Name, TDomainObject = typeof(TDomainObject).Name });
 	
-	protected virtual IReadOnlyDictionary<TId, TDomainObject> Dictionary { get; }
+	protected abstract IReadOnlyDictionary<TId, TDomainObject> Dictionary { get; }
 	
 	public int Count => this.Dictionary.Count;
-
-	protected MutableDictionaryEntity(IReadOnlyDictionary<TId, TDomainObject> dictionary)
-	{
-		this.Dictionary = dictionary;
-	}
 
 	public void Deconstruct(out IReadOnlyDictionary<TId, TDomainObject> dictionary)
 	{

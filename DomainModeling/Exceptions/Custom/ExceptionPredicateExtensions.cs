@@ -1,6 +1,4 @@
-﻿using CodeChops.DomainDrivenDesign.DomainModeling.Helpers;
-
-namespace CodeChops.DomainDrivenDesign.DomainModeling.Exceptions.Custom;
+﻿namespace CodeChops.DomainDrivenDesign.DomainModeling.Exceptions.Custom;
 
 public static class ExceptionPredicateExtensions
 {

@@ -1,6 +1,4 @@
-﻿using CodeChops.DomainDrivenDesign.DomainModeling.Exceptions;
-
-namespace CodeChops.DomainDrivenDesign.DomainModeling.Collections;
+﻿namespace CodeChops.DomainDrivenDesign.DomainModeling.Collections;
 
 public abstract class MutableDomainObjectDictionary<TId, TDomainObject> : Entity, IReadOnlyDictionary<TId, TDomainObject>
 	where TId : IId
@@ -10,9 +8,9 @@ public abstract class MutableDomainObjectDictionary<TId, TDomainObject> : Entity
 	
 	protected abstract IReadOnlyDictionary<TId, TDomainObject> Dictionary { get; }
 	
-	public TDomainObject this[TId id] => this.Dictionary.TryGetValue(id, out var value) 
-		? value 
-		: DomainObjectKeyNotFoundException<TId, TDomainObject>.Throw(id);
+	public virtual TDomainObject this[TId id] => this.Dictionary.TryGetValue(id, out var value) ? value : throw DomainObjectKeyNotFoundException<TId, TDomainObject>.Create(id);
+	public virtual TDomainObject this[TId id, [CallerMemberName] string? callerName = null] => this.Dictionary.TryGetValue(id, out var value) ? value : throw DomainObjectKeyNotFoundException<TId, TDomainObject>.Create(id, callerName);
+
 	public IEnumerable<TId> Keys => this.Dictionary.Keys;
 	public IEnumerable<TDomainObject> Values => this.Dictionary.Values;
 	public int Count => this.Dictionary.Count;

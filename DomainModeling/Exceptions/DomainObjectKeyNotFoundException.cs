@@ -1,17 +1,14 @@
-﻿namespace CodeChops.DomainDrivenDesign.DomainModeling.Exceptions;
+﻿using CodeChops.DomainDrivenDesign.DomainModeling.Exceptions.Custom;
 
-public class DomainObjectKeyNotFoundException<TId, TDomainObject> : Exception, ICustomException
+namespace CodeChops.DomainDrivenDesign.DomainModeling.Exceptions;
+
+public class DomainObjectKeyNotFoundException<TId, TDomainObject> : KeyNotFoundException, ICustomException<DomainObjectKeyNotFoundException<TId, TDomainObject>>
 {
 	public static string ErrorMessage { get; } = $"{typeof(TId).Name} of {typeof(TDomainObject).Name} not found in {typeof(TDomainObject).Name}.";
 	
-	public static dynamic Throw(string errorMessage)
-		=> new DomainObjectKeyNotFoundException<TId, TDomainObject>(errorMessage);
+	public static DomainObjectKeyNotFoundException<TId, TDomainObject> Create(TId id, string? callerName = null) 
+		=> new ($"{ErrorMessage}. {nameof(Id)} = {id}, {nameof(callerName)} = {callerName}");
 
-	public static dynamic Throw(TId id, string? callerName = null) 
-		=> Throw($"{ErrorMessage}. {nameof(Id)} = {id}, {nameof(callerName)} = {callerName}");
-
-	private DomainObjectKeyNotFoundException(string errorMessage)
-		: base(errorMessage)
-	{
-	}
+	public static DomainObjectKeyNotFoundException<TId, TDomainObject> Create(string errorMessage) => new(errorMessage);
+	private DomainObjectKeyNotFoundException(string errorMessage) : base(errorMessage) { }
 }

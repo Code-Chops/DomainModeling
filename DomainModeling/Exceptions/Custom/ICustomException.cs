@@ -1,7 +1,9 @@
-namespace CodeChops.DomainDrivenDesign.DomainModeling.Exceptions;
+namespace CodeChops.DomainDrivenDesign.DomainModeling.Exceptions.Custom;
 
-public interface ICustomException
+public interface ICustomException<out TException> : IDomainObject
+	where TException : ICustomException<TException>
 {
-	public static abstract dynamic Throw(string errorMessage);
+	public static abstract TException Create(string message);
+	
 	public static abstract string ErrorMessage { get; }
 }

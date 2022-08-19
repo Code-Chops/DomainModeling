@@ -1,8 +1,7 @@
-﻿using CodeChops.DomainDrivenDesign.DomainModeling.Exceptions;
+﻿namespace CodeChops.DomainDrivenDesign.DomainModeling.Collections;
 
-namespace CodeChops.DomainDrivenDesign.DomainModeling.Collections;
-
-public record ImmutableDomainObjectDictionary<TId, TDomainObject> : IValueObject, IReadOnlyDictionary<TId, TDomainObject>, IHasEmptyInstance<ImmutableDomainObjectDictionary<TId, TDomainObject>> where TId : IId where TDomainObject : IDomainObject
+public record ImmutableDomainObjectDictionary<TId, TDomainObject> : IValueObject, IReadOnlyDictionary<TId, TDomainObject>, IHasEmptyInstance<ImmutableDomainObjectDictionary<TId, TDomainObject>> 
+	where TId : IId where TDomainObject : IDomainObject
 {
 	public override string ToString() => this.ToEasyString(new { TId = typeof(TId).Name, TDomainObject = typeof(TDomainObject).Name });
 	
@@ -39,8 +38,10 @@ public record ImmutableDomainObjectDictionary<TId, TDomainObject> : IValueObject
 	}
 	
 	public int Count => this.Dictionary.Count;
-	public TDomainObject this[TId id] => this.Dictionary.GetValueOrDefault(id) ?? DomainObjectKeyNotFoundException<TId, TDomainObject>.Throw(id);
-	public TDomainObject this[TId id, [CallerMemberName] string? callerName = null] => this.Dictionary.GetValueOrDefault(id) ?? DomainObjectKeyNotFoundException<TId, TDomainObject>.Throw(id, callerName);
+	public virtual TDomainObject this[TId id] 
+		=> this.Dictionary.GetValueOrDefault(id) ?? throw DomainObjectKeyNotFoundException<TId, TDomainObject>.Create(id);
+	public virtual TDomainObject this[TId id, [CallerMemberName] string? callerName = null] 
+		=> this.Dictionary.GetValueOrDefault(id) ?? throw DomainObjectKeyNotFoundException<TId, TDomainObject>.Create(id, callerName);
 
 	public IEnumerable<TId> Keys => this.Dictionary.Keys;
 	public IEnumerable<TDomainObject> Values => this.Dictionary.Values;

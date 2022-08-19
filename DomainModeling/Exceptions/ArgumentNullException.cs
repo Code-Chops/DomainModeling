@@ -1,14 +1,11 @@
-﻿namespace CodeChops.DomainDrivenDesign.DomainModeling.Exceptions;
+﻿using CodeChops.DomainDrivenDesign.DomainModeling.Exceptions.Custom;
 
-public class ArgumentNullException : CustomException, ICustomException
+namespace CodeChops.DomainDrivenDesign.DomainModeling.Exceptions;
+
+public class ArgumentNullException : System.ArgumentNullException, ICustomException<ArgumentNullException>
 {
 	public static string ErrorMessage => nameof(ArgumentNullException);
 
-	public static dynamic Throw(string errorMessage)
-		=> throw new ArgumentException(errorMessage);
-
-	protected ArgumentNullException(string errorMessage) 
-		: base(errorMessage)
-	{
-	}
+	public static ArgumentNullException Create(string errorMessage) => new(errorMessage);
+	protected ArgumentNullException(string errorMessage) : base(errorMessage) { }
 }

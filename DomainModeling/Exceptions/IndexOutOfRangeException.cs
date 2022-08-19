@@ -1,18 +1,15 @@
-﻿namespace CodeChops.DomainDrivenDesign.DomainModeling.Exceptions;
+﻿using CodeChops.DomainDrivenDesign.DomainModeling.Exceptions.Custom;
 
-public class IndexOutOfRangeException<TCollection> : CustomException, ICustomException
+namespace CodeChops.DomainDrivenDesign.DomainModeling.Exceptions;
+
+public class IndexOutOfRangeException<TCollection> : Exception, ICustomException<IndexOutOfRangeException<TCollection>>
 	where TCollection : IEnumerable
 {
 	public static string ErrorMessage => new($"Index out of range in {typeof(TCollection)}.");
 	
-	public static dynamic Throw(string errorMessage)
-		=> throw new IndexOutOfRangeException(errorMessage);
-	
-	public static dynamic Throw(int index, string? callerName = null) 
-		=> Throw($"{ErrorMessage}. {nameof(index)} = {index}, {nameof(callerName)} = {callerName}");
+	public static IndexOutOfRangeException<TCollection> Create(int index, string? callerName = null) 
+		=> new($"{ErrorMessage}. {nameof(index)} = {index}, {nameof(callerName)} = {callerName}");
 
-	protected IndexOutOfRangeException(string errorMessage) 
-		: base(errorMessage)
-	{
-	}
+	public static IndexOutOfRangeException<TCollection> Create(string message) => new(message);
+	private IndexOutOfRangeException(string message) : base(message) { }
 }

@@ -1,6 +1,4 @@
-﻿using CodeChops.DomainDrivenDesign.DomainModeling.Exceptions.Custom;
-
-namespace CodeChops.DomainDrivenDesign.DomainModeling.Exceptions;
+﻿namespace CodeChops.DomainDrivenDesign.DomainModeling.Exceptions;
 
 public class DomainObjectKeyNotFoundException<TId, TDomainObject> : KeyNotFoundException, ICustomException<DomainObjectKeyNotFoundException<TId, TDomainObject>>
 {

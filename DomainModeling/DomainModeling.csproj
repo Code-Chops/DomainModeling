@@ -11,8 +11,8 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>0.15.0</Version>
-        <PackageReleaseNotes>Made mutable lists abstract again.</PackageReleaseNotes>
+        <Version>0.15.1</Version>
+        <PackageReleaseNotes>Added simple thrower.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainDrivenDesign.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>

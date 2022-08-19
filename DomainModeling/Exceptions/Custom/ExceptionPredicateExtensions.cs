@@ -7,11 +7,6 @@ public static class ExceptionPredicateExtensions
 	{
 		if (!predicate.ShouldTrowException) return;
 		
-		var extraInfo = predicate.ArgumentText is null ? null : $" argument: {predicate.ArgumentText}.";
-		var parametersText = parameters is null ? null : $"Info: {EasyStringHelper.ToEasyString(typeof(TException), parameters, extraInfo)}.";
-		var message = $"{TException.ErrorMessage}.{parametersText}";
-		
-		var exception = TException.Create(message);
-		throw exception;
+		Validate.Throw<TException>(predicate.ArgumentText, parameters);
 	}
 }

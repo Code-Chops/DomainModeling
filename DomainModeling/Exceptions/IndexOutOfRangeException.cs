@@ -1,6 +1,4 @@
-﻿using CodeChops.DomainDrivenDesign.DomainModeling.Exceptions.Custom;
-
-namespace CodeChops.DomainDrivenDesign.DomainModeling.Exceptions;
+﻿namespace CodeChops.DomainDrivenDesign.DomainModeling.Exceptions;
 
 public class IndexOutOfRangeException<TCollection> : Exception, ICustomException<IndexOutOfRangeException<TCollection>>
 	where TCollection : IEnumerable

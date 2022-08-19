@@ -1,9 +1,9 @@
 ﻿namespace CodeChops.DomainDrivenDesign.DomainModeling.Exceptions;
 
-public class NullArgumentException : ArgumentNullException, ICustomException<NullArgumentException>
+public class NullArgumentException : CustomException<NullArgumentException>, ICustomException<NullArgumentException>
 {
 	public static string ErrorMessage => nameof(ArgumentNullException);
 
-	public static NullArgumentException Create(string errorMessage) => new(errorMessage);
-	protected NullArgumentException(string errorMessage) : base(errorMessage) { }
+	public static NullArgumentException Create(string? parameters = null) => new(parameters);
+	protected NullArgumentException(string? parameters) : base(parameters) { }
 }

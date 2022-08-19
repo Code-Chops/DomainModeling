@@ -11,8 +11,8 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>0.15.2</Version>
-        <PackageReleaseNotes>Made thrower arguments argument optional.</PackageReleaseNotes>
+        <Version>0.15.3</Version>
+        <PackageReleaseNotes>Made thrower creator more flexible.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainDrivenDesign.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>

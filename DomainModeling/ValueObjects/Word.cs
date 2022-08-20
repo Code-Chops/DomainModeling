@@ -3,7 +3,7 @@
 namespace CodeChops.DomainDrivenDesign.DomainModeling.ValueObjects;
 
 /// <summary>
-/// A string of type Word.<see cref="Type"/>.
+/// A string of type Word.<see cref="Type"/> in Latin characters.
 /// </summary>
 public readonly record struct Word : IEnumerable<char>, IHasEmptyInstance<Word>
 {
@@ -13,14 +13,17 @@ public readonly record struct Word : IEnumerable<char>, IHasEmptyInstance<Word>
 	
 	private string Value { get; }
 
+	public int Length => this.Value.Length;
+	
 	public static implicit operator string(Word word) => word.Value;
 	public static explicit operator Word(string value) => new(value);
 
-	public Word(string value, int? maxLength = 0, Type type = Type.Alpha, [CallerMemberName] string? callerName = null)
+	public Word(string value, int? maxLength = 0, Type type = Type.AlphaNumericWithUnderscore, [CallerMemberName] string? callerName = null)
 	{
 		var invalidCharacters = type switch
 		{
 			Type.Alpha						=> Regex.IsMatch(value, "^[a-zA-Z]+$",		RegexOptions.Compiled),
+			Type.AlphaWithUnderscore		=> Regex.IsMatch(value, "^[a-zA-Z_]+$",		RegexOptions.Compiled),
 			Type.AlphaNumeric				=> Regex.IsMatch(value, "^[a-zA-Z0-9]+$",	RegexOptions.Compiled),
 			Type.AlphaNumericWithUnderscore => Regex.IsMatch(value, "^[a-zA-Z0-9_]+$",	RegexOptions.Compiled),
 			_									=> throw new ArgumentOutOfRangeException(nameof(type), type, null)
@@ -39,6 +42,7 @@ public readonly record struct Word : IEnumerable<char>, IHasEmptyInstance<Word>
 	public enum Type
 	{
 		Alpha,
+		AlphaWithUnderscore,
 		AlphaNumeric,
 		AlphaNumericWithUnderscore,
 	}

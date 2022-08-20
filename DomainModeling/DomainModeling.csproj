@@ -11,8 +11,8 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>0.15.9</Version>
-        <PackageReleaseNotes>Added Word value object in global namespace.</PackageReleaseNotes>
+        <Version>0.15.10</Version>
+        <PackageReleaseNotes>Added AlphaWithUnderscore and Length to Word. Changed default type.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainDrivenDesign.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>

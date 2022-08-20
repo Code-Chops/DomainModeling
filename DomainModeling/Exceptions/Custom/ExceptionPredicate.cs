@@ -2,10 +2,10 @@
 
 public ref struct ExceptionPredicate
 {
-	public bool ShouldTrowException { get; }
-	public string? ArgumentText { get; }
+	internal bool ShouldTrowException { get; }
+	internal string? ArgumentText { get; }
 
-	public ExceptionPredicate(bool shouldTrowException, string? argumentText)
+	internal ExceptionPredicate(bool shouldTrowException, string? argumentText)
 	{
 		this.ShouldTrowException = shouldTrowException;
 		this.ArgumentText = argumentText;

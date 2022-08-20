@@ -11,8 +11,8 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>0.15.8</Version>
-        <PackageReleaseNotes>Added Word value object.</PackageReleaseNotes>
+        <Version>0.15.9</Version>
+        <PackageReleaseNotes>Added Word value object in global namespace.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainDrivenDesign.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>

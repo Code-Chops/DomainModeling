@@ -17,6 +17,7 @@ global using CodeChops.DomainDrivenDesign.DomainModeling.Extensions;
 global using CodeChops.DomainDrivenDesign.DomainModeling.Factories;
 global using CodeChops.DomainDrivenDesign.DomainModeling.Helpers;
 global using CodeChops.DomainDrivenDesign.DomainModeling.Identities;
+global using CodeChops.DomainDrivenDesign.DomainModeling.ValueObjects;
 global using CodeChops.DomainDrivenDesign.DomainModeling;
 ";
 

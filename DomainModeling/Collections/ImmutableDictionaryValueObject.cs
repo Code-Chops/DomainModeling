@@ -1,6 +1,9 @@
 ﻿namespace CodeChops.DomainDrivenDesign.DomainModeling.Collections;
 
-public record ImmutableDictionaryValueObject<TId, TDomainObject> : IValueObject, IReadOnlyDictionary<TId, TDomainObject>, IHasEmptyInstance<ImmutableDictionaryValueObject<TId, TDomainObject>> 
+public record ImmutableDictionaryValueObject<TId, TDomainObject> : 
+	IValueObject, 
+	IReadOnlyDictionary<TId, TDomainObject>, 
+	IHasEmptyInstance<ImmutableDictionaryValueObject<TId, TDomainObject>> 
 	where TId : IId where TDomainObject : IDomainObject
 {
 	public override string ToString() => this.ToEasyString(new { TId = typeof(TId).Name, TDomainObject = typeof(TDomainObject).Name });

@@ -16,7 +16,7 @@ public readonly record struct Word : IEnumerable<char>, IHasEmptyInstance<Word>
 	public int Length => this.Value.Length;
 	
 	public static implicit operator string(Word word) => word.Value;
-	public static explicit operator Word(string value) => new(value);
+	public static explicit operator Word(string value) => new(value, callerName: null);
 
 	public Word(string value, int? maxLength = 0, Type type = Type.AlphaNumericWithUnderscore, CaseConversion caseConversion = CaseConversion.NoConversion, [CallerMemberName] string? callerName = null)
 	{
@@ -30,7 +30,7 @@ public readonly record struct Word : IEnumerable<char>, IHasEmptyInstance<Word>
 		};
 
 		if (invalidCharacters) throw new ArgumentException($"Invalid characters in {callerName} {type} {nameof(Word)} '{value}'.");
-		if (value.Length > maxLength) throw new ArgumentException($"{callerName} {type} {nameof(Word)} '{value}' is longer ({value.Length}) than {nameof(maxLength)} {maxLength}.");
+		if (value.Length > maxLength) throw new ArgumentException($"{callerName} {type} {nameof(Word)} '{value}' is longer ({value.Length}) than {nameof(maxLength)} {maxLength}.".TrimStart() );
 
 		this.Value = caseConversion switch
 		{

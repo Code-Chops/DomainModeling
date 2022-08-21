@@ -11,8 +11,8 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>0.15.11</Version>
-        <PackageReleaseNotes>Added CaseConversion to Word.</PackageReleaseNotes>
+        <Version>0.15.12</Version>
+        <PackageReleaseNotes>Change name to ValueObjectClass. Added ToEasyString calls.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainDrivenDesign.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>

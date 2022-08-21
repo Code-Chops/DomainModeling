@@ -56,7 +56,7 @@ public abstract record Id<TPrimitive> : Id, IId<TPrimitive>
 	}
 }
 
-public abstract record Id : ValueObject, IId
+public abstract record Id : IId
 {
 	public override string ToString() => this.ToEasyString(new { Value = this.GetValue() });
 	public abstract object GetValue();

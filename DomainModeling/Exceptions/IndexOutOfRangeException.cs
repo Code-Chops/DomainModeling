@@ -1,13 +1,15 @@
 ﻿namespace CodeChops.DomainDrivenDesign.DomainModeling.Exceptions;
 
-public class IndexOutOfRangeException<TCollection> : CustomException<IndexOutOfRangeException<TCollection>>, ICustomException<IndexOutOfRangeException<TCollection>>
+public class IndexOutOfRangeException<TCollection> : SystemException<IndexOutOfRangeException<TCollection>>, ISystemException<IndexOutOfRangeException<TCollection>>
 	where TCollection : IEnumerable
 {
 	public static string ErrorMessage => new($"Index out of range in {typeof(TCollection)}.");
-	
-	public static IndexOutOfRangeException<TCollection> Create(int index, string? callerName = null) 
-		=> new(new { index, callerName });
 
-	public static IndexOutOfRangeException<TCollection> Create(object? parameters = null) => new(parameters);
-	private IndexOutOfRangeException(object? parameters) : base(parameters) { }
+	public IndexOutOfRangeException(object parameters) 
+		: base(parameters)
+	{
+	}
+
+	public static IndexOutOfRangeException<TCollection> Create(object parameters) 
+		=> new(parameters);
 }

@@ -17,8 +17,6 @@ public abstract class MutableDictionaryEntity<TId, TDomainObject> : Entity, IRea
 
 	public virtual TDomainObject this[TId id] 
 		=> this.Dictionary.TryGetValue(id, out var value) ? value : throw DomainObjectKeyNotFoundException<TId, TDomainObject>.Create(id);
-	public virtual TDomainObject this[TId id, [CallerMemberName] string? callerName = null] 
-		=> this.Dictionary.TryGetValue(id, out var value) ? value : throw DomainObjectKeyNotFoundException<TId, TDomainObject>.Create(id, callerName);
 
 	public IEnumerable<TId> Keys => this.Dictionary.Keys;
 	public IEnumerable<TDomainObject> Values => this.Dictionary.Values;

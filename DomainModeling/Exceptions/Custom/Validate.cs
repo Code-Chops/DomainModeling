@@ -3,19 +3,21 @@
 public static class Validate
 {
 	/// <summary>
-	/// Throws a custom defined exception when <paramref name="shouldThrowException"/> is true.
+	/// Throws a system exception when <paramref name="shouldThrowException"/> is true.
 	/// </summary>
 	/// <param name="shouldThrowException">If true, throw exception. Otherwise, don't do anything.</param>
 	/// <param name="argumentText">The name of the argument. Don't provide this value!</param>
-	public static ExceptionPredicate If(bool shouldThrowException, [CallerArgumentExpression("shouldThrowException")] string? argumentText = null) 
-		=> new(shouldThrowException, argumentText);
-
+	public static ExceptionPredicate If(
+		bool shouldThrowException, 
+		[CallerArgumentExpression("shouldThrowException")] string? argumentText = null, 
+		[CallerMemberName] string? callerMemberName = null, 
+		[CallerFilePath] string? callerFilePath = null) 
+			=> new(shouldThrowException, argumentText, callerMemberName: callerMemberName, callerFilePath: callerFilePath);
+	
 	[DoesNotReturn]
-	public static void Throw<TException>(string? argumentText = null, object? parameters = null)
-		where TException : Exception, ICustomException<TException>
+	public static void Throw<TException>(string info)
+		where TException : SystemException, ISystemException<TException>
 	{
-		var message = EasyStringHelper.ToExceptionString(typeof(TException), TException.ErrorMessage, parameters, argumentText); 
-		var exception = TException.Create(message);
-		throw exception;
+		throw TException.Create(info);
 	}
 }

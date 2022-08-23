@@ -38,8 +38,6 @@ public record ImmutableListValueObject<TDomainObject> :
 	
 	public virtual TDomainObject this[int index] 
 		=> this.List.ElementAtOrDefault(index) ?? throw IndexOutOfRangeException<ImmutableListValueObject<TDomainObject>>.Create(index);
-	public virtual TDomainObject this[int index, [CallerMemberName] string? callerName = null] 
-		=> this.List.ElementAtOrDefault(index) ?? throw IndexOutOfRangeException<ImmutableListValueObject<TDomainObject>>.Create(index, callerName);
 
 	IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
 	public IEnumerator<TDomainObject> GetEnumerator() => this.List.GetEnumerator();

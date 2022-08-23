@@ -43,8 +43,6 @@ public record ImmutableDictionaryValueObject<TId, TDomainObject> :
 	public int Count => this.Dictionary.Count;
 	public virtual TDomainObject this[TId id] 
 		=> this.Dictionary.GetValueOrDefault(id) ?? throw DomainObjectKeyNotFoundException<TId, TDomainObject>.Create(id);
-	public virtual TDomainObject this[TId id, [CallerMemberName] string? callerName = null] 
-		=> this.Dictionary.GetValueOrDefault(id) ?? throw DomainObjectKeyNotFoundException<TId, TDomainObject>.Create(id, callerName);
 
 	public IEnumerable<TId> Keys => this.Dictionary.Keys;
 	public IEnumerable<TDomainObject> Values => this.Dictionary.Values;

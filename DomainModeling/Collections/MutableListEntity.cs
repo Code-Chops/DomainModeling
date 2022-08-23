@@ -12,7 +12,7 @@ public abstract class MutableListEntity<TDomainObject> : Entity, IReadOnlyList<T
 	public virtual TDomainObject this[int index] 
 		=> this.List.ElementAtOrDefault(index) ?? throw IndexOutOfRangeException<ImmutableListValueObject<TDomainObject>>.Create(index);
 	public virtual TDomainObject this[int index, [CallerMemberName] string? callerName = null] 
-		=> this.List.ElementAtOrDefault(index) ?? throw IndexOutOfRangeException<ImmutableListValueObject<TDomainObject>>.Create(index, callerName);
+		=> this.List.ElementAtOrDefault(index) ?? throw IndexOutOfRangeException<ImmutableListValueObject<TDomainObject>>.Create(index);
 
 	IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
 	public IEnumerator<TDomainObject> GetEnumerator() => this.List.GetEnumerator();

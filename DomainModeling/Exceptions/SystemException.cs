@@ -4,7 +4,7 @@ public abstract class SystemException<TException> : Exception
 	where TException : SystemException<TException>, ISystemException<TException>
 {
 	protected SystemException(object parameters)
-		: base(message: $"{TException.ErrorMessage}. Info: {EasyStringHelper.ToDisplayString(typeof(TException), parameters, extraText: null)}")	
+		: base(message: $"{TException.ErrorMessage}. Info: {EasyStringHelper.ToDisplayString<TException>(parameters, extraText: null)}")	
 	{
 	}
 }

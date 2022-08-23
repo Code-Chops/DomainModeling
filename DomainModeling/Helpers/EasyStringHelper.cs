@@ -4,7 +4,7 @@ namespace CodeChops.DomainDrivenDesign.DomainModeling.Helpers;
 
 public static class EasyStringHelper
 {
-	public static string ToDisplayString(Type domainObjectType, object? parameters = null, string? extraText = null)
+	public static string ToDisplayString<TObject>(object? parameters = null, string? extraText = null)
 	{
 		var parametersText = parameters is null 
 			? null 
@@ -17,6 +17,6 @@ public static class EasyStringHelper
 
 		extraText = extraText is null ? null : $"({extraText}) ";
 		
-		return $"{domainObjectType.Name} {extraText}{parametersText}";
+		return $"{typeof(TObject).Name} {extraText}{parametersText}";
 	}
 }

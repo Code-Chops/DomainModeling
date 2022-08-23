@@ -2,6 +2,7 @@
 
 public static class DomainObjectExtensions
 {
-	public static string ToEasyString(this IDomainObject domainObject, object? parameters = null, string? extraText = null)
-		=> EasyStringHelper.ToDisplayString(domainObject.GetType(), parameters, extraText); 
+	public static string ToEasyString<TDomainObject>(this TDomainObject domainObject, object? parameters = null, string? extraText = null)
+		where TDomainObject : IDomainObject
+		=> EasyStringHelper.ToDisplayString<TDomainObject>(parameters, extraText); 
 }

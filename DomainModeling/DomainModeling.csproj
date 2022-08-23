@@ -11,8 +11,8 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>0.16.0</Version>
-        <PackageReleaseNotes>Differentiation between user and system exceptions. Simplified exception throwing.</PackageReleaseNotes>
+        <Version>0.16.1</Version>
+        <PackageReleaseNotes>ToDisplayString now with generic parameter.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainDrivenDesign.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>

@@ -1,4 +1,6 @@
-﻿namespace CodeChops.DomainDrivenDesign.DomainModeling;
+﻿using CodeChops.DomainDrivenDesign.DomainModeling.Attributes;
+
+namespace CodeChops.DomainDrivenDesign.DomainModeling;
 
 /// <summary>
 /// Entities have an inherent identity and therefore need an ID. Entities have a long lifespan and are mutable.

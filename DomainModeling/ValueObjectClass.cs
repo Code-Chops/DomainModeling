@@ -8,7 +8,7 @@ public abstract class ValueObjectClass<TSelf> : IValueObject
 	where TSelf : ValueObjectClass<TSelf>
 {
 	/// <summary>
-	/// Use <see cref="DomainObjectExtensions.ToEasyString"/> for easy string display.
+	/// Use <see cref="DomainObjectExtensions.ToEasyString{TDomainObject}"/> for easy string display.
 	/// </summary>
 	public abstract override string ToString();
 	

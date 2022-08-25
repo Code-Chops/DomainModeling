@@ -1,4 +1,4 @@
-﻿using CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration.GenerateId;
+﻿using CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration.IdentityGenerator;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -18,8 +18,8 @@ public class IdBaseTypeExtractionTest
 	[InlineData("[GenerateStronglyTypedId]", 						"Id<Identity, UInt64>", "UInt64")]
 	[InlineData("[GenerateStronglyTypedId<ulong>]",					"Id<Identity, UInt64>", "UInt64")]				
 	[InlineData("[GenerateStronglyTypedId<string>]",				"Id<Identity, string>", "string")] 	
-	[InlineData("[GenerateStronglyTypedId<string>(typeof(Guid))]",	"Guid",					"string")]
-	[InlineData("[GenerateStronglyTypedId<Tuple>(typeof(Tuple))]",	"Tuple",				"Tuple")]
+	[InlineData("[GenerateStronglyTypedId<string>(typeof(Guid))]",	"Id<Identity, string>",	"string")]
+	[InlineData("[GenerateStronglyTypedId<Tuple>(typeof(Tuple))]",	"Id<Identity, Tuple>",	"Tuple")]
 	public void IdType_Extraction_IsCorrect(string attribute, string expectedBaseType, string expectedPrimitiveType)
 	{
 		var syntaxTree = GetSyntaxTree(attribute);
@@ -32,7 +32,7 @@ public class IdBaseTypeExtractionTest
 		var classDeclarationSyntax = syntaxTree.GetRoot().DescendantNodes().OfType<ClassDeclarationSyntax>().First();
 		var semanticModel = compilation.GetSemanticModel(syntaxTree);
 
-		var model = SyntaxReceiver.GetModel(classDeclarationSyntax, semanticModel);
+		var model = IdSyntaxReceiver.GetModel(classDeclarationSyntax, semanticModel);
 		
 		Assert.NotNull(model);
 		
@@ -44,8 +44,8 @@ public class IdBaseTypeExtractionTest
 	{
 		var code = $@"
 using System;
-using {SourceBuilder.AttributeNamespace};
-using {SourceBuilder.IdNamespace};
+using {IdGenerator.AttributeNamespace};
+using {IdGenerator.IdNamespace};
 
 namespace CodeChops.Test
 {{
@@ -56,13 +56,13 @@ namespace CodeChops.Test
 	}}
 }}
 
-namespace {SourceBuilder.AttributeNamespace}
+namespace {IdGenerator.AttributeNamespace}
 {{
 	[AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct)]
 	public sealed class GenerateStronglyTypedId<TId> : Attribute
 		where TPrimitive : IEquatable<TPrimitive>, IComparable<TPrimitive>
 	{{
-		public GenerateStronglyTypedId(Type? baseType = null, string? name = null)
+		public GenerateStronglyTypedId(StringFormat? baseType = null, string? name = null)
 		{{
 		}}
 	}}
@@ -76,7 +76,7 @@ namespace {SourceBuilder.AttributeNamespace}
 	}}
 }}
 
-namespace {SourceBuilder.IdNamespace}
+namespace {IdGenerator.IdNamespace}
 {{
 	public abstract record Guid<TSelf> : Id<TSelf, string>
 		where TSelf : Guid<TSelf>

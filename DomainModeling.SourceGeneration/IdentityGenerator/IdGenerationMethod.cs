@@ -1,6 +1,6 @@
-namespace CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration.GenerateId;
+namespace CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration.IdentityGenerator;
 
-public enum GenerationMethod
+public enum IdGenerationMethod
 {
 	/// <summary>
 	/// Generate an abstract ID-property and don't create equals.

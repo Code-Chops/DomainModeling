@@ -58,7 +58,7 @@ using System.Text.RegularExpressions;
 /// </summary>
 {data.Declaration} : IValueObject, IComparable<{data.Name}>{GetInterfaces()}
 {{
-	public override string ToString() => this.ToEasyString(new {{ Value = this._value }}, extraText: ""{data.PrimitiveTypeName}"");
+	{GetToString()}
 	
 	{GetComparison()}
 	
@@ -97,6 +97,10 @@ using System.Text.RegularExpressions;
 			? $@"A number of type {integralObject.PrimitiveTypeName}." 
 			: $@"An {stringObject!.StringCaseConversion} {stringObject.StringFormat} string.";
 
+		string? GetToString() => data.GenerateToString
+			? "public override string ToString() => this.ToEasyString(new { Value = this._value });"
+			: null;
+		
 		string? GetInterfaces()
 		{
 			if (stringObject is null) return null;

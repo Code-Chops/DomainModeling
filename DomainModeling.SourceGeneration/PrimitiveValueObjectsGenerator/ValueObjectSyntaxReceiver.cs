@@ -37,8 +37,9 @@ internal static class PrimitiveValueSyntaxReceiver
 				Namespace:			type.ContainingNamespace!.IsGlobalNamespace ? null : type.ContainingNamespace.ToDisplayString(),
 				PrimitiveTypeName:	genericParameterName.Name,
 				Declaration:		GetDeclaration(typeDeclarationSyntax),
-				MinimumValue:		attribute.GetArgument("minimumValue", (int?)null),
-				MaximumValue:		attribute.GetArgument("maximumValue", (int?)null));
+				MinimumValue:		attribute.GetArgument("minimumValue",		(int?)null),
+				MaximumValue:		attribute.GetArgument("maximumValue",		(int?)null),
+				GenerateToString:	attribute.GetArgument("generateToString",	true));
 		}
 		else if (type.HasAttribute(PrimitiveValueObjectGenerator.StringAttributeName, PrimitiveValueObjectGenerator.AttributeNamespace, out attribute, expectedGenericTypeParamCount: 0))
 		{
@@ -52,6 +53,7 @@ internal static class PrimitiveValueSyntaxReceiver
 				StringFormat:			attribute!.GetArgument("stringFormat",			StringFormat.Default),
 				GenerateEmptyStatic:	attribute!.GetArgument("generateEmptyStatic",	true),
 				GenerateEnumerable:		attribute!.GetArgument("generateEnumerable",	true),
+				GenerateToString:		attribute!.GetArgument("generateToString",		true),
 				CompareOptions:			attribute!.GetArgument("compareOptions",		CompareOptions.None));
 		}
 

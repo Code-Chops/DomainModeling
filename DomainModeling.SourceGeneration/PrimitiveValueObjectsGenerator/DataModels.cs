@@ -6,7 +6,8 @@ public abstract record ValueObject(
 	string Name, 
 	string? Namespace, 
 	string PrimitiveTypeName,
-	string Declaration);
+	string Declaration,
+	bool GenerateToString);
 
 public record StringValueObject(
 	string Name,
@@ -18,8 +19,9 @@ public record StringValueObject(
 	StringFormat StringFormat,
 	bool GenerateEmptyStatic,
 	bool GenerateEnumerable,
+	bool GenerateToString,
 	CompareOptions CompareOptions) 
-	: ValueObject(Name, Namespace, nameof(String), Declaration);
+	: ValueObject(Name, Namespace, nameof(String), Declaration, GenerateToString);
 
 public record IntegralValueObject(
 	string Name, 
@@ -27,8 +29,9 @@ public record IntegralValueObject(
 	string PrimitiveTypeName,
 	string Declaration,
 	int? MinimumValue,
-	int? MaximumValue) 
-	: ValueObject(Name, Namespace, PrimitiveTypeName, Declaration);
+	int? MaximumValue, 
+	bool GenerateToString) 
+	: ValueObject(Name, Namespace, PrimitiveTypeName, Declaration, GenerateToString);
 
 /// <summary>
 /// DO NOT RENAME!

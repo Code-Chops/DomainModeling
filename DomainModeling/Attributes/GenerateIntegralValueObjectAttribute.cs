@@ -4,7 +4,7 @@
 /// Generates a value object with a single structural value of integral type <typeparamref name="TIntegral"/>.
 /// </summary>
 /// <typeparam name="TIntegral">The integral type of the only structural value.</typeparam>
-[AttributeUsage(AttributeTargets.Struct)]
+[AttributeUsage(AttributeTargets.Struct | AttributeTargets.Class)]
 public sealed class GenerateIntegralValueObject<TIntegral> : Attribute
 	where TIntegral : IEquatable<TIntegral>, IComparable<TIntegral>
 {

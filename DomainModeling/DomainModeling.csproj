@@ -11,8 +11,8 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>0.17.2</Version>
-        <PackageReleaseNotes>Added added class attribute target to GenerateIntegralValueObject.</PackageReleaseNotes>
+        <Version>0.17.3</Version>
+        <PackageReleaseNotes>Fixed string comparison / equality for GeneratePrimitiveValueObject.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainDrivenDesign.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>

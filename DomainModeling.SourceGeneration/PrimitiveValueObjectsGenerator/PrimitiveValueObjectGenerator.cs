@@ -1,4 +1,5 @@
 ﻿using System.Collections.Immutable;
+using System.Globalization;
 using Microsoft.CodeAnalysis.Diagnostics;
 using CodeChops.SourceGeneration.Utilities;
 
@@ -114,7 +115,7 @@ using System.Text.RegularExpressions;
 
 		string GetComparison()
 		{
-			var comparison = stringObject is null
+			var comparison = stringObject is null || stringObject.CompareOptions == CompareOptions.None
 				? null 
 				: $", StringComparison.{stringObject.CompareOptions}";
 			

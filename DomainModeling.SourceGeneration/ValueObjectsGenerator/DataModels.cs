@@ -7,31 +7,33 @@ public abstract record ValueObject(
 	string? Namespace, 
 	string TypeName,
 	string Declaration,
-	bool GenerateToString);
+	bool GenerateToString,
+	bool GenerateEmptyStatic);
 
 public record StringValueObject(
 	string Name,
 	string? Namespace, 
 	string Declaration,
+	bool GenerateToString,
+	bool GenerateEmptyStatic,
+	bool GenerateEnumerable,
 	int? MinimumLength,
 	int? MaximumLength,
 	StringCaseConversion StringCaseConversion,
 	StringFormat StringFormat,
-	bool GenerateEmptyStatic,
-	bool GenerateEnumerable,
-	bool GenerateToString,
 	CompareOptions CompareOptions) 
-	: ValueObject(Name, Namespace, nameof(String), Declaration, GenerateToString);
+	: ValueObject(Name, Namespace, nameof(String), Declaration, GenerateToString, GenerateEmptyStatic);
 
 public record IntegralValueObject(
 	string Name, 
 	string? Namespace, 
+	bool GenerateToString,
+	bool GenerateEmptyStatic,
 	string TypeName,
 	string Declaration,
 	int? MinimumValue,
-	int? MaximumValue, 
-	bool GenerateToString) 
-	: ValueObject(Name, Namespace, TypeName, Declaration, GenerateToString);
+	int? MaximumValue) 
+	: ValueObject(Name, Namespace, TypeName, Declaration, GenerateToString, GenerateEmptyStatic);
 
 /// <summary>
 /// DO NOT RENAME!

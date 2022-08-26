@@ -33,13 +33,14 @@ internal static class ValueObjectSyntaxReceiver
 			var genericParameterName = attribute!.AttributeClass!.TypeArguments.Single();
 			
 			return new IntegralValueObject(
-				Name:				type.Name, 
-				Namespace:			type.ContainingNamespace!.IsGlobalNamespace ? null : type.ContainingNamespace.ToDisplayString(),
-				TypeName:	genericParameterName.Name,
-				Declaration:		GetDeclaration(typeDeclarationSyntax),
-				MinimumValue:		attribute.TryGetArgument<int>("minimumValue", out var minimumValue) && minimumValue != Int32.MinValue ? minimumValue : null,
-				MaximumValue:		attribute.TryGetArgument<int>("maximumValue", out var maximumValue) && maximumValue != Int32.MinValue ? maximumValue : null,
-				GenerateToString:	attribute.GetArgumentOrDefault("generateToString", true));
+				Name:					type.Name, 
+				Namespace:				type.ContainingNamespace!.IsGlobalNamespace ? null : type.ContainingNamespace.ToDisplayString(),
+				GenerateToString:		attribute.GetArgumentOrDefault("generateToString", true),
+				GenerateEmptyStatic:	attribute.GetArgumentOrDefault("generateEmptyStatic", true),
+				TypeName:				genericParameterName.Name,
+				Declaration:			GetDeclaration(typeDeclarationSyntax),
+				MinimumValue:			attribute.TryGetArgument<int>("minimumValue", out var minimumValue) && minimumValue != Int32.MinValue ? minimumValue : null,
+				MaximumValue:			attribute.TryGetArgument<int>("maximumValue", out var maximumValue) && maximumValue != Int32.MinValue ? maximumValue : null);
 		}
 		else if (type.HasAttribute(ValueObjectGenerator.StringAttributeName, ValueObjectGenerator.AttributeNamespace, out attribute, expectedGenericTypeParamCount: 0))
 		{
@@ -47,13 +48,13 @@ internal static class ValueObjectSyntaxReceiver
 				Name:					type.Name,
 				Namespace:				type.ContainingNamespace!.IsGlobalNamespace ? null : type.ContainingNamespace.ToDisplayString(),
 				Declaration:			GetDeclaration(typeDeclarationSyntax),
-				MinimumLength:			attribute!.TryGetArgument<int>("minimumLength", out var minimumLength) && minimumLength != Int32.MinValue ? minimumLength : null,
-				MaximumLength:			attribute!.TryGetArgument<int>("minimumLength", out var maximumLength) && maximumLength != Int32.MinValue ? maximumLength : null,
-				StringCaseConversion:	attribute!.GetArgumentOrDefault("stringCaseConversion",	StringCaseConversion.NoConversion),
-				StringFormat:			attribute!.GetArgumentOrDefault("stringFormat",			StringFormat.Default),
+				GenerateToString:		attribute!.GetArgumentOrDefault("generateToString",		true),
 				GenerateEmptyStatic:	attribute!.GetArgumentOrDefault("generateEmptyStatic",	true),
 				GenerateEnumerable:		attribute!.GetArgumentOrDefault("generateEnumerable",	true),
-				GenerateToString:		attribute!.GetArgumentOrDefault("generateToString",		true),
+				MinimumLength:			attribute!.TryGetArgument<int>("minimumLength", out var minimumLength) && minimumLength != Int32.MinValue ? minimumLength : null,
+				MaximumLength:			attribute!.TryGetArgument<int>("maximumLength", out var maximumLength) && maximumLength != Int32.MinValue ? maximumLength : null,
+				StringCaseConversion:	attribute!.GetArgumentOrDefault("stringCaseConversion",	StringCaseConversion.NoConversion),
+				StringFormat:			attribute!.GetArgumentOrDefault("stringFormat",			StringFormat.Default),
 				CompareOptions:			attribute!.GetArgumentOrDefault("compareOptions",		CompareOptions.None));
 		}
 

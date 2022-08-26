@@ -1,5 +1,4 @@
 ﻿using System.Text.RegularExpressions;
-using CodeChops.DomainDrivenDesign.DomainModeling.Identities.Extensions;
 
 namespace CodeChops.DomainDrivenDesign.DomainModeling.Identities;
 
@@ -19,12 +18,12 @@ public abstract record Guid<TSelf> : Id<TSelf, string>
     }
 
     protected Guid()
-        : base(Guid.NewGuid().ConvertToString())
+        : base(Guid.NewGuid().ToString("N").ToUpper())
     {
     }
 
     protected Guid(Guid guid)
-        : base(guid.ConvertToString())
+        : base(guid.ToString("N").ToUpper())
     {
     }
 }

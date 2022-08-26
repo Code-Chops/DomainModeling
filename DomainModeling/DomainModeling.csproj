@@ -11,8 +11,8 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>0.17.7</Version>
-        <PackageReleaseNotes>Removed Integral and Primitive from ValueObjectGeneration.</PackageReleaseNotes>
+        <Version>0.17.8</Version>
+        <PackageReleaseNotes>Enhanced ValueObjectGeneration.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainDrivenDesign.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>

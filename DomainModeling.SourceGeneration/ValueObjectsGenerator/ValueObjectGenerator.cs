@@ -139,7 +139,7 @@ using System.Text.RegularExpressions;
 				? null
 				: $", StringComparison.{stringObject.CompareOptions}";
 			var compareTo = equals is null
-				? $"{data.TypeName}.CompareTo(this.Value)" 
+				? $"this.Value.CompareTo(other.Value)" 
 				: $"String.Compare(this.Value, other.Value{equals})";
 			
 			return @$"

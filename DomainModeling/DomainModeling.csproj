@@ -11,8 +11,8 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>0.17.3</Version>
-        <PackageReleaseNotes>Fixed string comparison / equality for GeneratePrimitiveValueObject.</PackageReleaseNotes>
+        <Version>0.17.4</Version>
+        <PackageReleaseNotes>Primitive value object generator: Added extra validation method. Made constructor public.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainDrivenDesign.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>

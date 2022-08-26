@@ -37,9 +37,9 @@ internal static class PrimitiveValueSyntaxReceiver
 				Namespace:			type.ContainingNamespace!.IsGlobalNamespace ? null : type.ContainingNamespace.ToDisplayString(),
 				PrimitiveTypeName:	genericParameterName.Name,
 				Declaration:		GetDeclaration(typeDeclarationSyntax),
-				MinimumValue:		attribute.GetArgument("minimumValue",		(int?)null),
-				MaximumValue:		attribute.GetArgument("maximumValue",		(int?)null),
-				GenerateToString:	attribute.GetArgument("generateToString",	true));
+				MinimumValue:		attribute.TryGetArgument<int>("minimumValue", out var minimumValue) && minimumValue != Int32.MinValue ? minimumValue : null,
+				MaximumValue:		attribute.TryGetArgument<int>("maximumValue", out var maximumValue) && maximumValue != Int32.MinValue ? maximumValue : null,
+				GenerateToString:	attribute.GetArgumentOrDefault("generateToString", true));
 		}
 		else if (type.HasAttribute(PrimitiveValueObjectGenerator.StringAttributeName, PrimitiveValueObjectGenerator.AttributeNamespace, out attribute, expectedGenericTypeParamCount: 0))
 		{
@@ -47,14 +47,14 @@ internal static class PrimitiveValueSyntaxReceiver
 				Name:					type.Name,
 				Namespace:				type.ContainingNamespace!.IsGlobalNamespace ? null : type.ContainingNamespace.ToDisplayString(),
 				Declaration:			GetDeclaration(typeDeclarationSyntax),
-				MinimumLength:			attribute!.GetArgument("minimumLength",			(int?)null),
-				MaximumLength:			attribute!.GetArgument("maximumLength",			(int?)null),
-				StringCaseConversion:	attribute!.GetArgument("stringCaseConversion",	StringCaseConversion.NoConversion),
-				StringFormat:			attribute!.GetArgument("stringFormat",			StringFormat.Default),
-				GenerateEmptyStatic:	attribute!.GetArgument("generateEmptyStatic",	true),
-				GenerateEnumerable:		attribute!.GetArgument("generateEnumerable",	true),
-				GenerateToString:		attribute!.GetArgument("generateToString",		true),
-				CompareOptions:			attribute!.GetArgument("compareOptions",		CompareOptions.None));
+				MinimumLength:			attribute!.TryGetArgument<int>("minimumLength", out var minimumLength) && minimumLength != Int32.MinValue ? minimumLength : null,
+				MaximumLength:			attribute!.TryGetArgument<int>("minimumLength", out var maximumLength) && maximumLength != Int32.MinValue ? maximumLength : null,
+				StringCaseConversion:	attribute!.GetArgumentOrDefault("stringCaseConversion",	StringCaseConversion.NoConversion),
+				StringFormat:			attribute!.GetArgumentOrDefault("stringFormat",			StringFormat.Default),
+				GenerateEmptyStatic:	attribute!.GetArgumentOrDefault("generateEmptyStatic",	true),
+				GenerateEnumerable:		attribute!.GetArgumentOrDefault("generateEnumerable",	true),
+				GenerateToString:		attribute!.GetArgumentOrDefault("generateToString",		true),
+				CompareOptions:			attribute!.GetArgumentOrDefault("compareOptions",		CompareOptions.None));
 		}
 
 		return null;
@@ -63,7 +63,15 @@ internal static class PrimitiveValueSyntaxReceiver
 		static string GetDeclaration(TypeDeclarationSyntax declaration)
 		{
 			var declarationText = declaration.ToFullString();
-			return declarationText.Substring(declarationText.IndexOf(']') + 1).Trim().TrimEnd(';');
+
+			var start = declarationText.IndexOf(']') + 1;
+			var end = declarationText.IndexOf('{');
+			
+			declarationText = end == -1
+				? declarationText.Substring(start)
+				: declarationText.Substring(start, end - start);
+			
+			return declarationText.Trim().TrimEnd(';');
 		}
 	}
 }

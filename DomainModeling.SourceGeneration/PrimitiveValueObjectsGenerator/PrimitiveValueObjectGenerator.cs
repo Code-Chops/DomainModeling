@@ -72,11 +72,16 @@ using System.Text.RegularExpressions;
 	public static implicit operator {data.PrimitiveTypeName}({data.Name} obj) => obj._value;
 	public static explicit operator {data.Name}({data.PrimitiveTypeName} value) => new(value);
 	
-	private {data.Name}({data.PrimitiveTypeName} value)
+	public {data.Name}({data.PrimitiveTypeName} value)
 	{{
 {GetIntegralValidation() ?? GetStringValidation()}
+		
 		this._value = value;
+
+		this.Validate();
 	}}
+
+	partial void Validate();
 
 	[Obsolete(Error)]
 	public {data.Name}() => throw new InvalidOperationException(Error);
@@ -124,7 +129,7 @@ using System.Text.RegularExpressions;
 		=> {data.PrimitiveTypeName}.Equals(this._value, other?._value{comparison});
 	
 	public int CompareTo({data.Name} other) 
-		=> {data.PrimitiveTypeName}.Compare(this._value, other._value{comparison});";
+		=> this._value.CompareTo(other._value{comparison});";
 		}
 
 		string? GetEmptyInstance() => stringObject?.GenerateEmptyStatic == true
@@ -156,10 +161,10 @@ using System.Text.RegularExpressions;
 			}
 			
 			if (stringObject.MinimumLength is not null)
-				validation.AppendLine($@"		if (value.Length < {stringObject.MinimumLength}) throw new ArgumentException($""String {data.Name} is shorter ({{value.Length}}) than {nameof(stringObject.MinimumLength)} {stringObject.MinimumLength}."");");
+				validation.AppendLine($@"		if (value.Length < {stringObject.MinimumLength}) throw new ArgumentException($""String of {data.Name} is shorter ({{value.Length}}) than {nameof(stringObject.MinimumLength)} {stringObject.MinimumLength}."");");
 			
 			if (stringObject.MaximumLength is not null)
-				validation.AppendLine($@"		if (value.Length > {stringObject.MaximumLength}) throw new ArgumentException($""String {data.Name} is longer ({{value.Length}}) than {nameof(stringObject.MaximumLength)} {stringObject.MaximumLength}."");");
+				validation.AppendLine($@"		if (value.Length > {stringObject.MaximumLength}) throw new ArgumentException($""String of {data.Name} is longer ({{value.Length}}) than {nameof(stringObject.MaximumLength)} {stringObject.MaximumLength}."");");
 
 			if (stringObject.StringCaseConversion is not StringCaseConversion.NoConversion)
 				validation.AppendLine($"		value = value.To{stringObject.StringCaseConversion}();");
@@ -174,10 +179,10 @@ using System.Text.RegularExpressions;
 			var validation = new StringBuilder();
 
 			if (integralObject.MinimumValue is not null)
-				validation.AppendLine($@"		if (value < {integralObject.MinimumValue}) throw new ArgumentException($""{data.PrimitiveTypeName} {data.Name} is smaller ({{value}}) than {nameof(integralObject.MinimumValue)} {integralObject.MinimumValue}."");");
+				validation.AppendLine($@"		if (value < {integralObject.MinimumValue}) throw new ArgumentException($""{data.PrimitiveTypeName} of {data.Name} is smaller ({{value}}) than {nameof(integralObject.MinimumValue)} {integralObject.MinimumValue}."");");
 			
 			if (integralObject.MaximumValue is not null)
-				validation.AppendLine($@"		if (value > {integralObject.MaximumValue}) throw new ArgumentException($""{data.PrimitiveTypeName} {data.Name} is higher ({{value}}) than {nameof(integralObject.MaximumValue)} {integralObject.MaximumValue}."");");
+				validation.AppendLine($@"		if (value > {integralObject.MaximumValue}) throw new ArgumentException($""{data.PrimitiveTypeName} of {data.Name} is higher ({{value}}) than {nameof(integralObject.MaximumValue)} {integralObject.MaximumValue}."");");
 
 			return validation.ToString();
 		}

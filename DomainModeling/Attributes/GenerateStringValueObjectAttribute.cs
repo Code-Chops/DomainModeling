@@ -18,14 +18,14 @@ public sealed class GenerateStringValueObject : Attribute
 	/// <param name="compareOptions">See <see cref="CompareOptions"/>. Default: default string comparison.</param>
 	// ReSharper disable twice UnusedParameter.Local
 	public GenerateStringValueObject(
-		int minimumLength,
-		int maximumLength,
-		StringCaseConversion stringCaseConversion,
-		StringFormat stringFormat,
-		bool generateEmptyStatic,
-		bool generateCasts,
-		bool generateEnumerable,
-		CompareOptions compareOptions)
+		int minimumLength = Int32.MinValue,
+		int maximumLength = Int32.MinValue,
+		StringCaseConversion stringCaseConversion = StringCaseConversion.NoConversion,
+		StringFormat stringFormat = StringFormat.Default,
+		bool generateEmptyStatic = true,
+		bool generateCasts = true,
+		bool generateEnumerable = true,
+		CompareOptions compareOptions = CompareOptions.None)
 	{
 		// These parameters will be read from the attribute arguments itself and therefore don't need to be assigned.
 	}

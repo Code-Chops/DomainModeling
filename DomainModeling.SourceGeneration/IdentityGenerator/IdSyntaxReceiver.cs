@@ -36,8 +36,8 @@ internal static class IdSyntaxReceiver
 			: type.ContainingNamespace.ToDisplayString();
 		var isEntityBase = type.Name == IdGenerator.EntityName && @namespace == IdGenerator.EntityNamespace;
 
-		var idTypeName = attribute.GetArgument("name", IdGenerator.DefaultIdTypeName);
-		var idPropertyName = attribute.GetArgument("propertyName", IdGenerator.DefaultIdPropertyName);
+		var idTypeName = attribute.GetArgumentOrDefault("name", IdGenerator.DefaultIdTypeName);
+		var idPropertyName = attribute.GetArgumentOrDefault("propertyName", IdGenerator.DefaultIdPropertyName);
 		var (baseType, primitiveType) = GetTypeNames(attribute, type, idTypeName);
 		
 		var data = new IdDataModel(

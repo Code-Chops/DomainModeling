@@ -11,8 +11,8 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>0.17.5</Version>
-        <PackageReleaseNotes>Primitive value object generator: Added using.</PackageReleaseNotes>
+        <Version>0.17.6</Version>
+        <PackageReleaseNotes>Added CodeChops.DomainDrivenDesign.DomainModeling.Attributes to global usings.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainDrivenDesign.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>

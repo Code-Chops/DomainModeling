@@ -11,7 +11,7 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>0.17.6</Version>
+        <Version>0.17.7</Version>
         <PackageReleaseNotes>Removed Integral and Primitive from ValueObjectGeneration.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainDrivenDesign.DomainModeling</Title>

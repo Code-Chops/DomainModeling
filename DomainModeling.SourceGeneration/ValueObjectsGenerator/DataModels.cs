@@ -1,11 +1,11 @@
 ﻿using System.Globalization;
 
-namespace CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration.PrimitiveValueObjectsGenerator;
+namespace CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration.ValueObjectsGenerator;
 
 public abstract record ValueObject(
 	string Name, 
 	string? Namespace, 
-	string PrimitiveTypeName,
+	string TypeName,
 	string Declaration,
 	bool GenerateToString);
 
@@ -26,12 +26,12 @@ public record StringValueObject(
 public record IntegralValueObject(
 	string Name, 
 	string? Namespace, 
-	string PrimitiveTypeName,
+	string TypeName,
 	string Declaration,
 	int? MinimumValue,
 	int? MaximumValue, 
 	bool GenerateToString) 
-	: ValueObject(Name, Namespace, PrimitiveTypeName, Declaration, GenerateToString);
+	: ValueObject(Name, Namespace, TypeName, Declaration, GenerateToString);
 
 /// <summary>
 /// DO NOT RENAME!

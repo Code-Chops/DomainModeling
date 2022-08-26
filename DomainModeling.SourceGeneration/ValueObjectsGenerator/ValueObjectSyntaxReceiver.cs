@@ -1,10 +1,10 @@
 ﻿using System.Globalization;
 
-namespace CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration.PrimitiveValueObjectsGenerator;
+namespace CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration.ValueObjectsGenerator;
 
-internal static class PrimitiveValueSyntaxReceiver
+internal static class ValueObjectSyntaxReceiver
 {
-	public static bool CheckIfProbablyIsPrimitiveValueObject(SyntaxNode node, CancellationToken cancellationToken)
+	public static bool CheckIfProbablyIsValueObjectToGenerate(SyntaxNode node, CancellationToken cancellationToken)
 	{
 		if (node is not RecordDeclarationSyntax and not StructDeclarationSyntax and not ClassDeclarationSyntax)
 			return false;
@@ -12,8 +12,8 @@ internal static class PrimitiveValueSyntaxReceiver
 		var attribute = ((TypeDeclarationSyntax)node).AttributeLists
 			.SelectMany(list => list.Attributes)
 			.SingleOrDefault(attribute =>
-				attribute.Name.HasAttributeName(PrimitiveValueObjectGenerator.IntegralAttributeName, cancellationToken)
-				|| attribute.Name.HasAttributeName(PrimitiveValueObjectGenerator.StringAttributeName, cancellationToken));
+				attribute.Name.HasAttributeName(ValueObjectGenerator.IntegralAttributeName, cancellationToken)
+				|| attribute.Name.HasAttributeName(ValueObjectGenerator.StringAttributeName, cancellationToken));
 
 		return attribute is not null;
 	}
@@ -27,7 +27,7 @@ internal static class PrimitiveValueSyntaxReceiver
 
 		if (type.TypeKind != TypeKind.Struct && type.TypeKind != TypeKind.Class) return null;
 		
-		if (type.HasAttribute(PrimitiveValueObjectGenerator.IntegralAttributeName, PrimitiveValueObjectGenerator.AttributeNamespace, out var attribute, expectedGenericTypeParamCount: 1))
+		if (type.HasAttribute(ValueObjectGenerator.IntegralAttributeName, ValueObjectGenerator.AttributeNamespace, out var attribute, expectedGenericTypeParamCount: 1))
 		{
 			// Get the primitive type using the generic parameter of the attribute. 
 			var genericParameterName = attribute!.AttributeClass!.TypeArguments.Single();
@@ -35,13 +35,13 @@ internal static class PrimitiveValueSyntaxReceiver
 			return new IntegralValueObject(
 				Name:				type.Name, 
 				Namespace:			type.ContainingNamespace!.IsGlobalNamespace ? null : type.ContainingNamespace.ToDisplayString(),
-				PrimitiveTypeName:	genericParameterName.Name,
+				TypeName:	genericParameterName.Name,
 				Declaration:		GetDeclaration(typeDeclarationSyntax),
 				MinimumValue:		attribute.TryGetArgument<int>("minimumValue", out var minimumValue) && minimumValue != Int32.MinValue ? minimumValue : null,
 				MaximumValue:		attribute.TryGetArgument<int>("maximumValue", out var maximumValue) && maximumValue != Int32.MinValue ? maximumValue : null,
 				GenerateToString:	attribute.GetArgumentOrDefault("generateToString", true));
 		}
-		else if (type.HasAttribute(PrimitiveValueObjectGenerator.StringAttributeName, PrimitiveValueObjectGenerator.AttributeNamespace, out attribute, expectedGenericTypeParamCount: 0))
+		else if (type.HasAttribute(ValueObjectGenerator.StringAttributeName, ValueObjectGenerator.AttributeNamespace, out attribute, expectedGenericTypeParamCount: 0))
 		{
 			return new StringValueObject(
 				Name:					type.Name,

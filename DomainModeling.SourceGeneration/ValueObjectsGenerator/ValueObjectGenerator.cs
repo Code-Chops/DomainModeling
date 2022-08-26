@@ -1,12 +1,12 @@
 ﻿using System.Collections.Immutable;
 using System.Globalization;
-using Microsoft.CodeAnalysis.Diagnostics;
 using CodeChops.SourceGeneration.Utilities;
+using Microsoft.CodeAnalysis.Diagnostics;
 
-namespace CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration.PrimitiveValueObjectsGenerator;
+namespace CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration.ValueObjectsGenerator;
 
 [Generator]
-public class PrimitiveValueObjectGenerator : IIncrementalGenerator
+public class ValueObjectGenerator : IIncrementalGenerator
 {
 	internal const string AttributeNamespace	= "CodeChops.DomainDrivenDesign.DomainModeling.Attributes";
 	internal const string StringAttributeName	= "GenerateStringValueObject";
@@ -16,8 +16,8 @@ public class PrimitiveValueObjectGenerator : IIncrementalGenerator
 	{		
 		var valueProvider = context.SyntaxProvider
 			.CreateSyntaxProvider(
-				predicate: PrimitiveValueSyntaxReceiver.CheckIfProbablyIsPrimitiveValueObject,
-				transform: static (context, _) => PrimitiveValueSyntaxReceiver.GetModel((TypeDeclarationSyntax)context.Node, context.SemanticModel))
+				predicate: ValueObjectSyntaxReceiver.CheckIfProbablyIsValueObjectToGenerate,
+				transform: static (context, _) => ValueObjectSyntaxReceiver.GetModel((TypeDeclarationSyntax)context.Node, context.SemanticModel))
 			.Where(static model => model is not null)
 			.Collect()
 			.Combine(context.AnalyzerConfigOptionsProvider);
@@ -66,14 +66,14 @@ using System.Text.RegularExpressions;
 	
 	{GetEmptyInstance()}
 	
-	private readonly {data.PrimitiveTypeName} _value;
+	private readonly {data.TypeName} _value;
 	
 	{GetLength()}
 	
-	public static implicit operator {data.PrimitiveTypeName}({data.Name} obj) => obj._value;
-	public static explicit operator {data.Name}({data.PrimitiveTypeName} value) => new(value);
+	public static implicit operator {data.TypeName}({data.Name} obj) => obj._value;
+	public static explicit operator {data.Name}({data.TypeName} value) => new(value);
 	
-	public {data.Name}({data.PrimitiveTypeName} value)
+	public {data.Name}({data.TypeName} value)
 	{{
 {GetIntegralValidation() ?? GetStringValidation()}
 		
@@ -101,7 +101,7 @@ using System.Text.RegularExpressions;
 			: $@"namespace {data.Namespace};";
 
 		string GetComments() => integralObject is not null 
-			? $@"A number of type {integralObject.PrimitiveTypeName}." 
+			? $@"Type {integralObject.TypeName}." 
 			: $@"An {stringObject!.StringCaseConversion} {stringObject.StringFormat} string.";
 
 		string? GetToString() => data.GenerateToString
@@ -127,7 +127,7 @@ using System.Text.RegularExpressions;
 			
 			return @$"
 	public bool Equals({data.Name}? other) 
-		=> {data.PrimitiveTypeName}.Equals(this._value, other?._value{comparison});
+		=> {data.TypeName}.Equals(this._value, other?._value{comparison});
 	
 	public int CompareTo({data.Name} other) 
 		=> this._value.CompareTo(other._value{comparison});";
@@ -180,10 +180,10 @@ using System.Text.RegularExpressions;
 			var validation = new StringBuilder();
 
 			if (integralObject.MinimumValue is not null)
-				validation.AppendLine($@"		if (value < {integralObject.MinimumValue}) throw new ArgumentException($""{data.PrimitiveTypeName} of {data.Name} is smaller ({{value}}) than {nameof(integralObject.MinimumValue)} {integralObject.MinimumValue}."");");
+				validation.AppendLine($@"		if (value < {integralObject.MinimumValue}) throw new ArgumentException($""{data.TypeName} of {data.Name} is smaller ({{value}}) than {nameof(integralObject.MinimumValue)} {integralObject.MinimumValue}."");");
 			
 			if (integralObject.MaximumValue is not null)
-				validation.AppendLine($@"		if (value > {integralObject.MaximumValue}) throw new ArgumentException($""{data.PrimitiveTypeName} of {data.Name} is higher ({{value}}) than {nameof(integralObject.MaximumValue)} {integralObject.MaximumValue}."");");
+				validation.AppendLine($@"		if (value > {integralObject.MaximumValue}) throw new ArgumentException($""{data.TypeName} of {data.Name} is higher ({{value}}) than {nameof(integralObject.MaximumValue)} {integralObject.MaximumValue}."");");
 
 			return validation.ToString();
 		}

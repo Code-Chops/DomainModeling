@@ -12,7 +12,7 @@
 
     <PropertyGroup Label="Package">
         <Version>0.17.6</Version>
-        <PackageReleaseNotes>Added CodeChops.DomainDrivenDesign.DomainModeling.Attributes to global usings.</PackageReleaseNotes>
+        <PackageReleaseNotes>Removed Integral and Primitive from ValueObjectGeneration.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainDrivenDesign.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>

@@ -100,7 +100,8 @@ public class ValueObjectGenerator : IIncrementalGenerator
 		{
 			var namespaces = Namespaces.Union(data.GetNamespaces());
 			var namespaceUsings = namespaces
-				.OrderBy(ns => ns)
+				.OrderBy(ns => ns.StartsWith("CodeChops"))
+				.ThenBy(ns => ns)
 				.Aggregate(new StringBuilder(), (sb, ns) => sb.AppendLine($"using {ns};"))
 				.ToString();
 
@@ -117,7 +118,7 @@ public class ValueObjectGenerator : IIncrementalGenerator
 			var interfaces = new StringBuilder();
 			//if (data.GenerateComparison) interfaces.Append($", IEquatable<{data.Name}>");
 			if (data.AddCustomValidation) interfaces.Append($", IHasCustomValidation");
-			if (data.GenerateEmptyStatic && data.GenerateDefaultConstructor) interfaces.Append($", IHasEmptyInstance<{data.Name}>");
+			if (data.GenerateEmptyStatic) interfaces.Append($", IHasEmptyInstance<{data.Name}>");
 			if (data.AddIComparable && data.GenerateComparison) interfaces.Append($", IComparable<{data.Name}>");
 
 			var extraInterfaces = data.GetInterfacesCode();
@@ -161,9 +162,14 @@ public class ValueObjectGenerator : IIncrementalGenerator
 		}
 		
 		
-		string? GetEmptyStatic() => data.GenerateEmptyStatic && data.GenerateDefaultConstructor
-			? $"public static {data.Name} Empty {{ get; }} = new({data.GetDefaultValue()});"
-			: null;
+		string? GetEmptyStatic()
+		{
+			if (!data.GenerateEmptyStatic) return null;
+			
+			return data.GenerateParameterlessConstructor 
+				? $"public static {data.Name} Empty {{ get; }} = new();"
+				: $"public static {data.Name} Empty {{ get; }} = new({data.GetDefaultValue()});";
+		}
 
 
 		string GetProperty()
@@ -193,7 +199,7 @@ public class ValueObjectGenerator : IIncrementalGenerator
     /// Backing field for the structural value. Don't use this field, instead use <see cref='{data.PropertyName}'/>.
 	/// </summary>
 	[Obsolete(""{error}"")]
-	private readonly {data.TypeName} {data.BackingFieldName} = default!;";
+	private readonly {data.TypeName} {data.BackingFieldName} = {data.GetDefaultValue()}!;";
 		}
 
 		
@@ -218,15 +224,15 @@ public class ValueObjectGenerator : IIncrementalGenerator
 			var error = $"Don't use this empty constructor. A value should be provided when initializing {data.Name}.";
 			return data.GenerateParameterlessConstructor
 				? $@"
-#pragma warning disable CS8618
-	[Obsolete(""{error}"", true)]
-	public {data.Name}() => throw new InvalidOperationException($""{error}"");"
-				: $@"
 	public {data.Name}()
 	{{
 		this.{data.PropertyName} = {data.GetDefaultValue()};
 	}}
-#pragma warning restore CS8618";
+#pragma warning restore CS8618"
+				: $@"
+#pragma warning disable CS8618
+	[Obsolete(""{error}"", true)]
+	public {data.Name}() => throw new InvalidOperationException($""{error}"");";
 		}
 		
 

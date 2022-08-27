@@ -13,8 +13,8 @@ public sealed class GenerateDictionaryValueObjectAttribute<TKey, TValue> : Attri
 	/// <param name="generateToString">Generates a ToString(). Default: true.</param>
 	/// <param name="generateComparison">
 	/// Generates Equals(), GetHashCode(), comparison operators (and CompareTo() if possible).
-	/// Only enable when using classes and only no other properties exist.
-	/// Default: false.
+	/// Disable when other properties exist.
+	/// Default: true.
 	/// </param>
 	/// <param name="addCustomValidation">Forces to create a Validate method so custom validation can be implemented. Default: true.</param>
 	/// <param name="generateDefaultConstructor">Generates a default constructor. Default: true.</param>
@@ -24,13 +24,13 @@ public sealed class GenerateDictionaryValueObjectAttribute<TKey, TValue> : Attri
 	/// Default: false.
 	/// </param>
 	/// <param name="generateEmptyStatic">Generate a static property with a default value. Default: false.</param>
-	/// <param name="propertyName">The name of the property and the backing field. Default: Value (_value).</param>
+	/// <param name="propertyName">The name of the property. Default: Value.</param>
 	/// <param name="minimumCount">The minimum count in the collection. Default: no minimum count.</param>
 	/// <param name="maximumCount">The maximum count in the collection. Default: no maximum count.</param>
 	// ReSharper disable always UnusedParameter.Local
 	public GenerateDictionaryValueObjectAttribute(
 		bool generateToString = true,
-		bool generateComparison = false,
+		bool generateComparison = true,
 		bool addCustomValidation = true,
 		bool generateDefaultConstructor = true,
 		bool generateParameterlessConstructor = false, 

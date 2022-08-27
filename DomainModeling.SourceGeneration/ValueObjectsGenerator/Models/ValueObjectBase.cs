@@ -28,6 +28,7 @@ public abstract record ValueObjectBase(
 	public abstract string? GetInterfacesCode();
 	public abstract string GetHashCodeCode();
 	public abstract string GetEqualsCode();
+	public abstract string GetObjectEqualsCode();
 	public abstract string? GetCompareToCode();
 	public abstract string GetDefaultValue();
 	public abstract string? GetLengthOrCountCode();

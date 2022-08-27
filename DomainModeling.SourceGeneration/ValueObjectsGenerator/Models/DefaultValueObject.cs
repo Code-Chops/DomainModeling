@@ -37,8 +37,9 @@ public sealed record DefaultValueObject(
 	
 	public override string GetHashCodeCode()		=> $"public override int GetHashCode() => this.{this.PropertyName}.GetHashCode();";
 
-	public override string GetEqualsCode()			=> $"public {(this.IsUnsealedRecordClass ? "virtual " : null)}bool Equals({this.Name}? other) => {this.TypeName}.Equals(this.{this.PropertyName}, other?.{this.PropertyName});";
-	
+	public override string GetEqualsCode()			=> $"public {(this.IsUnsealedRecordClass ? "virtual " : null)}bool Equals({this.Name}{this.Nullable} other) => {this.TypeName}.Equals(this.{this.PropertyName}, other{this.Nullable}.{this.PropertyName});";
+	public override string GetObjectEqualsCode()	=> $"public override {(this.IsUnsealedRecordClass ? "virtual " : null)}bool Equals(object? other) => other is {this.Name} {this.LocalVariableName} && this.Equals({this.LocalVariableName});";
+
 	public override string GetCompareToCode()		=> $"public int CompareTo({this.Name}{this.Nullable} other) => this.{this.PropertyName}.CompareTo(other{this.Nullable}.{this.PropertyName});";
 
 	public override string GetDefaultValue()		=> $"default({this.TypeName})";

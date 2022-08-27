@@ -54,13 +54,14 @@ public record DictionaryValueObject(
 
 	public override string GetHashCodeCode()		=> $"public override int GetHashCode() => this.Count == 0 ? 1 : 2;";
 
-	public override string GetEqualsCode()			=> $@"public {(this.IsUnsealedRecordClass ? "virtual " : null)}bool Equals({this.Name}? other)
+	public override string GetEqualsCode()			=> $@"public {(this.IsUnsealedRecordClass ? "virtual " : null)}bool Equals({this.Name}{this.Nullable} other)
 	{{
-		if (ReferenceEquals(this.{this.PropertyName}, other?.{this.PropertyName})) return true;
-		if (other?.{this.PropertyName} is not {{ }} otherValue) return false;
+		if (ReferenceEquals(this.{this.PropertyName}, other{this.Nullable}.{this.PropertyName})) return true;
+		if (other{this.Nullable}.{this.PropertyName} is not {{ }} otherValue) return false;
 		return this.{this.PropertyName}.SequenceEqual(otherValue);
 	}}";
-	
+	public override string GetObjectEqualsCode()	=> $"public override {(this.IsUnsealedRecordClass ? "virtual " : null)}bool Equals(object? other) => other is {this.Name} {this.LocalVariableName} && this.Equals({this.LocalVariableName});";
+
 	public override string? GetCompareToCode()		=> null;
 
 	public override string GetDefaultValue()		=> $"new Dictionary<{this.KeyTypeName}, {this.ElementTypeName}>().ToImmutableDictionary()";

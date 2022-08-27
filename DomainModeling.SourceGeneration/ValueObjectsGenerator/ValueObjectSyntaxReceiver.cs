@@ -44,7 +44,7 @@ internal static class ValueObjectSyntaxReceiver
 
 		var declaration = GetDeclaration(typeDeclarationSyntax, type.Name);
 		var generateToString = attribute.GetArgumentOrDefault("generateToString", true);
-		var generateComparison = attribute.GetArgumentOrDefault("generateComparison", false);
+		var generateComparison = attribute.GetArgumentOrDefault("generateComparison", true);
 		var addCustomValidation = attribute.GetArgumentOrDefault("addCustomValidation", true);
 		var generateDefaultConstructor = attribute.GetArgumentOrDefault("generateDefaultConstructor", true);
 		var generateParameterlessConstructor = attribute.GetArgumentOrDefault("generateParameterlessConstructor", false);
@@ -69,7 +69,6 @@ internal static class ValueObjectSyntaxReceiver
 		if (hasStringAttribute)
 			return new StringValueObject(
 				Type: type,
-				Attribute: attribute,
 				Declaration: declaration,
 				GenerateToString: generateToString,
 				GenerateComparison: generateComparison,

@@ -21,7 +21,6 @@ public enum StringFormat
 
 public record StringValueObject(
 		INamedTypeSymbol Type,
-		AttributeData Attribute,
 		string Declaration,
 		bool GenerateToString,
 		bool GenerateComparison,
@@ -59,7 +58,8 @@ public record StringValueObject(
 
 	public override string GetHashCodeCode()		=> $"public override int GetHashCode() => this.{this.PropertyName}.GetHashCode();";
 
-	public override string GetEqualsCode()			=> $"public {(this.IsUnsealedRecordClass ? "virtual " : null)}bool Equals({this.Name}? other) => String.Equals(this.{this.PropertyName}, other?.{this.PropertyName}, StringComparison.{this.CompareOptions});";
+	public override string GetEqualsCode()			=> $"public {(this.IsUnsealedRecordClass ? "virtual " : null)}bool Equals({this.Name}{this.Nullable} other) => String.Equals(this.{this.PropertyName}, other{this.Nullable}.{this.PropertyName}, StringComparison.{this.CompareOptions});";
+	public override string GetObjectEqualsCode()	=> $"public override {(this.IsUnsealedRecordClass ? "virtual " : null)}bool Equals(object? other) => other is {this.Name} {this.LocalVariableName} && this.Equals({this.LocalVariableName});";
 
 	public override string GetCompareToCode()		=> $"public int CompareTo({this.Name}{this.Nullable} other) => String.Compare(this.{this.PropertyName}, other{this.Nullable}.{this.PropertyName}, StringComparison.{this.CompareOptions});";
 

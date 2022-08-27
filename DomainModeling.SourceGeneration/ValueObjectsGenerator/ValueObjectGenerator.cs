@@ -116,7 +116,7 @@ public class ValueObjectGenerator : IIncrementalGenerator
 		string GetInterfaces()
 		{
 			var interfaces = new StringBuilder();
-			//if (data.GenerateComparison) interfaces.Append($", IEquatable<{data.Name}>");
+			if (data.GenerateComparison) interfaces.Append($", IEquatable<{data.Name}>");
 			if (data.AddCustomValidation) interfaces.Append($", IHasCustomValidation");
 			if (data.GenerateEmptyStatic) interfaces.Append($", IHasEmptyInstance<{data.Name}>");
 			if (data.AddIComparable && data.GenerateComparison) interfaces.Append($", IComparable<{data.Name}>");
@@ -130,16 +130,21 @@ public class ValueObjectGenerator : IIncrementalGenerator
 		string? GetToString() => data.GenerateToString ? data.GetToStringCode() : null;
 
 		
-		string? GetHashCode() => !data.GenerateComparison
-			? null
-			: data.GetHashCodeCode();
+		string? GetHashCode() => data.GenerateComparison
+			? data.GetHashCodeCode()
+			: null;
 		
 		
-		string? GetEquals() => !data.GenerateComparison
-			? null
-			: data.GetEqualsCode();
-		
-		
+		string? GetEquals()
+		{
+			if (!data.GenerateComparison) return null;
+			
+			return $@"
+	{data.GetEqualsCode()}
+	{(data.Type.IsRecord ? null : data.GetObjectEqualsCode())}";
+		}
+
+
 		string? GetComparison()
 		{
 			if (!data.GenerateComparison) return null;

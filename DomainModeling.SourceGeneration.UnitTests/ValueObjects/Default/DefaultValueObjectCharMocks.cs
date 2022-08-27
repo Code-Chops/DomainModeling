@@ -20,19 +20,19 @@ public partial class DefaultCharClassMock { }
 public partial record DefaultCharRecordClassMock;
 
 
-[GenerateValueObject<char>(minimumValue: 0, maximumValue: 10, generateDefaultConstructor: true, generateParameterlessConstructor: true, generateComparison: true, addCustomValidation: true, generateEmptyStatic: true, generateToString: false, propertyName: "Test")]
+[GenerateValueObject<char>(minimumValue: 0, maximumValue: 10, generateDefaultConstructor: true, generateParameterlessConstructor: true, generateComparison: false, addCustomValidation: true, generateEmptyStatic: true, generateToString: false, propertyName: "Test")]
 public partial record struct DefaultCharRecordStructSettingsMock
 {
 	public void Validate() { }
 }
 
-[GenerateValueObject<char>(minimumValue: 0, maximumValue: 10, generateDefaultConstructor: true, generateParameterlessConstructor: true, generateComparison: true, addCustomValidation: true, generateEmptyStatic: true, generateToString: false, propertyName: "Test")]
+[GenerateValueObject<char>(minimumValue: 0, maximumValue: 10, generateDefaultConstructor: true, generateParameterlessConstructor: true, generateComparison: false, addCustomValidation: true, generateEmptyStatic: true, generateToString: false, propertyName: "Test")]
 public partial record DefaultCharRecordClassSettingsMock
 {
 	public void Validate() { }
 }
 
-[GenerateValueObject<char>(minimumValue: 0, maximumValue: 10, generateDefaultConstructor: true, generateParameterlessConstructor: true, generateComparison: true, addCustomValidation: true, generateEmptyStatic: true, generateToString: false, propertyName: "Test")]
+[GenerateValueObject<char>(minimumValue: 0, maximumValue: 10, generateDefaultConstructor: true, generateParameterlessConstructor: true, generateComparison: false, addCustomValidation: true, generateEmptyStatic: true, generateToString: false, propertyName: "Test")]
 public sealed partial record DefaultCharSealedRecordClassSettingsMock
 {
 	public void Validate() { }

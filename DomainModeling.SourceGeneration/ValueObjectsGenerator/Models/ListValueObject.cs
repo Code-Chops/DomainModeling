@@ -68,5 +68,5 @@ public record ListValueObject(
 	
 	public override string GetEnumeratorCode() => $"public IEnumerator<{this.ElementTypeName}> GetEnumerator() => this.{this.PropertyName}.GetEnumerator();";
 
-	public override string GetExtraCode() => $@"public {(this.IsUnsealedRecordClass ?  "virtual " : null)}{this.ElementTypeName} this[int index] => index < this.Count ? this.{this.PropertyName}.ElementAt(index) : throw Exceptions.IndexOutOfRangeException<{this.Name}>.Create(index);";
+	public override string GetExtraCode() => $@"public {(this.IsUnsealedRecordClass ?  "virtual " : null)}{this.ElementTypeName} this[int index] => index < this.Count ? this.{this.PropertyName}.ElementAt(index) : throw IndexOutOfRangeException<{this.Name}>.Create(index);";
 }

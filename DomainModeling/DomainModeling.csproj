@@ -11,8 +11,8 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>0.18.2</Version>
-        <PackageReleaseNotes>Added empty constructor and unique (and sorted) usings for generated value objects.</PackageReleaseNotes>
+        <Version>0.18.3</Version>
+        <PackageReleaseNotes>Small fixes and improved warning for generated value objects.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainDrivenDesign.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>

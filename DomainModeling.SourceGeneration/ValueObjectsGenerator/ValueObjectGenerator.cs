@@ -142,9 +142,10 @@ public class ValueObjectGenerator : IIncrementalGenerator
 			return data.ProhibitParameterlessConstruction
 				? $@"
 	[Obsolete(Error)]
-	public {data.Name}() => throw new InvalidOperationException(Error);
-	private const string Error = $""A value should be provided when initializing {data.Name}."";"
-				: $@"public {data.Name}()
+	private {data.Name}() => throw new InvalidOperationException(Error);
+	private const string Error = $""Don't use this empty constructor. A value should be provided when initializing {data.Name}."";"
+				: $@"
+	public {data.Name}()
 	{{
 		this.{data.BackingFieldName} = {data.GetDefaultValue()};
 	}}";

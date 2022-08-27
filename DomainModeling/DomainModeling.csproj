@@ -11,8 +11,8 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>0.18.3</Version>
-        <PackageReleaseNotes>Small fixes and improved warning for generated value objects 2.</PackageReleaseNotes>
+        <Version>0.18.4</Version>
+        <PackageReleaseNotes>Small fixes and improved warning for generated value objects 3.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainDrivenDesign.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>

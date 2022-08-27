@@ -20,7 +20,7 @@ public abstract record ValueObjectBase(
 	public string BackingFieldName { get; } = $"_{PropertyName.Substring(0, 1).ToLowerInvariant()}{PropertyName.Substring(1)}{new Random().Next(0, 9999)}";
 	public string LocalVariableName { get; } = PropertyName.Substring(0, 1).ToLowerInvariant() + PropertyName.Substring(1);
 
-	public abstract string? GetNamespaces();
+	public abstract string[] GetNamespaces();
 	public abstract string GetCommentsCode();
 	public abstract string GetToStringCode();
 	public abstract string? GetInterfacesCode();

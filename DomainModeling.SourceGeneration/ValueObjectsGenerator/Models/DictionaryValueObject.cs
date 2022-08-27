@@ -23,28 +23,22 @@ public record DictionaryValueObject(
 		PropertyName: PropertyName ?? "Dictionary",
 		GenerateComparable: false)
 {
-	public override string? GetNamespaces()
+	public override string[] GetNamespaces()
 	{
 		var keyNamespace = this.Attribute.AttributeClass!.TypeArguments[0].ContainingNamespace;
 		var elementNamespace = this.Attribute.AttributeClass!.TypeArguments[1].ContainingNamespace;
 
 		if (!keyNamespace.IsGlobalNamespace && !elementNamespace.IsGlobalNamespace && !SymbolEqualityComparer.Default.Equals(keyNamespace, elementNamespace))
-			return $@"
-using {keyNamespace.ToDisplayString()};
-using {elementNamespace.ToDisplayString()};";
+			return new[] { keyNamespace.ToDisplayString(), elementNamespace.ToDisplayString() };
 		
 		if (!keyNamespace.IsGlobalNamespace)
-			return $@"
-using {keyNamespace.ToDisplayString()};";
+			return new[] { keyNamespace.ToDisplayString() };
 		
 		if (!elementNamespace.IsGlobalNamespace)
-			return $@"
-using {elementNamespace.ToDisplayString()};";
+			return new[] { elementNamespace.ToDisplayString() };
 
-		return null;
+		return Array.Empty<string>();
 	}
-		
-
 	
 	public string KeyTypeName { get; } = Attribute.AttributeClass!.TypeArguments[0].Name;
 	
@@ -65,7 +59,7 @@ using {elementNamespace.ToDisplayString()};";
 	
 	public override string? GetCompareToCode()		=> null;
 
-	public override string GetDefaultValue()		=> $"new(new Dictionary<{this.KeyTypeName}, {this.ElementTypeName}>().ToImmutableDictionary());";
+	public override string GetDefaultValue()		=> $"new Dictionary<{this.KeyTypeName}, {this.ElementTypeName}>().ToImmutableDictionary()";
 	
 	public override string GetLengthOrCountCode()	=> $"public int Count => this.{this.PropertyName}.Count;";
 

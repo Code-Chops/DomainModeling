@@ -23,7 +23,7 @@ public sealed record DefaultValueObject(
 		PropertyName: PropertyName ?? "Value",
 		GenerateComparable: true)
 {
-	public override string? GetNamespaces()			=> null;
+	public override string[] GetNamespaces()		=> Array.Empty<string>();
 
 	public override string GetCommentsCode()		=> $"Type {this.TypeName}.";
 
@@ -37,7 +37,7 @@ public sealed record DefaultValueObject(
 	
 	public override string GetCompareToCode()		=> $"public int CompareTo({this.Name}{this.Nullable} other) => this.{this.PropertyName}.CompareTo(other{this.Nullable}.{this.PropertyName});";
 
-	public override string GetDefaultValue()		=> $"new(default({this.TypeName}));";
+	public override string GetDefaultValue()		=> $"default({this.TypeName})";
 	
 	public override string? GetLengthOrCountCode()	=> null;
 

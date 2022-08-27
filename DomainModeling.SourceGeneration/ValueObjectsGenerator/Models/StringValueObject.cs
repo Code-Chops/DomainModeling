@@ -45,7 +45,7 @@ public record StringValueObject(
 		PropertyName: PropertyName ?? "Value",
 		GenerateComparable: true)
 {
-	public override string? GetNamespaces()			=> null;
+	public override string[] GetNamespaces()		=> Array.Empty<string>();
 	
 	public override string GetCommentsCode()		=> $"A {(this.StringCaseConversion == StringCaseConversion.NoConversion ? null : $"{this.StringCaseConversion} ")}{this.StringFormat} string.";
 
@@ -59,7 +59,7 @@ public record StringValueObject(
 
 	public override string GetCompareToCode()		=> $"public int CompareTo({this.Name}{this.Nullable} other) => String.Compare(this.{this.PropertyName}, other{this.Nullable}.{this.PropertyName}, StringComparison.{this.CompareOptions});";
 
-	public override string GetDefaultValue()		=> $"new(\"\");";
+	public override string GetDefaultValue()		=> $"\"\"";
 	
 	public override string GetLengthOrCountCode()	=> $"public int Length => this.{this.PropertyName}.Length;";
 

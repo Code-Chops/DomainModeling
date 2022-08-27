@@ -24,13 +24,12 @@ public record ListValueObject(
 		PropertyName: PropertyName ?? "List",
 		GenerateComparable: false)
 {
-	public override string? GetNamespaces()
+	public override string[] GetNamespaces()
 	{
 		var elementNamespace = this.Attribute.AttributeClass!.TypeArguments.Single().ContainingNamespace;
-		if (elementNamespace.IsGlobalNamespace) return null;
+		if (elementNamespace.IsGlobalNamespace) return Array.Empty<string>();
 
-		return $@"
-using {elementNamespace.ToDisplayString()};";
+		return new[] { elementNamespace.ToDisplayString() };
 	}
 
 	public override string GetCommentsCode()		=> $"An enumerable of {this.ElementTypeName}.";
@@ -50,7 +49,7 @@ using {elementNamespace.ToDisplayString()};";
 	
 	public override string? GetCompareToCode()		=> null;
 
-	public override string GetDefaultValue()		=> $"new(new List<{this.ElementTypeName}>().ToImmutableList());";
+	public override string GetDefaultValue()		=> $"new List<{this.ElementTypeName}>().ToImmutableList()";
 	
 	public override string GetLengthOrCountCode()	=> $"public int Count => this.{this.PropertyName}.Count;";
 

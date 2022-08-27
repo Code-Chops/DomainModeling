@@ -3,8 +3,8 @@
 // ReSharper disable once NotAccessedPositionalProperty.Local
 internal record ValueObjectMock(int Value) : IValueObject;
 
-[GenerateListValueObject<ValueObjectMock>]
-internal partial record ListValueObjectMock;
+[GenerateListValueObject<ValueObjectMock>(addCustomValidation: false)]
+internal partial record ListMock;
 
 public class ListValueObjectTests
 {
@@ -23,7 +23,7 @@ public class ListValueObjectTests
 			new(3),
 		}.ToImmutableList();
 
-		Assert.Equal(new ListValueObjectMock(list1), new ListValueObjectMock(list2));
+		Assert.Equal(new ListMock(list1), new ListMock(list2));
 	}
 	
 	[Fact]
@@ -41,6 +41,6 @@ public class ListValueObjectTests
 			new(2),
 		}.ToImmutableList();
 
-		Assert.NotEqual(new ListValueObjectMock(list1), new ListValueObjectMock(list2));
+		Assert.NotEqual(new ListMock(list1), new ListMock(list2));
 	}
 }

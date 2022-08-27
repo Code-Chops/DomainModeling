@@ -7,12 +7,13 @@ public abstract record ValueObjectBase(
 	string TypeName,
 	string ElementTypeName,
 	bool GenerateToString, 
+	bool GenerateComparison,
 	bool AddCustomValidation,
 	bool GenerateDefaultConstructor,
 	bool GenerateParameterlessConstructor,
 	bool GenerateEmptyStatic,
 	string PropertyName,
-	bool GenerateComparable)
+	bool AddIComparable)
 {
 	public bool IsUnsealedRecordClass { get; } = Type.IsRecord && Type.TypeKind is not TypeKind.Struct && !Type.IsSealed;
 	public string? Nullable { get; } = Type.TypeKind is TypeKind.Struct ? null : "?";

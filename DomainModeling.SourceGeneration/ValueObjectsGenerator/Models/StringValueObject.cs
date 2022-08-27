@@ -24,6 +24,7 @@ public record StringValueObject(
 		AttributeData Attribute,
 		string Declaration,
 		bool GenerateToString,
+		bool GenerateComparison,
 		bool AddCustomValidation,
 		bool GenerateDefaultConstructor,
 		bool GenerateParameterlessConstructor,
@@ -40,12 +41,13 @@ public record StringValueObject(
 		TypeName: nameof(String),
 		ElementTypeName: nameof(Char), 
 		GenerateToString: GenerateToString,
+		GenerateComparison: GenerateComparison,
 		AddCustomValidation: AddCustomValidation,
 		GenerateDefaultConstructor: GenerateDefaultConstructor,
 		GenerateParameterlessConstructor: GenerateParameterlessConstructor,
 		GenerateEmptyStatic: GenerateEmptyStatic,
 		PropertyName: PropertyName ?? "Value",
-		GenerateComparable: true)
+		AddIComparable: true)
 {
 	public override string[] GetNamespaces()		=> Array.Empty<string>();
 	

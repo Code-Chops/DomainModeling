@@ -1,22 +1,22 @@
 namespace CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration.UnitTests.ValueObjects;
 
-[GenerateDictionaryValueObject<int, string>]
+[GenerateDictionaryValueObject<int, string>(addCustomValidation: false)]
 public partial struct DictionaryClassStructMock { }
 
-[GenerateDictionaryValueObject<int, string>]
+[GenerateDictionaryValueObject<int, string>(addCustomValidation: false)]
 public partial record struct DictionaryRecordStructMock;
 
-[GenerateDictionaryValueObject<int, string>]
+[GenerateDictionaryValueObject<int, string>(addCustomValidation: false)]
 public readonly partial struct DictionaryReadonlyStructMock { }
 
-[GenerateDictionaryValueObject<int, string>]
+[GenerateDictionaryValueObject<int, string>(addCustomValidation: false)]
 public partial record struct DictionaryReadonlyRecordStructMock;
 
 
-[GenerateDictionaryValueObject<int, string>]
+[GenerateDictionaryValueObject<int, string>(addCustomValidation: false)]
 public partial class DictionaryClassMock { }
 
-[GenerateDictionaryValueObject<int, string>]
+[GenerateDictionaryValueObject<int, string>(addCustomValidation: false)]
 public partial record DictionaryRecordClassMock;
 
 

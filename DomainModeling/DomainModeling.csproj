@@ -11,8 +11,8 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>0.19.0</Version>
-        <PackageReleaseNotes>Renamed ProhibitParameterlessConstruction, added GenerateDefaultConstructor, fixed bug in default constructor, for generated value objects.</PackageReleaseNotes>
+        <Version>0.19.1</Version>
+        <PackageReleaseNotes>Added GenerateComparison, changed defaults, for generated value objects.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainDrivenDesign.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>

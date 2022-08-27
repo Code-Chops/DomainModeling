@@ -4,8 +4,8 @@ internal record MockId(ulong Value) : Id<MockId, ulong>(Value);
 // ReSharper disable once NotAccessedPositionalProperty.Local
 internal record DictionaryValueObjectMock(int Value) : IValueObject;
 
-[GenerateDictionaryValueObject<MockId, ValueObjectMock>]
-internal partial record ImmutableDictionaryMock;
+[GenerateDictionaryValueObject<MockId, ValueObjectMock>(addCustomValidation: false)]
+internal partial record DictionaryMock;
 
 public class DictionaryValueObjectTests
 {
@@ -24,7 +24,7 @@ public class DictionaryValueObjectTests
 			[new(2)] = new(3),
 		}.ToImmutableDictionary();
 
-		Assert.Equal(new ImmutableDictionaryMock(dictionary1), new ImmutableDictionaryMock(dictionary2));
+		Assert.Equal(new DictionaryMock(dictionary1), new DictionaryMock(dictionary2));
 	}
 	
 	[Fact]
@@ -42,7 +42,7 @@ public class DictionaryValueObjectTests
 			[new(3)] = new(3),
 		}.ToImmutableDictionary();
 
-		Assert.NotEqual(new ImmutableDictionaryMock(dictionary1), new ImmutableDictionaryMock(dictionary2));
+		Assert.NotEqual(new DictionaryMock(dictionary1), new DictionaryMock(dictionary2));
 	}
 	
 	[Fact]
@@ -60,6 +60,6 @@ public class DictionaryValueObjectTests
 			[new(2)] = new(2),
 		}.ToImmutableDictionary();
 
-		Assert.NotEqual(new ImmutableDictionaryMock(dictionary1), new ImmutableDictionaryMock(dictionary2));
+		Assert.NotEqual(new DictionaryMock(dictionary1), new DictionaryMock(dictionary2));
 	}
 }

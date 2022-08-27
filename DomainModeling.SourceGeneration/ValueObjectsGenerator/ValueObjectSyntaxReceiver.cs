@@ -44,10 +44,11 @@ internal static class ValueObjectSyntaxReceiver
 
 		var declaration = GetDeclaration(typeDeclarationSyntax, type.Name);
 		var generateToString = attribute.GetArgumentOrDefault("generateToString", true);
-		var addCustomValidation = attribute.GetArgumentOrDefault("addCustomValidation", false);
+		var generateComparison = attribute.GetArgumentOrDefault("generateComparison", false);
+		var addCustomValidation = attribute.GetArgumentOrDefault("addCustomValidation", true);
 		var generateDefaultConstructor = attribute.GetArgumentOrDefault("generateDefaultConstructor", true);
 		var generateParameterlessConstructor = attribute.GetArgumentOrDefault("generateParameterlessConstructor", false);
-		var generateEmptyStatic = attribute.GetArgumentOrDefault("generateEmptyStatic", true);
+		var generateEmptyStatic = attribute.GetArgumentOrDefault("generateEmptyStatic", false);
 		var propertyName = attribute.GetArgumentOrDefault("propertyName", (string?)null);
 		
 		if (hasDefaultAttribute)
@@ -56,6 +57,7 @@ internal static class ValueObjectSyntaxReceiver
 				Attribute: attribute,
 				Declaration: declaration,
 				GenerateToString: generateToString,
+				GenerateComparison: generateComparison,
 				AddCustomValidation: addCustomValidation,
 				GenerateDefaultConstructor: generateDefaultConstructor,
 				GenerateParameterlessConstructor: generateParameterlessConstructor,
@@ -70,6 +72,7 @@ internal static class ValueObjectSyntaxReceiver
 				Attribute: attribute,
 				Declaration: declaration,
 				GenerateToString: generateToString,
+				GenerateComparison: generateComparison,
 				AddCustomValidation: addCustomValidation,
 				GenerateDefaultConstructor: generateDefaultConstructor,
 				GenerateParameterlessConstructor: generateParameterlessConstructor,
@@ -87,6 +90,7 @@ internal static class ValueObjectSyntaxReceiver
 				Attribute: attribute,
 				Declaration: declaration,
 				GenerateToString: generateToString,
+				GenerateComparison: generateComparison,
 				AddCustomValidation: addCustomValidation,
 				GenerateDefaultConstructor: generateDefaultConstructor,
 				GenerateParameterlessConstructor: generateParameterlessConstructor,
@@ -101,6 +105,7 @@ internal static class ValueObjectSyntaxReceiver
 				Attribute: attribute,
 				Declaration: declaration,
 				GenerateToString: generateToString,
+				GenerateComparison: generateComparison,
 				AddCustomValidation: addCustomValidation,
 				GenerateDefaultConstructor: generateDefaultConstructor,
 				GenerateParameterlessConstructor: generateParameterlessConstructor,

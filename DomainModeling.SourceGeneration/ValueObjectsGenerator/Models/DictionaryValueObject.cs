@@ -5,6 +5,7 @@ public record DictionaryValueObject(
 		AttributeData Attribute,
 		string Declaration,
 		bool GenerateToString,
+		bool GenerateComparison,
 		bool AddCustomValidation,
 		bool GenerateDefaultConstructor,
 		bool GenerateParameterlessConstructor,
@@ -18,12 +19,13 @@ public record DictionaryValueObject(
 		TypeName: $"ImmutableDictionary<{Attribute.AttributeClass!.TypeArguments[0].Name},{Attribute.AttributeClass!.TypeArguments[1].Name}>",
 		ElementTypeName: Attribute.AttributeClass!.TypeArguments[1].Name,
 		GenerateToString: GenerateToString, 
+		GenerateComparison: GenerateComparison,
 		AddCustomValidation: AddCustomValidation,
 		GenerateDefaultConstructor: GenerateDefaultConstructor,
 		GenerateParameterlessConstructor: GenerateParameterlessConstructor, 
 		GenerateEmptyStatic: GenerateEmptyStatic,
 		PropertyName: PropertyName ?? "Dictionary",
-		GenerateComparable: false)
+		AddIComparable: false)
 {
 	public override string[] GetNamespaces()
 	{

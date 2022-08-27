@@ -6,6 +6,7 @@ public record ListValueObject(
 		AttributeData Attribute,
 		string Declaration,
 		bool GenerateToString,
+		bool GenerateComparison,
 		bool AddCustomValidation,
 		bool GenerateDefaultConstructor,
 		bool GenerateParameterlessConstructor,
@@ -19,12 +20,13 @@ public record ListValueObject(
 		TypeName: $"ImmutableList<{Attribute.AttributeClass!.TypeArguments.Single().Name}>",
 		ElementTypeName: Attribute.AttributeClass!.TypeArguments.Single().Name,
 		GenerateToString: GenerateToString,
+		GenerateComparison: GenerateComparison,
 		AddCustomValidation: AddCustomValidation,
 		GenerateDefaultConstructor: GenerateDefaultConstructor,
 		GenerateParameterlessConstructor: GenerateParameterlessConstructor, 
 		GenerateEmptyStatic: GenerateEmptyStatic,
 		PropertyName: PropertyName ?? "List",
-		GenerateComparable: false)
+		AddIComparable: false)
 {
 	public override string[] GetNamespaces()
 	{

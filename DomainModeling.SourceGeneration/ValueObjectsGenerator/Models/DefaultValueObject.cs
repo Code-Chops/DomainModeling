@@ -5,6 +5,7 @@ public sealed record DefaultValueObject(
 		AttributeData Attribute,
 		string Declaration,
 		bool GenerateToString,
+		bool GenerateComparison,
 		bool AddCustomValidation,
 		bool GenerateDefaultConstructor,
 		bool GenerateParameterlessConstructor,
@@ -18,12 +19,13 @@ public sealed record DefaultValueObject(
 		TypeName: Attribute.AttributeClass!.TypeArguments.Single().Name,
 		ElementTypeName: Attribute.AttributeClass!.TypeArguments.Single().Name,
 		GenerateToString: GenerateToString,  
+		GenerateComparison: GenerateComparison,
 		AddCustomValidation: AddCustomValidation,
 		GenerateDefaultConstructor: GenerateDefaultConstructor,
 		GenerateParameterlessConstructor: GenerateParameterlessConstructor,  
 		GenerateEmptyStatic: GenerateEmptyStatic,
 		PropertyName: PropertyName ?? "Value",
-		GenerateComparable: true)
+		AddIComparable: true)
 {
 	public override string[] GetNamespaces()		=> Array.Empty<string>();
 

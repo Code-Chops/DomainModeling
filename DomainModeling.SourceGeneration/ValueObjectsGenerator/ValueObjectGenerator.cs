@@ -143,7 +143,7 @@ public class ValueObjectGenerator : IIncrementalGenerator
 				? $@"
 	[Obsolete(Error)]
 	private {data.Name}() => throw new InvalidOperationException(Error);
-	private const string Error = $""Don't use this empty constructor. A value should be provided when initializing {data.Name}."";"
+	public const string Error = $""Don't use this empty constructor. A value should be provided when initializing {data.Name}."";"
 				: $@"
 	public {data.Name}()
 	{{

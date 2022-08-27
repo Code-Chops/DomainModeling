@@ -1,4 +1,4 @@
-﻿namespace CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration.UnitTests;
+﻿namespace CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration.UnitTests.Identities;
 
 [GenerateStronglyTypedId<byte>]
 public partial class EntityWithByteIdMock1 : Entity

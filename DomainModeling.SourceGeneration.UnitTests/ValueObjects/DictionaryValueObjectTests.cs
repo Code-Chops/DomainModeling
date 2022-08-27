@@ -1,13 +1,14 @@
-﻿namespace CodeChops.DomainDrivenDesign.DomainModeling.UnitTests.Collections;
+﻿namespace CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration.UnitTests.ValueObjects;
 
-public class ImmutableDictionaryTests
+internal record MockId(ulong Value) : Id<MockId, ulong>(Value);
+// ReSharper disable once NotAccessedPositionalProperty.Local
+internal record DictionaryValueObjectMock(int Value) : IValueObject;
+
+[GenerateDictionaryValueObject<MockId, ValueObjectMock>]
+internal partial record ImmutableDictionaryMock;
+
+public class DictionaryValueObjectTests
 {
-	private record MockId(ulong Value) : Id<MockId, ulong>(Value);
-	// ReSharper disable once NotAccessedPositionalProperty.Local
-	private record ValueObjectMock(int Value) : IValueObject;
-	
-	private record Mock(ImmutableDictionary<MockId, ValueObjectMock> Dictionary) : ImmutableDictionaryValueObject<MockId, ValueObjectMock>(Dictionary);
-
 	[Fact]
 	public void Dictionary_With_SameKeys_SameValues_ShouldBeEqual()
 	{
@@ -23,7 +24,7 @@ public class ImmutableDictionaryTests
 			[new(2)] = new(3),
 		}.ToImmutableDictionary();
 
-		Assert.Equal(new Mock(dictionary1), new Mock(dictionary2));
+		Assert.Equal(new ImmutableDictionaryMock(dictionary1), new ImmutableDictionaryMock(dictionary2));
 	}
 	
 	[Fact]
@@ -41,7 +42,7 @@ public class ImmutableDictionaryTests
 			[new(3)] = new(3),
 		}.ToImmutableDictionary();
 
-		Assert.NotEqual(new Mock(dictionary1), new Mock(dictionary2));
+		Assert.NotEqual(new ImmutableDictionaryMock(dictionary1), new ImmutableDictionaryMock(dictionary2));
 	}
 	
 	[Fact]
@@ -59,6 +60,6 @@ public class ImmutableDictionaryTests
 			[new(2)] = new(2),
 		}.ToImmutableDictionary();
 
-		Assert.NotEqual(new Mock(dictionary1), new Mock(dictionary2));
+		Assert.NotEqual(new ImmutableDictionaryMock(dictionary1), new ImmutableDictionaryMock(dictionary2));
 	}
 }

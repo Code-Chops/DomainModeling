@@ -11,8 +11,8 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>0.17.9</Version>
-        <PackageReleaseNotes>Fixed comparison for ValueObjectGeneration.</PackageReleaseNotes>
+        <Version>0.18.0</Version>
+        <PackageReleaseNotes>Added support for dictionary and list value objects.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainDrivenDesign.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>

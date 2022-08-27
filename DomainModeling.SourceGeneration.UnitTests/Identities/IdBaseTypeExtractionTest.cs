@@ -3,7 +3,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration.UnitTests;
+namespace CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration.UnitTests.Identities;
 
 public class IdBaseTypeExtractionTest
 {

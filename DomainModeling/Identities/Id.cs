@@ -6,7 +6,7 @@ namespace CodeChops.DomainDrivenDesign.DomainModeling.Identities;
 /// An abstract identifier with a generic type as primitive value.
 /// </summary>
 /// <typeparam name="TPrimitive">The primitive value of the identifier.</typeparam>
-public abstract record Id<TSelf, TPrimitive> : Id<TPrimitive>
+public abstract record Id<TSelf, TPrimitive> : Id<TPrimitive>, IComparable<TSelf>
 	where TSelf : Id<TSelf, TPrimitive>
 	where TPrimitive : IEquatable<TPrimitive>, IComparable<TPrimitive>
 {
@@ -14,6 +14,8 @@ public abstract record Id<TSelf, TPrimitive> : Id<TPrimitive>
 	/// Create new instances when explicitly casting. Used to avoid the new() constraint.
 	/// </summary>
 	private static readonly TSelf CachedUninitializedMember = (TSelf)FormatterServices.GetUninitializedObject(typeof(TSelf));
+
+	public int CompareTo(TSelf? other) => other is null ? 1 : this.Value.CompareTo(other.Value);
 
 	public static explicit operator Id<TSelf, TPrimitive>(TPrimitive value) => CachedUninitializedMember with { _value = value };
 	public static implicit operator TPrimitive(Id<TSelf, TPrimitive> id) => id.Value;

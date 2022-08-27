@@ -10,18 +10,15 @@ public abstract class MutableDictionaryEntity<TId, TDomainObject> : Entity, IRea
 	
 	public int Count => this.Dictionary.Count;
 
-	public void Deconstruct(out IReadOnlyDictionary<TId, TDomainObject> dictionary)
-	{
-		dictionary = this.Dictionary;
-	}
-
-	public virtual TDomainObject this[TId id] 
-		=> this.Dictionary.TryGetValue(id, out var value) ? value : throw DomainObjectKeyNotFoundException<TId, TDomainObject>.Create(id);
-
 	public IEnumerable<TId> Keys => this.Dictionary.Keys;
 	public IEnumerable<TDomainObject> Values => this.Dictionary.Values;
+	
 	public bool ContainsKey(TId key) => this.Dictionary.ContainsKey(key);
-	public IEnumerator<KeyValuePair<TId, TDomainObject>> GetEnumerator() => this.Dictionary.GetEnumerator();
 	public bool TryGetValue(TId key, [MaybeNullWhen(false)] out TDomainObject value) => this.Dictionary.TryGetValue(key, out value);
+
+	public virtual TDomainObject this[TId id] 
+		=> this.Dictionary.TryGetValue(id, out var value) ? value : throw KeyNotFoundException<TId, TDomainObject>.Create(id);
+	
+	public IEnumerator<KeyValuePair<TId, TDomainObject>> GetEnumerator() => this.Dictionary.GetEnumerator();
 	IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
 }

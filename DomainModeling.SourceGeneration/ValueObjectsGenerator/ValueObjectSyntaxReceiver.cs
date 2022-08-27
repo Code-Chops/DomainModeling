@@ -47,7 +47,8 @@ internal static class ValueObjectSyntaxReceiver
 		var addCustomValidation = attribute.GetArgumentOrDefault("addCustomValidation", false);
 		var prohibitParameterlessConstruction = attribute.GetArgumentOrDefault("prohibitParameterlessConstruction", true);
 		var generateEmptyStatic = attribute.GetArgumentOrDefault("generateEmptyStatic", true);
-
+		var propertyName = attribute.GetArgumentOrDefault("propertyName", (string?)null);
+		
 		if (hasDefaultAttribute)
 			return new DefaultValueObject(
 				Type: type,
@@ -57,6 +58,7 @@ internal static class ValueObjectSyntaxReceiver
 				AddCustomValidation: addCustomValidation,
 				ProhibitParameterlessConstruction: prohibitParameterlessConstruction,
 				GenerateEmptyStatic: generateEmptyStatic,
+				PropertyName: propertyName,
 				MinimumValue: attribute.TryGetArgument<int>("minimumValue", out var minimumValue) && minimumValue != Int32.MinValue ? minimumValue : null,
 				MaximumValue: attribute.TryGetArgument<int>("maximumValue", out var maximumValue) && maximumValue != Int32.MinValue ? maximumValue : null);
 
@@ -69,6 +71,7 @@ internal static class ValueObjectSyntaxReceiver
 				AddCustomValidation: addCustomValidation,
 				ProhibitParameterlessConstruction: prohibitParameterlessConstruction,
 				GenerateEmptyStatic: generateEmptyStatic,
+				PropertyName: propertyName,
 				MinimumLength: attribute.TryGetArgument<int>("minimumLength", out var minimumLength) && minimumLength != Int32.MinValue ? minimumLength : null,
 				MaximumLength: attribute.TryGetArgument<int>("maximumLength", out var maximumLength) && maximumLength != Int32.MinValue ? maximumLength : null,
 				StringCaseConversion: attribute.GetArgumentOrDefault("stringCaseConversion", StringCaseConversion.NoConversion),
@@ -84,6 +87,7 @@ internal static class ValueObjectSyntaxReceiver
 				AddCustomValidation: addCustomValidation,
 				ProhibitParameterlessConstruction: prohibitParameterlessConstruction,
 				GenerateEmptyStatic: generateEmptyStatic,
+				PropertyName: propertyName,
 				MinimumCount: attribute.TryGetArgument<int>("minimumCount", out var minimumCount) && minimumCount != Int32.MinValue ? minimumCount : null,
 				MaximumCount: attribute.TryGetArgument<int>("maximumCount", out var maximumCount) && maximumCount != Int32.MinValue ? maximumCount : null);
 		
@@ -96,6 +100,7 @@ internal static class ValueObjectSyntaxReceiver
 				AddCustomValidation: addCustomValidation,
 				ProhibitParameterlessConstruction: prohibitParameterlessConstruction,
 				GenerateEmptyStatic: generateEmptyStatic,
+				PropertyName: propertyName,
 				MinimumCount: attribute.TryGetArgument<int>("minimumCount", out var minimumCount) && minimumCount != Int32.MinValue ? minimumCount : null,
 				MaximumCount: attribute.TryGetArgument<int>("maximumCount", out var maximumCount) && maximumCount != Int32.MinValue ? maximumCount : null);
 		return null;

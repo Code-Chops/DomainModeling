@@ -20,19 +20,19 @@ public partial class DictionaryClassMock { }
 public partial record DictionaryRecordClassMock;
 
 
-[GenerateDictionaryValueObject<int, string>(minimumCount: 0, maximumCount: 10, generateToString: false, prohibitParameterlessConstruction: false, addCustomValidation: true, generateEmptyStatic: false)]
+[GenerateDictionaryValueObject<int, string>(minimumCount: 0, maximumCount: 10, generateToString: false, prohibitParameterlessConstruction: false, addCustomValidation: true, generateEmptyStatic: false, propertyName: "Test")]
 public partial record struct DictionaryRecordStructSettingsMock
 {
 	public void Validate() { }
 }
 
-[GenerateDictionaryValueObject<int, string>(minimumCount: 0, maximumCount: 10, generateToString: false, prohibitParameterlessConstruction: false, addCustomValidation: true, generateEmptyStatic: false)]
+[GenerateDictionaryValueObject<int, string>(minimumCount: 0, maximumCount: 10, generateToString: false, prohibitParameterlessConstruction: false, addCustomValidation: true, generateEmptyStatic: false, propertyName: "Test")]
 public partial record DictionaryRecordClassSettingsMock
 {
 	public void Validate() { }
 }
 
-[GenerateDictionaryValueObject<int, string>(minimumCount: 0, maximumCount: 10, generateToString: false, prohibitParameterlessConstruction: false, addCustomValidation: true, generateEmptyStatic: false)]
+[GenerateDictionaryValueObject<int, string>(minimumCount: 0, maximumCount: 10, generateToString: false, prohibitParameterlessConstruction: false, addCustomValidation: true, generateEmptyStatic: false, propertyName: "Test")]
 public sealed partial record DictionarySealedRecordClassSettingsMock
 {
 	public void Validate() { }

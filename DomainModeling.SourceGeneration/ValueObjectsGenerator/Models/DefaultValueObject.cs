@@ -8,6 +8,7 @@ public sealed record DefaultValueObject(
 		bool AddCustomValidation,
 		bool ProhibitParameterlessConstruction,
 		bool GenerateEmptyStatic,
+		string? PropertyName,
 		int? MinimumValue,
 		int? MaximumValue) 
 	: ValueObjectBase(
@@ -19,21 +20,22 @@ public sealed record DefaultValueObject(
 		AddCustomValidation: AddCustomValidation,
 		ProhibitParameterlessConstruction: ProhibitParameterlessConstruction,  
 		GenerateEmptyStatic: GenerateEmptyStatic,
+		PropertyName: PropertyName ?? "Value",
 		GenerateComparable: true)
 {
 	public override string? GetNamespaces()			=> null;
 
 	public override string GetCommentsCode()		=> $"Type {this.TypeName}.";
 
-	public override string GetToStringCode()		=> $"public override string ToString() => this.ToEasyString(new {{ this.Value }});";
+	public override string GetToStringCode()		=> $"public override string ToString() => this.ToEasyString(new {{ this.{this.PropertyName} }});";
 	
 	public override string? GetInterfacesCode()		=> null;
 	
-	public override string GetHashCodeCode()		=> $"public override int GetHashCode() => this.Value.GetHashCode();";
+	public override string GetHashCodeCode()		=> $"public override int GetHashCode() => this.{this.PropertyName}.GetHashCode();";
 
-	public override string GetEqualsCode()			=> $"public {(this.IsUnsealedRecordClass ? "virtual " : null)}bool Equals({this.Name}? other) => {this.TypeName}.Equals(this.Value, other?.Value);";
+	public override string GetEqualsCode()			=> $"public {(this.IsUnsealedRecordClass ? "virtual " : null)}bool Equals({this.Name}? other) => {this.TypeName}.Equals(this.{this.PropertyName}, other?.{this.PropertyName});";
 	
-	public override string GetCompareToCode()		=> $"public int CompareTo({this.Name}{this.Nullable} other) => this.Value.CompareTo(other{this.Nullable}.Value);";
+	public override string GetCompareToCode()		=> $"public int CompareTo({this.Name}{this.Nullable} other) => this.{this.PropertyName}.CompareTo(other{this.Nullable}.{this.PropertyName});";
 
 	public override string GetDefaultValue()		=> $"new(default({this.TypeName}));";
 	

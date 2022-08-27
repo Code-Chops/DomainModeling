@@ -8,6 +8,7 @@ public record DictionaryValueObject(
 		bool AddCustomValidation,
 		bool ProhibitParameterlessConstruction,
 		bool GenerateEmptyStatic,
+		string? PropertyName,
 		int? MinimumCount,
 		int? MaximumCount) 
 	: ValueObjectBase(
@@ -19,6 +20,7 @@ public record DictionaryValueObject(
 		AddCustomValidation: AddCustomValidation,
 		ProhibitParameterlessConstruction: ProhibitParameterlessConstruction, 
 		GenerateEmptyStatic: GenerateEmptyStatic,
+		PropertyName: PropertyName ?? "Dictionary",
 		GenerateComparable: false)
 {
 	public override string? GetNamespaces()
@@ -56,16 +58,16 @@ using {elementNamespace.ToDisplayString()};";
 
 	public override string GetEqualsCode()			=> $@"public {(this.IsUnsealedRecordClass ? "virtual " : null)}bool Equals({this.Name}? other)
 	{{
-		if (ReferenceEquals(this, other)) return true;
-		if (other is null) return false;
-		return this.SequenceEqual(other.Value);
+		if (ReferenceEquals(this.{this.PropertyName}, other?.{this.PropertyName})) return true;
+		if (other?.{this.PropertyName} is not {{ }} otherValue) return false;
+		return this.{this.PropertyName}.SequenceEqual(otherValue);
 	}}";
 	
 	public override string? GetCompareToCode()		=> null;
 
 	public override string GetDefaultValue()		=> $"new(new Dictionary<{this.KeyTypeName}, {this.ElementTypeName}>().ToImmutableDictionary());";
 	
-	public override string GetLengthOrCountCode()	=> $"public int Count => this.Value.Count;";
+	public override string GetLengthOrCountCode()	=> $"public int Count => this.{this.PropertyName}.Count;";
 
 	public override string GetValidationCode()
 	{
@@ -80,12 +82,12 @@ using {elementNamespace.ToDisplayString()};";
 		return validation.ToString();
 	}
 	
-	public override string GetEnumeratorCode() => $"public IEnumerator<KeyValuePair<{this.KeyTypeName}, {this.ElementTypeName}>> GetEnumerator() => this.Value.GetEnumerator();";
+	public override string GetEnumeratorCode() => $"public IEnumerator<KeyValuePair<{this.KeyTypeName}, {this.ElementTypeName}>> GetEnumerator() => this.{this.PropertyName}.GetEnumerator();";
 
-	public override string GetExtraCode() => $@"public {(this.IsUnsealedRecordClass ? "virtual " : null)}{this.ElementTypeName} this[{this.KeyTypeName} key] => this.Value.TryGetValue(key, out var value) ? value : throw Exceptions.KeyNotFoundException<{this.KeyTypeName}, {this.Name}>.Create(key);
-	public IEnumerable<{this.KeyTypeName}> Keys => this.Value.Keys;
-	public IEnumerable<{this.ElementTypeName}> Values => this.Value.Values;
-	public bool ContainsKey({this.KeyTypeName} key) => this.Value.ContainsKey(key);
-	public bool TryGetValue({this.KeyTypeName} key, [MaybeNullWhen(false)] out {this.ElementTypeName} value) => this.Value.TryGetValue(key, out value);
+	public override string GetExtraCode() => $@"public {(this.IsUnsealedRecordClass ? "virtual " : null)}{this.ElementTypeName} this[{this.KeyTypeName} key] => this.{this.PropertyName}.TryGetValue(key, out var value) ? value : throw Exceptions.KeyNotFoundException<{this.KeyTypeName}, {this.Name}>.Create(key);
+	public IEnumerable<{this.KeyTypeName}> Keys => this.{this.PropertyName}.Keys;
+	public IEnumerable<{this.ElementTypeName}> Values => this.{this.PropertyName}.Values;
+	public bool ContainsKey({this.KeyTypeName} key) => this.{this.PropertyName}.ContainsKey(key);
+	public bool TryGetValue({this.KeyTypeName} key, [MaybeNullWhen(false)] out {this.ElementTypeName} value) => this.{this.PropertyName}.TryGetValue(key, out value);
 ";
 }

@@ -10,6 +10,7 @@ public sealed class GenerateStringValueObject : Attribute
 	/// <param name="addCustomValidation">Forces to create a Validate method so custom validation can be implemented. Default: false.</param>
 	/// <param name="prohibitParameterlessConstruction">Creates an obsolete parameterless private constructor that throws an exception. Structs can still be instantiated by using default(). Default: true.</param>
 	/// <param name="generateEmptyStatic">Generate a static property with a default value. Default: true.</param>
+	/// <param name="propertyName">The name of the property and the backing field. Default: Value (_value).</param>
 	/// <param name="minimumLength">The minimum length of the string. Default: no minimum length.</param>
 	/// <param name="maximumLength">The maximum length of the string. Default: no maximum length.</param>
 	/// <param name="stringCaseConversion">Converts the case to upper/lower case. Default: no conversion.</param>
@@ -21,6 +22,7 @@ public sealed class GenerateStringValueObject : Attribute
 		bool addCustomValidation = false,
 		bool prohibitParameterlessConstruction = true,
 		bool generateEmptyStatic = true,
+		string? propertyName = null,
 		int minimumLength = Int32.MinValue,
 		int maximumLength = Int32.MinValue,
 		StringCaseConversion stringCaseConversion = StringCaseConversion.NoConversion,

@@ -20,19 +20,19 @@ public partial class ListClassMock { }
 public partial record ListRecordClassMock;
 
 
-[GenerateListValueObject<string>(minimumCount: 0, maximumCount: 10, generateToString: false, prohibitParameterlessConstruction: false, addCustomValidation: true, generateEmptyStatic: false)]
+[GenerateListValueObject<string>(minimumCount: 0, maximumCount: 10, generateToString: false, prohibitParameterlessConstruction: false, addCustomValidation: true, generateEmptyStatic: false, propertyName: "Test")]
 public partial record struct ListRecordStructSettingsMock
 {
 	public void Validate() { }
 }
 
-[GenerateListValueObject<string>(minimumCount: 0, maximumCount: 10, generateToString: false, prohibitParameterlessConstruction: false, addCustomValidation: true, generateEmptyStatic: false)]
+[GenerateListValueObject<string>(minimumCount: 0, maximumCount: 10, generateToString: false, prohibitParameterlessConstruction: false, addCustomValidation: true, generateEmptyStatic: false, propertyName: "Test")]
 public partial record ListRecordClassSettingsMock
 {
 	public void Validate() { }
 }
 
-[GenerateListValueObject<string>(minimumCount: 0, maximumCount: 10, generateToString: false, prohibitParameterlessConstruction: false, addCustomValidation: true, generateEmptyStatic: false)]
+[GenerateListValueObject<string>(minimumCount: 0, maximumCount: 10, generateToString: false, prohibitParameterlessConstruction: false, addCustomValidation: true, generateEmptyStatic: false, propertyName: "Test")]
 public sealed partial record ListSealedRecordClassSettingsMock
 {
 	public void Validate() { }

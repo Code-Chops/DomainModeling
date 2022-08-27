@@ -20,19 +20,19 @@ public partial class StringClassMock { }
 public partial record StringRecordClassMock;
 
 
-[GenerateStringValueObject(minimumLength: 0, maximumLength: 10, generateToString: false, prohibitParameterlessConstruction: false, addCustomValidation: true, generateEmptyStatic: false, compareOptions: StringComparison.Ordinal, stringCaseConversion: StringCaseConversion.UpperInvariant, stringFormat: StringFormat.AlphaNumericWithUnderscore)]
+[GenerateStringValueObject(minimumLength: 0, maximumLength: 10, generateToString: false, prohibitParameterlessConstruction: false, addCustomValidation: true, generateEmptyStatic: false, compareOptions: StringComparison.Ordinal, stringCaseConversion: StringCaseConversion.UpperInvariant, stringFormat: StringFormat.AlphaNumericWithUnderscore, propertyName: "Test")]
 public partial record struct StringRecordStructSettingsMock
 {
 	public void Validate() { }
 }
 
-[GenerateStringValueObject(minimumLength: 0, maximumLength: 10, generateToString: false, prohibitParameterlessConstruction: false, addCustomValidation: true, generateEmptyStatic: false, compareOptions: StringComparison.Ordinal, stringCaseConversion: StringCaseConversion.UpperInvariant, stringFormat: StringFormat.AlphaNumericWithUnderscore)]
+[GenerateStringValueObject(minimumLength: 0, maximumLength: 10, generateToString: false, prohibitParameterlessConstruction: false, addCustomValidation: true, generateEmptyStatic: false, compareOptions: StringComparison.Ordinal, stringCaseConversion: StringCaseConversion.UpperInvariant, stringFormat: StringFormat.AlphaNumericWithUnderscore, propertyName: "Test")]
 public partial record StringRecordClassSettingsMock
 {
 	public void Validate() { }
 }
 
-[GenerateStringValueObject(minimumLength: 0, maximumLength: 10, generateToString: false, prohibitParameterlessConstruction: false, addCustomValidation: true, generateEmptyStatic: false, compareOptions: StringComparison.Ordinal, stringCaseConversion: StringCaseConversion.UpperInvariant, stringFormat: StringFormat.AlphaNumericWithUnderscore)]
+[GenerateStringValueObject(minimumLength: 0, maximumLength: 10, generateToString: false, prohibitParameterlessConstruction: false, addCustomValidation: true, generateEmptyStatic: false, compareOptions: StringComparison.Ordinal, stringCaseConversion: StringCaseConversion.UpperInvariant, stringFormat: StringFormat.AlphaNumericWithUnderscore, propertyName: "Test")]
 public sealed partial record StringSealedRecordClassSettingsMock
 {
 	public void Validate() { }

@@ -9,6 +9,7 @@ public record ListValueObject(
 		bool AddCustomValidation,
 		bool ProhibitParameterlessConstruction,
 		bool GenerateEmptyStatic,
+		string? PropertyName,
 		int? MinimumCount,
 		int? MaximumCount) 
 	: ValueObjectBase(
@@ -20,6 +21,7 @@ public record ListValueObject(
 		AddCustomValidation: AddCustomValidation,
 		ProhibitParameterlessConstruction: ProhibitParameterlessConstruction, 
 		GenerateEmptyStatic: GenerateEmptyStatic,
+		PropertyName: PropertyName ?? "List",
 		GenerateComparable: false)
 {
 	public override string? GetNamespaces()
@@ -41,16 +43,16 @@ using {elementNamespace.ToDisplayString()};";
 
 	public override string GetEqualsCode()			=> $@"public {(this.IsUnsealedRecordClass ? "virtual " : null)}bool Equals({this.Name}? other)
 	{{
-		if (ReferenceEquals(this, other)) return true;
-		if (other is null) return false;
-		return this.SequenceEqual(other.Value);
+		if (ReferenceEquals(this.{this.PropertyName}, other?.{this.PropertyName})) return true;
+		if (other?.{this.PropertyName} is not {{ }} otherValue) return false;
+		return this.{this.PropertyName}.SequenceEqual(otherValue);
 	}}";
 	
 	public override string? GetCompareToCode()		=> null;
 
 	public override string GetDefaultValue()		=> $"new(new List<{this.ElementTypeName}>().ToImmutableList());";
 	
-	public override string GetLengthOrCountCode()	=> $"public int Count => this.Value.Count;";
+	public override string GetLengthOrCountCode()	=> $"public int Count => this.{this.PropertyName}.Count;";
 
 	public override string GetValidationCode()
 	{
@@ -65,7 +67,7 @@ using {elementNamespace.ToDisplayString()};";
 		return validation.ToString();
 	}
 	
-	public override string GetEnumeratorCode() => $"public IEnumerator<{this.ElementTypeName}> GetEnumerator() => this.Value.GetEnumerator();";
+	public override string GetEnumeratorCode() => $"public IEnumerator<{this.ElementTypeName}> GetEnumerator() => this.{this.PropertyName}.GetEnumerator();";
 
-	public override string GetExtraCode() => $@"public {(this.IsUnsealedRecordClass ?  "virtual " : null)}{this.ElementTypeName} this[int index] => index < this.Count ? this.Value.ElementAt(index) : throw Exceptions.IndexOutOfRangeException<{this.Name}>.Create(index);";
+	public override string GetExtraCode() => $@"public {(this.IsUnsealedRecordClass ?  "virtual " : null)}{this.ElementTypeName} this[int index] => index < this.Count ? this.{this.PropertyName}.ElementAt(index) : throw Exceptions.IndexOutOfRangeException<{this.Name}>.Create(index);";
 }

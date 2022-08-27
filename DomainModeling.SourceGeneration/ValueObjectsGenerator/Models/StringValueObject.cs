@@ -27,6 +27,7 @@ public record StringValueObject(
 		bool AddCustomValidation,
 		bool ProhibitParameterlessConstruction,
 		bool GenerateEmptyStatic,
+		string? PropertyName,
 		int? MinimumLength,
 		int? MaximumLength,
 		StringCaseConversion StringCaseConversion,
@@ -41,25 +42,26 @@ public record StringValueObject(
 		AddCustomValidation: AddCustomValidation,
 		ProhibitParameterlessConstruction: ProhibitParameterlessConstruction,
 		GenerateEmptyStatic: GenerateEmptyStatic,
+		PropertyName: PropertyName ?? "Value",
 		GenerateComparable: true)
 {
 	public override string? GetNamespaces()			=> null;
 	
 	public override string GetCommentsCode()		=> $"A {(this.StringCaseConversion == StringCaseConversion.NoConversion ? null : $"{this.StringCaseConversion} ")}{this.StringFormat} string.";
 
-	public override string GetToStringCode()		=> $"public override string ToString() => this.ToEasyString(new {{ this.Value }});";
+	public override string GetToStringCode()		=> $"public override string ToString() => this.ToEasyString(new {{ this.{this.PropertyName} }});";
 	
 	public override string GetInterfacesCode()		=> $"IEnumerable<{this.ElementTypeName}>";
 
-	public override string GetHashCodeCode()		=> $"public override int GetHashCode() => this.Value.GetHashCode();";
+	public override string GetHashCodeCode()		=> $"public override int GetHashCode() => this.{this.PropertyName}.GetHashCode();";
 
-	public override string GetEqualsCode()			=> $"public {(this.IsUnsealedRecordClass ? "virtual " : null)}bool Equals({this.Name}? other) => String.Equals(this.Value, other?.Value, StringComparison.{this.CompareOptions});";
+	public override string GetEqualsCode()			=> $"public {(this.IsUnsealedRecordClass ? "virtual " : null)}bool Equals({this.Name}? other) => String.Equals(this.{this.PropertyName}, other?.{this.PropertyName}, StringComparison.{this.CompareOptions});";
 
-	public override string GetCompareToCode()		=> $"public int CompareTo({this.Name}{this.Nullable} other) => String.Compare(this.Value, other{this.Nullable}.Value, StringComparison.{this.CompareOptions});";
+	public override string GetCompareToCode()		=> $"public int CompareTo({this.Name}{this.Nullable} other) => String.Compare(this.{this.PropertyName}, other{this.Nullable}.{this.PropertyName}, StringComparison.{this.CompareOptions});";
 
 	public override string GetDefaultValue()		=> $"new(\"\");";
 	
-	public override string GetLengthOrCountCode()	=> $"public int Length => this.Value.Length;";
+	public override string GetLengthOrCountCode()	=> $"public int Length => this.{this.PropertyName}.Length;";
 
 	public override string GetValidationCode()
 	{
@@ -76,7 +78,7 @@ public record StringValueObject(
 				_										=> throw new ArgumentOutOfRangeException(nameof(this.StringFormat), this.StringFormat, null)
 			};
 
-			validation.AppendLine($@"			if (Regex.IsMatch(value, ""{formatRegex}"", RegexOptions.Compiled)) throw new ArgumentException(""Invalid characters in {this.Name} of format {this.StringFormat}. Value '{{value}}'."");");
+			validation.AppendLine($@"			if (Regex.IsMatch(value, ""{formatRegex}"", RegexOptions.Compiled)) throw new ArgumentException(""Invalid characters in {this.Name} of format {this.StringFormat}. {this.PropertyName} '{{value}}'."");");
 		}
 			
 		if (this.MinimumLength is not null)
@@ -91,7 +93,7 @@ public record StringValueObject(
 		return validation.ToString();
 	}
 	
-	public override string GetEnumeratorCode() => $"public IEnumerator<{this.ElementTypeName}> GetEnumerator() => this.Value.GetEnumerator();";
+	public override string GetEnumeratorCode() => $"public IEnumerator<{this.ElementTypeName}> GetEnumerator() => this.{this.PropertyName}.GetEnumerator();";
 
 	public override string? GetExtraCode() => null;
 }

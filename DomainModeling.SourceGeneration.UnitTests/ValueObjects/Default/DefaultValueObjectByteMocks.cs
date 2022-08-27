@@ -20,19 +20,19 @@ public partial class DefaultByteClassMock { }
 public partial record DefaultByteRecordClassMock;
 
 
-[GenerateValueObject<byte>(minimumValue: 0, maximumValue: 10, prohibitParameterlessConstruction: false, addCustomValidation: true, generateEmptyStatic: false, generateToString: false)]
+[GenerateValueObject<byte>(minimumValue: 0, maximumValue: 10, prohibitParameterlessConstruction: false, addCustomValidation: true, generateEmptyStatic: false, generateToString: false, propertyName: "Test")]
 public partial record struct DefaultByteRecordStructSettingsMock
 {
 	public void Validate() { }
 }
 
-[GenerateValueObject<byte>(minimumValue: 0, maximumValue: 10, prohibitParameterlessConstruction: false, addCustomValidation: true, generateEmptyStatic: false, generateToString: false)]
+[GenerateValueObject<byte>(minimumValue: 0, maximumValue: 10, prohibitParameterlessConstruction: false, addCustomValidation: true, generateEmptyStatic: false, generateToString: false, propertyName: "Test")]
 public partial record DefaultByteRecordClassSettingsMock
 {
 	public void Validate() { }
 }
 
-[GenerateValueObject<byte>(minimumValue: 0, maximumValue: 10, prohibitParameterlessConstruction: false, addCustomValidation: true, generateEmptyStatic: false, generateToString: false)]
+[GenerateValueObject<byte>(minimumValue: 0, maximumValue: 10, prohibitParameterlessConstruction: false, addCustomValidation: true, generateEmptyStatic: false, generateToString: false, propertyName: "Test")]
 public sealed partial record DefaultByteSealedRecordClassSettingsMock
 {
 	public void Validate() { }

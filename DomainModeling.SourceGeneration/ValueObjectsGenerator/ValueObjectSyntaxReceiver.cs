@@ -45,7 +45,8 @@ internal static class ValueObjectSyntaxReceiver
 		var declaration = GetDeclaration(typeDeclarationSyntax, type.Name);
 		var generateToString = attribute.GetArgumentOrDefault("generateToString", true);
 		var addCustomValidation = attribute.GetArgumentOrDefault("addCustomValidation", false);
-		var prohibitParameterlessConstruction = attribute.GetArgumentOrDefault("prohibitParameterlessConstruction", true);
+		var generateDefaultConstructor = attribute.GetArgumentOrDefault("generateDefaultConstructor", true);
+		var generateParameterlessConstructor = attribute.GetArgumentOrDefault("generateParameterlessConstructor", false);
 		var generateEmptyStatic = attribute.GetArgumentOrDefault("generateEmptyStatic", true);
 		var propertyName = attribute.GetArgumentOrDefault("propertyName", (string?)null);
 		
@@ -56,7 +57,8 @@ internal static class ValueObjectSyntaxReceiver
 				Declaration: declaration,
 				GenerateToString: generateToString,
 				AddCustomValidation: addCustomValidation,
-				ProhibitParameterlessConstruction: prohibitParameterlessConstruction,
+				GenerateDefaultConstructor: generateDefaultConstructor,
+				GenerateParameterlessConstructor: generateParameterlessConstructor,
 				GenerateEmptyStatic: generateEmptyStatic,
 				PropertyName: propertyName,
 				MinimumValue: attribute.TryGetArgument<int>("minimumValue", out var minimumValue) && minimumValue != Int32.MinValue ? minimumValue : null,
@@ -69,7 +71,8 @@ internal static class ValueObjectSyntaxReceiver
 				Declaration: declaration,
 				GenerateToString: generateToString,
 				AddCustomValidation: addCustomValidation,
-				ProhibitParameterlessConstruction: prohibitParameterlessConstruction,
+				GenerateDefaultConstructor: generateDefaultConstructor,
+				GenerateParameterlessConstructor: generateParameterlessConstructor,
 				GenerateEmptyStatic: generateEmptyStatic,
 				PropertyName: propertyName,
 				MinimumLength: attribute.TryGetArgument<int>("minimumLength", out var minimumLength) && minimumLength != Int32.MinValue ? minimumLength : null,
@@ -85,7 +88,8 @@ internal static class ValueObjectSyntaxReceiver
 				Declaration: declaration,
 				GenerateToString: generateToString,
 				AddCustomValidation: addCustomValidation,
-				ProhibitParameterlessConstruction: prohibitParameterlessConstruction,
+				GenerateDefaultConstructor: generateDefaultConstructor,
+				GenerateParameterlessConstructor: generateParameterlessConstructor,
 				GenerateEmptyStatic: generateEmptyStatic,
 				PropertyName: propertyName,
 				MinimumCount: attribute.TryGetArgument<int>("minimumCount", out var minimumCount) && minimumCount != Int32.MinValue ? minimumCount : null,
@@ -98,7 +102,8 @@ internal static class ValueObjectSyntaxReceiver
 				Declaration: declaration,
 				GenerateToString: generateToString,
 				AddCustomValidation: addCustomValidation,
-				ProhibitParameterlessConstruction: prohibitParameterlessConstruction,
+				GenerateDefaultConstructor: generateDefaultConstructor,
+				GenerateParameterlessConstructor: generateParameterlessConstructor,
 				GenerateEmptyStatic: generateEmptyStatic,
 				PropertyName: propertyName,
 				MinimumCount: attribute.TryGetArgument<int>("minimumCount", out var minimumCount) && minimumCount != Int32.MinValue ? minimumCount : null,

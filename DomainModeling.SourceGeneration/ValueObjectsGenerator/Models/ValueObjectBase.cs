@@ -8,7 +8,8 @@ public abstract record ValueObjectBase(
 	string ElementTypeName,
 	bool GenerateToString, 
 	bool AddCustomValidation,
-	bool ProhibitParameterlessConstruction,
+	bool GenerateDefaultConstructor,
+	bool GenerateParameterlessConstructor,
 	bool GenerateEmptyStatic,
 	string PropertyName,
 	bool GenerateComparable)

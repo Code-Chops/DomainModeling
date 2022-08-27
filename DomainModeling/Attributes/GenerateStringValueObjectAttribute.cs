@@ -8,7 +8,11 @@ public sealed class GenerateStringValueObject : Attribute
 {
 	/// <param name="generateToString">Generates a ToString(). Default: true.</param>
 	/// <param name="addCustomValidation">Forces to create a Validate method so custom validation can be implemented. Default: false.</param>
-	/// <param name="prohibitParameterlessConstruction">Creates an obsolete parameterless private constructor that throws an exception. Structs can still be instantiated by using default(). Default: true.</param>
+	/// <param name="generateDefaultConstructor">Generates a default constructor. Default: true.</param>
+	/// <param name="generateParameterlessConstructor">
+	/// Generates a parameterless constructor that assigns a default value to the property.
+	/// If false, it creates an obsolete parameterless private constructor that throws an exception. Default: false.
+	/// </param>
 	/// <param name="generateEmptyStatic">Generate a static property with a default value. Default: true.</param>
 	/// <param name="propertyName">The name of the property and the backing field. Default: Value (_value).</param>
 	/// <param name="minimumLength">The minimum length of the string. Default: no minimum length.</param>
@@ -20,7 +24,8 @@ public sealed class GenerateStringValueObject : Attribute
 	public GenerateStringValueObject(
 		bool generateToString = true,
 		bool addCustomValidation = false,
-		bool prohibitParameterlessConstruction = true,
+		bool generateDefaultConstructor = true,
+		bool generateParameterlessConstructor = false, 
 		bool generateEmptyStatic = true,
 		string? propertyName = null,
 		int minimumLength = Int32.MinValue,

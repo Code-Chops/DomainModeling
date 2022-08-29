@@ -48,7 +48,7 @@ public record DictionaryValueObject(
 	
 	public override string GetCommentsCode()		=> $"A dictionary of {this.ElementTypeName} by {this.KeyTypeName}.";
 
-	public override string GetToStringCode()		=> $"public override string ToString() => this.ToEasyString(new {{ Key = \"{this.KeyTypeName}\", Value = \"{this.ElementTypeName}\" }});";
+	public override string GetToStringCode()		=> $"public override string ToString() => this.ToEasyString(new {{ Key = \"{this.KeyTypeName}\", Value = \"{this.ElementTypeName}\" }}, this.Count.ToString());";
 	
 	public override string GetInterfacesCode()		=> $"IReadOnlyDictionary<{this.KeyTypeName}, {this.ElementTypeName}>";
 

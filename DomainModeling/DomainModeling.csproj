@@ -11,8 +11,8 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>0.20.0</Version>
-        <PackageReleaseNotes>Generate comparison is default true, added Equals(object), for generated value objects.</PackageReleaseNotes>
+        <Version>0.20.1</Version>
+        <PackageReleaseNotes>Comparison enhancements to Identity.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainDrivenDesign.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>

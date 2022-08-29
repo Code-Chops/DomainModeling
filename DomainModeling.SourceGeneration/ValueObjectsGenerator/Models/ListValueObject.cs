@@ -38,7 +38,7 @@ public record ListValueObject(
 
 	public override string GetCommentsCode()		=> $"An enumerable of {this.ElementTypeName}.";
 
-	public override string GetToStringCode()		=> $"public override string ToString() => this.ToEasyString(null);";
+	public override string GetToStringCode()		=> $"public override string ToString() => this.ToEasyString(new {{ Type = \"{this.ElementTypeName}\" }}, this.Count.ToString());";
 	
 	public override string GetInterfacesCode()		=> $"IEnumerable<{this.ElementTypeName}>";
 

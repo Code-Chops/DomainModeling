@@ -232,12 +232,12 @@ public class ValueObjectGenerator : IIncrementalGenerator
 	public {data.Name}()
 	{{
 		this.{data.PropertyName} = {data.GetDefaultValue()};
-	}}
-#pragma warning restore CS8618"
+	}}"
 				: $@"
 #pragma warning disable CS8618
 	[Obsolete(""{error}"", true)]
-	public {data.Name}() => throw new InvalidOperationException($""{error}"");";
+	public {data.Name}() => throw new InvalidOperationException($""{error}"");
+#pragma warning restore CS8618";
 		}
 		
 

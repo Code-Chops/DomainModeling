@@ -11,8 +11,8 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>0.20.1</Version>
-        <PackageReleaseNotes>Comparison enhancements to Identity.</PackageReleaseNotes>
+        <Version>0.20.2</Version>
+        <PackageReleaseNotes>Fix value object string equals.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainDrivenDesign.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>

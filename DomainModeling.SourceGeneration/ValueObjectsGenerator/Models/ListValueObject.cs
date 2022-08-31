@@ -1,7 +1,7 @@
 namespace CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration.ValueObjectsGenerator.Models;
 
 public record ListValueObject(
-		INamedTypeSymbol Type,
+		INamedTypeSymbol ValueObjectType,
 		// ReSharper disable once NotAccessedPositionalProperty.Global
 		AttributeData Attribute,
 		string Declaration,
@@ -15,10 +15,9 @@ public record ListValueObject(
 		int? MinimumCount,
 		int? MaximumCount) 
 	: ValueObjectBase(
-		Type: Type,
+		ValueObjectType: ValueObjectType,
 		Declaration: Declaration,
-		TypeName: $"ImmutableList<{Attribute.AttributeClass!.TypeArguments.Single().Name}>",
-		ElementTypeName: Attribute.AttributeClass!.TypeArguments.Single().Name,
+		UnderlyingTypeName: $"ImmutableList<{Attribute.AttributeClass!.TypeArguments.Single().Name}>",
 		GenerateToString: GenerateToString,
 		GenerateComparison: GenerateComparison,
 		AddCustomValidation: AddCustomValidation,
@@ -28,6 +27,8 @@ public record ListValueObject(
 		PropertyName: PropertyName ?? "List",
 		AddIComparable: false)
 {
+	public string ElementTypeName { get; } = Attribute.AttributeClass!.TypeArguments.Single().Name;
+
 	public override string[] GetNamespaces()
 	{
 		var elementNamespace = this.Attribute.AttributeClass!.TypeArguments.Single().ContainingNamespace;
@@ -44,10 +45,10 @@ public record ListValueObject(
 
 	public override string GetHashCodeCode()		=> $"public override int GetHashCode() => this.Count == 0 ? 1 : 2;";
 
-	public override string GetEqualsCode()			=> $@"public {(this.IsUnsealedRecordClass ? "virtual " : null)}bool Equals({this.Name}{this.Nullable} other)
+	public override string GetEqualsCode()			=> $@"public {(this.IsUnsealedRecordClass ? "virtual " : null)}bool Equals({this.Name}{this.NullOperator} other)
 	{{
-		if (ReferenceEquals(this.{this.PropertyName}, other{this.Nullable}.{this.PropertyName})) return true;
-		if (other{this.Nullable}.{this.PropertyName} is not {{ }} otherValue) return false;
+		if (ReferenceEquals(this.{this.PropertyName}, other{this.NullOperator}.{this.PropertyName})) return true;
+		if (other{this.NullOperator}.{this.PropertyName} is not {{ }} otherValue) return false;
 		return this.{this.PropertyName}.SequenceEqual(otherValue);
 	}}";
 	public override string GetObjectEqualsCode()	=> $"public override {(this.IsUnsealedRecordClass ? "virtual " : null)}bool Equals(object? other) => other is {this.Name} {this.LocalVariableName} && this.Equals({this.LocalVariableName});";
@@ -62,11 +63,13 @@ public record ListValueObject(
 	{
 		var validation = new StringBuilder();
 
+		validation.AppendLine($@"			if (value is null) throw new ArgumentNullException(""{this.LocalVariableName}"");");
+
 		if (this.MinimumCount is not null)
-			validation.AppendLine($@"			if (value.Count < {this.MinimumCount}) throw new ArgumentException($""Count of {this.Name} is less ({{value.Count}}) than {nameof(this.MinimumCount)} {this.MinimumCount}."");");
+			validation.AppendLine($@"			if (value.Count < {this.MinimumCount}) throw new ArgumentException($""Count ({{value.Count}}) of {this.Name} is less  han {nameof(this.MinimumCount)} {this.MinimumCount}."");");
 			
 		if (this.MaximumCount is not null)
-			validation.AppendLine($@"			if (value.Count > {this.MaximumCount}) throw new ArgumentException($""Count of {this.Name} is higher ({{value.Count}}) than {nameof(this.MaximumCount)} {this.MaximumCount}."");");
+			validation.AppendLine($@"			if (value.Count > {this.MaximumCount}) throw new ArgumentException($""Count ({{value.Count}}) of {this.Name} is higher than {nameof(this.MaximumCount)} {this.MaximumCount}."");");
 
 		return validation.ToString();
 	}

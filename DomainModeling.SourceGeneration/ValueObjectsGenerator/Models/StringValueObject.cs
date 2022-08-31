@@ -20,7 +20,7 @@ public enum StringFormat
 }
 
 public record StringValueObject(
-		INamedTypeSymbol Type,
+		INamedTypeSymbol ValueObjectType,
 		string Declaration,
 		bool GenerateToString,
 		bool GenerateComparison,
@@ -29,16 +29,16 @@ public record StringValueObject(
 		bool GenerateParameterlessConstructor,
 		bool GenerateEmptyStatic,
 		string? PropertyName,
+		bool AllowNull,
 		int? MinimumLength,
 		int? MaximumLength,
 		StringCaseConversion StringCaseConversion,
 		StringFormat StringFormat,
 		StringComparison CompareOptions) 
 	: ValueObjectBase(
-		Type: Type,
+		ValueObjectType: ValueObjectType,
 		Declaration: Declaration,
-		TypeName: nameof(String),
-		ElementTypeName: nameof(Char), 
+		UnderlyingTypeName: nameof(String),
 		GenerateToString: GenerateToString,
 		GenerateComparison: GenerateComparison,
 		AddCustomValidation: AddCustomValidation,
@@ -48,6 +48,9 @@ public record StringValueObject(
 		PropertyName: PropertyName ?? "Value",
 		AddIComparable: true)
 {
+	public string ElementTypeName { get; } = nameof(Char);
+
+	
 	public override string[] GetNamespaces()		=> Array.Empty<string>();
 	
 	public override string GetCommentsCode()		=> $"A {(this.StringCaseConversion == StringCaseConversion.NoConversion ? null : $"{this.StringCaseConversion} ")}{this.StringFormat} string.";
@@ -58,10 +61,10 @@ public record StringValueObject(
 
 	public override string GetHashCodeCode()		=> $"public override int GetHashCode() => String.GetHashCode({this.PropertyName}, StringComparison.{this.CompareOptions});";
 
-	public override string GetEqualsCode()			=> $"public {(this.IsUnsealedRecordClass ? "virtual " : null)}bool Equals({this.Name}{this.Nullable} other) => String.Equals(this.{this.PropertyName}, other{this.Nullable}.{this.PropertyName}, StringComparison.{this.CompareOptions});";
+	public override string GetEqualsCode()			=> $"public {(this.IsUnsealedRecordClass ? "virtual " : null)}bool Equals({this.Name}{this.NullOperator} other) => String.Equals(this.{this.PropertyName}, other{this.NullOperator}.{this.PropertyName}, StringComparison.{this.CompareOptions});";
 	public override string GetObjectEqualsCode()	=> $"public override {(this.IsUnsealedRecordClass ? "virtual " : null)}bool Equals(object? other) => other is {this.Name} {this.LocalVariableName} && this.Equals({this.LocalVariableName});";
 
-	public override string GetCompareToCode()		=> $"public int CompareTo({this.Name}{this.Nullable} other) => String.Compare(this.{this.PropertyName}, other{this.Nullable}.{this.PropertyName}, StringComparison.{this.CompareOptions});";
+	public override string GetCompareToCode()		=> $"public int CompareTo({this.Name}{this.NullOperator} other) => String.Compare(this.{this.PropertyName}, other{this.NullOperator}.{this.PropertyName}, StringComparison.{this.CompareOptions});";
 
 	public override string GetDefaultValue()		=> $"\"\"";
 	
@@ -70,6 +73,9 @@ public record StringValueObject(
 	public override string GetValidationCode()
 	{
 		var validation = new StringBuilder();
+
+		if (!this.AllowNull)
+			validation.AppendLine($@"			if (value is null) throw new ArgumentNullException(""{this.LocalVariableName}"");");
 
 		if (this.StringFormat is not StringFormat.Default)
 		{
@@ -86,10 +92,10 @@ public record StringValueObject(
 		}
 			
 		if (this.MinimumLength is not null)
-			validation.AppendLine($@"			if (value.Length < {this.MinimumLength}) throw new ArgumentException($""String of {this.Name} is shorter ({{value.Length}}) than {nameof(this.MinimumLength)} {this.MinimumLength}."");");
+			validation.AppendLine($@"			if (value.Length < {this.MinimumLength}) throw new ArgumentException($""String of {this.Name} is shorter ({{value.Length}} characters) than {nameof(this.MinimumLength)} {this.MinimumLength}."");");
 			
 		if (this.MaximumLength is not null)
-			validation.AppendLine($@"			if (value.Length > {this.MaximumLength}) throw new ArgumentException($""String of {this.Name} is longer ({{value.Length}}) than {nameof(this.MaximumLength)} {this.MaximumLength}."");");
+			validation.AppendLine($@"			if (value.Length > {this.MaximumLength}) throw new ArgumentException($""String of {this.Name} is longer ({{value.Length}} characters) than {nameof(this.MaximumLength)} {this.MaximumLength}."");");
 
 		if (this.StringCaseConversion is not StringCaseConversion.NoConversion)
 			validation.AppendLine($"			value = value.To{this.StringCaseConversion}();");

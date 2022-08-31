@@ -1,7 +1,8 @@
+// ReSharper disable NotAccessedPositionalProperty.Global
 namespace CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration.ValueObjectsGenerator.Models;
 
 public sealed record DefaultValueObject(
-		INamedTypeSymbol Type,
+		INamedTypeSymbol ValueObjectType,
 		AttributeData Attribute,
 		string Declaration,
 		bool GenerateToString,
@@ -11,13 +12,13 @@ public sealed record DefaultValueObject(
 		bool GenerateParameterlessConstructor,
 		bool GenerateEmptyStatic,
 		string? PropertyName,
+		bool AllowNull,
 		int? MinimumValue,
 		int? MaximumValue) 
 	: ValueObjectBase(
-		Type: Type,
+		ValueObjectType: ValueObjectType,
 		Declaration: Declaration,
-		TypeName: Attribute.AttributeClass!.TypeArguments.Single().Name,
-		ElementTypeName: Attribute.AttributeClass!.TypeArguments.Single().Name,
+		UnderlyingTypeName: GetUnderlyingTypeName(Attribute, AllowNull),
 		GenerateToString: GenerateToString,  
 		GenerateComparison: GenerateComparison,
 		AddCustomValidation: AddCustomValidation,
@@ -27,9 +28,15 @@ public sealed record DefaultValueObject(
 		PropertyName: PropertyName ?? "Value",
 		AddIComparable: true)
 {
+	public static string GetUnderlyingTypeName(AttributeData attribute, bool allowNull)
+	{
+		var data = attribute.AttributeClass!.TypeArguments.Single();
+		return $"{data.Name}{(data.TypeKind is TypeKind.Struct && allowNull ? "?" : null)}";
+	}
+	
 	public override string[] GetNamespaces()		=> Array.Empty<string>();
 
-	public override string GetCommentsCode()		=> $"Type {this.TypeName}.";
+	public override string GetCommentsCode()		=> $"Type {this.UnderlyingTypeName}.";
 
 	public override string GetToStringCode()		=> $"public override string ToString() => this.ToEasyString(new {{ this.{this.PropertyName} }});";
 	
@@ -37,12 +44,12 @@ public sealed record DefaultValueObject(
 	
 	public override string GetHashCodeCode()		=> $"public override int GetHashCode() => this.{this.PropertyName}.GetHashCode();";
 
-	public override string GetEqualsCode()			=> $"public {(this.IsUnsealedRecordClass ? "virtual " : null)}bool Equals({this.Name}{this.Nullable} other) => {this.TypeName}.Equals(this.{this.PropertyName}, other{this.Nullable}.{this.PropertyName});";
+	public override string GetEqualsCode()			=> $"public {(this.IsUnsealedRecordClass ? "virtual " : null)}bool Equals({this.Name}{this.NullOperator} other) => {this.UnderlyingTypeName}.Equals(this.{this.PropertyName}, other{this.NullOperator}.{this.PropertyName});";
 	public override string GetObjectEqualsCode()	=> $"public override {(this.IsUnsealedRecordClass ? "virtual " : null)}bool Equals(object? other) => other is {this.Name} {this.LocalVariableName} && this.Equals({this.LocalVariableName});";
 
-	public override string GetCompareToCode()		=> $"public int CompareTo({this.Name}{this.Nullable} other) => this.{this.PropertyName}.CompareTo(other{this.Nullable}.{this.PropertyName});";
+	public override string GetCompareToCode()		=> $"public int CompareTo({this.Name}{this.NullOperator} other) => this.{this.PropertyName}.CompareTo(other{this.NullOperator}.{this.PropertyName});";
 
-	public override string GetDefaultValue()		=> $"default({this.TypeName})";
+	public override string GetDefaultValue()		=> $"default({this.UnderlyingTypeName})";
 	
 	public override string? GetLengthOrCountCode()	=> null;
 
@@ -51,10 +58,10 @@ public sealed record DefaultValueObject(
 		var validation = new StringBuilder();
 
 		if (this.MinimumValue is not null)
-			validation.AppendLine($@"			if (value < {this.MinimumValue}) throw new ArgumentException($""{this.TypeName} of {this.Name} is smaller ({{value}}) than {nameof(this.MinimumValue)} {this.MinimumValue}."");");
+			validation.AppendLine($@"			if (value < {this.MinimumValue}) throw new ArgumentException($""{{this}} is smaller than {nameof(this.MinimumValue)} {this.MinimumValue}."");");
 			
 		if (this.MaximumValue is not null)
-			validation.AppendLine($@"			if (value > {this.MaximumValue}) throw new ArgumentException($""{this.TypeName} of {this.Name} is higher ({{value}}) than {nameof(this.MaximumValue)} {this.MaximumValue}."");");
+			validation.AppendLine($@"			if (value > {this.MaximumValue}) throw new ArgumentException($""{{this}} is higher than {nameof(this.MaximumValue)} {this.MaximumValue}."");");
 
 		return validation.ToString();
 	}

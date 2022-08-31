@@ -1,11 +1,21 @@
 namespace CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration.ValueObjectsGenerator.Models;
 
+/// <param name="ValueObjectType">The type of the partial class being generated.</param>
+/// <param name="Declaration">The declaration of the class being generated </param>
+/// <param name="UnderlyingTypeName"></param>
+/// <param name="GenerateToString"></param>
+/// <param name="GenerateComparison"></param>
+/// <param name="AddCustomValidation"></param>
+/// <param name="GenerateDefaultConstructor"></param>
+/// <param name="GenerateParameterlessConstructor"></param>
+/// <param name="GenerateEmptyStatic"></param>
+/// <param name="PropertyName"></param>
+/// <param name="AddIComparable"></param>
 public abstract record ValueObjectBase(
 	// ReSharper disable once NotAccessedPositionalProperty.Global
-	INamedTypeSymbol Type,
+	INamedTypeSymbol ValueObjectType,
 	string Declaration,
-	string TypeName,
-	string ElementTypeName,
+	string UnderlyingTypeName,
 	bool GenerateToString, 
 	bool GenerateComparison,
 	bool AddCustomValidation,
@@ -15,10 +25,22 @@ public abstract record ValueObjectBase(
 	string PropertyName,
 	bool AddIComparable)
 {
-	public bool IsUnsealedRecordClass { get; } = Type.IsRecord && Type.TypeKind is not TypeKind.Struct && !Type.IsSealed;
-	public string? Nullable { get; } = Type.TypeKind is TypeKind.Struct ? null : "?";
-	public string Name { get; } = Type.Name;
-	public string? Namespace { get; } = Type.ContainingNamespace!.IsGlobalNamespace ? null : Type.ContainingNamespace.ToDisplayString();
+	public bool IsUnsealedRecordClass { get; } = ValueObjectType.IsRecord && ValueObjectType.TypeKind is not TypeKind.Struct && !ValueObjectType.IsSealed;
+
+	/// <summary>
+	/// Null conditional operator.
+	/// </summary>
+	public string? NullOperator { get; } = ValueObjectType.TypeKind is not TypeKind.Struct ? "?" : null;
+	
+	/// <summary>
+	/// The name of the partial class being generated.
+	/// </summary>
+	public string Name { get; } = ValueObjectType.Name;
+	public string? Namespace { get; } = ValueObjectType.ContainingNamespace!.IsGlobalNamespace ? null : ValueObjectType.ContainingNamespace.ToDisplayString();
+	
+	/// <summary>
+	/// Has a different name each time it's generated. In order to prohibit direct usage of the backing field.
+	/// </summary>
 	public string BackingFieldName { get; } = $"_{PropertyName.Substring(0, 1).ToLowerInvariant()}{PropertyName.Substring(1)}{new Random().Next(0, 9999)}";
 	public string LocalVariableName { get; } = PropertyName.Substring(0, 1).ToLowerInvariant() + PropertyName.Substring(1);
 

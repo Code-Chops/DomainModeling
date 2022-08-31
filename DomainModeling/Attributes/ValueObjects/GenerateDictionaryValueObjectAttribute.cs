@@ -1,4 +1,4 @@
-﻿namespace CodeChops.DomainDrivenDesign.DomainModeling.Attributes;
+﻿namespace CodeChops.DomainDrivenDesign.DomainModeling.Attributes.ValueObjects;
 
 /// <summary>
 /// Generates a value object with a single structural value of type Dictionary&lt;<typeparamref name="TKey"/>, <typeparamref name="TValue"/>&gt;.

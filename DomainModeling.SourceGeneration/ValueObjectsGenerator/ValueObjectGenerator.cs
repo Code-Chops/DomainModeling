@@ -141,7 +141,7 @@ public class ValueObjectGenerator : IIncrementalGenerator
 			
 			return $@"
 	{data.GetEqualsCode()}
-	{(data.Type.IsRecord ? null : data.GetObjectEqualsCode())}";
+	{(data.ValueObjectType.IsRecord ? null : data.GetObjectEqualsCode())}";
 		}
 
 
@@ -151,7 +151,7 @@ public class ValueObjectGenerator : IIncrementalGenerator
 			var compareToCode = data.GetCompareToCode();
 			if (compareToCode is null) return null;
 
-			var equalityOperators = data.Type.IsRecord
+			var equalityOperators = data.ValueObjectType.IsRecord
 				? null
 				: $@"
 	public static bool operator ==({data.Name} left, {data.Name} right) => left.{data.PropertyName} == right.{data.PropertyName};
@@ -180,14 +180,14 @@ public class ValueObjectGenerator : IIncrementalGenerator
 		string GetProperty()
 		{
 			var callValidation = data.AddCustomValidation ? "this.Validate();" : null;
-			var error = $"Don't use this field, instead use <see cref='{data.PropertyName}'/>";
+			var error = $"Don't use this field, use the {data.PropertyName} property instead";
 			
 			return $@"	
 #pragma warning disable CS0618 
 	/// <summary>
-    /// The primitive structural value. Use the primary constructor to set the backing field.
+    /// The primitive structural value.
     /// </summary>
-	private {data.TypeName} {data.PropertyName} 
+	private {data.UnderlyingTypeName} {data.PropertyName} 
 	{{
 		get => this.{data.BackingFieldName};
 		init 
@@ -201,23 +201,23 @@ public class ValueObjectGenerator : IIncrementalGenerator
 #pragma warning restore CS0618 
 
     /// <summary>
-    /// Backing field for the structural value. Don't use this field, instead use <see cref='{data.PropertyName}'/>.
+    /// Backing field for the structural value. {error} <see cref='{data.PropertyName}'/>.
 	/// </summary>
-	[Obsolete(""{error}"")]
-	private readonly {data.TypeName} {data.BackingFieldName} = {data.GetDefaultValue()}!;";
+	[Obsolete(""{error}."")]
+	private readonly {data.UnderlyingTypeName} {data.BackingFieldName} = {data.GetDefaultValue()}!;";
 		}
 
 		
 		string? GetCasts() => data.GenerateDefaultConstructor
 			? $@"
-	public static implicit operator {data.TypeName}({data.Name} obj) => obj.{data.PropertyName};
-	public static explicit operator {data.Name}({data.TypeName} {data.LocalVariableName}) => new({data.LocalVariableName});"
+	public static implicit operator {data.UnderlyingTypeName}({data.Name} obj) => obj.{data.PropertyName};
+	public static explicit operator {data.Name}({data.UnderlyingTypeName} {data.LocalVariableName}) => new({data.LocalVariableName});"
 			: null;
 		
 		
 		string? GetDefaultConstructor() => data.GenerateDefaultConstructor
 			? $@"
-	public {data.Name}({data.TypeName} {data.LocalVariableName})
+	public {data.Name}({data.UnderlyingTypeName} {data.LocalVariableName})
 	{{	
 		this.{data.PropertyName} = {data.LocalVariableName};
 	}}"

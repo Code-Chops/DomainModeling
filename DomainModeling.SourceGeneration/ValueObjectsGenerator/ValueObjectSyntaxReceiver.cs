@@ -4,7 +4,7 @@ namespace CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration.ValueObje
 
 internal static class ValueObjectSyntaxReceiver
 {
-	private const string AttributeNamespace			= "CodeChops.DomainDrivenDesign.DomainModeling.Attributes";
+	private const string AttributeNamespace			= "CodeChops.DomainDrivenDesign.DomainModeling.Attributes.ValueObjects";
 	private const string DefaultAttributeName		= "GenerateValueObject";
 	private const string StringAttributeName		= "GenerateStringValueObject";
 	private const string ListAttributeName			= "GenerateListValueObjectAttribute";
@@ -50,10 +50,10 @@ internal static class ValueObjectSyntaxReceiver
 		var generateParameterlessConstructor = attribute.GetArgumentOrDefault("generateParameterlessConstructor", false);
 		var generateEmptyStatic = attribute.GetArgumentOrDefault("generateEmptyStatic", false);
 		var propertyName = attribute.GetArgumentOrDefault("propertyName", (string?)null);
-		
+
 		if (hasDefaultAttribute)
 			return new DefaultValueObject(
-				Type: type,
+				ValueObjectType: type,
 				Attribute: attribute,
 				Declaration: declaration,
 				GenerateToString: generateToString,
@@ -63,12 +63,13 @@ internal static class ValueObjectSyntaxReceiver
 				GenerateParameterlessConstructor: generateParameterlessConstructor,
 				GenerateEmptyStatic: generateEmptyStatic,
 				PropertyName: propertyName,
+				AllowNull: attribute.GetArgumentOrDefault("allowNull", false),
 				MinimumValue: attribute.TryGetArgument<int>("minimumValue", out var minimumValue) && minimumValue != Int32.MinValue ? minimumValue : null,
 				MaximumValue: attribute.TryGetArgument<int>("maximumValue", out var maximumValue) && maximumValue != Int32.MinValue ? maximumValue : null);
 
 		if (hasStringAttribute)
 			return new StringValueObject(
-				Type: type,
+				ValueObjectType: type,
 				Declaration: declaration,
 				GenerateToString: generateToString,
 				GenerateComparison: generateComparison,
@@ -77,6 +78,7 @@ internal static class ValueObjectSyntaxReceiver
 				GenerateParameterlessConstructor: generateParameterlessConstructor,
 				GenerateEmptyStatic: generateEmptyStatic,
 				PropertyName: propertyName,
+				AllowNull: attribute.GetArgumentOrDefault("allowNull", false),
 				MinimumLength: attribute.TryGetArgument<int>("minimumLength", out var minimumLength) && minimumLength != Int32.MinValue ? minimumLength : null,
 				MaximumLength: attribute.TryGetArgument<int>("maximumLength", out var maximumLength) && maximumLength != Int32.MinValue ? maximumLength : null,
 				StringCaseConversion: attribute.GetArgumentOrDefault("stringCaseConversion", StringCaseConversion.NoConversion),
@@ -85,7 +87,7 @@ internal static class ValueObjectSyntaxReceiver
 
 		if (hasListAttribute)
 			return new ListValueObject(
-				Type: type,
+				ValueObjectType: type,
 				Attribute: attribute,
 				Declaration: declaration,
 				GenerateToString: generateToString,
@@ -100,7 +102,7 @@ internal static class ValueObjectSyntaxReceiver
 		
 		if (hasDictionaryAttribute)
 			return new DictionaryValueObject(
-				Type: type,
+				ValueObjectType: type,
 				Attribute: attribute,
 				Declaration: declaration,
 				GenerateToString: generateToString,

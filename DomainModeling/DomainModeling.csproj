@@ -11,8 +11,8 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>0.21.1</Version>
-        <PackageReleaseNotes>Removed TKey is Id type constraint on mutable dictionary.</PackageReleaseNotes>
+        <Version>0.21.2</Version>
+        <PackageReleaseNotes>Minor fixes for mutable dictionary.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainDrivenDesign.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>

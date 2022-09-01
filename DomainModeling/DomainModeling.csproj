@@ -11,8 +11,8 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>0.21.2</Version>
-        <PackageReleaseNotes>Minor fixes for mutable dictionary.</PackageReleaseNotes>
+        <Version>0.21.3</Version>
+        <PackageReleaseNotes>Mutable dictionary and list now have a mutable property.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainDrivenDesign.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>

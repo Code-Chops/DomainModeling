@@ -5,7 +5,7 @@ public abstract class MutableListEntity<TDomainObject> : Entity, IReadOnlyList<T
 {
 	public override string ToString() => this.ToEasyString(new { TDomainObject = typeof(TDomainObject).Name });
 	
-	protected abstract IReadOnlyList<TDomainObject> List { get; }
+	protected abstract List<TDomainObject> List { get; }
 
 	public int Count => this.List.Count;
 	

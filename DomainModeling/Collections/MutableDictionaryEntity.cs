@@ -1,11 +1,12 @@
 ﻿namespace CodeChops.DomainDrivenDesign.DomainModeling.Collections;
 
 public abstract class MutableDictionaryEntity<TKey, TDomainObject> : Entity, IReadOnlyDictionary<TKey, TDomainObject>
+	where TKey : notnull
 	where TDomainObject : IDomainObject
 {
 	public override string ToString() => this.ToEasyString(new { TId = typeof(TKey).Name, TDomainObject = typeof(TDomainObject).Name });
 	
-	protected abstract IReadOnlyDictionary<TKey, TDomainObject> Dictionary { get; }
+	protected abstract Dictionary<TKey, TDomainObject> Dictionary { get; }
 	
 	public int Count => this.Dictionary.Count;
 

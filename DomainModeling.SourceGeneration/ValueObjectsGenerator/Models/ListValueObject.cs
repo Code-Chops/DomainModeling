@@ -63,18 +63,18 @@ public record ListValueObject(
 	{
 		var validation = new StringBuilder();
 
-		validation.AppendLine($@"			if (value is null) throw new ArgumentNullException(""{this.LocalVariableName}"");");
+		validation.AppendLine($@"			if (value is null) throw new ArgumentNullException(nameof(value));");
 
 		if (this.MinimumCount is not null)
-			validation.AppendLine($@"			if (value.Count < {this.MinimumCount}) throw new ArgumentException($""Count ({{value.Count}}) of {this.Name} is less  han {nameof(this.MinimumCount)} {this.MinimumCount}."");");
+			validation.AppendLine($@"			if (value.Count < {this.MinimumCount}) throw new ArgumentException($""Count {{value.Count}} of {this.Name} is less than {nameof(this.MinimumCount)} {this.MinimumCount}."");");
 			
 		if (this.MaximumCount is not null)
-			validation.AppendLine($@"			if (value.Count > {this.MaximumCount}) throw new ArgumentException($""Count ({{value.Count}}) of {this.Name} is higher than {nameof(this.MaximumCount)} {this.MaximumCount}."");");
+			validation.AppendLine($@"			if (value.Count > {this.MaximumCount}) throw new ArgumentException($""Count {{value.Count}} of {this.Name} is higher than {nameof(this.MaximumCount)} {this.MaximumCount}."");");
 
 		return validation.ToString();
 	}
 	
 	public override string GetEnumeratorCode() => $"public IEnumerator<{this.ElementTypeName}> GetEnumerator() => this.{this.PropertyName}.GetEnumerator();";
 
-	public override string GetExtraCode() => $@"public {(this.IsUnsealedRecordClass ?  "virtual " : null)}{this.ElementTypeName} this[int index] => index < this.Count ? this.{this.PropertyName}.ElementAt(index) : throw IndexOutOfRangeException<{this.Name}>.Create(index);";
+	public override string GetExtraCode() => $@"public {(this.IsUnsealedRecordClass ?  "virtual " : null)}{this.ElementTypeName} this[int index] => index >= 0 && index < this.Count ? this.{this.PropertyName}.ElementAt(index) : throw IndexOutOfRangeException<{this.Name}>.Create(index);";
 }

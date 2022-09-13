@@ -75,7 +75,7 @@ public record StringValueObject(
 		var validation = new StringBuilder();
 
 		if (!this.AllowNull)
-			validation.AppendLine($@"			if (value is null) throw new ArgumentNullException(""{this.LocalVariableName}"");");
+			validation.AppendLine($@"			if (value is null) throw new ArgumentNullException(nameof(value));");
 
 		if (this.StringFormat is not StringFormat.Default)
 		{

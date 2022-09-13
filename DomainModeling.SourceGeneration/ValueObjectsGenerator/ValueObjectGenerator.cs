@@ -116,7 +116,7 @@ public class ValueObjectGenerator : IIncrementalGenerator
 		string GetInterfaces()
 		{
 			var interfaces = new StringBuilder();
-			if (data.GenerateComparison) interfaces.Append($", IEquatable<{data.Name}>");
+			if (data.GenerateComparison && data.GetCompareToCode() is not null) interfaces.Append($", IEquatable<{data.Name}>");
 			if (data.AddCustomValidation) interfaces.Append($", IHasCustomValidation");
 			if (data.GenerateEmptyStatic) interfaces.Append($", IHasEmptyInstance<{data.Name}>");
 			if (data.AddIComparable && data.GenerateComparison) interfaces.Append($", IComparable<{data.Name}>");

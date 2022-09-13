@@ -11,8 +11,8 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>0.21.5</Version>
-        <PackageReleaseNotes>Fixed IEquatable for ListValueObject.</PackageReleaseNotes>
+        <Version>0.21.6</Version>
+        <PackageReleaseNotes>Added system exception with generic parameter type.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainDrivenDesign.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>

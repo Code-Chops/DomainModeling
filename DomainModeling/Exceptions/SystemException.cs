@@ -1,10 +1,10 @@
 ﻿namespace CodeChops.DomainDrivenDesign.DomainModeling.Exceptions;
 
-public abstract class SystemException<TException> : Exception 
-	where TException : SystemException<TException>, ISystemException<TException>
+public abstract class SystemException<TException, TParameter> : Exception 
+	where TException : SystemException<TException, TParameter>, ISystemException<TException, TParameter>
 {
-	protected SystemException(object parameters)
-		: base(message: $"{TException.ErrorMessage}. Info: {EasyStringHelper.ToDisplayString<TException>(parameters, extraText: null)}")	
+	protected SystemException(TParameter key, string? extraText = null)
+		: base(message: $"{TException.ErrorMessage}. Info: {EasyStringHelper.ToDisplayString<TException>(key, extraText: extraText)}")	
 	{
 	}
 }

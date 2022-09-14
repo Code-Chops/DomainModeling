@@ -18,7 +18,7 @@ public abstract class MutableDictionaryEntity<TKey, TDomainObject> : Entity, IRe
 	public bool TryGetValue(TKey key, [MaybeNullWhen(false)] out TDomainObject value) => this.Dictionary.TryGetValue(key, out value);
 
 	public virtual TDomainObject this[TKey key] 
-		=> this.Dictionary.TryGetValue(key, out var value) ? value : throw KeyNotFoundException<TKey, TDomainObject>.Create(new { id = key });
+		=> this.Dictionary.TryGetValue(key, out var value) ? value : throw KeyNotFoundException<TKey, TDomainObject>.Create(key);
 	
 	public IEnumerator<KeyValuePair<TKey, TDomainObject>> GetEnumerator() => this.Dictionary.GetEnumerator();
 	IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();

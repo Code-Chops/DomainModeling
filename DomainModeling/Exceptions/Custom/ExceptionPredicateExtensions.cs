@@ -2,13 +2,12 @@
 
 public static class ExceptionPredicateExtensions
 {
-	public static void Throw<TException>(this ExceptionPredicate predicate, string? parameterName = null)
-		where TException : SystemException, ISystemException<TException>, IDomainObject
+	public static void Throw<TException, TParameter>(this ExceptionPredicate predicate, TParameter parameter)
+		where TException : SystemException, ISystemException<TException, TParameter>, IDomainObject
+		where TParameter : class
 	{
 		if (!predicate.ShouldTrowException) return;
 		
-		parameterName ??= predicate.ArgumentText ?? Path.GetFileNameWithoutExtension(predicate.CallerFilePath) ?? "<unknown>";
-		
-		Validate.Throw<TException>(info: parameterName);
+		Validate.Throw<TException, TParameter>(parameter);
 	}
 }

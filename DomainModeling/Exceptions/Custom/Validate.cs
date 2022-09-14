@@ -15,9 +15,9 @@ public static class Validate
 			=> new(shouldThrowException, argumentText, callerMemberName: callerMemberName, callerFilePath: callerFilePath);
 	
 	[DoesNotReturn]
-	public static void Throw<TException>(string info)
-		where TException : SystemException, ISystemException<TException>
+	public static void Throw<TException, TParameter>(TParameter parameter)
+		where TException : SystemException, ISystemException<TException, TParameter>
 	{
-		throw TException.Create(info);
+		throw TException.Create(parameter);
 	}
 }

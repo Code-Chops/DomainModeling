@@ -1,5 +1,7 @@
 namespace CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration.UnitTests.ValueObjects;
 
+#pragma warning disable CA2231 // Overload operator equals on overriding value type Equals
+
 [GenerateListValueObject<string>(addCustomValidation: false)]
 public partial struct ListStructMock { }
 
@@ -37,3 +39,5 @@ public sealed partial record ListSealedRecordClassSettingsMock
 {
 	public void Validate() { }
 }
+
+#pragma warning restore CA2231 // Overload operator equals on overriding value type Equals

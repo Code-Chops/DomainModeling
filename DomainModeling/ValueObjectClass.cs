@@ -23,8 +23,8 @@ public abstract class ValueObjectClass<TSelf> : IValueObject
 	
 	public static bool operator ==(ValueObjectClass<TSelf>? left, ValueObjectClass<TSelf>? right)
 	{
-		if (ReferenceEquals(left, null) && ReferenceEquals(right, null)) return true;
-		if (ReferenceEquals(left, null) || ReferenceEquals(right, null)) return false;
+		if (left is null && right is null) return true;
+		if (left is null || right is null) return false;
 		return left.Equals(right);
 	}
 	

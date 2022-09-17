@@ -1,5 +1,7 @@
 ﻿namespace CodeChops.DomainDrivenDesign.DomainModeling.Attributes.ValueObjects;
 
+#pragma warning disable IDE0060
+
 /// <summary>
 /// Generates a value object with a single structural value of type Dictionary&lt;<typeparamref name="TKey"/>, <typeparamref name="TValue"/>&gt;.
 /// </summary>
@@ -42,3 +44,5 @@ public sealed class GenerateDictionaryValueObjectAttribute<TKey, TValue> : Attri
 		// These parameters will be read from the attribute arguments itself and therefore don't need to be assigned.
 	}
 }
+
+#pragma warning restore IDE0060

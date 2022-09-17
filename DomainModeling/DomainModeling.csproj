@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup Label="Main">
         <AssemblyName>CodeChops.DomainDrivenDesign.DomainModeling</AssemblyName>
@@ -11,8 +11,8 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>0.22.0</Version>
-        <PackageReleaseNotes>Updated package references.</PackageReleaseNotes>
+        <Version>0.23.0</Version>
+        <PackageReleaseNotes>Small changes trying to fix VS FileNoutFound Immutable.dll error.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainDrivenDesign.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>
@@ -57,8 +57,8 @@
     <ItemGroup Label="ProjectReferences">
         <ProjectReference Include="..\DomainModeling.SourceGeneration\DomainModeling.SourceGeneration.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
         <!-- Package the generator in the analyzer directory of the nuget package -->
-        <None Include="..\DomainModeling.SourceGeneration/bin/$(Configuration)/netstandard2.0/$(AssemblyName).SourceGeneration.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
-        <None Include="..\DomainModeling.SourceGeneration/bin/$(Configuration)/netstandard2.0/CodeChops.SourceGeneration.Utilities.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+        <None Include="..\DomainModeling.SourceGeneration\bin\$(Configuration)\netstandard2.0\$(AssemblyName).SourceGeneration.dll" Pack="true" PackagePath="analyzers\dotnet\cs" Visible="false" />
+        <None Include="..\DomainModeling.SourceGeneration\bin\$(Configuration)\netstandard2.0\CodeChops.SourceGeneration.Utilities.dll" Pack="true" PackagePath="analyzers\dotnet\cs" Visible="false" />
     </ItemGroup>
 
 </Project>

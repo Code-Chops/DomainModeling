@@ -1,5 +1,7 @@
 ﻿namespace CodeChops.DomainDrivenDesign.DomainModeling.Attributes;
 
+#pragma warning disable IDE0060
+
 /// <summary>
 /// <inheritdoc cref="GenerateStronglyTypedId{TNumber}"/>
 /// <para>
@@ -47,3 +49,5 @@ public sealed class GenerateStronglyTypedId<TPrimitive> : Attribute
 		// These parameters will be read from the attribute arguments itself and therefore don't need to be assigned.
 	}
 }
+
+#pragma warning restore IDE0060

@@ -1,5 +1,7 @@
 namespace CodeChops.DomainDrivenDesign.DomainModeling.Attributes.ValueObjects;
 
+#pragma warning disable IDE0060
+
 /// <summary>
 /// Generates a value object with a single structural value of type string.
 /// </summary>
@@ -65,3 +67,5 @@ public enum StringFormat
 	AlphaNumeric,
 	AlphaNumericWithUnderscore,
 }
+
+#pragma warning restore IDE0060

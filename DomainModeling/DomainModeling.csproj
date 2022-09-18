@@ -11,8 +11,8 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>0.23.3</Version>
-        <PackageReleaseNotes>Added support for option JsonSerializationOptions for ToDisplayString.</PackageReleaseNotes>
+        <Version>0.23.4</Version>
+        <PackageReleaseNotes>Added support for option JsonSerializationOptions for SystemException.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainDrivenDesign.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>

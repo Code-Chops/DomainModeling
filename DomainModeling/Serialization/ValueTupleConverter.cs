@@ -14,7 +14,7 @@ public class ValueTupleConverter<T1> : JsonConverter<ValueTuple<T1>>
 
 		while (reader.TokenType != JsonTokenType.EndObject)
 		{
-			if (!reader.ValueTextEquals(typeof(T1).GetCleanTypeName()) && !reader.ValueTextEquals("Item1")) throw new JsonException();
+			if (!reader.ValueTextEquals(typeof(T1).GetSimpleName()) && !reader.ValueTextEquals("Item1")) throw new JsonException();
 			if (!reader.Read()) throw new JsonException();
 			
 			result.Item1 = JsonSerializer.Deserialize<T1>(ref reader, options) ?? throw new JsonException();
@@ -28,7 +28,7 @@ public class ValueTupleConverter<T1> : JsonConverter<ValueTuple<T1>>
 	public override void Write(Utf8JsonWriter writer, ValueTuple<T1> value, JsonSerializerOptions options)
 	{
 		writer.WriteStartObject();
-		writer.WritePropertyName(value.Item1?.GetType().GetCleanTypeName() ?? "Item1");
+		writer.WritePropertyName(value.Item1?.GetType().GetSimpleName() ?? "Item1");
 		JsonSerializer.Serialize(writer, value.Item1, options);
 		writer.WriteEndObject();
 	}
@@ -46,9 +46,9 @@ public class ValueTupleConverter<T1, T2> : JsonConverter<ValueTuple<T1, T2>>
 		{
 			if (!reader.Read()) throw new JsonException();
 
-			if (reader.ValueTextEquals(typeof(T1).GetCleanTypeName()) || reader.ValueTextEquals("Item1"))
+			if (reader.ValueTextEquals(typeof(T1).GetSimpleName()) || reader.ValueTextEquals("Item1"))
 				result.Item1 = JsonSerializer.Deserialize<T1>(ref reader, options) ?? throw new JsonException();
-			else if (reader.ValueTextEquals(typeof(T2).GetCleanTypeName()) || reader.ValueTextEquals("Item2"))
+			else if (reader.ValueTextEquals(typeof(T2).GetSimpleName()) || reader.ValueTextEquals("Item2"))
 				result.Item2 = JsonSerializer.Deserialize<T2>(ref reader, options) ?? throw new JsonException();
 			else
 				throw new JsonException();
@@ -62,9 +62,9 @@ public class ValueTupleConverter<T1, T2> : JsonConverter<ValueTuple<T1, T2>>
 	public override void Write(Utf8JsonWriter writer, (T1, T2) value, JsonSerializerOptions options)
 	{
 		writer.WriteStartObject();
-		writer.WritePropertyName(value.Item1?.GetType().GetCleanTypeName() ?? "Item1");
+		writer.WritePropertyName(value.Item1?.GetType().GetSimpleName() ?? "Item1");
 		JsonSerializer.Serialize(writer, value.Item1, options);
-		writer.WritePropertyName(value.Item2?.GetType().GetCleanTypeName() ?? "Item2");
+		writer.WritePropertyName(value.Item2?.GetType().GetSimpleName() ?? "Item2");
 		JsonSerializer.Serialize(writer, value.Item2, options);
 		writer.WriteEndObject();
 	}
@@ -82,11 +82,11 @@ public class ValueTupleConverter<T1, T2, T3> : JsonConverter<ValueTuple<T1, T2, 
 		{
 			if (!reader.Read()) throw new JsonException();
 			
-			if (reader.ValueTextEquals(typeof(T1).GetCleanTypeName()) || reader.ValueTextEquals("Item1"))
+			if (reader.ValueTextEquals(typeof(T1).GetSimpleName()) || reader.ValueTextEquals("Item1"))
 				result.Item1 = JsonSerializer.Deserialize<T1>(ref reader, options) ?? throw new JsonException();
-			else if (reader.ValueTextEquals(typeof(T2).GetCleanTypeName()) || reader.ValueTextEquals("Item2"))
+			else if (reader.ValueTextEquals(typeof(T2).GetSimpleName()) || reader.ValueTextEquals("Item2"))
 				result.Item2 = JsonSerializer.Deserialize<T2>(ref reader, options) ?? throw new JsonException();
-			else if (reader.ValueTextEquals(typeof(T3).GetCleanTypeName()) || reader.ValueTextEquals("Item3"))
+			else if (reader.ValueTextEquals(typeof(T3).GetSimpleName()) || reader.ValueTextEquals("Item3"))
 				result.Item3 = JsonSerializer.Deserialize<T3>(ref reader, options) ?? throw new JsonException();
 			else
 				throw new JsonException();
@@ -100,11 +100,11 @@ public class ValueTupleConverter<T1, T2, T3> : JsonConverter<ValueTuple<T1, T2, 
 	public override void Write(Utf8JsonWriter writer, (T1, T2, T3) value, JsonSerializerOptions options)
 	{
 		writer.WriteStartObject();
-		writer.WritePropertyName(value.Item1?.GetType().GetCleanTypeName() ?? "Item1");
+		writer.WritePropertyName(value.Item1?.GetType().GetSimpleName() ?? "Item1");
 		JsonSerializer.Serialize(writer, value.Item1, options);
-		writer.WritePropertyName(value.Item2?.GetType().GetCleanTypeName() ?? "Item2");
+		writer.WritePropertyName(value.Item2?.GetType().GetSimpleName() ?? "Item2");
 		JsonSerializer.Serialize(writer, value.Item2, options);
-		writer.WritePropertyName(value.Item3?.GetType().GetCleanTypeName() ?? "Item3");
+		writer.WritePropertyName(value.Item3?.GetType().GetSimpleName() ?? "Item3");
 		JsonSerializer.Serialize(writer, value.Item3, options);
 		writer.WriteEndObject();
 	}

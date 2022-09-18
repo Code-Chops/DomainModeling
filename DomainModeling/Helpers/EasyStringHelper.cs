@@ -6,7 +6,10 @@ public static class EasyStringHelper
 {
 	public static string ToDisplayString<TObject>(object? parameters = null, string? extraText = null)
 	{
-		var parametersText = parameters is null 
+		var text = typeof(TObject) == typeof(object) ? "" : typeof(TObject).Name;
+		text += extraText is null ? null : $"({extraText}) ";
+		
+		text += parameters is null 
 			? null 
 			: JsonSerializer.Serialize(parameters) // TODO rewrite to custom serializer.
 				.Replace("\"", "")
@@ -14,9 +17,7 @@ public static class EasyStringHelper
 				.Replace(",", ", ")
 				.Replace("{", "{ ")
 				.Replace("}", " }");
-
-		extraText = extraText is null ? null : $"({extraText}) ";
 		
-		return $"{typeof(TObject).Name} {extraText}{parametersText}";
+		return text;
 	}
 }

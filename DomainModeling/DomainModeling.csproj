@@ -11,8 +11,8 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>0.23.0</Version>
-        <PackageReleaseNotes>Small changes trying to fix VS FileNoutFound Immutable.dll error.</PackageReleaseNotes>
+        <Version>0.23.1</Version>
+        <PackageReleaseNotes>Trying to fix exception message.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainDrivenDesign.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>

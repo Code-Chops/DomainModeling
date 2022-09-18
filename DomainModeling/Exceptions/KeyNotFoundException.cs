@@ -7,7 +7,7 @@ public class KeyNotFoundException<TKey, TCollection> : SystemException<KeyNotFou
 	public static KeyNotFoundException<TKey, TCollection> Create(TKey key)
 		=> new(key);
 
-	public KeyNotFoundException(TKey key) : base(key)
+	public KeyNotFoundException(TKey parameter) : base(parameter)
 	{
 	}
 }

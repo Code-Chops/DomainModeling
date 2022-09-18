@@ -3,8 +3,8 @@
 public abstract class SystemException<TException, TParameter> : Exception 
 	where TException : SystemException<TException, TParameter>, ISystemException<TException, TParameter>
 {
-	protected SystemException(TParameter key, string? extraText = null)
-		: base(message: $"{TException.ErrorMessage}. Info: {EasyStringHelper.ToDisplayString<TException>(key, extraText: extraText)}")	
+	protected SystemException(TParameter parameter, string? extraText = null)
+		: base(message: $"{TException.ErrorMessage}. Info: {EasyStringHelper.ToDisplayString<object>(parameter, extraText: extraText)}")	
 	{
 	}
 }

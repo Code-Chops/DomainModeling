@@ -5,14 +5,8 @@ namespace CodeChops.DomainDrivenDesign.DomainModeling.DisplayString;
 
 public static class DisplayStringHelper
 {
-	private static readonly JsonSerializerOptions DefaultSerializerOptions;
+	private static readonly JsonSerializerOptions DefaultSerializerOptions = new() { Converters = { new ValueTupleFactory() }};
 
-	static DisplayStringHelper()
-	{
-		DefaultSerializerOptions = new JsonSerializerOptions();
-		DefaultSerializerOptions.Converters.Add(new ValueTupleFactory());
-	}
-	
 	public static string ToDisplayString<TObject>(object? parameters = null, string? extraText = null, JsonSerializerOptions? jsonSerializerOptions = null!)
 	{
 		var text = typeof(TObject) == typeof(object) ? "" : typeof(TObject).Name;

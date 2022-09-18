@@ -13,7 +13,8 @@ public class ValueTupleConverter<T1> : JsonConverter<ValueTuple<T1>>
 
 		while (reader.TokenType != JsonTokenType.EndObject)
 		{
-			if (!reader.ValueTextEquals("Item1") || !reader.Read()) throw new JsonException();
+			if (!reader.ValueTextEquals(typeof(T1).Name) && !reader.ValueTextEquals("Item1")) throw new JsonException();
+			if (!reader.Read()) throw new JsonException();
 			
 			result.Item1 = JsonSerializer.Deserialize<T1>(ref reader, options) ?? throw new JsonException();
 
@@ -26,7 +27,7 @@ public class ValueTupleConverter<T1> : JsonConverter<ValueTuple<T1>>
 	public override void Write(Utf8JsonWriter writer, ValueTuple<T1> value, JsonSerializerOptions options)
 	{
 		writer.WriteStartObject();
-		writer.WritePropertyName("Item1");
+		writer.WritePropertyName(value.Item1?.GetType().Name ?? "Item1");
 		JsonSerializer.Serialize(writer, value.Item1, options);
 		writer.WriteEndObject();
 	}
@@ -42,9 +43,11 @@ public class ValueTupleConverter<T1, T2> : JsonConverter<ValueTuple<T1, T2>>
 		
 		while (reader.TokenType != JsonTokenType.EndObject)
 		{
-			if (reader.ValueTextEquals("Item1") && reader.Read())
+			if (!reader.Read()) throw new JsonException();
+
+			if (reader.ValueTextEquals(typeof(T1).Name) || reader.ValueTextEquals("Item1"))
 				result.Item1 = JsonSerializer.Deserialize<T1>(ref reader, options) ?? throw new JsonException();
-			else if (reader.ValueTextEquals("Item2") && reader.Read())
+			else if (reader.ValueTextEquals(typeof(T2).Name) || reader.ValueTextEquals("Item2"))
 				result.Item2 = JsonSerializer.Deserialize<T2>(ref reader, options) ?? throw new JsonException();
 			else
 				throw new JsonException();
@@ -58,9 +61,9 @@ public class ValueTupleConverter<T1, T2> : JsonConverter<ValueTuple<T1, T2>>
 	public override void Write(Utf8JsonWriter writer, (T1, T2) value, JsonSerializerOptions options)
 	{
 		writer.WriteStartObject();
-		writer.WritePropertyName("Item1");
+		writer.WritePropertyName(value.Item1?.GetType().Name ?? "Item1");
 		JsonSerializer.Serialize(writer, value.Item1, options);
-		writer.WritePropertyName("Item2");
+		writer.WritePropertyName(value.Item2?.GetType().Name ?? "Item2");
 		JsonSerializer.Serialize(writer, value.Item2, options);
 		writer.WriteEndObject();
 	}
@@ -76,14 +79,17 @@ public class ValueTupleConverter<T1, T2, T3> : JsonConverter<ValueTuple<T1, T2, 
 
 		while (reader.TokenType != JsonTokenType.EndObject)
 		{
-			if (reader.ValueTextEquals("Item1") && reader.Read())
+			if (!reader.Read()) throw new JsonException();
+			
+			if (reader.ValueTextEquals(typeof(T1).Name) || reader.ValueTextEquals("Item1"))
 				result.Item1 = JsonSerializer.Deserialize<T1>(ref reader, options) ?? throw new JsonException();
-			else if (reader.ValueTextEquals("Item2") && reader.Read())
+			else if (reader.ValueTextEquals(typeof(T2).Name) || reader.ValueTextEquals("Item2"))
 				result.Item2 = JsonSerializer.Deserialize<T2>(ref reader, options) ?? throw new JsonException();
-			else if (reader.ValueTextEquals("Item3") && reader.Read())
+			else if (reader.ValueTextEquals(typeof(T3).Name) || reader.ValueTextEquals("Item3"))
 				result.Item3 = JsonSerializer.Deserialize<T3>(ref reader, options) ?? throw new JsonException();
 			else
 				throw new JsonException();
+			
 			reader.Read();
 		}
 
@@ -93,11 +99,11 @@ public class ValueTupleConverter<T1, T2, T3> : JsonConverter<ValueTuple<T1, T2, 
 	public override void Write(Utf8JsonWriter writer, (T1, T2, T3) value, JsonSerializerOptions options)
 	{
 		writer.WriteStartObject();
-		writer.WritePropertyName("Item1");
+		writer.WritePropertyName(value.Item1?.GetType().Name ?? "Item1");
 		JsonSerializer.Serialize(writer, value.Item1, options);
-		writer.WritePropertyName("Item2");
+		writer.WritePropertyName(value.Item2?.GetType().Name ?? "Item2");
 		JsonSerializer.Serialize(writer, value.Item2, options);
-		writer.WritePropertyName("Item3");
+		writer.WritePropertyName(value.Item3?.GetType().Name ?? "Item3");
 		JsonSerializer.Serialize(writer, value.Item3, options);
 		writer.WriteEndObject();
 	}

@@ -57,7 +57,7 @@ public abstract record Id<TPrimitive> : Id, IId<TPrimitive>
 
 	public TPrimitive Value { get; protected init; }
 
-	public sealed override bool HasDefaultValue => this.Value.Equals(DefaultValue);
+	public sealed override bool HasDefaultValue => this.Value?.Equals(DefaultValue) ?? true;
 	private static readonly TPrimitive DefaultValue = default!;
 
 	protected Id(TPrimitive value)

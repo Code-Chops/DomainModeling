@@ -16,6 +16,7 @@ public abstract record ValueObjectBase(
 	INamedTypeSymbol ValueObjectType,
 	string Declaration,
 	string UnderlyingTypeName,
+	string? UnderlyingTypeNameBase,
 	bool GenerateToString, 
 	bool GenerateComparison,
 	bool AddCustomValidation,
@@ -37,6 +38,8 @@ public abstract record ValueObjectBase(
 	/// </summary>
 	public string Name { get; } = ValueObjectType.Name;
 	public string? Namespace { get; } = ValueObjectType.ContainingNamespace!.IsGlobalNamespace ? null : ValueObjectType.ContainingNamespace.ToDisplayString();
+
+	public string UnderlyingTypeNameBase { get; } = UnderlyingTypeNameBase ?? UnderlyingTypeName;
 	
 	/// <summary>
 	/// Has a different name each time it's generated. In order to prohibit direct usage of the backing field.
@@ -54,6 +57,7 @@ public abstract record ValueObjectBase(
 	public abstract string? GetCompareToCode();
 	public abstract string GetDefaultValue();
 	public abstract string? GetLengthOrCountCode();
+	public abstract string? GetExtraCastCode();
 	public abstract string GetValidationCode();
 	public abstract string? GetEnumeratorCode();
 	public abstract string? GetExtraCode();

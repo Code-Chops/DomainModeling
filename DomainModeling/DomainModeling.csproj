@@ -11,8 +11,8 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>0.23.9</Version>
-        <PackageReleaseNotes>Added using IdPrimitiveType to ID generator.</PackageReleaseNotes>
+        <Version>0.23.10</Version>
+        <PackageReleaseNotes>Added extra casts for List and Dictionary value objects.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainDrivenDesign.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>

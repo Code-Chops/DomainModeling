@@ -1,3 +1,5 @@
+using System.Collections.Immutable;
+
 namespace CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration.ValueObjectsGenerator.Models;
 
 public record ListValueObject(
@@ -18,6 +20,7 @@ public record ListValueObject(
 		ValueObjectType: ValueObjectType,
 		Declaration: Declaration,
 		UnderlyingTypeName: $"ImmutableList<{Attribute.AttributeClass!.TypeArguments.Single().Name}>",
+		UnderlyingTypeNameBase: $"List<{Attribute.AttributeClass!.TypeArguments.Single().Name}>",
 		GenerateToString: GenerateToString,
 		GenerateComparison: GenerateComparison,
 		AddCustomValidation: AddCustomValidation,
@@ -58,6 +61,8 @@ public record ListValueObject(
 	public override string GetDefaultValue()		=> $"new List<{this.ElementTypeName}>().ToImmutableList()";
 	
 	public override string GetLengthOrCountCode()	=> $"public int Count => this.{this.PropertyName}.Count;";
+
+	public override string? GetExtraCastCode()		=> $"public static explicit operator {this.Name}({this.UnderlyingTypeNameBase} {this.LocalVariableName}) => new({this.LocalVariableName}.ToImmutableList());";
 
 	public override string GetValidationCode()
 	{

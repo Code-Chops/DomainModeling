@@ -39,6 +39,7 @@ public record StringValueObject(
 		ValueObjectType: ValueObjectType,
 		Declaration: Declaration,
 		UnderlyingTypeName: nameof(String),
+		UnderlyingTypeNameBase: null,
 		GenerateToString: GenerateToString,
 		GenerateComparison: GenerateComparison,
 		AddCustomValidation: AddCustomValidation,
@@ -48,7 +49,7 @@ public record StringValueObject(
 		PropertyName: PropertyName ?? "Value",
 		AddIComparable: true)
 {
-	public string ElementTypeName { get; } = nameof(Char);
+	public string ElementTypeName => nameof(Char);
 
 	
 	public override string[] GetNamespaces()		=> Array.Empty<string>();
@@ -70,6 +71,8 @@ public record StringValueObject(
 	
 	public override string GetLengthOrCountCode()	=> $"public int Length => this.{this.PropertyName}.Length;";
 
+	public override string? GetExtraCastCode()		=> null;
+	
 	public override string GetValidationCode()
 	{
 		var validation = new StringBuilder();

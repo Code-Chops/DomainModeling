@@ -19,6 +19,7 @@ public sealed record DefaultValueObject(
 		ValueObjectType: ValueObjectType,
 		Declaration: Declaration,
 		UnderlyingTypeName: GetUnderlyingTypeName(Attribute, AllowNull),
+		UnderlyingTypeNameBase: null,
 		GenerateToString: GenerateToString,  
 		GenerateComparison: GenerateComparison,
 		AddCustomValidation: AddCustomValidation,
@@ -53,6 +54,8 @@ public sealed record DefaultValueObject(
 	
 	public override string? GetLengthOrCountCode()	=> null;
 
+	public override string? GetExtraCastCode()		=> null;
+	
 	public override string GetValidationCode()
 	{
 		var validation = new StringBuilder();

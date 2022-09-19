@@ -78,7 +78,7 @@ public class ValueObjectGenerator : IIncrementalGenerator
 	
 	{data.GetLengthOrCountCode()}
 	
-	{GetCasts()}
+	{GetCastCode()}
 
 	{GetDefaultConstructor()}
 
@@ -207,12 +207,19 @@ public class ValueObjectGenerator : IIncrementalGenerator
 	private readonly {data.UnderlyingTypeName} {data.BackingFieldName} = {data.GetDefaultValue()}!;";
 		}
 
-		
-		string? GetCasts() => data.GenerateDefaultConstructor
-			? $@"
-	public static implicit operator {data.UnderlyingTypeName}({data.Name} obj) => obj.{data.PropertyName};
-	public static explicit operator {data.Name}({data.UnderlyingTypeName} {data.LocalVariableName}) => new({data.LocalVariableName});"
-			: null;
+
+		string GetCastCode()
+		{
+			var code = new StringBuilder($@"public static implicit operator {data.UnderlyingTypeName}({data.Name} obj) => obj.{data.PropertyName};");
+			if (!data.GenerateDefaultConstructor) return code.ToString();
+			
+			code.AppendLine($"public static explicit operator {data.Name}({data.UnderlyingTypeName} {data.LocalVariableName}) => new({data.LocalVariableName});");
+			
+			var extraCastCode = data.GetExtraCastCode(); 
+			if (extraCastCode is not null) code.AppendLine(extraCastCode);
+
+			return code.ToString();
+		}
 		
 		
 		string? GetDefaultConstructor() => data.GenerateDefaultConstructor

@@ -1,5 +1,3 @@
-using System.Collections.Immutable;
-
 namespace CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration.ValueObjectsGenerator.Models;
 
 public record ListValueObject(

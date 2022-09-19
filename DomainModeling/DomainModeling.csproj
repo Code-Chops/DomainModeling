@@ -11,8 +11,8 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>0.23.8</Version>
-        <PackageReleaseNotes>Changed GetCleanTypeName to GetSimpleName.</PackageReleaseNotes>
+        <Version>0.23.9</Version>
+        <PackageReleaseNotes>Added using IdPrimitiveType to ID generator.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainDrivenDesign.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>

@@ -7,6 +7,7 @@ public record IdDataModel(
 	string OuterClassDeclaration, 
 	string IdTypeName, 
 	string IdPropertyName, 
-	string IdPrimitiveType, 
+	string IdPrimitiveType,
+	string? PrimitiveTypeNamespace,
 	string IdBaseType, 
 	IdGenerationMethod IdGenerationMethod);

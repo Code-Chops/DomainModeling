@@ -38,7 +38,7 @@ internal static class IdSyntaxReceiver
 
 		var idTypeName = attribute.GetArgumentOrDefault("name", IdGenerator.DefaultIdTypeName);
 		var idPropertyName = attribute.GetArgumentOrDefault("propertyName", IdGenerator.DefaultIdPropertyName);
-		var (baseType, primitiveType) = GetTypeNames(attribute, type, idTypeName);
+		var (baseType, primitiveType, primitiveTypeNamespace) = GetTypeNames(attribute, type, idTypeName);
 		
 		var data = new IdDataModel(
 			OuterClassName: type.Name,
@@ -48,20 +48,29 @@ internal static class IdSyntaxReceiver
 			IdTypeName: idTypeName,
 			IdPropertyName: idPropertyName,
 			IdPrimitiveType: primitiveType,
+			PrimitiveTypeNamespace: primitiveTypeNamespace,
 			IdBaseType: baseType,
 			IdGenerationMethod: GetClassType(type, isEntityBase));
 		
 		return data;
 	}
 
-	private static (string BaseType, string PrimitiveType) GetTypeNames(AttributeData attribute, INamedTypeSymbol type, string idName)
+	private static (string BaseType, string PrimitiveType, string? PrimitiveTypeNamespace) GetTypeNames(AttributeData attribute, INamedTypeSymbol type, string idName)
 	{
 		var primitiveType = IdGenerator.DefaultIdPrimitiveType;
+		var primitiveTypeNamespace = (string?)null;
 		
 		// Get the primitive type using the generic parameter of the attribute. 
 		var genericParameterName = attribute.AttributeClass?.TypeArguments.SingleOrDefault();
 		if (genericParameterName is not null)
+		{
 			primitiveType = genericParameterName.GetTypeNameWithGenericParameters();
+
+			primitiveTypeNamespace = genericParameterName.ContainingNamespace.ToDisplayString();
+			
+			if (genericParameterName.ContainingNamespace.IsGlobalNamespace || primitiveTypeNamespace == "System")
+				primitiveTypeNamespace = null;
+		}
 
 		// Get the primitive type as provided in the constructor of the attribute.
 		if (attribute.TryGetArguments(out var argumentConstantByNames) && argumentConstantByNames!.TryGetValue("baseType", out var providedBaseType) && providedBaseType.Value is not null)
@@ -73,10 +82,10 @@ internal static class IdSyntaxReceiver
 			baseType = baseType.Replace("<>", $"<{idName}>");
 			baseType = baseType.Replace("<,>", $"<{idName}, {primitiveType}>");
 			
-			return (baseType, primitiveType);
+			return (baseType, primitiveType, primitiveTypeNamespace);
 		}
 		
-		return ($"Id<{idName}, {primitiveType}>", primitiveType);
+		return ($"Id<{idName}, {primitiveType}>", primitiveType, primitiveTypeNamespace);
 	}
 
 	private static IdGenerationMethod GetClassType(INamedTypeSymbol type, bool isEntityBase)

@@ -1,5 +1,4 @@
-﻿using System.Text.Json;
-using CodeChops.DomainDrivenDesign.DomainModeling.Extensions;
+﻿using CodeChops.DomainDrivenDesign.DomainModeling.Extensions;
 
 namespace CodeChops.DomainDrivenDesign.DomainModeling.UnitTests.Extensions;
 

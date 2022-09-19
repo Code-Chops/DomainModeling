@@ -31,7 +31,7 @@ public abstract record Id<TSelf, TPrimitive> : Id<TPrimitive>
 public abstract record Id<TPrimitive> : Id, IId<TPrimitive>
 	where TPrimitive : IEquatable<TPrimitive>, IComparable<TPrimitive>
 {
-	public override string ToString() => this.ToEasyString(new { this.Value, PrimitiveType = typeof(TPrimitive).Name });
+	public override string ToString() => this.ToDisplayString(new { this.Value, PrimitiveType = typeof(TPrimitive).Name });
 	
 	#region Comparison
 	public int CompareTo(Id<TPrimitive>? other) 
@@ -57,6 +57,7 @@ public abstract record Id<TPrimitive> : Id, IId<TPrimitive>
 
 	public TPrimitive Value { get; protected init; }
 
+	// ReSharper disable once ConstantConditionalAccessQualifier
 	public sealed override bool HasDefaultValue => this.Value?.Equals(DefaultValue) ?? true;
 	private static readonly TPrimitive DefaultValue = default!;
 
@@ -76,7 +77,7 @@ public abstract record Id<TPrimitive> : Id, IId<TPrimitive>
 /// </summary>
 public abstract record Id : IId
 {
-	public override string ToString() => this.ToEasyString(new { Value = this.GetValue() });
+	public override string ToString() => this.ToDisplayString(new { Value = this.GetValue() });
 	public abstract object GetValue();
 	public abstract bool HasDefaultValue { get; }
 }

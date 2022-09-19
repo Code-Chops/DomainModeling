@@ -1,12 +1,10 @@
-﻿using CodeChops.DomainDrivenDesign.DomainModeling.Extensions;
-
-namespace CodeChops.DomainDrivenDesign.DomainModeling.UnitTests.Extensions;
+﻿namespace CodeChops.DomainDrivenDesign.DomainModeling.UnitTests.Extensions;
 
 public class DomainObjectExtensionsTests
 {
 	private class Mock : IDomainObject
 	{
-		public override string ToString() => this.ToEasyString(new { A, this.B, C, D = D() }, "ExtraInfo");
+		public override string ToString() => this.ToDisplayString(new { A, this.B, C, D = D() }, "ExtraInfo");
 		
 		public static string A { get; } = "1";
 		private int B { get; } = 2;

@@ -40,7 +40,7 @@ public record ListValueObject(
 
 	public override string GetCommentsCode()		=> $"An enumerable of {this.ElementTypeName}.";
 
-	public override string GetToStringCode()		=> $"public override string ToString() => this.ToEasyString(new {{ Type = \"{this.ElementTypeName}\" }}, this.Count.ToString());";
+	public override string GetToStringCode()		=> $"public override string ToString() => this.ToDisplayString(new {{ Type = \"{this.ElementTypeName}\" }}, this.Count.ToString());";
 	
 	public override string GetInterfacesCode()		=> $"IEnumerable<{this.ElementTypeName}>";
 
@@ -60,7 +60,7 @@ public record ListValueObject(
 	
 	public override string GetLengthOrCountCode()	=> $"public int Count => this.{this.PropertyName}.Count;";
 
-	public override string? GetExtraCastCode()		=> $"public static explicit operator {this.Name}({this.UnderlyingTypeNameBase} {this.LocalVariableName}) => new({this.LocalVariableName}.ToImmutableList());";
+	public override string GetExtraCastCode()		=> $"public static explicit operator {this.Name}({this.UnderlyingTypeNameBase} {this.LocalVariableName}) => new({this.LocalVariableName}.ToImmutableList());";
 
 	public override string GetValidationCode()
 	{

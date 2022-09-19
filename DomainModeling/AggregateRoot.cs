@@ -22,5 +22,5 @@
 /// </summary>
 public abstract class AggregateRoot : Entity
 {
-	public override string ToString() => this.ToEasyString(extraText: nameof(AggregateRoot));
+	public override string ToString() => this.ToDisplayString(extraText: nameof(AggregateRoot));
 }

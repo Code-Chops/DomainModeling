@@ -51,7 +51,7 @@ public record DictionaryValueObject(
 	
 	public override string GetCommentsCode()		=> $"A dictionary of {this.ElementTypeName} by {this.KeyTypeName}.";
 
-	public override string GetToStringCode()		=> $"public override string ToString() => this.ToEasyString(new {{ Key = \"{this.KeyTypeName}\", Value = \"{this.ElementTypeName}\" }}, this.Count.ToString());";
+	public override string GetToStringCode()		=> $"public override string ToString() => this.ToDisplayString(new {{ Key = \"{this.KeyTypeName}\", Value = \"{this.ElementTypeName}\" }}, this.Count.ToString());";
 	
 	public override string GetInterfacesCode()		=> $"IReadOnlyDictionary<{this.KeyTypeName}, {this.ElementTypeName}>";
 
@@ -71,7 +71,7 @@ public record DictionaryValueObject(
 	
 	public override string GetLengthOrCountCode()	=> $"public int Count => this.{this.PropertyName}.Count;";
 
-	public override string? GetExtraCastCode()		=> $"public static explicit operator {this.Name}({this.UnderlyingTypeNameBase} {this.LocalVariableName}) => new({this.LocalVariableName}.ToImmutableDictionary());";
+	public override string GetExtraCastCode()		=> $"public static explicit operator {this.Name}({this.UnderlyingTypeNameBase} {this.LocalVariableName}) => new({this.LocalVariableName}.ToImmutableDictionary());";
 
 	public override string GetValidationCode()
 	{

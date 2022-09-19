@@ -39,7 +39,7 @@ public sealed record DefaultValueObject(
 
 	public override string GetCommentsCode()		=> $"Type {this.UnderlyingTypeName}.";
 
-	public override string GetToStringCode()		=> $"public override string ToString() => this.ToEasyString(new {{ this.{this.PropertyName} }});";
+	public override string GetToStringCode()		=> $"public override string ToString() => this.ToDisplayString(new {{ this.{this.PropertyName} }});";
 	
 	public override string? GetInterfacesCode()		=> null;
 	

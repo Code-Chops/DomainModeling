@@ -40,7 +40,7 @@ public record ListValueObject(
 
 	public override string GetCommentsCode()		=> $"An enumerable of {this.ElementTypeName}.";
 
-	public override string GetToStringCode()		=> $"public override string ToString() => this.ToDisplayString(new {{ Type = \"{this.ElementTypeName}\" }}, this.Count.ToString());";
+	public override string GetToStringCode()		=> $"public override string ToString() => this.ToDisplayString(new {{ Type = typeof({this.ElementTypeName}).Name }}, this.Count.ToString());";
 	
 	public override string GetInterfacesCode()		=> $"IEnumerable<{this.ElementTypeName}>";
 

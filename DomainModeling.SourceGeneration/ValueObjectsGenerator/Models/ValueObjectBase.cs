@@ -36,7 +36,7 @@ public abstract record ValueObjectBase(
 	/// <summary>
 	/// The name of the partial class being generated.
 	/// </summary>
-	public string Name { get; } = ValueObjectType.Name;
+	public string Name { get; } = ValueObjectType.GetTypeNameWithGenericParameters();
 	public string? Namespace { get; } = ValueObjectType.ContainingNamespace!.IsGlobalNamespace ? null : ValueObjectType.ContainingNamespace.ToDisplayString();
 
 	public string UnderlyingTypeNameBase { get; } = UnderlyingTypeNameBase ?? UnderlyingTypeName;

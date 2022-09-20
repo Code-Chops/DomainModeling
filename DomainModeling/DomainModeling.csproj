@@ -11,8 +11,8 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>0.25.1</Version>
-        <PackageReleaseNotes>Removed ID support for records and added equality operators for IDs.</PackageReleaseNotes>
+        <Version>0.25.2</Version>
+        <PackageReleaseNotes>Enhanced ListValueObject.ToString() and added generic type parameters for value objects.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainDrivenDesign.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>

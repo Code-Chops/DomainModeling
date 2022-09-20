@@ -128,7 +128,7 @@ internal static class ValueObjectSyntaxReceiver
 				? declarationText.Substring(start)
 				: declarationText.Substring(start, end - start).Trim();
 			
-			return $"{declarationText} {name}";
+			return declarationText;
 		}
 	}
 }

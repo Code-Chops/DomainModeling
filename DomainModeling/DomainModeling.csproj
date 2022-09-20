@@ -11,8 +11,8 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>0.25.5</Version>
-        <PackageReleaseNotes>Added factory generic parameter.</PackageReleaseNotes>
+        <Version>0.25.6</Version>
+        <PackageReleaseNotes>Reversed generic parameters of ICreatable.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainDrivenDesign.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>

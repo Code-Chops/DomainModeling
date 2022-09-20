@@ -62,7 +62,8 @@ public class ValueObjectGenerator : IIncrementalGenerator
 /// <summary>
 /// {data.GetCommentsCode()}
 /// </summary>
-{data.ValueObjectType.GetObjectDeclaration()} {data.ValueObjectType.GetTypeNameWithGenericParameters()} : IValueObject{GetInterfaces()} {data.TypeDeclarationSyntax.GetClassGenericConstraints()}
+{data.ValueObjectType.GetObjectDeclaration()} {data.ValueObjectType.GetTypeNameWithGenericParameters()} : IValueObject{GetInterfaces()}
+	{data.TypeDeclarationSyntax.GetClassGenericConstraints()}
 {{
 	{GetToString()}
 	

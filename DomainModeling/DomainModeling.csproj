@@ -11,8 +11,8 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>0.25.3</Version>
-        <PackageReleaseNotes>Added generic type parameters to name of value objects and added type constraints (fix 2).</PackageReleaseNotes>
+        <Version>0.25.4</Version>
+        <PackageReleaseNotes>Generic type constraints of value objects on new line.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainDrivenDesign.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>

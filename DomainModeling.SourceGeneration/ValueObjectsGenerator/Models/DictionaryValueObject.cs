@@ -3,7 +3,7 @@ namespace CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration.ValueObje
 public record DictionaryValueObject(
 		INamedTypeSymbol ValueObjectType,
 		AttributeData Attribute,
-		string Declaration,
+		TypeDeclarationSyntax TypeDeclarationSyntax,
 		bool GenerateToString,
 		bool GenerateComparison,
 		bool AddCustomValidation,
@@ -15,7 +15,7 @@ public record DictionaryValueObject(
 		int? MaximumCount) 
 	: ValueObjectBase(
 		ValueObjectType: ValueObjectType,
-		Declaration: Declaration,
+		TypeDeclarationSyntax: TypeDeclarationSyntax,
 		UnderlyingTypeName: $"ImmutableDictionary<{Attribute.AttributeClass!.TypeArguments[0].Name},{Attribute.AttributeClass!.TypeArguments[1].Name}>",
 		UnderlyingTypeNameBase: $"Dictionary<{Attribute.AttributeClass!.TypeArguments[0].Name},{Attribute.AttributeClass!.TypeArguments[1].Name}>",
 		GenerateToString: GenerateToString, 

@@ -42,7 +42,6 @@ internal static class ValueObjectSyntaxReceiver
 		
 		if (attribute is null) return null;
 
-		var declaration = GetDeclaration(typeDeclarationSyntax, type.GetTypeNameWithGenericParameters());
 		var generateToString = attribute.GetArgumentOrDefault("generateToString", true);
 		var generateComparison = attribute.GetArgumentOrDefault("generateComparison", true);
 		var addCustomValidation = attribute.GetArgumentOrDefault("addCustomValidation", true);
@@ -55,7 +54,7 @@ internal static class ValueObjectSyntaxReceiver
 			return new DefaultValueObject(
 				ValueObjectType: type,
 				Attribute: attribute,
-				Declaration: declaration,
+				TypeDeclarationSyntax: typeDeclarationSyntax,
 				GenerateToString: generateToString,
 				GenerateComparison: generateComparison,
 				AddCustomValidation: addCustomValidation,
@@ -70,7 +69,7 @@ internal static class ValueObjectSyntaxReceiver
 		if (hasStringAttribute)
 			return new StringValueObject(
 				ValueObjectType: type,
-				Declaration: declaration,
+				TypeDeclarationSyntax: typeDeclarationSyntax,
 				GenerateToString: generateToString,
 				GenerateComparison: generateComparison,
 				AddCustomValidation: addCustomValidation,
@@ -89,7 +88,7 @@ internal static class ValueObjectSyntaxReceiver
 			return new ListValueObject(
 				ValueObjectType: type,
 				Attribute: attribute,
-				Declaration: declaration,
+				TypeDeclarationSyntax: typeDeclarationSyntax,
 				GenerateToString: generateToString,
 				GenerateComparison: generateComparison,
 				AddCustomValidation: addCustomValidation,
@@ -104,7 +103,7 @@ internal static class ValueObjectSyntaxReceiver
 			return new DictionaryValueObject(
 				ValueObjectType: type,
 				Attribute: attribute,
-				Declaration: declaration,
+				TypeDeclarationSyntax: typeDeclarationSyntax,
 				GenerateToString: generateToString,
 				GenerateComparison: generateComparison,
 				AddCustomValidation: addCustomValidation,
@@ -114,21 +113,7 @@ internal static class ValueObjectSyntaxReceiver
 				PropertyName: propertyName,
 				MinimumCount: attribute.TryGetArgument<int>("minimumCount", out var minimumCount) && minimumCount != Int32.MinValue ? minimumCount : null,
 				MaximumCount: attribute.TryGetArgument<int>("maximumCount", out var maximumCount) && maximumCount != Int32.MinValue ? maximumCount : null);
+		
 		return null;
-
-		static string GetDeclaration(TypeDeclarationSyntax declaration, string name)
-		{
-			var declarationText = declaration.ToFullString();
-
-			var start = declarationText.IndexOf(']') + 1;
-			var end = declarationText.IndexOf('{');
-			if (end == -1) end = declarationText.IndexOf(';');
-			
-			declarationText = end == -1
-				? declarationText.Substring(start)
-				: declarationText.Substring(start, end - start).Trim();
-			
-			return declarationText;
-		}
 	}
 }

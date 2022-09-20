@@ -4,7 +4,7 @@ namespace CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration.ValueObje
 public sealed record DefaultValueObject(
 		INamedTypeSymbol ValueObjectType,
 		AttributeData Attribute,
-		string Declaration,
+		TypeDeclarationSyntax TypeDeclarationSyntax,
 		bool GenerateToString,
 		bool GenerateComparison,
 		bool AddCustomValidation,
@@ -17,7 +17,7 @@ public sealed record DefaultValueObject(
 		int? MaximumValue) 
 	: ValueObjectBase(
 		ValueObjectType: ValueObjectType,
-		Declaration: Declaration,
+		TypeDeclarationSyntax: TypeDeclarationSyntax,
 		UnderlyingTypeName: GetUnderlyingTypeName(Attribute, AllowNull),
 		UnderlyingTypeNameBase: null,
 		GenerateToString: GenerateToString,  

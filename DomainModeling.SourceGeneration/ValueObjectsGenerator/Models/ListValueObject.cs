@@ -4,7 +4,7 @@ public record ListValueObject(
 		INamedTypeSymbol ValueObjectType,
 		// ReSharper disable once NotAccessedPositionalProperty.Global
 		AttributeData Attribute,
-		string Declaration,
+		TypeDeclarationSyntax TypeDeclarationSyntax,
 		bool GenerateToString,
 		bool GenerateComparison,
 		bool AddCustomValidation,
@@ -16,7 +16,7 @@ public record ListValueObject(
 		int? MaximumCount) 
 	: ValueObjectBase(
 		ValueObjectType: ValueObjectType,
-		Declaration: Declaration,
+		TypeDeclarationSyntax: TypeDeclarationSyntax,
 		UnderlyingTypeName: $"ImmutableList<{Attribute.AttributeClass!.TypeArguments.Single().Name}>",
 		UnderlyingTypeNameBase: $"List<{Attribute.AttributeClass!.TypeArguments.Single().Name}>",
 		GenerateToString: GenerateToString,

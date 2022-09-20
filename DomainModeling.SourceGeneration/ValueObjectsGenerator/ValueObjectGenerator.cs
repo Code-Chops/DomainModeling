@@ -62,7 +62,7 @@ public class ValueObjectGenerator : IIncrementalGenerator
 /// <summary>
 /// {data.GetCommentsCode()}
 /// </summary>
-{data.Declaration} : IValueObject{GetInterfaces()}
+{data.ValueObjectType.GetObjectDeclaration()} {data.ValueObjectType.GetTypeNameWithGenericParameters()} : IValueObject{GetInterfaces()} {data.TypeDeclarationSyntax.GetClassGenericConstraints()}
 {{
 	{GetToString()}
 	
@@ -226,7 +226,7 @@ public class ValueObjectGenerator : IIncrementalGenerator
 		
 		string? GetDefaultConstructor() => data.GenerateDefaultConstructor
 			? $@"
-	public {data.Name}({data.UnderlyingTypeName} {data.LocalVariableName})
+	public {data.ValueObjectType.Name}({data.UnderlyingTypeName} {data.LocalVariableName})
 	{{	
 		this.{data.PropertyName} = {data.LocalVariableName};
 	}}"
@@ -238,14 +238,14 @@ public class ValueObjectGenerator : IIncrementalGenerator
 			var error = $"Don't use this empty constructor. A value should be provided when initializing {data.Name}.";
 			return data.GenerateParameterlessConstructor
 				? $@"
-	public {data.Name}()
+	public {data.ValueObjectType.Name}()
 	{{
 		this.{data.PropertyName} = {data.GetDefaultValue()};
 	}}"
 				: $@"
 #pragma warning disable CS8618
 	[Obsolete(""{error}"", true)]
-	public {data.Name}() => throw new InvalidOperationException($""{error}"");
+	public {data.ValueObjectType.Name}() => throw new InvalidOperationException($""{error}"");
 #pragma warning restore CS8618";
 		}
 		

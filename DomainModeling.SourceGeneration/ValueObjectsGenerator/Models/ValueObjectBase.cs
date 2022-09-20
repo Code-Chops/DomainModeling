@@ -14,7 +14,7 @@ namespace CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration.ValueObje
 public abstract record ValueObjectBase(
 	// ReSharper disable once NotAccessedPositionalProperty.Global
 	INamedTypeSymbol ValueObjectType,
-	string Declaration,
+	TypeDeclarationSyntax TypeDeclarationSyntax,
 	string UnderlyingTypeName,
 	string? UnderlyingTypeNameBase,
 	bool GenerateToString, 

@@ -21,7 +21,7 @@ public enum StringFormat
 
 public record StringValueObject(
 		INamedTypeSymbol ValueObjectType,
-		string Declaration,
+		TypeDeclarationSyntax TypeDeclarationSyntax,
 		bool GenerateToString,
 		bool GenerateComparison,
 		bool AddCustomValidation,
@@ -37,7 +37,7 @@ public record StringValueObject(
 		StringComparison CompareOptions) 
 	: ValueObjectBase(
 		ValueObjectType: ValueObjectType,
-		Declaration: Declaration,
+		TypeDeclarationSyntax: TypeDeclarationSyntax,
 		UnderlyingTypeName: nameof(String),
 		UnderlyingTypeNameBase: null,
 		GenerateToString: GenerateToString,

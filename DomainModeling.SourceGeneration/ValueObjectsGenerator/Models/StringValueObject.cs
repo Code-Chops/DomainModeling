@@ -91,7 +91,7 @@ public record StringValueObject(
 				_										=> throw new ArgumentOutOfRangeException(nameof(this.StringFormat), this.StringFormat, null)
 			};
 
-			validation.AppendLine($@"			if (Regex.IsMatch(value, ""{formatRegex}"", RegexOptions.Compiled)) throw new ArgumentException(""Invalid characters in {this.Name} of format {this.StringFormat}. {this.PropertyName} '{{value}}'."");");
+			validation.AppendLine($@"			if (Regex.IsMatch(value, ""{formatRegex}"", RegexOptions.Compiled)) throw new ArgumentException($""Invalid characters in {this.Name} of format {this.StringFormat}. {this.PropertyName} '{{value}}'."");");
 		}
 			
 		if (this.MinimumLength is not null)
@@ -108,5 +108,5 @@ public record StringValueObject(
 	
 	public override string GetEnumeratorCode() => $"public IEnumerator<{this.ElementTypeName}> GetEnumerator() => this.{this.PropertyName}.GetEnumerator();";
 
-	public override string? GetExtraCode() => null;
+	public override string GetExtraCode() => $@"public {(this.IsUnsealedRecordClass ?  "virtual " : null)}{this.ElementTypeName} this[int index] => index >= 0 && index < this.Length ? this.{this.PropertyName}[index] : throw IndexOutOfRangeException<{this.Name}>.Create(index);";
 }

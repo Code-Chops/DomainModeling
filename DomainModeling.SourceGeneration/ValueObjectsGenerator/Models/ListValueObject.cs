@@ -60,7 +60,7 @@ public record ListValueObject(
 	
 	public override string GetLengthOrCountCode()	=> $"public int Count => this.{this.PropertyName}.Count;";
 
-	public override string GetExtraCastCode()		=> $"public static explicit operator {this.Name}({this.UnderlyingTypeNameBase} {this.LocalVariableName}) => new({this.LocalVariableName}.ToImmutableList());";
+	public override string GetExtraCastCode()		=> $"	public static explicit operator {this.Name}({this.UnderlyingTypeNameBase} {this.LocalVariableName}) => new({this.LocalVariableName}.ToImmutableList());";
 
 	public override string GetValidationCode()
 	{
@@ -79,5 +79,5 @@ public record ListValueObject(
 	
 	public override string GetEnumeratorCode() => $"public IEnumerator<{this.ElementTypeName}> GetEnumerator() => this.{this.PropertyName}.GetEnumerator();";
 
-	public override string GetExtraCode() => $@"public {(this.IsUnsealedRecordClass ?  "virtual " : null)}{this.ElementTypeName} this[int index] => index >= 0 && index < this.Count ? this.{this.PropertyName}.ElementAt(index) : throw IndexOutOfRangeException<{this.Name}>.Create(index);";
+	public override string GetExtraCode() => $@"public {(this.IsUnsealedRecordClass ?  "virtual " : null)}{this.ElementTypeName} this[int index] => index >= 0 && index < this.Count ? this.{this.PropertyName}[index] : throw IndexOutOfRangeException<{this.Name}>.Create(index);";
 }

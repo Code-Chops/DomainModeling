@@ -71,7 +71,7 @@ public record DictionaryValueObject(
 	
 	public override string GetLengthOrCountCode()	=> $"public int Count => this.{this.PropertyName}.Count;";
 
-	public override string GetExtraCastCode()		=> $"public static explicit operator {this.Name}({this.UnderlyingTypeNameBase} {this.LocalVariableName}) => new({this.LocalVariableName}.ToImmutableDictionary());";
+	public override string GetExtraCastCode()		=> $"	public static explicit operator {this.Name}({this.UnderlyingTypeNameBase} {this.LocalVariableName}) => new({this.LocalVariableName}.ToImmutableDictionary());";
 
 	public override string GetValidationCode()
 	{

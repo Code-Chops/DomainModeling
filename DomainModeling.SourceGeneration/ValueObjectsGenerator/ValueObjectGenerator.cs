@@ -215,7 +215,7 @@ public class ValueObjectGenerator : IIncrementalGenerator
 			
 			if (!data.GenerateDefaultConstructor) return code.ToString();
 			
-			code.AppendLine($"public static explicit operator {data.Name}({data.UnderlyingTypeName} {data.LocalVariableName}) => new({data.LocalVariableName});");
+			code.AppendLine($"	public static explicit operator {data.Name}({data.UnderlyingTypeName} {data.LocalVariableName}) => new({data.LocalVariableName});");
 			
 			var extraCastCode = data.GetExtraCastCode(); 
 			if (extraCastCode is not null) code.AppendLine(extraCastCode);

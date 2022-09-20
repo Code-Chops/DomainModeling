@@ -11,7 +11,7 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>0.25.0</Version>
+        <Version>0.25.1</Version>
         <PackageReleaseNotes>Removed ID support for records and added equality operators for IDs.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainDrivenDesign.DomainModeling</Title>
@@ -59,11 +59,6 @@
         <!-- Package the generator in the analyzer directory of the nuget package -->
         <None Include="..\DomainModeling.SourceGeneration\bin\$(Configuration)\netstandard2.0\$(AssemblyName).SourceGeneration.dll" Pack="true" PackagePath="analyzers\dotnet\cs" Visible="false" />
         <None Include="..\DomainModeling.SourceGeneration\bin\$(Configuration)\netstandard2.0\CodeChops.SourceGeneration.Utilities.dll" Pack="true" PackagePath="analyzers\dotnet\cs" Visible="false" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="DisplayString" />
-      <Folder Include="Identities\Converters\Json" />
     </ItemGroup>
 
 </Project>

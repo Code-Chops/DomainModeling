@@ -11,8 +11,8 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>0.25.2</Version>
-        <PackageReleaseNotes>Enhanced ListValueObject.ToString() and added generic type parameters for value objects.</PackageReleaseNotes>
+        <Version>0.25.3</Version>
+        <PackageReleaseNotes>Added generic type parameters to name of value objects and added type constraints.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainDrivenDesign.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>

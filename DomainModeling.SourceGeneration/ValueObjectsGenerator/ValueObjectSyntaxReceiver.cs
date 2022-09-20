@@ -42,7 +42,7 @@ internal static class ValueObjectSyntaxReceiver
 		
 		if (attribute is null) return null;
 
-		var declaration = GetDeclaration(typeDeclarationSyntax, type.Name);
+		var declaration = GetDeclaration(typeDeclarationSyntax, type.GetTypeNameWithGenericParameters());
 		var generateToString = attribute.GetArgumentOrDefault("generateToString", true);
 		var generateComparison = attribute.GetArgumentOrDefault("generateComparison", true);
 		var addCustomValidation = attribute.GetArgumentOrDefault("addCustomValidation", true);
@@ -121,7 +121,8 @@ internal static class ValueObjectSyntaxReceiver
 			var declarationText = declaration.ToFullString();
 
 			var start = declarationText.IndexOf(']') + 1;
-			var end = declarationText.IndexOf(name, StringComparison.Ordinal);
+			var end = declarationText.IndexOf('{');
+			if (end == -1) end = declarationText.IndexOf(';');
 			
 			declarationText = end == -1
 				? declarationText.Substring(start)

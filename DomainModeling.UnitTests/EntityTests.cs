@@ -23,45 +23,50 @@ public class EntityTests
 	[Fact]
 	public void Entities_WithSameId_ShouldBe_Equal()
 	{
-		var id1 = new EntityMock1(new IdMock(1));
-		var id2 = new EntityMock1(new IdMock(1));
+		var entity1 = new EntityMock1(new IdMock(1));
+		var entity2 = new EntityMock1(new IdMock(1));
 		
-		Assert.Equal(id1, id2);
+		Assert.Equal(entity1, entity2);
+		Assert.True(entity1 == entity2);
 	}
 	
 	[Fact]
 	public void Entities_WithDifferentIds_ShouldNotBe_Equal()
 	{
-		var id1 = new EntityMock1(new IdMock(1));
-		var id2 = new EntityMock1(new IdMock(2));
+		var entity1 = new EntityMock1(new IdMock(1));
+		var entity2 = new EntityMock1(new IdMock(2));
 		
-		Assert.NotEqual(id1, id2);
+		Assert.NotEqual(entity1, entity2);
+		Assert.False(entity1 == entity2);
 	}
 	
 	[Fact]
 	public void Entities_OfDifferentType_ShouldNotBe_Equal()
 	{
-		var id1 = new EntityMock1(new IdMock(1));
-		var id2 = new EntityMock2(new IdMock(1));
+		var entity1 = new EntityMock1(new IdMock(1));
+		var entity2 = new EntityMock2(new IdMock(1));
 		
-		Assert.NotEqual(id1, (Entity)id2);
+		Assert.NotEqual(entity1, (Entity)entity2);
+		Assert.False(entity1 == entity2);
 	}
 	
 	[Fact]
 	public void DifferentEntities_WithDefaultIds_ShouldNotBe_Equal()
 	{
-		var id1 = new EntityMock1();
-		var id2 = new EntityMock1();
+		var entity1 = new EntityMock1();
+		var entity2 = new EntityMock1();
 		
-		Assert.NotEqual(id1, id2);
+		Assert.NotEqual(entity1, entity2);
+		Assert.False(entity1 == entity2);
 	}
 	
 	[Fact]
 	public void SameEntities_WithDefaultIds_ShouldBe_Equal()
 	{
-		var id1 = new EntityMock1();
-		var id2 = id1;
+		var entity1 = new EntityMock1();
+		var entity2 = entity1;
 		
-		Assert.Equal(id1, id2);
+		Assert.Equal(entity1, entity2);
+		Assert.True(entity1 == entity2);
 	}
 }

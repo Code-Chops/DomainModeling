@@ -56,6 +56,7 @@ public class NumberIdTests
 		var id2 = new IntIdMock(7);
 		
 		Assert.Equal(id1, id2);
+		Assert.True(id1 == id2);
 	}
 	
 	[Fact]
@@ -65,6 +66,7 @@ public class NumberIdTests
 		var id2 = new IntIdMock();
 		
 		Assert.Equal(id1, id2);
+		Assert.True(id1 == id2);
 	}
 	
 	[Fact]

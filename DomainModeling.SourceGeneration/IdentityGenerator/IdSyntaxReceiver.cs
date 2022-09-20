@@ -97,7 +97,7 @@ internal static class IdSyntaxReceiver
 			return IdGenerationMethod.EntityImplementation;
 
 		if (type.IsRecord)
-			return IdGenerationMethod.Record;
+			throw new Exception($"Type {type.Name} is a record which shouldn't contain IDs.");
 			
 		return IdGenerationMethod.Class;
 	}

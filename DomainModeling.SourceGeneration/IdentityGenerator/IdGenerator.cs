@@ -119,7 +119,7 @@ using CodeChops.DomainDrivenDesign.DomainModeling.Identities;
 		
 		string GetEqualityComparison()
 		{
-			if (data.IdGenerationMethod is IdGenerationMethod.EntityImplementation or IdGenerationMethod.Record)
+			if (data.IdGenerationMethod is IdGenerationMethod.EntityImplementation)
 				return "";
 					
 			var code = @$"
@@ -144,7 +144,18 @@ using CodeChops.DomainDrivenDesign.DomainModeling.Identities;
 		if (other.GetType() != this.GetType()) return false;
 		
 		return !this.Id.HasDefaultValue && this.Id.Equals(other.Id);
-	}}";
+	}}
+
+	public static bool operator ==({className}? left, {className}? right)
+	{{
+		if (left is null && right is null) return true;
+		if (left is null || right is null) return false;
+		return left.Equals(right);
+	}}
+	
+	public static bool operator !=({className}? left, {className}? right) 
+		=> !(left == right);
+";
 
 			return code;
 		}

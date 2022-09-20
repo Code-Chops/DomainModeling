@@ -11,10 +11,6 @@ public enum IdGenerationMethod
 	/// </summary>
 	EntityImplementation,
 	/// <summary>
-	/// Generate a new ID-property but don't create equals.
-	/// </summary>
-	Record,
-	/// <summary>
 	/// Generate a new ID-property and create equals.
 	/// </summary>
 	Class,

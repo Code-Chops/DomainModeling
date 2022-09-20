@@ -210,7 +210,9 @@ public class ValueObjectGenerator : IIncrementalGenerator
 
 		string GetCastCode()
 		{
-			var code = new StringBuilder($@"public static implicit operator {data.UnderlyingTypeName}({data.Name} obj) => obj.{data.PropertyName};");
+			var code = new StringBuilder();
+			code.AppendLine($@"public static implicit operator {data.UnderlyingTypeName}({data.Name} {data.LocalVariableName}) => {data.LocalVariableName}.{data.PropertyName};");
+			
 			if (!data.GenerateDefaultConstructor) return code.ToString();
 			
 			code.AppendLine($"public static explicit operator {data.Name}({data.UnderlyingTypeName} {data.LocalVariableName}) => new({data.LocalVariableName});");

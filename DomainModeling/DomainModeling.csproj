@@ -11,8 +11,8 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>0.25.11</Version>
-        <PackageReleaseNotes>Still trying to fix Collections.Immutable not found.</PackageReleaseNotes>
+        <Version>0.25.12</Version>
+        <PackageReleaseNotes>Still trying to fix Collections.Immutable not found 2.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainDrivenDesign.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>
@@ -73,6 +73,7 @@
         <!-- Package the generator in the analyzer directory of the nuget package -->
         <None Include="..\DomainModeling.SourceGeneration\bin\$(Configuration)\netstandard2.0\$(AssemblyName).SourceGeneration.dll" Pack="true" PackagePath="analyzers\dotnet\cs" Visible="false" />
         <None Include="..\DomainModeling.SourceGeneration\bin\$(Configuration)\netstandard2.0\CodeChops.SourceGeneration.Utilities.dll" Pack="true" PackagePath="analyzers\dotnet\cs" Visible="false" />
+        <None Include="$(PkgSystem_Collections_Immutable)\lib\net6.0\System.Collections.Immutable.dll" Pack="true" PackagePath="analyzers\dotnet\cs" Visible="false" />
     </ItemGroup>
 
 </Project>

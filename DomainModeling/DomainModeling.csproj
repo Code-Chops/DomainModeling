@@ -11,8 +11,8 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>0.25.12</Version>
-        <PackageReleaseNotes>Still trying to fix Collections.Immutable not found 2.</PackageReleaseNotes>
+        <Version>0.25.13</Version>
+        <PackageReleaseNotes>Still trying to fix Collections.Immutable not found 3.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainDrivenDesign.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>
@@ -54,26 +54,12 @@
         <InternalsVisibleTo Include="$(AssemblyName).IntegrationTests" />
     </ItemGroup>
 
-    <PropertyGroup>
-        <GetTargetPathDependsOn>$(GetTargetPathDependsOn);GetDependencyTargetPaths</GetTargetPathDependsOn>
-    </PropertyGroup>
-
-    <Target Name="GetDependencyTargetPaths">
-        <ItemGroup>
-            <TargetPathWithTargetPlatformMoniker Include="$(PkgSystem_Collections_Immutable)\lib\net6.0\System.Collections.Immutable.dll" IncludeRuntimeDependency="false" />
-        </ItemGroup>
-    </Target>
-    
-    <ItemGroup Label="PackageReferences">
-        <PackageReference Include="System.Collections.Immutable" Version="6.0.0" PrivateAssets="all" GeneratePathProperty="true" />
-    </ItemGroup>
-    
     <ItemGroup Label="ProjectReferences">
         <ProjectReference Include="..\DomainModeling.SourceGeneration\DomainModeling.SourceGeneration.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
         <!-- Package the generator in the analyzer directory of the nuget package -->
         <None Include="..\DomainModeling.SourceGeneration\bin\$(Configuration)\netstandard2.0\$(AssemblyName).SourceGeneration.dll" Pack="true" PackagePath="analyzers\dotnet\cs" Visible="false" />
         <None Include="..\DomainModeling.SourceGeneration\bin\$(Configuration)\netstandard2.0\CodeChops.SourceGeneration.Utilities.dll" Pack="true" PackagePath="analyzers\dotnet\cs" Visible="false" />
-        <None Include="$(PkgSystem_Collections_Immutable)\lib\net6.0\System.Collections.Immutable.dll" Pack="true" PackagePath="analyzers\dotnet\cs" Visible="false" />
+        <None Include="..\DomainModeling.SourceGeneration\bin\$(Configuration)\netstandard2.0\System.Collections.Immutable.dll" Pack="true" PackagePath="analyzers\dotnet\cs" Visible="false" />
     </ItemGroup>
 
 </Project>

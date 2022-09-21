@@ -11,8 +11,8 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>0.25.7</Version>
-        <PackageReleaseNotes>Fixed source generators.</PackageReleaseNotes>
+        <Version>0.25.8</Version>
+        <PackageReleaseNotes>Fixed source generators 2.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainDrivenDesign.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>
@@ -59,6 +59,7 @@
         <!-- Package the generator in the analyzer directory of the nuget package -->
         <None Include="..\DomainModeling.SourceGeneration\bin\$(Configuration)\netstandard2.0\$(AssemblyName).SourceGeneration.dll" Pack="true" PackagePath="analyzers\dotnet\cs" Visible="false" />
         <None Include="..\DomainModeling.SourceGeneration\bin\$(Configuration)\netstandard2.0\CodeChops.SourceGeneration.Utilities.dll" Pack="true" PackagePath="analyzers\dotnet\cs" Visible="false" />
+        <None Include="..\DomainModeling.SourceGeneration\bin\$(Configuration)\netstandard2.0\System.Collections.Immutable.dll" Pack="true" PackagePath="analyzers\dotnet\cs" Visible="false" />
     </ItemGroup>
 
 </Project>

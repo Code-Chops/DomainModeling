@@ -11,8 +11,8 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>0.25.9</Version>
-        <PackageReleaseNotes>Fixed source generators 3.</PackageReleaseNotes>
+        <Version>0.25.10</Version>
+        <PackageReleaseNotes>Added equals operator overloading for value objects.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainDrivenDesign.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>

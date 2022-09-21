@@ -1,7 +1,5 @@
 namespace CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration.UnitTests.ValueObjects;
 
-#pragma warning disable CA2231 // Overload operator equals on overriding value type Equals
-
 [GenerateDictionaryValueObject<int, string>(addCustomValidation: false)]
 public partial struct DictionaryClassStructMock { }
 
@@ -39,5 +37,3 @@ public sealed partial record DictionarySealedRecordClassSettingsMock
 {
 	public void Validate() { }
 }
-
-#pragma warning restore CA2231 // Overload operator equals on overriding value type Equals

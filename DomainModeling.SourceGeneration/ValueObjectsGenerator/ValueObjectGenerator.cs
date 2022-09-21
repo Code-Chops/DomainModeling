@@ -146,25 +146,28 @@ public class ValueObjectGenerator : IIncrementalGenerator
 		}
 
 
-		string? GetComparison()
+		string GetComparison()
 		{
-			if (!data.GenerateComparison) return null;
-			var compareToCode = data.GetCompareToCode();
-			if (compareToCode is null) return null;
-
 			var equalityOperators = data.ValueObjectType.IsRecord
-				? null
+				? ""
 				: $@"
 	public static bool operator ==({data.Name} left, {data.Name} right) => left.{data.PropertyName} == right.{data.PropertyName};
 	public static bool operator !=({data.Name} left, {data.Name} right) => !(left == right);";
 			
-			return $@"{compareToCode}
+			if (!data.GenerateComparison) return equalityOperators;
+			
+			var compareToCode = data.GetCompareToCode();
+			if (compareToCode is null) return equalityOperators;
+			
+			return $@"
+	{equalityOperators}
+	{compareToCode}
 
 	public static bool operator <	({data.Name} left, {data.Name} right)	=> left.CompareTo(right) <	0;
 	public static bool operator <=	({data.Name} left, {data.Name} right)	=> left.CompareTo(right) <= 0;
 	public static bool operator >	({data.Name} left, {data.Name} right)	=> left.CompareTo(right) >	0;
 	public static bool operator >=	({data.Name} left, {data.Name} right)	=> left.CompareTo(right) >= 0;
-	{equalityOperators}";
+";
 		}
 		
 		

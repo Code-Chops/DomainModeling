@@ -78,7 +78,7 @@ internal static class ValueObjectSyntaxReceiver
 				GenerateEmptyStatic: generateEmptyStatic,
 				PropertyName: propertyName,
 				AllowNull: attribute.GetArgumentOrDefault("allowNull", false),
-				MinimumLength: attribute.TryGetArgument<int>("minimumLength", out var minimumLength) && minimumLength != Int32.MinValue ? minimumLength : null,
+				MinimumLength: attribute.TryGetArgument<int>("minimumLength", out var minimumLength) ? minimumLength : 0,
 				MaximumLength: attribute.TryGetArgument<int>("maximumLength", out var maximumLength) && maximumLength != Int32.MinValue ? maximumLength : null,
 				StringCaseConversion: attribute.GetArgumentOrDefault("stringCaseConversion", StringCaseConversion.NoConversion),
 				StringFormat: attribute.GetArgumentOrDefault("stringFormat", StringFormat.Default),
@@ -96,7 +96,7 @@ internal static class ValueObjectSyntaxReceiver
 				GenerateParameterlessConstructor: generateParameterlessConstructor,
 				GenerateEmptyStatic: generateEmptyStatic,
 				PropertyName: propertyName,
-				MinimumCount: attribute.TryGetArgument<int>("minimumCount", out var minimumCount) && minimumCount != Int32.MinValue ? minimumCount : null,
+				MinimumCount: attribute.TryGetArgument<int>("minimumCount", out var minimumCount) ? minimumCount : 0,
 				MaximumCount: attribute.TryGetArgument<int>("maximumCount", out var maximumCount) && maximumCount != Int32.MinValue ? maximumCount : null);
 		
 		if (hasDictionaryAttribute)
@@ -111,7 +111,7 @@ internal static class ValueObjectSyntaxReceiver
 				GenerateParameterlessConstructor: generateParameterlessConstructor,
 				GenerateEmptyStatic: generateEmptyStatic,
 				PropertyName: propertyName,
-				MinimumCount: attribute.TryGetArgument<int>("minimumCount", out var minimumCount) && minimumCount != Int32.MinValue ? minimumCount : null,
+				MinimumCount: attribute.TryGetArgument<int>("minimumCount", out var minimumCount) ? minimumCount : 0,
 				MaximumCount: attribute.TryGetArgument<int>("maximumCount", out var maximumCount) && maximumCount != Int32.MinValue ? maximumCount : null);
 		
 		return null;

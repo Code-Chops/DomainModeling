@@ -24,7 +24,7 @@ public sealed class GenerateStringValueObject : Attribute
 	/// <param name="generateEmptyStatic">Generate a static property with a default value. Default: false.</param>
 	/// <param name="propertyName">The name of the property. Default: Value.</param>
 	/// <param name="allowNull">Allow the string to be null. Default: false.</param>
-	/// <param name="minimumLength">The minimum length of the string. Default: no minimum length.</param>
+	/// <param name="minimumLength">The minimum length of the string. Default: 0.</param>
 	/// <param name="maximumLength">The maximum length of the string. Default: no maximum length.</param>
 	/// <param name="stringCaseConversion">Converts the case to upper/lower case. Default: no conversion.</param>
 	/// <param name="stringFormat">Make the string only accept certain characters. Default: no special format.</param>
@@ -39,7 +39,7 @@ public sealed class GenerateStringValueObject : Attribute
 		bool generateEmptyStatic = false,
 		string? propertyName = null,
 		bool allowNull = false,
-		int minimumLength = Int32.MinValue,
+		int minimumLength = 0,
 		int maximumLength = Int32.MinValue,
 		StringCaseConversion stringCaseConversion = StringCaseConversion.NoConversion,
 		StringFormat stringFormat = StringFormat.Default,

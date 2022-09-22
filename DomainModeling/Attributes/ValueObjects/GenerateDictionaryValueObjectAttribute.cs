@@ -27,7 +27,7 @@ public sealed class GenerateDictionaryValueObjectAttribute<TKey, TValue> : Attri
 	/// </param>
 	/// <param name="generateEmptyStatic">Generate a static property with a default value. Default: false.</param>
 	/// <param name="propertyName">The name of the property. Default: Value.</param>
-	/// <param name="minimumCount">The minimum count in the collection. Default: no minimum count.</param>
+	/// <param name="minimumCount">The minimum count in the collection. Default: 0.</param>
 	/// <param name="maximumCount">The maximum count in the collection. Default: no maximum count.</param>
 	// ReSharper disable always UnusedParameter.Local
 	public GenerateDictionaryValueObjectAttribute(
@@ -38,7 +38,7 @@ public sealed class GenerateDictionaryValueObjectAttribute<TKey, TValue> : Attri
 		bool generateParameterlessConstructor = false, 
 		bool generateEmptyStatic = false,
 		string? propertyName = null,
-		int minimumCount = Int32.MinValue, 
+		int minimumCount = 0, 
 		int maximumCount = Int32.MinValue)
 	{
 		// These parameters will be read from the attribute arguments itself and therefore don't need to be assigned.

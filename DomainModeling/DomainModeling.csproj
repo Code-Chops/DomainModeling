@@ -11,8 +11,8 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>0.25.16</Version>
-        <PackageReleaseNotes>Still trying to fix Collections.Immutable not found 6.</PackageReleaseNotes>
+        <Version>0.25.17</Version>
+        <PackageReleaseNotes>Default minimum count / length is 0.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainDrivenDesign.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>

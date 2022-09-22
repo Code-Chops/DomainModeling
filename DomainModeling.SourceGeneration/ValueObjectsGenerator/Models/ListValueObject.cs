@@ -11,6 +11,7 @@ public record ListValueObject(
 		bool GenerateDefaultConstructor,
 		bool GenerateParameterlessConstructor,
 		bool GenerateEmptyStatic,
+		bool GenerateEnumerable,
 		string? PropertyName,
 		int? MinimumCount,
 		int? MaximumCount) 
@@ -25,8 +26,10 @@ public record ListValueObject(
 		GenerateDefaultConstructor: GenerateDefaultConstructor,
 		GenerateParameterlessConstructor: GenerateParameterlessConstructor, 
 		GenerateEmptyStatic: GenerateEmptyStatic,
+		GenerateEnumerable: GenerateEnumerable,
 		PropertyName: PropertyName ?? "List",
-		AddIComparable: false)
+		AddIComparable: false), 
+		IEnumerableValueObject
 {
 	public string ElementTypeName { get; } = Attribute.AttributeClass!.TypeArguments.Single().Name;
 
@@ -42,7 +45,7 @@ public record ListValueObject(
 
 	public override string GetToStringCode()		=> $"public override string ToString() => this.ToDisplayString(new {{ Type = typeof({this.ElementTypeName}).Name }}, this.Count.ToString());";
 	
-	public override string GetInterfacesCode()		=> $"IEnumerable<{this.ElementTypeName}>";
+	public override string? GetInterfacesCode()		=> this.GenerateEnumerable ? $"IReadOnlyList<{this.ElementTypeName}>" : null;
 
 	public override string GetHashCodeCode()		=> $"public override int GetHashCode() => this.Count == 0 ? 1 : 2;";
 

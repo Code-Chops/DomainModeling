@@ -2,7 +2,8 @@ namespace CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration.ValueObje
 
 public record DictionaryValueObject(
 		INamedTypeSymbol ValueObjectType,
-		AttributeData Attribute,
+		ITypeSymbol KeyType,
+		ITypeSymbol ValueType,
 		TypeDeclarationSyntax TypeDeclarationSyntax,
 		bool GenerateToString,
 		bool GenerateComparison,
@@ -10,30 +11,32 @@ public record DictionaryValueObject(
 		bool GenerateDefaultConstructor,
 		bool GenerateParameterlessConstructor,
 		bool GenerateEmptyStatic,
+		bool GenerateEnumerable,
 		string? PropertyName,
 		int? MinimumCount,
 		int? MaximumCount) 
 	: ValueObjectBase(
 		ValueObjectType: ValueObjectType,
 		TypeDeclarationSyntax: TypeDeclarationSyntax,
-		UnderlyingTypeName: $"ImmutableDictionary<{Attribute.AttributeClass!.TypeArguments[0].Name},{Attribute.AttributeClass!.TypeArguments[1].Name}>",
-		UnderlyingTypeNameBase: $"Dictionary<{Attribute.AttributeClass!.TypeArguments[0].Name},{Attribute.AttributeClass!.TypeArguments[1].Name}>",
+		UnderlyingTypeName: $"ImmutableDictionary<{KeyType},{ValueType}>",
+		UnderlyingTypeNameBase: $"Dictionary<{KeyType},{ValueType}>",
 		GenerateToString: GenerateToString, 
 		GenerateComparison: GenerateComparison,
 		AddCustomValidation: AddCustomValidation,
 		GenerateDefaultConstructor: GenerateDefaultConstructor,
 		GenerateParameterlessConstructor: GenerateParameterlessConstructor, 
 		GenerateEmptyStatic: GenerateEmptyStatic,
+		GenerateEnumerable: GenerateEnumerable,
 		PropertyName: PropertyName ?? "Dictionary",
-		AddIComparable: false)
+		AddIComparable: false),
+		IEnumerableValueObject
 {
-	public string ElementTypeName { get; } = Attribute.AttributeClass!.TypeArguments[1].Name;
-
+	public string ElementTypeName { get; } = $"KeyValuePair<{KeyType.Name}, {ValueType.Name}>";
 	
 	public override string[] GetNamespaces()
 	{
-		var keyNamespace = this.Attribute.AttributeClass!.TypeArguments[0].ContainingNamespace;
-		var elementNamespace = this.Attribute.AttributeClass!.TypeArguments[1].ContainingNamespace;
+		var keyNamespace = this.KeyType.ContainingNamespace;
+		var elementNamespace = this.ValueType.ContainingNamespace;
 
 		if (!keyNamespace.IsGlobalNamespace && !elementNamespace.IsGlobalNamespace && !SymbolEqualityComparer.Default.Equals(keyNamespace, elementNamespace))
 			return new[] { keyNamespace.ToDisplayString(), elementNamespace.ToDisplayString() };
@@ -47,13 +50,11 @@ public record DictionaryValueObject(
 		return Array.Empty<string>();
 	}
 	
-	public string KeyTypeName { get; } = Attribute.AttributeClass!.TypeArguments[0].Name;
-	
-	public override string GetCommentsCode()		=> $"A dictionary of {this.ElementTypeName} by {this.KeyTypeName}.";
+	public override string GetCommentsCode()		=> $"A dictionary of {this.ValueType.Name} by {this.KeyType.Name}.";
 
-	public override string GetToStringCode()		=> $"public override string ToString() => this.ToDisplayString(new {{ Key = \"{this.KeyTypeName}\", Value = \"{this.ElementTypeName}\" }}, this.Count.ToString());";
+	public override string GetToStringCode()		=> $"public override string ToString() => this.ToDisplayString(new {{ Key = \"{this.KeyType.Name}\", Value = \"{this.ValueType.Name}\" }}, this.Count.ToString());";
 	
-	public override string GetInterfacesCode()		=> $"IReadOnlyDictionary<{this.KeyTypeName}, {this.ElementTypeName}>";
+	public override string? GetInterfacesCode()		=> this.GenerateEnumerable ? $"IReadOnlyDictionary<{this.KeyType.Name}, {this.ValueType.Name}>" : null;
 
 	public override string GetHashCodeCode()		=> $"public override int GetHashCode() => this.Count == 0 ? 1 : 2;";
 
@@ -67,7 +68,7 @@ public record DictionaryValueObject(
 
 	public override string? GetCompareToCode()		=> null;
 
-	public override string GetDefaultValue()		=> $"new Dictionary<{this.KeyTypeName}, {this.ElementTypeName}>().ToImmutableDictionary()";
+	public override string GetDefaultValue()		=> $"new Dictionary<{this.KeyType.Name}, {this.ValueType.Name}>().ToImmutableDictionary()";
 	
 	public override string GetLengthOrCountCode()	=> $"public int Count => this.{this.PropertyName}.Count;";
 
@@ -88,12 +89,12 @@ public record DictionaryValueObject(
 		return validation.ToString();
 	}
 	
-	public override string GetEnumeratorCode() => $"public IEnumerator<KeyValuePair<{this.KeyTypeName}, {this.ElementTypeName}>> GetEnumerator() => this.{this.PropertyName}.GetEnumerator();";
+	public override string GetEnumeratorCode() => $"public IEnumerator<{this.ElementTypeName}> GetEnumerator() => this.{this.PropertyName}.GetEnumerator();";
 
-	public override string GetExtraCode() => $@"public {(this.IsUnsealedRecordClass ? "virtual " : null)}{this.ElementTypeName} this[{this.KeyTypeName} key] => this.{this.PropertyName}.TryGetValue(key, out var value) ? value : throw KeyNotFoundException<{this.KeyTypeName}, {this.Name}>.Create(key);
-	public IEnumerable<{this.KeyTypeName}> Keys => this.{this.PropertyName}.Keys;
-	public IEnumerable<{this.ElementTypeName}> Values => this.{this.PropertyName}.Values;
-	public bool ContainsKey({this.KeyTypeName} key) => this.{this.PropertyName}.ContainsKey(key);
-	public bool TryGetValue({this.KeyTypeName} key, [MaybeNullWhen(false)] out {this.ElementTypeName} value) => this.{this.PropertyName}.TryGetValue(key, out value);
+	public override string GetExtraCode() => $@"public {(this.IsUnsealedRecordClass ? "virtual " : null)}{this.ValueType.Name} this[{this.KeyType.Name} key] => this.{this.PropertyName}.TryGetValue(key, out var value) ? value : throw KeyNotFoundException<{this.KeyType.Name}, {this.Name}>.Create(key);
+	public IEnumerable<{this.KeyType.Name}> Keys => this.{this.PropertyName}.Keys;
+	public IEnumerable<{this.ValueType.Name}> Values => this.{this.PropertyName}.Values;
+	public bool ContainsKey({this.KeyType.Name} key) => this.{this.PropertyName}.ContainsKey(key);
+	public bool TryGetValue({this.KeyType.Name} key, [MaybeNullWhen(false)] out {this.ValueType.Name} value) => this.{this.PropertyName}.TryGetValue(key, out value);
 ";
 }

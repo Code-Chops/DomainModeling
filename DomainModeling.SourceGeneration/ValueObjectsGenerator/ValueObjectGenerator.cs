@@ -121,9 +121,11 @@ public class ValueObjectGenerator : IIncrementalGenerator
 			if (data.AddCustomValidation) interfaces.Append($", IHasCustomValidation");
 			if (data.GenerateEmptyStatic) interfaces.Append($", IHasEmptyInstance<{data.Name}>");
 			if (data.AddIComparable && data.GenerateComparison) interfaces.Append($", IComparable<{data.Name}>");
+			if (data.GenerateEnumerable && data is IEnumerableValueObject enumerableValueObject) interfaces.Append($", IEnumerable<{enumerableValueObject.ElementTypeName}>");
 
 			var extraInterfaces = data.GetInterfacesCode();
 			if (extraInterfaces is not null) interfaces.Append($", {extraInterfaces}");
+			
 			return interfaces.ToString();
 		}
 		
@@ -146,10 +148,10 @@ public class ValueObjectGenerator : IIncrementalGenerator
 		}
 
 
-		string GetComparison()
+		string? GetComparison()
 		{
 			var equalityOperators = data.ValueObjectType.IsRecord
-				? ""
+				? null
 				: $@"
 	public static bool operator ==({data.Name} left, {data.Name} right) => left.{data.PropertyName} == right.{data.PropertyName};
 	public static bool operator !=({data.Name} left, {data.Name} right) => !(left == right);";
@@ -240,6 +242,7 @@ public class ValueObjectGenerator : IIncrementalGenerator
 		string GetParameterlessConstructor()
 		{
 			var error = $"Don't use this empty constructor. A value should be provided when initializing {data.Name}.";
+			
 			return data.GenerateParameterlessConstructor
 				? $@"
 	public {data.ValueObjectType.Name}()
@@ -256,6 +259,8 @@ public class ValueObjectGenerator : IIncrementalGenerator
 
 		string? GetEnumerator()
 		{
+			if (!data.GenerateEnumerable) return null;
+			
 			var enumeratorCode = data.GetEnumeratorCode();
 			
 			return enumeratorCode is null

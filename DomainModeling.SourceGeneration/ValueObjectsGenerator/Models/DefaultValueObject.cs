@@ -26,6 +26,7 @@ public sealed record DefaultValueObject(
 		GenerateDefaultConstructor: GenerateDefaultConstructor,
 		GenerateParameterlessConstructor: GenerateParameterlessConstructor,  
 		GenerateEmptyStatic: GenerateEmptyStatic,
+		GenerateEnumerable: false,
 		PropertyName: PropertyName ?? "Value",
 		AddIComparable: true)
 {

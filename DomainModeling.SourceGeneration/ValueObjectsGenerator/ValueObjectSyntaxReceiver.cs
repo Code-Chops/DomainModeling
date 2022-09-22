@@ -48,6 +48,7 @@ internal static class ValueObjectSyntaxReceiver
 		var generateDefaultConstructor = attribute.GetArgumentOrDefault("generateDefaultConstructor", true);
 		var generateParameterlessConstructor = attribute.GetArgumentOrDefault("generateParameterlessConstructor", false);
 		var generateEmptyStatic = attribute.GetArgumentOrDefault("generateEmptyStatic", false);
+		var generateEnumerable = attribute.GetArgumentOrDefault("generateEnumerable", true);
 		var propertyName = attribute.GetArgumentOrDefault("propertyName", (string?)null);
 
 		if (hasDefaultAttribute)
@@ -76,6 +77,7 @@ internal static class ValueObjectSyntaxReceiver
 				GenerateDefaultConstructor: generateDefaultConstructor,
 				GenerateParameterlessConstructor: generateParameterlessConstructor,
 				GenerateEmptyStatic: generateEmptyStatic,
+				GenerateEnumerable: generateEnumerable,
 				PropertyName: propertyName,
 				AllowNull: attribute.GetArgumentOrDefault("allowNull", false),
 				MinimumLength: attribute.TryGetArgument<int>("minimumLength", out var minimumLength) ? minimumLength : 0,
@@ -95,6 +97,7 @@ internal static class ValueObjectSyntaxReceiver
 				GenerateDefaultConstructor: generateDefaultConstructor,
 				GenerateParameterlessConstructor: generateParameterlessConstructor,
 				GenerateEmptyStatic: generateEmptyStatic,
+				GenerateEnumerable: generateEnumerable,
 				PropertyName: propertyName,
 				MinimumCount: attribute.TryGetArgument<int>("minimumCount", out var minimumCount) ? minimumCount : 0,
 				MaximumCount: attribute.TryGetArgument<int>("maximumCount", out var maximumCount) && maximumCount != Int32.MinValue ? maximumCount : null);
@@ -102,7 +105,8 @@ internal static class ValueObjectSyntaxReceiver
 		if (hasDictionaryAttribute)
 			return new DictionaryValueObject(
 				ValueObjectType: type,
-				Attribute: attribute,
+				KeyType: attribute.AttributeClass!.TypeArguments[0],
+				ValueType: attribute.AttributeClass!.TypeArguments[1],
 				TypeDeclarationSyntax: typeDeclarationSyntax,
 				GenerateToString: generateToString,
 				GenerateComparison: generateComparison,
@@ -110,6 +114,7 @@ internal static class ValueObjectSyntaxReceiver
 				GenerateDefaultConstructor: generateDefaultConstructor,
 				GenerateParameterlessConstructor: generateParameterlessConstructor,
 				GenerateEmptyStatic: generateEmptyStatic,
+				GenerateEnumerable: generateEnumerable,
 				PropertyName: propertyName,
 				MinimumCount: attribute.TryGetArgument<int>("minimumCount", out var minimumCount) ? minimumCount : 0,
 				MaximumCount: attribute.TryGetArgument<int>("maximumCount", out var maximumCount) && maximumCount != Int32.MinValue ? maximumCount : null);

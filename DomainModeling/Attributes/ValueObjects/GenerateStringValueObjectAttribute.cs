@@ -22,6 +22,7 @@ public sealed class GenerateStringValueObject : Attribute
 	/// Default: false.
 	/// </param>
 	/// <param name="generateEmptyStatic">Generate a static property with a default value. Default: false.</param>
+	/// <param name="generateEnumerable">Generates an IEnumerable implementation and indexer.</param>
 	/// <param name="propertyName">The name of the property. Default: Value.</param>
 	/// <param name="allowNull">Allow the string to be null. Default: false.</param>
 	/// <param name="minimumLength">The minimum length of the string. Default: 0.</param>
@@ -37,6 +38,7 @@ public sealed class GenerateStringValueObject : Attribute
 		bool generateDefaultConstructor = true,
 		bool generateParameterlessConstructor = false, 
 		bool generateEmptyStatic = false,
+		bool generateEnumerable = true,
 		string? propertyName = null,
 		bool allowNull = false,
 		int minimumLength = 0,

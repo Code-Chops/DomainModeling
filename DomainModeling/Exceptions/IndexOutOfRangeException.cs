@@ -1,7 +1,6 @@
 ﻿namespace CodeChops.DomainDrivenDesign.DomainModeling.Exceptions;
 
 public class IndexOutOfRangeException<TCollection> : SystemException<IndexOutOfRangeException<TCollection>, object>, ISystemException<IndexOutOfRangeException<TCollection>, object>
-	where TCollection : IEnumerable
 {
 	public static string ErrorMessage => new($"Index out of range in {typeof(TCollection)}.");
 

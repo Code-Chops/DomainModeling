@@ -1,7 +1,7 @@
 namespace CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration.ValueObjectsGenerator.Models;
 
 /// <param name="ValueObjectType">The type of the partial class being generated.</param>
-/// <param name="Declaration">The declaration of the class being generated </param>
+/// <param name="TypeDeclarationSyntax">The declaration of the class being generated </param>
 /// <param name="UnderlyingTypeName"></param>
 /// <param name="GenerateToString"></param>
 /// <param name="GenerateComparison"></param>
@@ -23,6 +23,7 @@ public abstract record ValueObjectBase(
 	bool GenerateDefaultConstructor,
 	bool GenerateParameterlessConstructor,
 	bool GenerateEmptyStatic,
+	bool GenerateEnumerable,
 	string PropertyName,
 	bool AddIComparable)
 {

@@ -28,6 +28,7 @@ public record StringValueObject(
 		bool GenerateDefaultConstructor,
 		bool GenerateParameterlessConstructor,
 		bool GenerateEmptyStatic,
+		bool GenerateEnumerable,
 		string? PropertyName,
 		bool AllowNull,
 		int? MinimumLength,
@@ -46,8 +47,10 @@ public record StringValueObject(
 		GenerateDefaultConstructor: GenerateDefaultConstructor,
 		GenerateParameterlessConstructor: GenerateParameterlessConstructor,
 		GenerateEmptyStatic: GenerateEmptyStatic,
+		GenerateEnumerable: GenerateEnumerable,
 		PropertyName: PropertyName ?? "Value",
-		AddIComparable: true)
+		AddIComparable: true),
+		IEnumerableValueObject
 {
 	public string ElementTypeName => nameof(Char);
 
@@ -58,7 +61,7 @@ public record StringValueObject(
 
 	public override string GetToStringCode()		=> $"public override string ToString() => this.ToDisplayString(new {{ this.{this.PropertyName} }});";
 	
-	public override string GetInterfacesCode()		=> $"IEnumerable<{this.ElementTypeName}>";
+	public override string? GetInterfacesCode()		=> null;
 
 	public override string GetHashCodeCode()		=> $"public override int GetHashCode() => String.GetHashCode({this.PropertyName}, StringComparison.{this.CompareOptions});";
 

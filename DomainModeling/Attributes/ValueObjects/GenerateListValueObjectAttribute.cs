@@ -24,6 +24,7 @@ public sealed class GenerateListValueObjectAttribute<TValue> : Attribute
 	/// Default: false.
 	/// </param>
 	/// <param name="generateEmptyStatic">Generate a static property with a default value. Default: false.</param>
+	/// <param name="generateEnumerable">Generates an IEnumerable implementation and indexer.</param>
 	/// <param name="propertyName">The name of the property. Default: List.</param>
 	/// <param name="minimumCount">The minimum count in the collection. Default: 0.</param>
 	/// <param name="maximumCount">The maximum count in the collection. Default: no maximum count.</param>
@@ -35,6 +36,7 @@ public sealed class GenerateListValueObjectAttribute<TValue> : Attribute
 		bool generateDefaultConstructor = true,
 		bool generateParameterlessConstructor = false, 
 		bool generateEmptyStatic = false,
+		bool generateEnumerable = true,
 		string? propertyName = null,
 		int minimumCount = 0, 
 		int maximumCount = Int32.MinValue)

@@ -13,6 +13,7 @@ public record ListValueObject(
 		bool GenerateEmptyStatic,
 		bool GenerateEnumerable,
 		string? PropertyName,
+		bool PropertyIsPublic,
 		int? MinimumCount,
 		int? MaximumCount) 
 	: ValueObjectBase(
@@ -28,6 +29,7 @@ public record ListValueObject(
 		GenerateEmptyStatic: GenerateEmptyStatic,
 		GenerateEnumerable: GenerateEnumerable,
 		PropertyName: PropertyName ?? "List",
+		PropertyIsPublic: PropertyIsPublic,
 		AddIComparable: false), 
 		IEnumerableValueObject
 {

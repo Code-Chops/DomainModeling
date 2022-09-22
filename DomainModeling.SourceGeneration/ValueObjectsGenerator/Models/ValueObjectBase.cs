@@ -25,6 +25,7 @@ public abstract record ValueObjectBase(
 	bool GenerateEmptyStatic,
 	bool GenerateEnumerable,
 	string PropertyName,
+	bool PropertyIsPublic,
 	bool AddIComparable)
 {
 	public bool IsUnsealedRecordClass { get; } = ValueObjectType.IsRecord && ValueObjectType.TypeKind is not TypeKind.Struct && !ValueObjectType.IsSealed;

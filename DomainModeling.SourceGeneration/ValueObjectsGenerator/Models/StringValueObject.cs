@@ -30,6 +30,7 @@ public record StringValueObject(
 		bool GenerateEmptyStatic,
 		bool GenerateEnumerable,
 		string? PropertyName,
+		bool PropertyIsPublic,
 		bool AllowNull,
 		int? MinimumLength,
 		int? MaximumLength,
@@ -49,6 +50,7 @@ public record StringValueObject(
 		GenerateEmptyStatic: GenerateEmptyStatic,
 		GenerateEnumerable: GenerateEnumerable,
 		PropertyName: PropertyName ?? "Value",
+		PropertyIsPublic: PropertyIsPublic,
 		AddIComparable: true),
 		IEnumerableValueObject
 {

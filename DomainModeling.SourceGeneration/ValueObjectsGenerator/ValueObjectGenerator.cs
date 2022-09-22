@@ -187,16 +187,16 @@ public class ValueObjectGenerator : IIncrementalGenerator
 		{
 			var callValidation = data.AddCustomValidation ? "this.Validate();" : null;
 			var error = $"Don't use this field, use the {data.PropertyName} property instead";
-			
+
 			return $@"	
 #pragma warning disable CS0618 
 	/// <summary>
     /// The primitive structural value.
     /// </summary>
-	private {data.UnderlyingTypeName} {data.PropertyName} 
+	{(data.PropertyIsPublic ? "public" : "private")} {data.UnderlyingTypeName} {data.PropertyName} 
 	{{
 		get => this.{data.BackingFieldName};
-		init 
+		{(data.PropertyIsPublic ? "private " : null)}init 
 		{{ 
 {data.GetValidationCode()}
 			this.{data.BackingFieldName} = value;

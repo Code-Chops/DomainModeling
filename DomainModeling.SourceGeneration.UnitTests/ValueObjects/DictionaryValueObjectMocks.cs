@@ -20,19 +20,52 @@ public partial class DictionaryClassMock { }
 public partial record DictionaryRecordClassMock;
 
 
-[GenerateDictionaryValueObject<int, string>(minimumCount: 0, maximumCount: 10, generateToString: false, generateParameterlessConstructor: false, addCustomValidation: true, generateEmptyStatic: false, propertyName: "Test", generateComparison: false, generateEnumerable: false, generateDefaultConstructor: false)]
+[GenerateDictionaryValueObject<int, string>(
+	minimumCount: 0,
+	maximumCount: 10, 
+	generateToString: false,
+	generateParameterlessConstructor: false,
+	addCustomValidation: true, 
+	generateEmptyStatic: false,
+	propertyName: "Test",
+	generateComparison: false, 
+	generateEnumerable: false,
+	generateDefaultConstructor: false,
+	propertyIsPublic: true)]
 public partial record struct DictionaryRecordStructSettingsMock
 {
 	public void Validate() { }
 }
 
-[GenerateDictionaryValueObject<int, string>(minimumCount: 0, maximumCount: 10, generateToString: false, generateParameterlessConstructor: false, addCustomValidation: true, generateEmptyStatic: false, propertyName: "Test", generateComparison: false, generateEnumerable: false, generateDefaultConstructor: false)]
+[GenerateDictionaryValueObject<int, string>(
+	minimumCount: 0,
+	maximumCount: 10, 
+	generateToString: false, 
+	generateParameterlessConstructor: false, 
+	addCustomValidation: true,
+	generateEmptyStatic: false, 
+	propertyName: "Test", 
+	generateComparison: false, 
+	generateEnumerable: false, 
+	generateDefaultConstructor: false,
+	propertyIsPublic: true)]
 public partial record DictionaryRecordClassSettingsMock
 {
 	public void Validate() { }
 }
 
-[GenerateDictionaryValueObject<int, string>(minimumCount: 0, maximumCount: 10, generateToString: false, generateParameterlessConstructor: false, addCustomValidation: true, generateEmptyStatic: false, propertyName: "Test", generateComparison: false, generateEnumerable: false, generateDefaultConstructor: false)]
+[GenerateDictionaryValueObject<int, string>(
+	minimumCount: 0, 
+	maximumCount: 10,
+	generateToString: false, 
+	generateParameterlessConstructor: false, 
+	addCustomValidation: true, 
+	generateEmptyStatic: false, 
+	propertyName: "Test",
+	generateComparison: false, 
+	generateEnumerable: false, 
+	generateDefaultConstructor: false,
+	propertyIsPublic: true)]
 public sealed partial record DictionarySealedRecordClassSettingsMock
 {
 	public void Validate() { }

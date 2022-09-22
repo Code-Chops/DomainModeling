@@ -50,7 +50,8 @@ internal static class ValueObjectSyntaxReceiver
 		var generateEmptyStatic = attribute.GetArgumentOrDefault("generateEmptyStatic", false);
 		var generateEnumerable = attribute.GetArgumentOrDefault("generateEnumerable", true);
 		var propertyName = attribute.GetArgumentOrDefault("propertyName", (string?)null);
-
+		var propertyIsPublic = attribute.GetArgumentOrDefault("propertyIsPublic", false);
+		
 		if (hasDefaultAttribute)
 			return new DefaultValueObject(
 				ValueObjectType: type,
@@ -63,6 +64,7 @@ internal static class ValueObjectSyntaxReceiver
 				GenerateParameterlessConstructor: generateParameterlessConstructor,
 				GenerateEmptyStatic: generateEmptyStatic,
 				PropertyName: propertyName,
+				PropertyIsPublic: propertyIsPublic,
 				AllowNull: attribute.GetArgumentOrDefault("allowNull", false),
 				MinimumValue: attribute.TryGetArgument<int>("minimumValue", out var minimumValue) && minimumValue != Int32.MinValue ? minimumValue : null,
 				MaximumValue: attribute.TryGetArgument<int>("maximumValue", out var maximumValue) && maximumValue != Int32.MinValue ? maximumValue : null);
@@ -79,6 +81,7 @@ internal static class ValueObjectSyntaxReceiver
 				GenerateEmptyStatic: generateEmptyStatic,
 				GenerateEnumerable: generateEnumerable,
 				PropertyName: propertyName,
+				PropertyIsPublic: propertyIsPublic,
 				AllowNull: attribute.GetArgumentOrDefault("allowNull", false),
 				MinimumLength: attribute.TryGetArgument<int>("minimumLength", out var minimumLength) ? minimumLength : 0,
 				MaximumLength: attribute.TryGetArgument<int>("maximumLength", out var maximumLength) && maximumLength != Int32.MinValue ? maximumLength : null,
@@ -99,6 +102,7 @@ internal static class ValueObjectSyntaxReceiver
 				GenerateEmptyStatic: generateEmptyStatic,
 				GenerateEnumerable: generateEnumerable,
 				PropertyName: propertyName,
+				PropertyIsPublic: propertyIsPublic,
 				MinimumCount: attribute.TryGetArgument<int>("minimumCount", out var minimumCount) ? minimumCount : 0,
 				MaximumCount: attribute.TryGetArgument<int>("maximumCount", out var maximumCount) && maximumCount != Int32.MinValue ? maximumCount : null);
 		
@@ -116,6 +120,7 @@ internal static class ValueObjectSyntaxReceiver
 				GenerateEmptyStatic: generateEmptyStatic,
 				GenerateEnumerable: generateEnumerable,
 				PropertyName: propertyName,
+				PropertyIsPublic: propertyIsPublic,
 				MinimumCount: attribute.TryGetArgument<int>("minimumCount", out var minimumCount) ? minimumCount : 0,
 				MaximumCount: attribute.TryGetArgument<int>("maximumCount", out var maximumCount) && maximumCount != Int32.MinValue ? maximumCount : null);
 		

@@ -12,6 +12,7 @@ public sealed record DefaultValueObject(
 		bool GenerateParameterlessConstructor,
 		bool GenerateEmptyStatic,
 		string? PropertyName,
+		bool PropertyIsPublic,
 		bool AllowNull,
 		int? MinimumValue,
 		int? MaximumValue) 
@@ -28,6 +29,7 @@ public sealed record DefaultValueObject(
 		GenerateEmptyStatic: GenerateEmptyStatic,
 		GenerateEnumerable: false,
 		PropertyName: PropertyName ?? "Value",
+		PropertyIsPublic: PropertyIsPublic,
 		AddIComparable: true)
 {
 	public static string GetUnderlyingTypeName(AttributeData attribute, bool allowNull)

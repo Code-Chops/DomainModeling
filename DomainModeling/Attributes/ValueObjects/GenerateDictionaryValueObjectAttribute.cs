@@ -28,6 +28,7 @@ public sealed class GenerateDictionaryValueObjectAttribute<TKey, TValue> : Attri
 	/// <param name="generateEmptyStatic">Generates a static property with a default value. Default: false.</param>
 	/// <param name="generateEnumerable">Generates an IEnumerable implementation and indexer.</param>
 	/// <param name="propertyName">The name of the property. Default: Value.</param>
+	/// <param name="propertyIsPublic">If true, the generated property will be publicly accessible (not settable).</param>
 	/// <param name="minimumCount">The minimum count in the collection. Default: 0.</param>
 	/// <param name="maximumCount">The maximum count in the collection. Default: no maximum count.</param>
 	// ReSharper disable always UnusedParameter.Local
@@ -39,6 +40,7 @@ public sealed class GenerateDictionaryValueObjectAttribute<TKey, TValue> : Attri
 		bool generateParameterlessConstructor = false, 
 		bool generateEmptyStatic = false,
 		bool generateEnumerable = true,
+		bool propertyIsPublic = false,
 		string? propertyName = null,
 		int minimumCount = 0, 
 		int maximumCount = Int32.MinValue)

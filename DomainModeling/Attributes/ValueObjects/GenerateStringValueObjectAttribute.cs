@@ -24,6 +24,7 @@ public sealed class GenerateStringValueObject : Attribute
 	/// <param name="generateEmptyStatic">Generate a static property with a default value. Default: false.</param>
 	/// <param name="generateEnumerable">Generates an IEnumerable implementation and indexer.</param>
 	/// <param name="propertyName">The name of the property. Default: Value.</param>
+	/// <param name="propertyIsPublic">If true, the generated property will be publicly accessible (not settable).</param>
 	/// <param name="allowNull">Allow the string to be null. Default: false.</param>
 	/// <param name="minimumLength">The minimum length of the string. Default: 0.</param>
 	/// <param name="maximumLength">The maximum length of the string. Default: no maximum length.</param>
@@ -40,6 +41,7 @@ public sealed class GenerateStringValueObject : Attribute
 		bool generateEmptyStatic = false,
 		bool generateEnumerable = true,
 		string? propertyName = null,
+		bool propertyIsPublic = false,
 		bool allowNull = false,
 		int minimumLength = 0,
 		int maximumLength = Int32.MinValue,

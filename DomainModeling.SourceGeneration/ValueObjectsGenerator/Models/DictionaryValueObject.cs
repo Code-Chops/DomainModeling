@@ -13,6 +13,7 @@ public record DictionaryValueObject(
 		bool GenerateEmptyStatic,
 		bool GenerateEnumerable,
 		string? PropertyName,
+		bool PropertyIsPublic,
 		int? MinimumCount,
 		int? MaximumCount) 
 	: ValueObjectBase(
@@ -28,6 +29,7 @@ public record DictionaryValueObject(
 		GenerateEmptyStatic: GenerateEmptyStatic,
 		GenerateEnumerable: GenerateEnumerable,
 		PropertyName: PropertyName ?? "Dictionary",
+		PropertyIsPublic: PropertyIsPublic,
 		AddIComparable: false),
 		IEnumerableValueObject
 {

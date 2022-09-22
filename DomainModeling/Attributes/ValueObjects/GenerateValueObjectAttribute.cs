@@ -25,6 +25,7 @@ public sealed class GenerateValueObjectAttribute<TValue> : Attribute
 	/// </param>
 	/// <param name="generateEmptyStatic">Generate a static property with a default value. Default: false.</param>
 	/// <param name="propertyName">The name of the property. Default: Dictionary.</param>
+	/// <param name="propertyIsPublic">If true, the generated property will be publicly accessible (not settable).</param>
 	/// <param name="allowNull">Allow the string to be null. Default: false.</param>
 	/// <param name="minimumValue">The minimum value. Default: no minimum value.</param>
 	/// <param name="maximumValue">The maximum value. Default: no maximum value.</param>
@@ -37,6 +38,7 @@ public sealed class GenerateValueObjectAttribute<TValue> : Attribute
 		bool generateParameterlessConstructor = false, 
 		bool generateEmptyStatic = false,
 		string? propertyName = null,
+		bool propertyIsPublic = false,
 		bool allowNull = false,
 		int minimumValue = Int32.MinValue, 
 		int maximumValue = Int32.MinValue)

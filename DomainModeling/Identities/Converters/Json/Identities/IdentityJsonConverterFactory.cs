@@ -7,32 +7,22 @@ namespace CodeChops.DomainDrivenDesign.DomainModeling.Identities.Converters.Json
 public class IdentityJsonConverterFactory : JsonConverterFactory
 {
 	public override bool CanConvert(Type typeToConvert) 
-		=> !typeToConvert.IsAbstract && typeToConvert.IsAssignableTo(typeof(Id));
+		=> !typeToConvert.IsAbstract && typeToConvert.IsAssignableTo(typeof(IId));
 
 	public override JsonConverter CreateConverter(Type typeToConvert, JsonSerializerOptions options)
 	{
-		var genericBaseId = GetGenericBaseId(typeToConvert);
-		var idPrimitive = genericBaseId.GetGenericArguments().First();
-		var converter = (JsonConverter)Activator.CreateInstance(
+		var idPrimitive = typeToConvert.GetProperty(nameof(IId<int>.Value))?.PropertyType
+		                  ?? throw new InvalidOperationException($"Primitive type of {typeToConvert.Name} was not found.");
+		
+		var converter = Activator.CreateInstance(
 			type: typeof(IdentityJsonConverter<,>).MakeGenericType(typeToConvert, idPrimitive),
 			bindingAttr: BindingFlags.Instance | BindingFlags.Public,
 			binder: null,
 			args: null,
-			culture: null)!;
+			culture: null);
 
-		return converter;
+		if (converter is null) throw new InvalidOperationException($"Could not create {typeof(IdentityJsonConverter<,>).Name} for type {typeToConvert.Name}.");
 		
-		static Type GetGenericBaseId(Type type)
-		{
-			while (type.BaseType != null)
-			{
-				if (type.BaseType == typeof(Id))
-				{
-					return type;
-				}
-				type = type.BaseType;
-			}
-			throw new InvalidOperationException($"Primitive of was {type.Name} was not found.");
-		}
+		return (JsonConverter)converter;
 	}
 }

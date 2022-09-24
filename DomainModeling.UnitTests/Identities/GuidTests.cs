@@ -2,12 +2,6 @@
 
 public class GuidTests
 {
-	private record GuidMock : Guid<GuidMock>
-	{
-		public GuidMock(string value) : base(value) { }
-		public GuidMock() { }
-	}
-
 	[Theory]
 	[InlineData("2FD110A01D304B4593B4D44680DE152C",		true)]
 	[InlineData(null,									true)]
@@ -18,23 +12,16 @@ public class GuidTests
 	{
 		if (!expectedToBeValid) Assert.Throws<ArgumentException>(CreateGuid);
 
-		GuidMock CreateGuid() => value is null ? new GuidMock() : new GuidMock(value);
-	}
-
-	[Fact]
-	public void Guid_ShouldNot_Have_DefaultValue()
-	{
-		var guid = new GuidMock();
-		
-		Assert.False(guid.HasDefaultValue);
+		object CreateGuid() => value is null ? new Uuid() : new Uuid(value);
 	}
 
 	[Fact]
 	public void IdenticalGuids_ShouldBe_Equal()
 	{
-		var guid1 = new GuidMock("2FD110A01D304B4593B4D44680DE152C");
-		var guid2 = new GuidMock("2FD110A01D304B4593B4D44680DE152C");
+		var guid1 = new Uuid("2FD110A01D304B4593B4D44680DE152C");
+		var guid2 = new Uuid("2FD110A01D304B4593B4D44680DE152C");
 		
-		Assert.Equal(guid1, guid2);
+		Assert.True(guid1 == guid2);
+		Assert.True(guid1.Equals(guid2));
 	}
 }

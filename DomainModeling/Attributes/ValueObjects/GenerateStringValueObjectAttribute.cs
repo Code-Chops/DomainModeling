@@ -16,8 +16,8 @@ public sealed class GenerateStringValueObject : Attribute
 	/// </param>
 	/// <param name="addCustomValidation">Forces to create a Validate method so custom validation can be implemented. Default: true.</param>
 	/// <param name="generateDefaultConstructor">Generates a default constructor. Default: true.</param>
-	/// <param name="generateParameterlessConstructor">
-	/// Generates a parameterless constructor that assigns a default value to the property.
+	/// <param name="addParameterlessConstructor">
+	/// If true, it forces to create a parameterless constructor (in order to define a default value).
 	/// If false, it creates an obsolete parameterless private constructor that throws an exception.
 	/// Default: false.
 	/// </param>
@@ -37,7 +37,7 @@ public sealed class GenerateStringValueObject : Attribute
 		bool generateComparison = true,
 		bool addCustomValidation = true,
 		bool generateDefaultConstructor = true,
-		bool generateParameterlessConstructor = false, 
+		bool addParameterlessConstructor = false, 
 		bool generateEmptyStatic = false,
 		bool generateEnumerable = true,
 		string? propertyName = null,

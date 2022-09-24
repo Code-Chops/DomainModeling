@@ -2,7 +2,7 @@
 
 public class IndexOutOfRangeException<TCollection> : SystemException<IndexOutOfRangeException<TCollection>, object>, ISystemException<IndexOutOfRangeException<TCollection>, object>
 {
-	public static string ErrorMessage => new($"Index out of range in {typeof(TCollection)}.");
+	public static string ErrorMessage => new($"Index out of range in {typeof(TCollection).Name}.");
 
 	public IndexOutOfRangeException(object parameter) 
 		: base(parameter)

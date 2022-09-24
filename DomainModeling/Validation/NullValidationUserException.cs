@@ -1,14 +1,14 @@
 namespace CodeChops.DomainDrivenDesign.DomainModeling.Validation;
 
-public class NullValidationUserException : UserException<NullValidationUserException>, IUserException<NullValidationUserException>
+public class NullValidationUserException<TParameter> : UserException<NullValidationUserException<TParameter>, TParameter>, IUserException<NullValidationUserException<TParameter>, TParameter>
 {
-	public static string ErrorMessage => "Required data is missing.";
+	public static string ErrorMessage => $"Required data for {typeof(TParameter).Name} is missing.";
+	
+	public static NullValidationUserException<TParameter> Create(IId<string> errorCode, TParameter parameter)
+		=> new(errorCode, parameter);
 
-	public static NullValidationUserException Create(Id<string> errorCode, string parameterName)
-		=> new(new UserErrorMessage(errorCode, parameterName));
-
-	protected NullValidationUserException(UserErrorMessage errorMessage) 
-		: base(errorMessage)
+	protected NullValidationUserException(IId<string> errorCode, TParameter parameter) 
+		: base(new(errorCode, parameter))
 	{
 	}
 }

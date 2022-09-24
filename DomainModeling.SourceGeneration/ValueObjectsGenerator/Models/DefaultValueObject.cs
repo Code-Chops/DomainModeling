@@ -9,7 +9,7 @@ public sealed record DefaultValueObject(
 		bool GenerateComparison,
 		bool AddCustomValidation,
 		bool GenerateDefaultConstructor,
-		bool GenerateParameterlessConstructor,
+		bool AddParameterlessConstructor,
 		bool GenerateEmptyStatic,
 		string? PropertyName,
 		bool PropertyIsPublic,
@@ -25,7 +25,7 @@ public sealed record DefaultValueObject(
 		GenerateComparison: GenerateComparison,
 		AddCustomValidation: AddCustomValidation,
 		GenerateDefaultConstructor: GenerateDefaultConstructor,
-		GenerateParameterlessConstructor: GenerateParameterlessConstructor,  
+		AddParameterlessConstructor: AddParameterlessConstructor,  
 		GenerateEmptyStatic: GenerateEmptyStatic,
 		GenerateEnumerable: false,
 		PropertyName: PropertyName ?? "Value",
@@ -64,10 +64,10 @@ public sealed record DefaultValueObject(
 		var validation = new StringBuilder();
 
 		if (this.MinimumValue is not null)
-			validation.AppendLine($@"			if (value < {this.MinimumValue}) throw new ArgumentException($""{{this}} is smaller than {nameof(this.MinimumValue)} {this.MinimumValue}."");");
+			validation.AppendLine($@"			if (value < {this.MinimumValue}) throw new ArgumentException($""{this.Name} is smaller than {nameof(this.MinimumValue)} {this.MinimumValue}."");");
 			
 		if (this.MaximumValue is not null)
-			validation.AppendLine($@"			if (value > {this.MaximumValue}) throw new ArgumentException($""{{this}} is higher than {nameof(this.MaximumValue)} {this.MaximumValue}."");");
+			validation.AppendLine($@"			if (value > {this.MaximumValue}) throw new ArgumentException($""{this.Name} is higher than {nameof(this.MaximumValue)} {this.MaximumValue}."");");
 
 		return validation.ToString();
 	}

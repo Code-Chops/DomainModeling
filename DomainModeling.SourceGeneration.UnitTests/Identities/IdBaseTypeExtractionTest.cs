@@ -15,11 +15,11 @@ public class IdBaseTypeExtractionTest
 	}
 	
 	[Theory]
-	[InlineData("[GenerateStronglyTypedId]", 						"Id<Identity, UInt64>", "UInt64")]
-	[InlineData("[GenerateStronglyTypedId<ulong>]",					"Id<Identity, UInt64>", "UInt64")]				
-	[InlineData("[GenerateStronglyTypedId<string>]",				"Id<Identity, string>", "string")] 	
-	[InlineData("[GenerateStronglyTypedId<string>(typeof(Guid))]",	"Id<Identity, string>",	"string")]
-	[InlineData("[GenerateStronglyTypedId<Tuple>(typeof(Tuple))]",	"Id<Identity, Tuple>",	"Tuple")]
+	[InlineData("[GenerateStronglyTypedId]", 						"IId<UInt64>",	"UInt64")]
+	[InlineData("[GenerateStronglyTypedId<ulong>]",					"IId<UInt64>",	"UInt64")]				
+	[InlineData("[GenerateStronglyTypedId<string>]",				"IId<string>",	"string")] 	
+	[InlineData("[GenerateStronglyTypedId<string>(typeof(Guid))]",	"IId<string>",	"string")]
+	[InlineData("[GenerateStronglyTypedId<Tuple>(typeof(Tuple))]",	"IId<Tuple>",	"Tuple")]
 	public void IdType_Extraction_IsCorrect(string attribute, string expectedBaseType, string expectedPrimitiveType)
 	{
 		var syntaxTree = GetSyntaxTree(attribute);

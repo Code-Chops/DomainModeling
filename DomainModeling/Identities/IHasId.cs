@@ -1,12 +1,12 @@
 ﻿namespace CodeChops.DomainDrivenDesign.DomainModeling.Identities;
 
 public interface IHasId<out TId>
-	where TId : Id
+	where TId : IId
 {
 	TId Id { get; }
 }
 
 public interface IHasId
 {
-	Id Id { get; }
+	IId Id { get; }
 }

@@ -1,65 +1,56 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Globalization;
+using System.Runtime.Serialization;
 
 namespace CodeChops.DomainDrivenDesign.DomainModeling.Identities;
 
 /// <summary>
+/// <para>
 /// An abstract identifier with a generic type as primitive value.
+/// </para>
+/// <para>
+/// <b>Prefer to use ID generation <see cref="GenerateStronglyTypedId{TNumber}"/> in order to use struct IDs.</b>
+/// </para>
 /// </summary>
 /// <typeparam name="TPrimitive">The primitive value of the identifier.</typeparam>
-public abstract record Id<TSelf, TPrimitive> : Id<TPrimitive>
-	where TSelf : Id<TSelf, TPrimitive>
-	where TPrimitive : IEquatable<TPrimitive>, IComparable<TPrimitive>
+public abstract record Id<TSelf, TPrimitive> : IId<TPrimitive>
+	where TSelf : IId<TPrimitive>
+	where TPrimitive : IEquatable<TPrimitive>, IComparable<TPrimitive>, IConvertible
 {
+	public override string ToString() => this.ToDisplayString(new { this.Value, PrimitiveType = typeof(TPrimitive).Name });
+
+	public TPrimitive Value { get; private init; }
+
 	/// <summary>
 	/// Create new instances when explicitly casting. Used to avoid the new() constraint.
 	/// </summary>
-	private static readonly TSelf CachedUninitializedMember = (TSelf)FormatterServices.GetUninitializedObject(typeof(TSelf));
+	private static readonly Id<TSelf, TPrimitive> CachedUninitializedMember = (Id<TSelf, TPrimitive>)FormatterServices.GetUninitializedObject(typeof(Id<TSelf, TPrimitive>));
 
 	public static explicit operator Id<TSelf, TPrimitive>(TPrimitive value) => CachedUninitializedMember with { Value = value };
 	public static implicit operator TPrimitive(Id<TSelf, TPrimitive> id) => id.Value;
-	
-	protected Id(TPrimitive value)
-		: base(value)
-	{
-	}
 
-	protected Id()
-	{
-	}
-}
-
-public abstract record Id<TPrimitive> : Id, IId<TPrimitive>
-	where TPrimitive : IEquatable<TPrimitive>, IComparable<TPrimitive>
-{
-	public override string ToString() => this.ToDisplayString(new { this.Value, PrimitiveType = typeof(TPrimitive).Name });
-	
 	#region Comparison
-	public int CompareTo(Id<TPrimitive>? other) 
-		=> other is null ? 1 : this.Value.CompareTo(other.Value);
-
-	public override int GetHashCode() 
-		=> HashCode.Combine(base.GetHashCode(), this.Value);
+	public int CompareTo(IId? other) 
+		=> other is null ? 1 : this.Value.CompareTo(other.GetValue<TPrimitive>());
 	
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	public static bool operator <	(Id<TPrimitive> left, Id<TPrimitive> right)	=> left.CompareTo(right) <	0;
+	public static bool operator <	(Id<TSelf, TPrimitive> left, IId right)	=> left.CompareTo(right) <	0;
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	public static bool operator <=	(Id<TPrimitive> left, Id<TPrimitive> right)	=> left.CompareTo(right) <= 0;
+	public static bool operator <=	(Id<TSelf, TPrimitive> left, IId right)	=> left.CompareTo(right) <= 0;
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	public static bool operator >	(Id<TPrimitive> left, Id<TPrimitive> right)	=> left.CompareTo(right) >	0;
+	public static bool operator >	(Id<TSelf, TPrimitive> left, IId right)	=> left.CompareTo(right) >	0;
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	public static bool operator >=	(Id<TPrimitive> left, Id<TPrimitive> right)	=> left.CompareTo(right) >= 0;
+	public static bool operator >=	(Id<TSelf, TPrimitive> left, IId right)	=> left.CompareTo(right) >= 0;
 	#endregion
-	
+
 	/// <summary>
 	/// Warning. Performs boxing!
 	/// </summary>
-	public sealed override object GetValue() => this.Value;
+	public object GetValue() => this.Value;
+	public TTargetPrimitive GetValue<TTargetPrimitive>() 
+		where TTargetPrimitive : IEquatable<TTargetPrimitive>, IComparable<TTargetPrimitive>, IConvertible 
+		=> (TTargetPrimitive)this.Value.ToType(typeof(TTargetPrimitive), CultureInfo.InvariantCulture);
 
-	public TPrimitive Value { get; protected init; }
-
-	// ReSharper disable once ConstantConditionalAccessQualifier
-	public sealed override bool HasDefaultValue => this.Value?.Equals(DefaultValue) ?? true;
-	private static readonly TPrimitive DefaultValue = default!;
+	public bool HasDefaultValue => this.Value.Equals(IId<TPrimitive>.DefaultValue);
 
 	protected Id(TPrimitive value)
 	{
@@ -68,16 +59,6 @@ public abstract record Id<TPrimitive> : Id, IId<TPrimitive>
 	
 	protected Id()
 	{
-		this.Value = default!;
+		this.Value = default(TPrimitive) ?? throw NullValidationSystemException<TPrimitive>.Create(default!);
 	}
-}
-
-/// <summary>
-/// Created in order to support covariant return types (because it does not have a generic type parameter).
-/// </summary>
-public abstract record Id : IId
-{
-	public override string ToString() => this.ToDisplayString(new { Value = this.GetValue() });
-	public abstract object GetValue();
-	public abstract bool HasDefaultValue { get; }
 }

@@ -9,7 +9,7 @@ public record DictionaryValueObject(
 		bool GenerateComparison,
 		bool AddCustomValidation,
 		bool GenerateDefaultConstructor,
-		bool GenerateParameterlessConstructor,
+		bool AddParameterlessConstructor,
 		bool GenerateEmptyStatic,
 		bool GenerateEnumerable,
 		string? PropertyName,
@@ -25,7 +25,7 @@ public record DictionaryValueObject(
 		GenerateComparison: GenerateComparison,
 		AddCustomValidation: AddCustomValidation,
 		GenerateDefaultConstructor: GenerateDefaultConstructor,
-		GenerateParameterlessConstructor: GenerateParameterlessConstructor, 
+		AddParameterlessConstructor: AddParameterlessConstructor, 
 		GenerateEmptyStatic: GenerateEmptyStatic,
 		GenerateEnumerable: GenerateEnumerable,
 		PropertyName: PropertyName ?? "Dictionary",
@@ -83,10 +83,10 @@ public record DictionaryValueObject(
 		validation.AppendLine($@"			if (value is null) throw new ArgumentNullException(nameof(value));");
 
 		if (this.MinimumCount is not null)
-			validation.AppendLine($@"			if (value.Count < {this.MinimumCount}) throw new ArgumentException($""Count {{value.Count}} of {this.Name} is less than {nameof(this.MinimumCount)} {this.MinimumCount}."");");
+			validation.AppendLine($@"			if (value.Count < {this.MinimumCount}) throw new ArgumentException($""{this.Name} count {{value.Count}} is less than {nameof(this.MinimumCount)} {this.MinimumCount}."");");
 			
 		if (this.MaximumCount is not null)
-			validation.AppendLine($@"			if (value.Count > {this.MaximumCount}) throw new ArgumentException($""Count {{value.Count}} of {this.Name} is higher than {nameof(this.MaximumCount)} {this.MaximumCount}."");");
+			validation.AppendLine($@"			if (value.Count > {this.MaximumCount}) throw new ArgumentException($""{this.Name} count {{value.Count}} is higher than {nameof(this.MaximumCount)} {this.MaximumCount}."");");
 
 		return validation.ToString();
 	}

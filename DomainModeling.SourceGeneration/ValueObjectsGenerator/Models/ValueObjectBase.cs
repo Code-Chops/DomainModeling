@@ -7,7 +7,7 @@ namespace CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration.ValueObje
 /// <param name="GenerateComparison"></param>
 /// <param name="AddCustomValidation"></param>
 /// <param name="GenerateDefaultConstructor"></param>
-/// <param name="GenerateParameterlessConstructor"></param>
+/// <param name="AddParameterlessConstructor"></param>
 /// <param name="GenerateEmptyStatic"></param>
 /// <param name="PropertyName"></param>
 /// <param name="AddIComparable"></param>
@@ -21,7 +21,7 @@ public abstract record ValueObjectBase(
 	bool GenerateComparison,
 	bool AddCustomValidation,
 	bool GenerateDefaultConstructor,
-	bool GenerateParameterlessConstructor,
+	bool AddParameterlessConstructor,
 	bool GenerateEmptyStatic,
 	bool GenerateEnumerable,
 	string PropertyName,

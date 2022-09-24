@@ -38,7 +38,7 @@ internal static class IdSyntaxReceiver
 
 		var idTypeName = attribute.GetArgumentOrDefault("name", IdGenerator.DefaultIdTypeName);
 		var idPropertyName = attribute.GetArgumentOrDefault("propertyName", IdGenerator.DefaultIdPropertyName);
-		var (baseType, primitiveType, primitiveTypeNamespace) = GetTypeNames(attribute, type, idTypeName);
+		var (baseType, primitiveType, primitiveTypeNamespace) = GetTypeNames(attribute, type);
 		
 		var data = new IdDataModel(
 			OuterClassName: type.Name,
@@ -55,7 +55,7 @@ internal static class IdSyntaxReceiver
 		return data;
 	}
 
-	private static (string BaseType, string PrimitiveType, string? PrimitiveTypeNamespace) GetTypeNames(AttributeData attribute, INamedTypeSymbol type, string idName)
+	private static (string BaseType, string PrimitiveType, string? PrimitiveTypeNamespace) GetTypeNames(AttributeData attribute, INamedTypeSymbol type)
 	{
 		var primitiveType = IdGenerator.DefaultIdPrimitiveType;
 		var primitiveTypeNamespace = (string?)null;
@@ -79,13 +79,13 @@ internal static class IdSyntaxReceiver
 				throw new InvalidCastException($"Unable to cast value of \"baseType\" to {nameof(ITypeSymbol)}, from attribute for {attribute.AttributeClass?.Name} of class {type.Name}.");
 
 			var baseType = value.GetTypeNameWithGenericParameters().Replace(" ", "");
-			baseType = baseType.Replace("<>", $"<{idName}>");
-			baseType = baseType.Replace("<,>", $"<{idName}, {primitiveType}>");
+			baseType = baseType.Replace("<>", "");
+			baseType = baseType.Replace("<,>", $"<{primitiveType}>");
 			
 			return (baseType, primitiveType, primitiveTypeNamespace);
 		}
 		
-		return ($"Id<{idName}, {primitiveType}>", primitiveType, primitiveTypeNamespace);
+		return ($"IId<{primitiveType}>", primitiveType, primitiveTypeNamespace);
 	}
 
 	private static IdGenerationMethod GetClassType(INamedTypeSymbol type, bool isEntityBase)

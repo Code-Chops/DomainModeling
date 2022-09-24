@@ -83,7 +83,7 @@ public class ValueObjectGenerator : IIncrementalGenerator
 
 	{GetDefaultConstructor()}
 
-	{GetParameterlessConstructor()}	
+	{AddForbiddenParameterlessConstructor()}	
 
 	{GetEnumerator()}
 
@@ -177,7 +177,7 @@ public class ValueObjectGenerator : IIncrementalGenerator
 		{
 			if (!data.GenerateEmptyStatic) return null;
 			
-			return data.GenerateParameterlessConstructor 
+			return data.AddParameterlessConstructor 
 				? $"public static {data.Name} Empty {{ get; }} = new();"
 				: $"public static {data.Name} Empty {{ get; }} = new({data.GetDefaultValue()});";
 		}
@@ -239,17 +239,13 @@ public class ValueObjectGenerator : IIncrementalGenerator
 			: null;
 
 		
-		string GetParameterlessConstructor()
+		string? AddForbiddenParameterlessConstructor()
 		{
+			if (data.AddParameterlessConstructor) return null;
+			
 			var error = $"Don't use this empty constructor. A value should be provided when initializing {data.Name}.";
 			
-			return data.GenerateParameterlessConstructor
-				? $@"
-	public {data.ValueObjectType.Name}()
-	{{
-		this.{data.PropertyName} = {data.GetDefaultValue()};
-	}}"
-				: $@"
+			return $@"
 #pragma warning disable CS8618
 	[Obsolete(""{error}"", true)]
 	public {data.ValueObjectType.Name}() => throw new InvalidOperationException($""{error}"");

@@ -20,20 +20,23 @@ public partial class DefaultIntClassMock { }
 public partial record DefaultIntRecordClassMock;
 
 
-[GenerateValueObject<int>(minimumValue: 0, maximumValue: 10, generateDefaultConstructor: true, generateParameterlessConstructor: true, generateComparison: false, addCustomValidation: true, generateEmptyStatic: true, generateToString: false, propertyName: "Test", allowNull: true)]
+[GenerateValueObject<int>(minimumValue: 0, maximumValue: 10, generateDefaultConstructor: true, addParameterlessConstructor: true, generateComparison: false, addCustomValidation: true, generateEmptyStatic: true, generateToString: false, propertyName: "Test", allowNull: true)]
 public partial record struct DefaultIntRecordStructSettingsMock
 {
 	public void Validate() { }
+	public DefaultIntRecordStructSettingsMock() { }
 }
 
-[GenerateValueObject<int>(minimumValue: 0, maximumValue: 10, generateDefaultConstructor: true, generateParameterlessConstructor: true, generateComparison: false, addCustomValidation: true, generateEmptyStatic: true, generateToString: false, propertyName: "Test", allowNull: true)]
+[GenerateValueObject<int>(minimumValue: 0, maximumValue: 10, generateDefaultConstructor: true, addParameterlessConstructor: true, generateComparison: false, addCustomValidation: true, generateEmptyStatic: true, generateToString: false, propertyName: "Test", allowNull: true)]
 public partial record DefaultIntRecordClassSettingsMock
 {
 	public void Validate() { }
+	public DefaultIntRecordClassSettingsMock() { }
 }
 
-[GenerateValueObject<int>(minimumValue: 0, maximumValue: 10, generateDefaultConstructor: true, generateParameterlessConstructor: true, generateComparison: false, addCustomValidation: true, generateEmptyStatic: true, generateToString: false, propertyName: "Test", allowNull: true)]
+[GenerateValueObject<int>(minimumValue: 0, maximumValue: 10, generateDefaultConstructor: true, addParameterlessConstructor: true, generateComparison: false, addCustomValidation: true, generateEmptyStatic: true, generateToString: false, propertyName: "Test", allowNull: true)]
 public sealed partial record DefaultIntSealedRecordClassSettingsMock
 {
 	public void Validate() { }
+	public DefaultIntSealedRecordClassSettingsMock() { }
 }

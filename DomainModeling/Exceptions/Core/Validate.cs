@@ -1,4 +1,4 @@
-﻿namespace CodeChops.DomainDrivenDesign.DomainModeling.Exceptions.Custom;
+﻿namespace CodeChops.DomainDrivenDesign.DomainModeling.Exceptions.Core;
 
 public static class Validate
 {

@@ -1,7 +1,6 @@
 ﻿namespace CodeChops.DomainDrivenDesign.DomainModeling.Exceptions;
 
 public class NullValidationSystemException<TParameter> : SystemException<NullValidationSystemException<TParameter>, TParameter>, ISystemException<NullValidationSystemException<TParameter>, TParameter> 
-	where TParameter : notnull
 {
 	public static string ErrorMessage => $"Required data for {typeof(TParameter).Name} is missing.";
 

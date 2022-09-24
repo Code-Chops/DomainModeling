@@ -46,7 +46,7 @@ internal static class ValueObjectSyntaxReceiver
 		var generateComparison = attribute.GetArgumentOrDefault("generateComparison", true);
 		var addCustomValidation = attribute.GetArgumentOrDefault("addCustomValidation", true);
 		var generateDefaultConstructor = attribute.GetArgumentOrDefault("generateDefaultConstructor", true);
-		var generateParameterlessConstructor = attribute.GetArgumentOrDefault("generateParameterlessConstructor", false);
+		var addParameterlessConstructor = attribute.GetArgumentOrDefault("addParameterlessConstructor", false);
 		var generateEmptyStatic = attribute.GetArgumentOrDefault("generateEmptyStatic", false);
 		var generateEnumerable = attribute.GetArgumentOrDefault("generateEnumerable", true);
 		var propertyName = attribute.GetArgumentOrDefault("propertyName", (string?)null);
@@ -61,7 +61,7 @@ internal static class ValueObjectSyntaxReceiver
 				GenerateComparison: generateComparison,
 				AddCustomValidation: addCustomValidation,
 				GenerateDefaultConstructor: generateDefaultConstructor,
-				GenerateParameterlessConstructor: generateParameterlessConstructor,
+				AddParameterlessConstructor: addParameterlessConstructor,
 				GenerateEmptyStatic: generateEmptyStatic,
 				PropertyName: propertyName,
 				PropertyIsPublic: propertyIsPublic,
@@ -77,7 +77,7 @@ internal static class ValueObjectSyntaxReceiver
 				GenerateComparison: generateComparison,
 				AddCustomValidation: addCustomValidation,
 				GenerateDefaultConstructor: generateDefaultConstructor,
-				GenerateParameterlessConstructor: generateParameterlessConstructor,
+				AddParameterlessConstructor: addParameterlessConstructor,
 				GenerateEmptyStatic: generateEmptyStatic,
 				GenerateEnumerable: generateEnumerable,
 				PropertyName: propertyName,
@@ -98,7 +98,7 @@ internal static class ValueObjectSyntaxReceiver
 				GenerateComparison: generateComparison,
 				AddCustomValidation: addCustomValidation,
 				GenerateDefaultConstructor: generateDefaultConstructor,
-				GenerateParameterlessConstructor: generateParameterlessConstructor,
+				AddParameterlessConstructor: addParameterlessConstructor,
 				GenerateEmptyStatic: generateEmptyStatic,
 				GenerateEnumerable: generateEnumerable,
 				PropertyName: propertyName,
@@ -116,7 +116,7 @@ internal static class ValueObjectSyntaxReceiver
 				GenerateComparison: generateComparison,
 				AddCustomValidation: addCustomValidation,
 				GenerateDefaultConstructor: generateDefaultConstructor,
-				GenerateParameterlessConstructor: generateParameterlessConstructor,
+				AddParameterlessConstructor: addParameterlessConstructor,
 				GenerateEmptyStatic: generateEmptyStatic,
 				GenerateEnumerable: generateEnumerable,
 				PropertyName: propertyName,

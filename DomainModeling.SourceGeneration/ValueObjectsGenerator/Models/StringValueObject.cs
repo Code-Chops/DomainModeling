@@ -26,7 +26,7 @@ public record StringValueObject(
 		bool GenerateComparison,
 		bool AddCustomValidation,
 		bool GenerateDefaultConstructor,
-		bool GenerateParameterlessConstructor,
+		bool AddParameterlessConstructor,
 		bool GenerateEmptyStatic,
 		bool GenerateEnumerable,
 		string? PropertyName,
@@ -46,7 +46,7 @@ public record StringValueObject(
 		GenerateComparison: GenerateComparison,
 		AddCustomValidation: AddCustomValidation,
 		GenerateDefaultConstructor: GenerateDefaultConstructor,
-		GenerateParameterlessConstructor: GenerateParameterlessConstructor,
+		AddParameterlessConstructor: AddParameterlessConstructor,
 		GenerateEmptyStatic: GenerateEmptyStatic,
 		GenerateEnumerable: GenerateEnumerable,
 		PropertyName: PropertyName ?? "Value",
@@ -96,14 +96,14 @@ public record StringValueObject(
 				_										=> throw new ArgumentOutOfRangeException(nameof(this.StringFormat), this.StringFormat, null)
 			};
 
-			validation.AppendLine($@"			if (Regex.IsMatch(value, ""{formatRegex}"", RegexOptions.Compiled)) throw new ArgumentException($""Invalid characters in {this.Name} of format {this.StringFormat}. {this.PropertyName} '{{value}}'."");");
+			validation.AppendLine($@"			if (Regex.IsMatch(value, ""{formatRegex}"", RegexOptions.Compiled)) throw new ArgumentException($""Invalid characters in {this.Name}: '{{value}}'."");");
 		}
 			
 		if (this.MinimumLength is not null)
-			validation.AppendLine($@"			if (value.Length < {this.MinimumLength}) throw new ArgumentException($""String of {this.Name} is shorter ({{value.Length}} characters) than {nameof(this.MinimumLength)} {this.MinimumLength}."");");
+			validation.AppendLine($@"			if (value.Length < {this.MinimumLength}) throw new ArgumentException($""{this.Name} is shorter ({{value.Length}} characters) than minimum length {this.MinimumLength}."");");
 			
 		if (this.MaximumLength is not null)
-			validation.AppendLine($@"			if (value.Length > {this.MaximumLength}) throw new ArgumentException($""String of {this.Name} is longer ({{value.Length}} characters) than {nameof(this.MaximumLength)} {this.MaximumLength}."");");
+			validation.AppendLine($@"			if (value.Length > {this.MaximumLength}) throw new ArgumentException($""{this.Name} is longer ({{value.Length}} characters) than maximum length {this.MaximumLength}."");");
 
 		if (this.StringCaseConversion is not StringCaseConversion.NoConversion)
 			validation.AppendLine($"			value = value.To{this.StringCaseConversion}();");

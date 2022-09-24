@@ -1,6 +1,6 @@
 ﻿namespace CodeChops.DomainDrivenDesign.DomainModeling.UnitTests.Identities;
 
-public class NumberIdTests
+public class InheritedNumberIdTests
 {
 	private record IntIdMock : Id<IntIdMock, int>
 	{
@@ -36,17 +36,18 @@ public class NumberIdTests
 		var id1 = new IntIdMock(6);
 		var id2 = new IntIdMock(7);
 		
-		Assert.NotEqual(id1, id2);
+		Assert.False(id1 == id2);
+		Assert.False(id1.Equals(id2));
 	}
 	
 	[Fact]
 	public void Ids_OfDifferentType_ShouldNotBe_Equal()
 	{
-		var id1 = (Id)new IntIdMock(7);
-		var id2 = (Id)new UIntIdMock(7);
+		var id1 = (IId)new IntIdMock(7);
+		var id2 = (IId)new UIntIdMock(7);
 		
 		Assert.False(id1 == id2);
-		Assert.NotEqual(id1, id2);
+		Assert.False(id1.Equals(id2));
 	}
 
 	[Fact]
@@ -55,8 +56,8 @@ public class NumberIdTests
 		var id1 = new IntIdMock(7);
 		var id2 = new IntIdMock(7);
 		
-		Assert.Equal(id1, id2);
 		Assert.True(id1 == id2);
+		Assert.Equal(id1, id2);
 	}
 	
 	[Fact]
@@ -65,17 +66,17 @@ public class NumberIdTests
 		var id1 = new IntIdMock();
 		var id2 = new IntIdMock();
 		
-		Assert.Equal(id1, id2);
 		Assert.True(id1 == id2);
+		Assert.Equal(id1, id2);
 	}
 	
 	[Fact]
 	public void DefaultIds_OfDifferentTypes_ShouldNotBe_Equal()
 	{
-		var id1 = (Id)new IntIdMock();
-		var id2 = (Id)new UIntIdMock();
+		var id1 = (IId)new IntIdMock();
+		var id2 = (IId)new UIntIdMock();
 		
 		Assert.False(id1 == id2);
-		Assert.NotEqual(id1, id2);
+		Assert.False(id1.Equals(id2));
 	}
 }

@@ -18,7 +18,7 @@ public abstract record Id<TSelf, TPrimitive> : IId<TPrimitive>
 {
 	public override string ToString() => this.ToDisplayString(new { this.Value, PrimitiveType = typeof(TPrimitive).Name });
 
-	public TPrimitive Value { get; private init; }
+	public TPrimitive Value { get; protected init; }
 
 	/// <summary>
 	/// Create new instances when explicitly casting. Used to avoid the new() constraint.

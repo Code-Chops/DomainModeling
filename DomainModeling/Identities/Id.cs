@@ -59,6 +59,6 @@ public abstract record Id<TSelf, TPrimitive> : IId<TPrimitive>
 	
 	protected Id()
 	{
-		this.Value = default(TPrimitive) ?? throw NullValidationSystemException<TPrimitive>.Create(default!);
+		this.Value = default!;
 	}
 }

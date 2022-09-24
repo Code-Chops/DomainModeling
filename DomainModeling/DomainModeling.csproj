@@ -11,8 +11,8 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>0.28.1</Version>
-        <PackageReleaseNotes>ID value protected init for MagicEnum.</PackageReleaseNotes>
+        <Version>0.28.2</Version>
+        <PackageReleaseNotes>ID value can now be null.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainDrivenDesign.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>

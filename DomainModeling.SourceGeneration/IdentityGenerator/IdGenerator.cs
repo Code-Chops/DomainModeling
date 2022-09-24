@@ -209,7 +209,6 @@ using CodeChops.DomainDrivenDesign.DomainModeling.Identities;
 		
 		public {idName}()
 		{{
-			if (!typeof({primitiveType}).IsValueType) throw NullValidationSystemException<{primitiveType}>.Create(default!);
 			this.Value = default({primitiveType});
 		}}
 	}}

@@ -8,7 +8,7 @@ namespace CodeChops.DomainDrivenDesign.DomainModeling.Identities.Converters.Json
 
 public class IdentityJsonConverter<TId, TPrimitive> : JsonConverter<TId>
 	where TId : IId<TPrimitive>
-	where TPrimitive : IEquatable<TPrimitive>, IComparable<TPrimitive>, IConvertible
+	where TPrimitive : IEquatable<TPrimitive>, IComparable<TPrimitive>
 {
 	public override bool CanConvert(Type typeToConvert) 
 		=> typeToConvert.IsAssignableTo(typeof(TId));

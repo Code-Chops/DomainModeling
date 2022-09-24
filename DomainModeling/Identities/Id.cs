@@ -1,5 +1,4 @@
-﻿using System.Globalization;
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
 
 namespace CodeChops.DomainDrivenDesign.DomainModeling.Identities;
 
@@ -14,7 +13,7 @@ namespace CodeChops.DomainDrivenDesign.DomainModeling.Identities;
 /// <typeparam name="TPrimitive">The primitive value of the identifier.</typeparam>
 public abstract record Id<TSelf, TPrimitive> : IId<TPrimitive>
 	where TSelf : IId<TPrimitive>
-	where TPrimitive : IEquatable<TPrimitive>, IComparable<TPrimitive>, IConvertible
+	where TPrimitive : IEquatable<TPrimitive>, IComparable<TPrimitive>
 {
 	public override string ToString() => this.ToDisplayString(new { this.Value, PrimitiveType = typeof(TPrimitive).Name });
 
@@ -30,7 +29,7 @@ public abstract record Id<TSelf, TPrimitive> : IId<TPrimitive>
 
 	#region Comparison
 	public int CompareTo(IId? other) 
-		=> other is null ? 1 : this.Value.CompareTo(other.GetValue<TPrimitive>());
+		=> other is null ? 1 : this.Value.CompareTo((TPrimitive)other.GetValue());
 	
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	public static bool operator <	(Id<TSelf, TPrimitive> left, IId right)	=> left.CompareTo(right) <	0;
@@ -46,9 +45,6 @@ public abstract record Id<TSelf, TPrimitive> : IId<TPrimitive>
 	/// Warning. Performs boxing!
 	/// </summary>
 	public object GetValue() => this.Value;
-	public TTargetPrimitive GetValue<TTargetPrimitive>() 
-		where TTargetPrimitive : IEquatable<TTargetPrimitive>, IComparable<TTargetPrimitive>, IConvertible 
-		=> (TTargetPrimitive)this.Value.ToType(typeof(TTargetPrimitive), CultureInfo.InvariantCulture);
 
 	public bool HasDefaultValue => this.Value.Equals(IId<TPrimitive>.DefaultValue);
 

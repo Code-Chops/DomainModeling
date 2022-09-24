@@ -8,7 +8,7 @@
 /// <typeparam name="TValue">The type of the only structural value.</typeparam>
 [AttributeUsage(AttributeTargets.Struct | AttributeTargets.Class)]
 public sealed class GenerateValueObjectAttribute<TValue> : Attribute
-	where TValue : struct, IComparable<TValue>, IEquatable<TValue>, IConvertible
+	where TValue : struct, IComparable<TValue>, IEquatable<TValue>
 {
 	/// <param name="generateToString">Generates a ToString(). Default: true.</param>
 	/// <param name="generateComparison">

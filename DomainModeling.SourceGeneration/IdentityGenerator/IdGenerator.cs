@@ -180,7 +180,7 @@ using CodeChops.DomainDrivenDesign.DomainModeling.Identities;
 	
 		#region Comparison
 		public int CompareTo(IId? other) 
-			=> other is null ? 1 : this.Value.CompareTo(other.GetValue<{primitiveType}>());
+			=> other is null ? 1 : this.Value.CompareTo(({primitiveType})other.GetValue());
 		
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static bool operator <	({idName} left, IId right)	=> left.CompareTo(right) <	0;
@@ -196,9 +196,6 @@ using CodeChops.DomainDrivenDesign.DomainModeling.Identities;
 		/// Warning. Performs boxing!
 		/// </summary>
 		public object GetValue() => this.Value;
-		public TTargetPrimitive GetValue<TTargetPrimitive>() 
-			where TTargetPrimitive : IEquatable<TTargetPrimitive>, IComparable<TTargetPrimitive>, IConvertible 
-			=> (TTargetPrimitive)((IConvertible)this.Value).ToType(typeof(TTargetPrimitive), CultureInfo.InvariantCulture);
 	
 		public bool HasDefaultValue => this.Value.Equals(IId<{primitiveType}>.DefaultValue);
 	

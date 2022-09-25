@@ -11,8 +11,8 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>0.28.3</Version>
-        <PackageReleaseNotes>Removed IConvertible constaint on ID.</PackageReleaseNotes>
+        <Version>0.28.4</Version>
+        <PackageReleaseNotes>Fixed generation uninitialized ID.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainDrivenDesign.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>

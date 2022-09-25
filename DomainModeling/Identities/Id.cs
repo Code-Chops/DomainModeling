@@ -12,7 +12,7 @@ namespace CodeChops.DomainDrivenDesign.DomainModeling.Identities;
 /// </summary>
 /// <typeparam name="TPrimitive">The primitive value of the identifier.</typeparam>
 public abstract record Id<TSelf, TPrimitive> : IId<TPrimitive>
-	where TSelf : IId<TPrimitive>
+	where TSelf : Id<TSelf, TPrimitive>
 	where TPrimitive : IEquatable<TPrimitive>, IComparable<TPrimitive>
 {
 	public override string ToString() => this.ToDisplayString(new { this.Value, PrimitiveType = typeof(TPrimitive).Name });
@@ -22,8 +22,8 @@ public abstract record Id<TSelf, TPrimitive> : IId<TPrimitive>
 	/// <summary>
 	/// Create new instances when explicitly casting. Used to avoid the new() constraint.
 	/// </summary>
-	private static readonly Id<TSelf, TPrimitive> CachedUninitializedMember = (Id<TSelf, TPrimitive>)FormatterServices.GetUninitializedObject(typeof(Id<TSelf, TPrimitive>));
-
+	private static readonly TSelf CachedUninitializedMember = (TSelf)FormatterServices.GetUninitializedObject(typeof(TSelf));
+	
 	public static explicit operator Id<TSelf, TPrimitive>(TPrimitive value) => CachedUninitializedMember with { Value = value };
 	public static implicit operator TPrimitive(Id<TSelf, TPrimitive> id) => id.Value;
 

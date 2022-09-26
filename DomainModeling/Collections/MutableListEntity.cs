@@ -5,7 +5,8 @@ public abstract class MutableListEntity<TDomainObject> : Entity, IReadOnlyList<T
 {
 	public override string ToString() => this.ToDisplayString(new { TDomainObject = typeof(TDomainObject).Name });
 	
-	protected abstract List<TDomainObject> List { get; }
+	// Is readonly (i.e.: readable) in order to make covariance possible.
+	protected abstract IReadOnlyList<TDomainObject> List { get; }
 
 	public int Count => this.List.Count;
 	

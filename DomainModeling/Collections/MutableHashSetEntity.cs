@@ -5,7 +5,8 @@ public abstract class MutableHashSetEntity<TDomainObject> : Entity, IReadOnlyCol
 {
 	public override string ToString() => this.ToDisplayString(new { TDomainObject = typeof(TDomainObject).Name });
 	
-	protected abstract HashSet<TDomainObject> HashSet { get; }
+	// Is readonly (i.e.: readable) in order to make covariance possible.
+	protected abstract IReadOnlySet<TDomainObject> HashSet { get; }
 
 	public int Count => this.HashSet.Count;
 	

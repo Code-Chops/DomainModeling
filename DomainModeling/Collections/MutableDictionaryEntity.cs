@@ -4,10 +4,9 @@ public abstract class MutableDictionaryEntity<TKey, TDomainObject> : Entity, IRe
 	where TKey : notnull
 	where TDomainObject : IDomainObject
 {
-	public override string ToString() => this.ToDisplayString(parameters: new { TId = typeof(TKey).Name, TDomainObject = typeof(TDomainObject).Name });
+	public override string ToString() => this.ToDisplayString(new { TId = typeof(TKey).Name, TDomainObject = typeof(TDomainObject).Name });
 	
-	// Is readonly (i.e.: readable) in order to make covariance possible.
-	protected abstract IReadOnlyDictionary<TKey, TDomainObject> Dictionary { get; }
+	protected abstract Dictionary<TKey, TDomainObject> Dictionary { get; }
 	
 	public int Count => this.Dictionary.Count;
 

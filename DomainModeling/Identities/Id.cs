@@ -17,6 +17,7 @@ public abstract record Id<TSelf, TPrimitive> : IId<TPrimitive>
 {
 	public override string ToString() => this.ToDisplayString(new { this.Value, PrimitiveType = typeof(TPrimitive).Name });
 
+	// ReSharper disable once MemberCanBePrivate.Global
 	public TPrimitive Value { get; protected init; }
 
 	/// <summary>

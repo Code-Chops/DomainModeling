@@ -3,11 +3,10 @@ using System.Reflection;
 using System.Runtime.Serialization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using CodeChops.DomainDrivenDesign.DomainModeling.Exceptions.System;
 
-namespace CodeChops.DomainDrivenDesign.DomainModeling.Identities.Converters.Json.Identities;
+namespace CodeChops.DomainDrivenDesign.DomainModeling.Identities.Serialization.Json;
 
-public class IdentityJsonConverter<TId, TPrimitive> : JsonConverter<TId>
+internal sealed class IdentityJsonConverter<TId, TPrimitive> : JsonConverter<TId>
 	where TId : IId<TPrimitive>
 	where TPrimitive : IEquatable<TPrimitive>, IComparable<TPrimitive>
 {

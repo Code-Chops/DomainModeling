@@ -1,9 +1,9 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace CodeChops.DomainDrivenDesign.DomainModeling.Serialization;
+namespace CodeChops.DomainDrivenDesign.DomainModeling.Serialization.Json;
 
-public class ValueTupleConverter<T1> : JsonConverter<ValueTuple<T1>>
+internal sealed class ValueTupleJsonConverter<T1> : JsonConverter<ValueTuple<T1>>
 {
 	public override ValueTuple<T1> Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
 	{
@@ -33,7 +33,7 @@ public class ValueTupleConverter<T1> : JsonConverter<ValueTuple<T1>>
 	}
 }
 
-public class ValueTupleConverter<T1, T2> : JsonConverter<ValueTuple<T1, T2>>
+internal sealed class ValueTupleJsonConverter<T1, T2> : JsonConverter<ValueTuple<T1, T2>>
 {
 	public override (T1, T2) Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
 	{
@@ -69,7 +69,7 @@ public class ValueTupleConverter<T1, T2> : JsonConverter<ValueTuple<T1, T2>>
 	}
 }
 
-public class ValueTupleConverter<T1, T2, T3> : JsonConverter<ValueTuple<T1, T2, T3>>
+internal sealed class ValueTupleJsonConverter<T1, T2, T3> : JsonConverter<ValueTuple<T1, T2, T3>>
 {
 	public override (T1, T2, T3) Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
 	{

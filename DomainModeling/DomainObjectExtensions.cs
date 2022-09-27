@@ -6,8 +6,6 @@ namespace CodeChops.DomainDrivenDesign.DomainModeling;
 
 public static class DisplayStringExtensions
 {
-	private static readonly JsonSerializerOptions DefaultSerializerOptions = new() { Converters = { new ValueTupleFactory() }};
-	
 	public static string ToDisplayString<TDomainObject>(this TDomainObject o, object? parameters = null, string? extraText = null, JsonSerializerOptions? jsonSerializerOptions = null)
 		where TDomainObject : IDomainObject
 	{
@@ -23,7 +21,7 @@ public static class DisplayStringExtensions
 		var text = new StringBuilder();
 		text.Append(extraText is null ? " " : $" ({extraText}) ");
 		
-		text.Append(JsonSerializer.Serialize(parameters, jsonSerializerOptions ?? DefaultSerializerOptions)) // TODO rewrite to custom serializer.
+		text.Append(JsonSerializer.Serialize(parameters, jsonSerializerOptions ?? JsonSerialization.DefaultOptions)) // TODO rewrite to custom serializer.
 			.Replace("\"", "")
 			.Replace(":", " = ")
 			.Replace(",", ", ")

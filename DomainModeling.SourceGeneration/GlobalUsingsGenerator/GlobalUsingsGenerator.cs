@@ -18,6 +18,7 @@ global using CodeChops.DomainDrivenDesign.DomainModeling.Exceptions.User;
 global using CodeChops.DomainDrivenDesign.DomainModeling.Exceptions.User.Core;
 global using CodeChops.DomainDrivenDesign.DomainModeling.Factories;
 global using CodeChops.DomainDrivenDesign.DomainModeling.Identities;
+global using CodeChops.DomainDrivenDesign.DomainModeling.Serialization;
 global using CodeChops.DomainDrivenDesign.DomainModeling.TypeExtensions;
 global using CodeChops.DomainDrivenDesign.DomainModeling.Validation;
 global using CodeChops.DomainDrivenDesign.DomainModeling;

@@ -2,5 +2,5 @@
 
 namespace CodeChops.DomainDrivenDesign.DomainModeling.Exceptions.System;
 
-public record NullValidationSystemException<TParameter>(string? CustomMessage = null) 
+public sealed record NullValidationSystemException<TParameter>(string? CustomMessage = null) 
 	: SystemException<NullValidationSystemException<TParameter>, TParameter>(CustomMessage ?? $"Required data for {typeof(TParameter).Name} is missing.");

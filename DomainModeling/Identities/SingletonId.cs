@@ -3,13 +3,8 @@
 /// <summary>
 /// A singleton null ID for singleton entities or testing purposes.
 /// </summary>
-public record SingletonId<TEntity> : Id<SingletonId<TEntity>, string>
+public sealed record SingletonId<TEntity> : Id<SingletonId<TEntity>, string>
     where TEntity : Entity
 {
     public static SingletonId<TEntity> Instance { get; } = new();
-
-    // ReSharper disable once UnusedParameter.Local
-    protected SingletonId(string? _ = null)
-    {
-    }
 }

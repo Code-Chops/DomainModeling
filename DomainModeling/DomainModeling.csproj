@@ -11,8 +11,8 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>0.29.0</Version>
-        <PackageReleaseNotes>Enhanced and simplified user and system exceptions.</PackageReleaseNotes>
+        <Version>0.29.1</Version>
+        <PackageReleaseNotes>Added default JSON serializer. Made classes sealed. Cleanup.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainDrivenDesign.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>

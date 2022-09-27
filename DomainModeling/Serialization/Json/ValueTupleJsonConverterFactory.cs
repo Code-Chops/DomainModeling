@@ -1,9 +1,9 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace CodeChops.DomainDrivenDesign.DomainModeling.Serialization;
+namespace CodeChops.DomainDrivenDesign.DomainModeling.Serialization.Json;
 
-public class ValueTupleFactory : JsonConverterFactory
+public sealed class ValueTupleJsonConverterFactory : JsonConverterFactory
 {
 	public override bool CanConvert(Type typeToConvert)
 	{
@@ -17,9 +17,9 @@ public class ValueTupleFactory : JsonConverterFactory
 
 		var converterType = genericArguments.Length switch
 		{
-			1 => typeof(ValueTupleConverter<>).MakeGenericType(genericArguments),
-			2 => typeof(ValueTupleConverter<,>).MakeGenericType(genericArguments),
-			3 => typeof(ValueTupleConverter<,,>).MakeGenericType(genericArguments),
+			1 => typeof(ValueTupleJsonConverter<>).MakeGenericType(genericArguments),
+			2 => typeof(ValueTupleJsonConverter<,>).MakeGenericType(genericArguments),
+			3 => typeof(ValueTupleJsonConverter<,,>).MakeGenericType(genericArguments),
 			// And add other cases as needed
 			_ => throw new NotSupportedException(),
 		};

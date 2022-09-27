@@ -2,9 +2,9 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace CodeChops.DomainDrivenDesign.DomainModeling.Identities.Converters.Json.Identities;
+namespace CodeChops.DomainDrivenDesign.DomainModeling.Identities.Serialization.Json;
 
-public class IdentityJsonConverterFactory : JsonConverterFactory
+public sealed class IdentityJsonConverterFactory : JsonConverterFactory
 {
 	public override bool CanConvert(Type typeToConvert) 
 		=> !typeToConvert.IsAbstract && typeToConvert.IsAssignableTo(typeof(IId));

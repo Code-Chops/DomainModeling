@@ -21,7 +21,7 @@ public static class DisplayStringExtensions
 	internal static StringBuilder GetParametersDisplayString(object? parameters = null, string? extraText = null, JsonSerializerOptions? jsonSerializerOptions = null)
 	{
 		var text = new StringBuilder();
-		text.Append(extraText is null ? null : $" ({extraText}) ");
+		text.Append(extraText is null ? " " : $" ({extraText}) ");
 		
 		text.Append(JsonSerializer.Serialize(parameters, jsonSerializerOptions ?? DefaultSerializerOptions)) // TODO rewrite to custom serializer.
 			.Replace("\"", "")

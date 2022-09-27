@@ -3,6 +3,7 @@ using System.Reflection;
 using System.Runtime.Serialization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using CodeChops.DomainDrivenDesign.DomainModeling.Exceptions.System;
 
 namespace CodeChops.DomainDrivenDesign.DomainModeling.Identities.Converters.Json.Identities;
 
@@ -41,5 +42,5 @@ public class IdentityJsonConverter<TId, TPrimitive> : JsonConverter<TId>
 	}
 
 	public override void Write(Utf8JsonWriter writer, TId id, JsonSerializerOptions options) 
-		=> DefaultConverter.Write(writer, id.Value ?? throw NullValidationSystemException<TPrimitive>.Create(id.Value!), options);
+		=> DefaultConverter.Write(writer, id.Value, options);
 }

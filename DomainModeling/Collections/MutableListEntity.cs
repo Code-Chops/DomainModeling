@@ -1,4 +1,6 @@
-﻿namespace CodeChops.DomainDrivenDesign.DomainModeling.Collections;
+﻿using CodeChops.DomainDrivenDesign.DomainModeling.Exceptions.System;
+
+namespace CodeChops.DomainDrivenDesign.DomainModeling.Collections;
 
 public abstract class MutableListEntity<TDomainObject> : Entity, IReadOnlyList<TDomainObject>
 	where TDomainObject : IDomainObject
@@ -11,7 +13,7 @@ public abstract class MutableListEntity<TDomainObject> : Entity, IReadOnlyList<T
 	public int Count => this.List.Count;
 	
 	public virtual TDomainObject this[int index] 
-		=> this.List.ElementAtOrDefault(index) ?? throw IndexOutOfRangeException<MutableListEntity<TDomainObject>>.Create(index);
+		=> this.List.ElementAtOrDefault(index) ?? new IndexOutOfRangeException<MutableListEntity<TDomainObject>>().Throw<TDomainObject>(index);
 
 	IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
 	public IEnumerator<TDomainObject> GetEnumerator() => this.List.GetEnumerator();

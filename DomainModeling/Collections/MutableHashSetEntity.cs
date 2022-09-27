@@ -1,4 +1,6 @@
-﻿namespace CodeChops.DomainDrivenDesign.DomainModeling.Collections;
+﻿using CodeChops.DomainDrivenDesign.DomainModeling.Exceptions.System;
+
+namespace CodeChops.DomainDrivenDesign.DomainModeling.Collections;
 
 public abstract class MutableHashSetEntity<TDomainObject> : Entity, IReadOnlyCollection<TDomainObject>
 	where TDomainObject : IDomainObject
@@ -11,7 +13,7 @@ public abstract class MutableHashSetEntity<TDomainObject> : Entity, IReadOnlyCol
 	public int Count => this.HashSet.Count;
 	
 	public virtual TDomainObject this[int index] 
-		=> this.HashSet.ElementAtOrDefault(index) ?? throw IndexOutOfRangeException<MutableHashSetEntity<TDomainObject>>.Create(index);
+		=> this.HashSet.ElementAtOrDefault(index) ?? new IndexOutOfRangeException<MutableHashSetEntity<TDomainObject>>().Throw<TDomainObject>(index);
 
 	IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
 	public IEnumerator<TDomainObject> GetEnumerator() => this.HashSet.GetEnumerator();

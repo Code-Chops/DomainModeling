@@ -93,7 +93,7 @@ public record DictionaryValueObject(
 	
 	public override string GetEnumeratorCode() => $"public IEnumerator<{this.ElementTypeName}> GetEnumerator() => this.{this.PropertyName}.GetEnumerator();";
 
-	public override string GetExtraCode() => $@"public {(this.IsUnsealedRecordClass ? "virtual " : null)}{this.ValueType.Name} this[{this.KeyType.Name} key] => this.{this.PropertyName}.TryGetValue(key, out var value) ? value : throw KeyNotFoundException<{this.KeyType.Name}, {this.Name}>.Create(key);
+	public override string GetExtraCode() => $@"public {(this.IsUnsealedRecordClass ? "virtual " : null)}{this.ValueType.Name} this[{this.KeyType.Name} key] => this.{this.PropertyName}.TryGetValue(key, out var value) ? value : new KeyNotFoundException<{this.KeyType.Name}, {this.Name}>().Throw<{this.ValueType.Name}>(key);
 	public IEnumerable<{this.KeyType.Name}> Keys => this.{this.PropertyName}.Keys;
 	public IEnumerable<{this.ValueType.Name}> Values => this.{this.PropertyName}.Values;
 	public bool ContainsKey({this.KeyType.Name} key) => this.{this.PropertyName}.ContainsKey(key);

@@ -1,4 +1,6 @@
-﻿namespace CodeChops.DomainDrivenDesign.DomainModeling.Collections;
+﻿using CodeChops.DomainDrivenDesign.DomainModeling.Exceptions.System;
+
+namespace CodeChops.DomainDrivenDesign.DomainModeling.Collections;
 
 public abstract class MutableDictionaryEntity<TKey, TDomainObject> : Entity, IReadOnlyDictionary<TKey, TDomainObject>
 	where TKey : notnull
@@ -18,8 +20,10 @@ public abstract class MutableDictionaryEntity<TKey, TDomainObject> : Entity, IRe
 	public bool TryGetValue(TKey key, [MaybeNullWhen(false)] out TDomainObject value) => this.Dictionary.TryGetValue(key, out value);
 
 	public virtual TDomainObject this[TKey key] 
-		=> this.Dictionary.TryGetValue(key, out var value) ? value : throw KeyNotFoundException<TKey, TDomainObject>.Create(key);
-	
+		=> this.Dictionary.TryGetValue(key, out var value) 
+			? value 
+			: new KeyNotFoundException<TKey, TDomainObject>().Throw<TDomainObject>(key);
+
 	public IEnumerator<KeyValuePair<TKey, TDomainObject>> GetEnumerator() => this.Dictionary.GetEnumerator();
 	IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
 }

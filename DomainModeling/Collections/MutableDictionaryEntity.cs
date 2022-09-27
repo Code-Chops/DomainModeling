@@ -1,6 +1,4 @@
-﻿using CodeChops.DomainDrivenDesign.DomainModeling.Exceptions.System;
-
-namespace CodeChops.DomainDrivenDesign.DomainModeling.Collections;
+﻿namespace CodeChops.DomainDrivenDesign.DomainModeling.Collections;
 
 public abstract class MutableDictionaryEntity<TKey, TDomainObject> : Entity, IReadOnlyDictionary<TKey, TDomainObject>
 	where TKey : notnull

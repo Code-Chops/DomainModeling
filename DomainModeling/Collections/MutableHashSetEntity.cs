@@ -1,6 +1,4 @@
-﻿using CodeChops.DomainDrivenDesign.DomainModeling.Exceptions.System;
-
-namespace CodeChops.DomainDrivenDesign.DomainModeling.Collections;
+﻿namespace CodeChops.DomainDrivenDesign.DomainModeling.Collections;
 
 public abstract class MutableHashSetEntity<TDomainObject> : Entity, IReadOnlyCollection<TDomainObject>
 	where TDomainObject : IDomainObject

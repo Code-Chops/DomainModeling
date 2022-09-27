@@ -11,8 +11,8 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>0.29.1</Version>
-        <PackageReleaseNotes>Added default JSON serializer. Made classes sealed. Cleanup.</PackageReleaseNotes>
+        <Version>0.29.2</Version>
+        <PackageReleaseNotes>Updated packages. ToDisplayString only parameters serialized now.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainDrivenDesign.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>

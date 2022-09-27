@@ -1,6 +1,5 @@
 ﻿using System.Text;
 using System.Text.Json;
-using CodeChops.DomainDrivenDesign.DomainModeling.Serialization;
 
 namespace CodeChops.DomainDrivenDesign.DomainModeling;
 
@@ -21,12 +20,14 @@ public static class DisplayStringExtensions
 		var text = new StringBuilder();
 		text.Append(extraText is null ? " " : $" ({extraText}) ");
 		
-		text.Append(JsonSerializer.Serialize(parameters, jsonSerializerOptions ?? JsonSerialization.DefaultOptions)) // TODO rewrite to custom serializer.
+		var serializedParameters = JsonSerializer.Serialize(parameters, jsonSerializerOptions ?? JsonSerialization.DefaultOptions) // TODO rewrite to custom serializer.
 			.Replace("\"", "")
 			.Replace(":", " = ")
 			.Replace(",", ", ")
 			.Replace("{", "{ ")
 			.Replace("}", " }");
+		
+		text.Append(serializedParameters);
 
 		return text;
 	}

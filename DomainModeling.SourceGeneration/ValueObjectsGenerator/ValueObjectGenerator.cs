@@ -44,6 +44,7 @@ public class ValueObjectGenerator : IIncrementalGenerator
 		"System.Collections.Immutable",
 		"System.Diagnostics.CodeAnalysis",
 		"System.Globalization",
+		"System.Runtime.InteropServices",
 		"System.Text.RegularExpressions",
 		"CodeChops.DomainDrivenDesign.DomainModeling.Exceptions",
 		"CodeChops.DomainDrivenDesign.DomainModeling.Validation",
@@ -62,6 +63,7 @@ public class ValueObjectGenerator : IIncrementalGenerator
 /// <summary>
 /// {data.GetCommentsCode()}
 /// </summary>
+[StructLayout(LayoutKind.Auto)]
 {data.ValueObjectType.GetObjectDeclaration()} {data.ValueObjectType.GetTypeNameWithGenericParameters()} : IValueObject{GetInterfaces()}
 {data.TypeDeclarationSyntax.GetClassGenericConstraints()}
 {{

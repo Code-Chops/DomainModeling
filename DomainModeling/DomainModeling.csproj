@@ -11,8 +11,8 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>0.29.2</Version>
-        <PackageReleaseNotes>Updated packages. ToDisplayString only parameters serialized now.</PackageReleaseNotes>
+        <Version>0.29.3</Version>
+        <PackageReleaseNotes>Added layoutkind auto to value object structs.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainDrivenDesign.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>

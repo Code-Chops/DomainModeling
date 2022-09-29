@@ -11,8 +11,8 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>0.29.3</Version>
-        <PackageReleaseNotes>Added layoutkind auto to value object structs.</PackageReleaseNotes>
+        <Version>0.29.4</Version>
+        <PackageReleaseNotes>Moved IHas(Static)TypeId to ImplementationDiscovery.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainDrivenDesign.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>

@@ -3,7 +3,7 @@
 #pragma warning disable IDE0060
 
 /// <summary>
-/// Generates a value object with a single structural value of type Dictionary&lt;<typeparamref name="TKey"/>, <typeparamref name="TValue"/>&gt;.
+/// Generates a value object with a single structural value of type ImmutableDictionary&lt;<typeparamref name="TKey"/>, <typeparamref name="TValue"/>&gt;.
 /// </summary>
 /// <typeparam name="TKey">The type of the dictionary keys.</typeparam>
 /// <typeparam name="TValue">The type of the dictionary values.</typeparam>

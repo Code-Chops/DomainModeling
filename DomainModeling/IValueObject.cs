@@ -18,6 +18,17 @@
 /// <para>
 /// Value objects can belong to multiple <see cref="AggregateRoot"/>s.
 /// </para>
+/// <para>
+/// <b>
+/// Use the following attributes to generate simple value objects:
+/// <list type="bullet">
+/// <item>A value object that wraps a primitive type: <see cref="GenerateValueObjectAttribute{T}"/></item>
+/// <item>A value object that wraps a string: <see cref="GenerateStringValueObjectAttribute"/></item>
+/// <item>A value object that wraps a list: <see cref="GenerateListValueObjectAttribute{T}"/></item>
+/// <item>A value object that wraps a dictionary: <see cref="GenerateDictionaryValueObjectAttribute{TKey, TValue}"/></item>
+/// </list>
+/// </b>
+/// </para>
 /// </summary>
 public interface IValueObject : IDomainObject
 {

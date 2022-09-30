@@ -3,12 +3,12 @@
 #pragma warning disable IDE0060
 
 /// <summary>
-/// Generates a value object with a single structural value of type <typeparamref name="TValue"/>.
+/// Generates a value object with a single structural value of type <typeparamref name="T"/>.
 /// </summary>
-/// <typeparam name="TValue">The type of the only structural value.</typeparam>
+/// <typeparam name="T">The type of the only structural value.</typeparam>
 [AttributeUsage(AttributeTargets.Struct | AttributeTargets.Class)]
-public sealed class GenerateValueObjectAttribute<TValue> : Attribute
-	where TValue : struct, IComparable<TValue>, IEquatable<TValue>
+public sealed class GenerateValueObjectAttribute<T> : Attribute
+	where T : struct, IComparable<T>, IEquatable<T>
 {
 	/// <param name="generateToString">Generates a ToString(). Default: true.</param>
 	/// <param name="generateComparison">

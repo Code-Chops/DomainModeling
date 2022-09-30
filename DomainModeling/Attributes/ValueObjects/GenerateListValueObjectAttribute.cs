@@ -3,12 +3,12 @@
 #pragma warning disable IDE0060
 
 /// <summary>
-/// Generates a value object with a single structural value of type List&lt;<typeparamref name="TValue"/>&gt;.
+/// Generates a value object with a single structural value of type ImmutableList&lt;<typeparamref name="T"/>&gt;.
 /// </summary>
-/// <typeparam name="TValue">The type of the only structural value.</typeparam>
+/// <typeparam name="T">The type of the list elements.</typeparam>
 [AttributeUsage(AttributeTargets.Struct | AttributeTargets.Class)]
 // ReSharper disable once UnusedTypeParameter
-public sealed class GenerateListValueObjectAttribute<TValue> : Attribute
+public sealed class GenerateListValueObjectAttribute<T> : Attribute
 {
 	/// <param name="generateToString">Generates a ToString(). Default: true.</param>
 	/// <param name="generateComparison">

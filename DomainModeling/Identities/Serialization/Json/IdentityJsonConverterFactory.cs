@@ -4,6 +4,9 @@ using System.Text.Json.Serialization;
 
 namespace CodeChops.DomainDrivenDesign.DomainModeling.Identities.Serialization.Json;
 
+/// <summary>
+/// Concerts identities to JSON and vice versa.
+/// </summary>
 public sealed class IdentityJsonConverterFactory : JsonConverterFactory
 {
 	public override bool CanConvert(Type typeToConvert) 

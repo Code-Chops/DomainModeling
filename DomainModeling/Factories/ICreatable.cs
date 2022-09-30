@@ -1,7 +1,8 @@
 ﻿namespace CodeChops.DomainDrivenDesign.DomainModeling.Factories;
 
 /// <summary>
-/// Has a factory to create objects of type <typeparamref name="T"/>.
+/// Has a factory to create objects of type <typeparamref name="T"/>
+/// by providing <typeparamref name="TParameter"/>.
 /// </summary>
 /// <typeparam name="T">The type to be created.</typeparam>
 public interface ICreatable<out T, in TParameter>
@@ -10,7 +11,8 @@ public interface ICreatable<out T, in TParameter>
 }
 
 /// <summary>
-/// Has a factory to create objects of type <typeparamref name="T"/>.
+/// Has a factory to create objects of type <typeparamref name="T"/>
+/// by providing <typeparamref name="TParameter1"/> and <typeparamref name="TParameter2"/>.
 /// </summary>
 /// <typeparam name="T">The type to be created.</typeparam>
 public interface ICreatable<out T, in TParameter1, in TParameter2>
@@ -19,7 +21,8 @@ public interface ICreatable<out T, in TParameter1, in TParameter2>
 }
 
 /// <summary>
-/// Has a factory to create objects of type <typeparamref name="T"/>.
+/// Has a factory to create objects of type <typeparamref name="T"/>
+/// by providing <typeparamref name="TParameter1"/>, <typeparamref name="TParameter2"/> and <typeparamref name="TParameter3"/>.
 /// </summary>
 /// <typeparam name="T">The type to be created.</typeparam>
 public interface ICreatable<out T, in TParameter1, in TParameter2, in TParameter3>

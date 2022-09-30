@@ -3,10 +3,10 @@ namespace CodeChops.DomainDrivenDesign.DomainModeling.Attributes.ValueObjects;
 #pragma warning disable IDE0060
 
 /// <summary>
-/// Generates a value object with a single structural value of type string.
+/// Generates a value object with a string as single structural value.
 /// </summary>
 [AttributeUsage(AttributeTargets.Struct | AttributeTargets.Class)]
-public sealed class GenerateStringValueObject : Attribute
+public sealed class GenerateStringValueObjectAttribute : Attribute
 {
 	/// <param name="generateToString">Generates a ToString(). Default: true.</param>
 	/// <param name="generateComparison">
@@ -32,7 +32,7 @@ public sealed class GenerateStringValueObject : Attribute
 	/// <param name="stringFormat">Make the string only accept certain characters. Default: no special format.</param>
 	/// <param name="compareOptions">See <see cref="StringComparison"/>. Default: ordinal.</param>
 	// ReSharper disable always UnusedParameter.Local
-	public GenerateStringValueObject(
+	public GenerateStringValueObjectAttribute(
 		bool generateToString = true,
 		bool generateComparison = true,
 		bool addCustomValidation = true,

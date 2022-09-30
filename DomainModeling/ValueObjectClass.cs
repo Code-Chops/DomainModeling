@@ -1,7 +1,7 @@
 ﻿namespace CodeChops.DomainDrivenDesign.DomainModeling;
 
 /// <summary>
-/// <para><b>Prefer to use a record (struct) instead of this class, because records have structural equality comparison built in.</b></para>
+/// <para><b>Prefer to use a record (struct) instead of this class (and implement <see cref="IValueObject"/>, because records have structural equality comparison built in.</b></para>
 /// <inheritdoc cref="IValueObject"/>
 /// </summary>
 public abstract class ValueObjectClass<TSelf> : IValueObject

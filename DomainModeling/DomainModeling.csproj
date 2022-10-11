@@ -11,8 +11,8 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>1.0.0</Version>
-        <PackageReleaseNotes>Small enhancements so it is now ready for publishing.</PackageReleaseNotes>
+        <Version>1.0.1</Version>
+        <PackageReleaseNotes>Added default display string json options.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainDrivenDesign.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>

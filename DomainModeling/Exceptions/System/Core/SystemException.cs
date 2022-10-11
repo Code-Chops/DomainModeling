@@ -51,7 +51,7 @@ public abstract record SystemException<TSelf, TParameter>(string Message) : ISys
 	private class Exception : global::System.Exception
 	{
 		internal Exception(TParameter parameter, string message, string extraText)
-			: base(message: $"{message}. Info: {DisplayStringExtensions.GetParametersDisplayString(parameters: parameter, extraText: extraText, jsonSerializerOptions: JsonSerialization.DefaultOptions)}")
+			: base(message: $"{message}. Info: {DisplayStringExtensions.GetParametersDisplayString(parameters: parameter, extraText: extraText, jsonSerializerOptions: JsonSerialization.DefaultDisplayStringOptions)}")
 		{
 		}
 	}

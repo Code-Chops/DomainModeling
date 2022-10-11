@@ -20,7 +20,7 @@ public static class DisplayStringExtensions
 		var text = new StringBuilder();
 		text.Append(extraText is null ? " " : $" ({extraText}) ");
 		
-		var serializedParameters = JsonSerializer.Serialize(parameters, jsonSerializerOptions ?? JsonSerialization.DefaultOptions) // TODO rewrite to custom serializer.
+		var serializedParameters = JsonSerializer.Serialize(parameters, jsonSerializerOptions ?? JsonSerialization.DefaultDisplayStringOptions) // TODO rewrite to custom serializer.
 			.Replace("\"", "")
 			.Replace(":", " = ")
 			.Replace(",", ", ")

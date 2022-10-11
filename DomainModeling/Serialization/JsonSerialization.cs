@@ -11,4 +11,12 @@ public static class JsonSerialization
 		WriteIndented = false, 
 		Converters = { new ValueTupleJsonConverterFactory(), new IdentityJsonConverterFactory() }
 	};
+	
+	public static JsonSerializerOptions DefaultDisplayStringOptions { get; } = new()
+	{
+		WriteIndented = true, 
+		Converters = { new ValueTupleJsonConverterFactory(), new IdentityJsonConverterFactory() },
+		IgnoreReadOnlyFields = true,
+		MaxDepth = 1,
+	};
 }

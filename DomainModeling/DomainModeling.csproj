@@ -11,8 +11,8 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>1.0.1</Version>
-        <PackageReleaseNotes>Added default display string json options.</PackageReleaseNotes>
+        <Version>1.0.2</Version>
+        <PackageReleaseNotes>Ignore cycles for JSON serialization.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainDrivenDesign.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>

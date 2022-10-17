@@ -23,7 +23,7 @@ public sealed class GenerateValueObjectAttribute<T> : Attribute
 	/// If false, it creates an obsolete parameterless private constructor that throws an exception.
 	/// Default: false.
 	/// </param>
-	/// <param name="generateEmptyStatic">Generate a static property with a default value. Default: false.</param>
+	/// <param name="generateStaticDefault">Generate a static property with a default value. Default: false.</param>
 	/// <param name="propertyName">The name of the property. Default: Dictionary.</param>
 	/// <param name="propertyIsPublic">If true, the generated property will be publicly accessible (not settable).</param>
 	/// <param name="allowNull">Allow the string to be null. Default: false.</param>
@@ -36,7 +36,7 @@ public sealed class GenerateValueObjectAttribute<T> : Attribute
 		bool addCustomValidation = true,
 		bool generateDefaultConstructor = true,
 		bool addParameterlessConstructor = false, 
-		bool generateEmptyStatic = false,
+		bool generateStaticDefault = false,
 		string? propertyName = null,
 		bool propertyIsPublic = false,
 		bool allowNull = false,

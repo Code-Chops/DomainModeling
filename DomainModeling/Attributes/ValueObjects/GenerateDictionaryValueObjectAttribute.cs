@@ -25,7 +25,7 @@ public sealed class GenerateDictionaryValueObjectAttribute<TKey, TValue> : Attri
 	/// If false, it creates an obsolete parameterless private constructor that throws an exception.
 	/// Default: false.
 	/// </param>
-	/// <param name="generateEmptyStatic">Generates a static property with a default value. Default: false.</param>
+	/// <param name="generateStaticDefault">Generates a static property with a default value. Default: false.</param>
 	/// <param name="generateEnumerable">Generates an IEnumerable implementation and indexer.</param>
 	/// <param name="propertyName">The name of the property. Default: Value.</param>
 	/// <param name="propertyIsPublic">If true, the generated property will be publicly accessible (not settable).</param>
@@ -38,7 +38,7 @@ public sealed class GenerateDictionaryValueObjectAttribute<TKey, TValue> : Attri
 		bool addCustomValidation = true,
 		bool generateDefaultConstructor = true,
 		bool addParameterlessConstructor = false, 
-		bool generateEmptyStatic = false,
+		bool generateStaticDefault = false,
 		bool generateEnumerable = true,
 		bool propertyIsPublic = false,
 		string? propertyName = null,

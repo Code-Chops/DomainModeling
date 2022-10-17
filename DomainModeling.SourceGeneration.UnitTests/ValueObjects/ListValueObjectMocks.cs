@@ -28,7 +28,7 @@ public partial record ListRecordClassMock;
 	addParameterlessConstructor: true,
 	generateComparison: false,
 	addCustomValidation: true,
-	generateEmptyStatic: false,
+	generateStaticDefault: false,
 	propertyName: "Test",
 	generateEnumerable: false,
 	propertyIsPublic: true)]
@@ -45,7 +45,7 @@ public partial record struct ListRecordStructSettingsMock
 	addParameterlessConstructor: true, 
 	generateComparison: false, 
 	addCustomValidation: true, 
-	generateEmptyStatic: false,
+	generateStaticDefault: false,
 	propertyName: "Test", 
 	generateEnumerable: false,
 	propertyIsPublic: true)]
@@ -62,7 +62,7 @@ public partial record ListRecordClassSettingsMock
 	addParameterlessConstructor: true, 
 	generateComparison: false, 
 	addCustomValidation: true, 
-	generateEmptyStatic: false, 
+	generateStaticDefault: false, 
 	propertyName: "Test",
 	propertyIsPublic: true)]
 public sealed partial record ListSealedRecordClassSettingsMock

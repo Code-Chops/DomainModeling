@@ -23,7 +23,7 @@ public sealed class GenerateListValueObjectAttribute<T> : Attribute
 	/// If false, it creates an obsolete parameterless private constructor that throws an exception.
 	/// Default: false.
 	/// </param>
-	/// <param name="generateEmptyStatic">Generate a static property with a default value. Default: false.</param>
+	/// <param name="generateStaticDefault">Generate a static property with a default value. Default: false.</param>
 	/// <param name="generateEnumerable">Generates an IEnumerable implementation and indexer.</param>
 	/// <param name="propertyName">The name of the property. Default: List.</param>
 	/// <param name="propertyIsPublic">If true, the generated property will be publicly accessible (not settable).</param>
@@ -36,7 +36,7 @@ public sealed class GenerateListValueObjectAttribute<T> : Attribute
 		bool addCustomValidation = true,
 		bool generateDefaultConstructor = true,
 		bool addParameterlessConstructor = false, 
-		bool generateEmptyStatic = false,
+		bool generateStaticDefault = false,
 		bool generateEnumerable = true,
 		string? propertyName = null,
 		bool propertyIsPublic = false,

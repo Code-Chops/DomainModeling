@@ -47,7 +47,7 @@ internal static class ValueObjectSyntaxReceiver
 		var addCustomValidation = attribute.GetArgumentOrDefault("addCustomValidation", true);
 		var generateDefaultConstructor = attribute.GetArgumentOrDefault("generateDefaultConstructor", true);
 		var addParameterlessConstructor = attribute.GetArgumentOrDefault("addParameterlessConstructor", false);
-		var generateEmptyStatic = attribute.GetArgumentOrDefault("generateEmptyStatic", false);
+		var generateStaticDefault = attribute.GetArgumentOrDefault("generateStaticDefault", false);
 		var generateEnumerable = attribute.GetArgumentOrDefault("generateEnumerable", true);
 		var propertyName = attribute.GetArgumentOrDefault("propertyName", (string?)null);
 		var propertyIsPublic = attribute.GetArgumentOrDefault("propertyIsPublic", false);
@@ -62,7 +62,7 @@ internal static class ValueObjectSyntaxReceiver
 				AddCustomValidation: addCustomValidation,
 				GenerateDefaultConstructor: generateDefaultConstructor,
 				AddParameterlessConstructor: addParameterlessConstructor,
-				GenerateEmptyStatic: generateEmptyStatic,
+				GenerateStaticDefault: generateStaticDefault,
 				PropertyName: propertyName,
 				PropertyIsPublic: propertyIsPublic,
 				AllowNull: attribute.GetArgumentOrDefault("allowNull", false),
@@ -78,7 +78,7 @@ internal static class ValueObjectSyntaxReceiver
 				AddCustomValidation: addCustomValidation,
 				GenerateDefaultConstructor: generateDefaultConstructor,
 				AddParameterlessConstructor: addParameterlessConstructor,
-				GenerateEmptyStatic: generateEmptyStatic,
+				GenerateStaticDefault: generateStaticDefault,
 				GenerateEnumerable: generateEnumerable,
 				PropertyName: propertyName,
 				PropertyIsPublic: propertyIsPublic,
@@ -99,7 +99,7 @@ internal static class ValueObjectSyntaxReceiver
 				AddCustomValidation: addCustomValidation,
 				GenerateDefaultConstructor: generateDefaultConstructor,
 				AddParameterlessConstructor: addParameterlessConstructor,
-				GenerateEmptyStatic: generateEmptyStatic,
+				GenerateStaticDefault: generateStaticDefault,
 				GenerateEnumerable: generateEnumerable,
 				PropertyName: propertyName,
 				PropertyIsPublic: propertyIsPublic,
@@ -117,7 +117,7 @@ internal static class ValueObjectSyntaxReceiver
 				AddCustomValidation: addCustomValidation,
 				GenerateDefaultConstructor: generateDefaultConstructor,
 				AddParameterlessConstructor: addParameterlessConstructor,
-				GenerateEmptyStatic: generateEmptyStatic,
+				GenerateStaticDefault: generateStaticDefault,
 				GenerateEnumerable: generateEnumerable,
 				PropertyName: propertyName,
 				PropertyIsPublic: propertyIsPublic,

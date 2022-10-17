@@ -42,6 +42,7 @@ public class ValueObjectGenerator : IIncrementalGenerator
 		"System",
 		"System.Collections",
 		"System.Collections.Immutable",
+		"System.ComponentModel",
 		"System.Diagnostics.CodeAnalysis",
 		"System.Globalization",
 		"System.Runtime.InteropServices",
@@ -67,29 +68,29 @@ public class ValueObjectGenerator : IIncrementalGenerator
 {data.ValueObjectType.GetObjectDeclaration()} {data.ValueObjectType.GetTypeNameWithGenericParameters()} : IValueObject{GetInterfaces()}
 {data.TypeDeclarationSyntax.GetClassGenericConstraints()}
 {{
-	{GetToString()}
-	
-	{GetHashCode()}
+{GetToString()}
 
-	{GetEquals()}
+{GetHashCode()}
 
-	{GetComparison()}
-	
-	{GetEmptyStatic()}
-	
-	{GetProperty()}
-	
-	{data.GetLengthOrCountCode()}
-	
-	{GetCastCode()}
+{GetEquals()}
 
-	{GetDefaultConstructor()}
+{GetComparison()}
 
-	{AddForbiddenParameterlessConstructor()}	
+{GetEmptyStatic()}
 
-	{GetEnumerator()}
+{GetProperty()}
 
-	{data.GetExtraCode()}
+{GetLengthOrCountCode()}
+
+{GetCastCode()}
+
+{GetDefaultConstructor()}
+
+{AddForbiddenParameterlessConstructor()}	
+
+{GetEnumerator()}
+
+{GetExtraCode()}
 }}
 
 #pragma warning restore CS0612
@@ -110,6 +111,7 @@ public class ValueObjectGenerator : IIncrementalGenerator
 
 			return namespaceUsings;
 		}
+		
 
 		string? GetNamespaceDeclaration() => data.Namespace is null 
 			? null 
@@ -121,7 +123,7 @@ public class ValueObjectGenerator : IIncrementalGenerator
 			var interfaces = new StringBuilder();
 			if (data.GenerateComparison && data.GetCompareToCode() is not null) interfaces.Append($", IEquatable<{data.Name}>");
 			if (data.AddCustomValidation) interfaces.Append($", IHasCustomValidation");
-			if (data.GenerateEmptyStatic) interfaces.Append($", IHasEmptyInstance<{data.Name}>");
+			if (data.GenerateStaticDefault) interfaces.Append($", IHasDefaultInstance<{data.Name}>");
 			if (data.AddIComparable && data.GenerateComparison) interfaces.Append($", IComparable<{data.Name}>");
 			if (data.GenerateEnumerable && data is IEnumerableValueObject enumerableValueObject) interfaces.Append($", IEnumerable<{enumerableValueObject.ElementTypeName}>");
 
@@ -132,30 +134,46 @@ public class ValueObjectGenerator : IIncrementalGenerator
 		}
 		
 		
-		string? GetToString() => data.GenerateToString ? data.GetToStringCode() : null;
+		string? GetToString() => data.GenerateToString 
+			? $@"
+	[EditorBrowsable(EditorBrowsableState.Never)]
+	{data.GetToStringCode()}" 
+			: null;
 
 		
 		string? GetHashCode() => data.GenerateComparison
-			? data.GetHashCodeCode()
+			? $@"
+	[EditorBrowsable(EditorBrowsableState.Never)]
+	{data.GetHashCodeCode()}" 
 			: null;
-		
-		
+
+
 		string? GetEquals()
 		{
 			if (!data.GenerateComparison) return null;
-			
-			return $@"
-	{data.GetEqualsCode()}
-	{(data.ValueObjectType.IsRecord ? null : data.GetObjectEqualsCode())}";
-		}
 
+			var equalsCode = new StringBuilder($@"
+	[EditorBrowsable(EditorBrowsableState.Never)]
+	{data.GetEqualsCode()}
+");
+
+			if (!data.ValueObjectType.IsRecord)
+				equalsCode.Append($@"
+	[EditorBrowsable(EditorBrowsableState.Never)]
+	{data.GetObjectEqualsCode()}
+");
+
+			return equalsCode.ToString();
+		}
 
 		string? GetComparison()
 		{
 			var equalityOperators = data.ValueObjectType.IsRecord
 				? null
 				: $@"
+	[EditorBrowsable(EditorBrowsableState.Never)]
 	public static bool operator ==({data.Name} left, {data.Name} right) => left.{data.PropertyName} == right.{data.PropertyName};
+	[EditorBrowsable(EditorBrowsableState.Never)]
 	public static bool operator !=({data.Name} left, {data.Name} right) => !(left == right);";
 			
 			if (!data.GenerateComparison) return equalityOperators;
@@ -165,11 +183,16 @@ public class ValueObjectGenerator : IIncrementalGenerator
 			
 			return $@"
 	{equalityOperators}
+	[EditorBrowsable(EditorBrowsableState.Never)]
 	{compareToCode}
 
+	[EditorBrowsable(EditorBrowsableState.Never)]
 	public static bool operator <	({data.Name} left, {data.Name} right)	=> left.CompareTo(right) <	0;
+	[EditorBrowsable(EditorBrowsableState.Never)]
 	public static bool operator <=	({data.Name} left, {data.Name} right)	=> left.CompareTo(right) <= 0;
+	[EditorBrowsable(EditorBrowsableState.Never)]
 	public static bool operator >	({data.Name} left, {data.Name} right)	=> left.CompareTo(right) >	0;
+	[EditorBrowsable(EditorBrowsableState.Never)]
 	public static bool operator >=	({data.Name} left, {data.Name} right)	=> left.CompareTo(right) >= 0;
 ";
 		}
@@ -177,11 +200,17 @@ public class ValueObjectGenerator : IIncrementalGenerator
 		
 		string? GetEmptyStatic()
 		{
-			if (!data.GenerateEmptyStatic) return null;
+			if (!data.GenerateStaticDefault) return null;
 			
 			return data.AddParameterlessConstructor 
-				? $"public static {data.Name} Empty {{ get; }} = new();"
-				: $"public static {data.Name} Empty {{ get; }} = new({data.GetDefaultValue()});";
+				? $@"
+	[EditorBrowsable(EditorBrowsableState.Never)]	
+	public static {data.Name} Default {{ get; }} = new()
+;"
+				: $@"
+	[EditorBrowsable(EditorBrowsableState.Never)]
+	public static {data.Name} Default {{ get; }} = new({data.GetDefaultValue()});
+";
 		}
 
 
@@ -197,6 +226,7 @@ public class ValueObjectGenerator : IIncrementalGenerator
     /// </summary>
 	{(data.PropertyIsPublic ? "public" : "private")} {data.UnderlyingTypeName} {data.PropertyName} 
 	{{
+		[EditorBrowsable(EditorBrowsableState.Never)]
 		get => this.{data.BackingFieldName};
 		{(data.PropertyIsPublic ? "private " : null)}init 
 		{{ 
@@ -212,21 +242,41 @@ public class ValueObjectGenerator : IIncrementalGenerator
     /// Backing field for the structural value. {error} <see cref='{data.PropertyName}'/>.
 	/// </summary>
 	[Obsolete(""{error}."")]
+	[EditorBrowsable(EditorBrowsableState.Never)]
 	private readonly {data.UnderlyingTypeName} {data.BackingFieldName} = {data.GetDefaultValue()}!;";
 		}
 
+		string? GetLengthOrCountCode()
+		{
+			var code = data.GetLengthOrCountCode();
 
+			return code is null
+				? null
+				: $@"
+	[EditorBrowsable(EditorBrowsableState.Never)]
+	{code}
+";
+		}
+		
+		
 		string GetCastCode()
 		{
 			var code = new StringBuilder();
-			code.AppendLine($@"public static implicit operator {data.UnderlyingTypeName}({data.Name} {data.LocalVariableName}) => {data.LocalVariableName}.{data.PropertyName};");
+			code.AppendLine($@"
+	[EditorBrowsable(EditorBrowsableState.Never)]
+	public static implicit operator {data.UnderlyingTypeName}({data.Name} {data.LocalVariableName}) => {data.LocalVariableName}.{data.PropertyName};");
 			
 			if (!data.GenerateDefaultConstructor) return code.ToString();
 			
-			code.AppendLine($"	public static explicit operator {data.Name}({data.UnderlyingTypeName} {data.LocalVariableName}) => new({data.LocalVariableName});");
+			code.AppendLine($@"	
+	[EditorBrowsable(EditorBrowsableState.Never)]
+	public static explicit operator {data.Name}({data.UnderlyingTypeName} {data.LocalVariableName}) => new({data.LocalVariableName});");
 			
 			var extraCastCode = data.GetExtraCastCode(); 
-			if (extraCastCode is not null) code.AppendLine(extraCastCode);
+			
+			if (extraCastCode is not null) code.AppendLine($@"
+	[EditorBrowsable(EditorBrowsableState.Never)]
+	{extraCastCode}");
 
 			return code.ToString();
 		}
@@ -234,6 +284,7 @@ public class ValueObjectGenerator : IIncrementalGenerator
 		
 		string? GetDefaultConstructor() => data.GenerateDefaultConstructor
 			? $@"
+	[EditorBrowsable(EditorBrowsableState.Never)]
 	public {data.ValueObjectType.Name}({data.UnderlyingTypeName} {data.LocalVariableName})
 	{{	
 		this.{data.PropertyName} = {data.LocalVariableName};
@@ -250,6 +301,7 @@ public class ValueObjectGenerator : IIncrementalGenerator
 			return $@"
 #pragma warning disable CS8618
 	[Obsolete(""{error}"", true)]
+	[EditorBrowsable(EditorBrowsableState.Never)]
 	public {data.ValueObjectType.Name}() => throw new InvalidOperationException($""{error}"");
 #pragma warning restore CS8618";
 		}
@@ -264,8 +316,23 @@ public class ValueObjectGenerator : IIncrementalGenerator
 			return enumeratorCode is null
 				? null
 				: @$"
+	[EditorBrowsable(EditorBrowsableState.Never)]
 	{enumeratorCode}
+	[EditorBrowsable(EditorBrowsableState.Never)]
 	IEnumerator IEnumerable.GetEnumerator()  => this.GetEnumerator();";
+		}
+
+
+		string? GetExtraCode()
+		{
+			var code = data.GetExtraCode();
+			
+			return code is null
+				? null
+				: $@"
+	[EditorBrowsable(EditorBrowsableState.Never)]
+	{data.GetExtraCode()}
+";
 		}
 	}
 }

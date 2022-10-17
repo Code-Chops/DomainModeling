@@ -8,7 +8,7 @@ namespace CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration.ValueObje
 /// <param name="AddCustomValidation"></param>
 /// <param name="GenerateDefaultConstructor"></param>
 /// <param name="AddParameterlessConstructor"></param>
-/// <param name="GenerateEmptyStatic"></param>
+/// <param name="GenerateStaticDefault"></param>
 /// <param name="PropertyName"></param>
 /// <param name="AddIComparable"></param>
 public abstract record ValueObjectBase(
@@ -22,7 +22,7 @@ public abstract record ValueObjectBase(
 	bool AddCustomValidation,
 	bool GenerateDefaultConstructor,
 	bool AddParameterlessConstructor,
-	bool GenerateEmptyStatic,
+	bool GenerateStaticDefault,
 	bool GenerateEnumerable,
 	string PropertyName,
 	bool PropertyIsPublic,
@@ -62,5 +62,8 @@ public abstract record ValueObjectBase(
 	public abstract string? GetExtraCastCode();
 	public abstract string GetValidationCode();
 	public abstract string? GetEnumeratorCode();
+	/// <summary>
+	/// Don't forget to place [EditorBrowsable(EditorBrowsableState.Never)] at the <b>extra</b> lines.
+	/// </summary>
 	public abstract string? GetExtraCode();
 }

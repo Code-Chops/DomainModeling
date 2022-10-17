@@ -15,10 +15,10 @@ public static class JsonSerialization
 	
 	public static JsonSerializerOptions DefaultDisplayStringOptions { get; } = new()
 	{
-		WriteIndented = true, 
+		WriteIndented = false, 
 		Converters = { new ValueTupleJsonConverterFactory(), new IdentityJsonConverterFactory() },
 		IgnoreReadOnlyFields = true,
-		MaxDepth = 1,
+		MaxDepth = 2,
 		ReferenceHandler = ReferenceHandler.IgnoreCycles,
 	};
 }

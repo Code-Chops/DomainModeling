@@ -10,7 +10,7 @@ public record DictionaryValueObject(
 		bool AddCustomValidation,
 		bool GenerateDefaultConstructor,
 		bool AddParameterlessConstructor,
-		bool GenerateEmptyStatic,
+		bool GenerateStaticDefault,
 		bool GenerateEnumerable,
 		string? PropertyName,
 		bool PropertyIsPublic,
@@ -26,7 +26,7 @@ public record DictionaryValueObject(
 		AddCustomValidation: AddCustomValidation,
 		GenerateDefaultConstructor: GenerateDefaultConstructor,
 		AddParameterlessConstructor: AddParameterlessConstructor, 
-		GenerateEmptyStatic: GenerateEmptyStatic,
+		GenerateStaticDefault: GenerateStaticDefault,
 		GenerateEnumerable: GenerateEnumerable,
 		PropertyName: PropertyName ?? "Dictionary",
 		PropertyIsPublic: PropertyIsPublic,
@@ -74,7 +74,7 @@ public record DictionaryValueObject(
 	
 	public override string GetLengthOrCountCode()	=> $"public int Count => this.{this.PropertyName}.Count;";
 
-	public override string GetExtraCastCode()		=> $"	public static explicit operator {this.Name}({this.UnderlyingTypeNameBase} {this.LocalVariableName}) => new({this.LocalVariableName}.ToImmutableDictionary());";
+	public override string GetExtraCastCode()		=> $"public static explicit operator {this.Name}({this.UnderlyingTypeNameBase} {this.LocalVariableName}) => new({this.LocalVariableName}.ToImmutableDictionary());";
 
 	public override string GetValidationCode()
 	{
@@ -93,10 +93,15 @@ public record DictionaryValueObject(
 	
 	public override string GetEnumeratorCode() => $"public IEnumerator<{this.ElementTypeName}> GetEnumerator() => this.{this.PropertyName}.GetEnumerator();";
 
-	public override string GetExtraCode() => $@"public {(this.IsUnsealedRecordClass ? "virtual " : null)}{this.ValueType.Name} this[{this.KeyType.Name} key] => this.{this.PropertyName}.TryGetValue(key, out var value) ? value : new KeyNotFoundException<{this.KeyType.Name}, {this.Name}>().Throw<{this.ValueType.Name}>(key);
+	public override string GetExtraCode() => $@"
+	public {(this.IsUnsealedRecordClass ? "virtual " : null)}{this.ValueType.Name} this[{this.KeyType.Name} key] => this.{this.PropertyName}.TryGetValue(key, out var value) ? value : new KeyNotFoundException<{this.KeyType.Name}, {this.Name}>().Throw<{this.ValueType.Name}>(key);
+	[EditorBrowsable(EditorBrowsableState.Never)]
 	public IEnumerable<{this.KeyType.Name}> Keys => this.{this.PropertyName}.Keys;
+	[EditorBrowsable(EditorBrowsableState.Never)]
 	public IEnumerable<{this.ValueType.Name}> Values => this.{this.PropertyName}.Values;
+	[EditorBrowsable(EditorBrowsableState.Never)]
 	public bool ContainsKey({this.KeyType.Name} key) => this.{this.PropertyName}.ContainsKey(key);
+	[EditorBrowsable(EditorBrowsableState.Never)]
 	public bool TryGetValue({this.KeyType.Name} key, [MaybeNullWhen(false)] out {this.ValueType.Name} value) => this.{this.PropertyName}.TryGetValue(key, out value);
 ";
 }

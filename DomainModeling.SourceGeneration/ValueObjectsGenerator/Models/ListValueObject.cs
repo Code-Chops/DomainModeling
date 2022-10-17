@@ -10,7 +10,7 @@ public record ListValueObject(
 		bool AddCustomValidation,
 		bool GenerateDefaultConstructor,
 		bool AddParameterlessConstructor,
-		bool GenerateEmptyStatic,
+		bool GenerateStaticDefault,
 		bool GenerateEnumerable,
 		string? PropertyName,
 		bool PropertyIsPublic,
@@ -26,7 +26,7 @@ public record ListValueObject(
 		AddCustomValidation: AddCustomValidation,
 		GenerateDefaultConstructor: GenerateDefaultConstructor,
 		AddParameterlessConstructor: AddParameterlessConstructor, 
-		GenerateEmptyStatic: GenerateEmptyStatic,
+		GenerateStaticDefault: GenerateStaticDefault,
 		GenerateEnumerable: GenerateEnumerable,
 		PropertyName: PropertyName ?? "List",
 		PropertyIsPublic: PropertyIsPublic,
@@ -65,7 +65,7 @@ public record ListValueObject(
 	
 	public override string GetLengthOrCountCode()	=> $"public int Count => this.{this.PropertyName}.Count;";
 
-	public override string GetExtraCastCode()		=> $"	public static explicit operator {this.Name}({this.UnderlyingTypeNameBase} {this.LocalVariableName}) => new({this.LocalVariableName}.ToImmutableList());";
+	public override string GetExtraCastCode()		=> $"public static explicit operator {this.Name}({this.UnderlyingTypeNameBase} {this.LocalVariableName}) => new({this.LocalVariableName}.ToImmutableList());";
 
 	public override string GetValidationCode()
 	{

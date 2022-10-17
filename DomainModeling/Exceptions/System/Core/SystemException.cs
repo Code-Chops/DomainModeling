@@ -17,7 +17,7 @@ public abstract record SystemException<TSelf, TParameter>(string Message) : ISys
 		TParameter parameter, 
 		[CallerMemberName] string? callerMemberName = null, 
 		[CallerFilePath] string? callerFilePath = null, 
-		[CallerLineNumberAttribute] int lineNumber = 0)
+		[CallerLineNumber] int lineNumber = 0)
 	{
 		// ReSharper disable twice ExplicitCallerInfoArgument
 		this.Throw(
@@ -37,7 +37,7 @@ public abstract record SystemException<TSelf, TParameter>(string Message) : ISys
 		TParameter parameter, 
 		[CallerMemberName] string? callerMemberName = null, 
 		[CallerFilePath] string? callerFilePath = null, 
-		[CallerLineNumberAttribute] int lineNumber = 0)
+		[CallerLineNumber] int lineNumber = 0)
 	{
 		throw new Exception(
 			parameter: parameter, 

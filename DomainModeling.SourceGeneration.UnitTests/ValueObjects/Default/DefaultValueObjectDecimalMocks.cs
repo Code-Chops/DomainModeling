@@ -20,21 +20,21 @@ public partial class DefaultDecimalClassMock { }
 public partial record DefaultDecimalRecordClassMock;
 
 
-[GenerateValueObject<decimal>(minimumValue: 0, maximumValue: 10, generateDefaultConstructor: true, addParameterlessConstructor: true, generateComparison: false, addCustomValidation: true, generateEmptyStatic: true, generateToString: false, propertyName: "Test", allowNull: true)]
+[GenerateValueObject<decimal>(minimumValue: 0, maximumValue: 10, generateDefaultConstructor: true, addParameterlessConstructor: true, generateComparison: false, addCustomValidation: true, generateStaticDefault: true, generateToString: false, propertyName: "Test", allowNull: true)]
 public partial record struct DefaultDecimalRecordStructSettingsMock
 {
 	public void Validate() { }
 	public DefaultDecimalRecordStructSettingsMock() { }
 }
 
-[GenerateValueObject<decimal>(minimumValue: 0, maximumValue: 10, generateDefaultConstructor: true, addParameterlessConstructor: true, generateComparison: false, addCustomValidation: true, generateEmptyStatic: true, generateToString: false, propertyName: "Test", allowNull: true)]
+[GenerateValueObject<decimal>(minimumValue: 0, maximumValue: 10, generateDefaultConstructor: true, addParameterlessConstructor: true, generateComparison: false, addCustomValidation: true, generateStaticDefault: true, generateToString: false, propertyName: "Test", allowNull: true)]
 public partial record DefaultDecimalRecordClassSettingsMock
 {
 	public void Validate() { }
 	public DefaultDecimalRecordClassSettingsMock() { }
 }
 
-[GenerateValueObject<decimal>(minimumValue: 0, maximumValue: 10, generateDefaultConstructor: true, addParameterlessConstructor: true, generateComparison: false, addCustomValidation: true, generateEmptyStatic: true, generateToString: false, propertyName: "Test", allowNull: true)]
+[GenerateValueObject<decimal>(minimumValue: 0, maximumValue: 10, generateDefaultConstructor: true, addParameterlessConstructor: true, generateComparison: false, addCustomValidation: true, generateStaticDefault: true, generateToString: false, propertyName: "Test", allowNull: true)]
 public sealed partial record DefaultDecimalSealedRecordClassSettingsMock
 {
 	public void Validate() { }

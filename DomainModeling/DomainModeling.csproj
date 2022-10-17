@@ -11,8 +11,8 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>1.0.2</Version>
-        <PackageReleaseNotes>Ignore cycles for JSON serialization.</PackageReleaseNotes>
+        <Version>1.1.0</Version>
+        <PackageReleaseNotes>Renamed HasEmptyStatic to HasDefaultStatic. Added [EditorBrowsable(EditorBrowsableState.Never)] to generated code. Fixed DisplayString serialization cycle.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainDrivenDesign.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>

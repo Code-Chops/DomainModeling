@@ -20,21 +20,21 @@ public partial class DefaultByteClassMock { }
 public partial record DefaultByteRecordClassMock;
 
 
-[GenerateValueObject<byte>(minimumValue: 0, maximumValue: 10, generateDefaultConstructor: true, addParameterlessConstructor: true, generateComparison: false, addCustomValidation: true, generateEmptyStatic: true, generateToString: false, propertyName: "Test", allowNull: true)]
+[GenerateValueObject<byte>(minimumValue: 0, maximumValue: 10, generateDefaultConstructor: true, addParameterlessConstructor: true, generateComparison: false, addCustomValidation: true, generateStaticDefault: true, generateToString: false, propertyName: "Test", allowNull: true)]
 public partial record struct DefaultByteRecordStructSettingsMock
 {
 	public void Validate() { }
 	public DefaultByteRecordStructSettingsMock() { }
 }
 
-[GenerateValueObject<byte>(minimumValue: 0, maximumValue: 10, generateDefaultConstructor: true, addParameterlessConstructor: true, generateComparison: false, addCustomValidation: true, generateEmptyStatic: true, generateToString: false, propertyName: "Test", allowNull: true)]
+[GenerateValueObject<byte>(minimumValue: 0, maximumValue: 10, generateDefaultConstructor: true, addParameterlessConstructor: true, generateComparison: false, addCustomValidation: true, generateStaticDefault: true, generateToString: false, propertyName: "Test", allowNull: true)]
 public partial record DefaultByteRecordClassSettingsMock
 {
 	public void Validate() { }
 	public DefaultByteRecordClassSettingsMock() { }
 }
 
-[GenerateValueObject<byte>(minimumValue: 0, maximumValue: 10, generateDefaultConstructor: true, addParameterlessConstructor: true, generateComparison: false, addCustomValidation: true, generateEmptyStatic: true, generateToString: false, propertyName: "Test", allowNull: true)]
+[GenerateValueObject<byte>(minimumValue: 0, maximumValue: 10, generateDefaultConstructor: true, addParameterlessConstructor: true, generateComparison: false, addCustomValidation: true, generateStaticDefault: true, generateToString: false, propertyName: "Test", allowNull: true)]
 public sealed partial record DefaultByteSealedRecordClassSettingsMock
 {
 	public void Validate() { }

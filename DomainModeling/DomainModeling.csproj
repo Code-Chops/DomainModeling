@@ -11,8 +11,8 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>1.1.0</Version>
-        <PackageReleaseNotes>Renamed HasEmptyStatic to HasDefaultStatic. Added [EditorBrowsable(EditorBrowsableState.Never)] to generated code. Fixed DisplayString serialization cycle.</PackageReleaseNotes>
+        <Version>1.2.0</Version>
+        <PackageReleaseNotes>Renamed Default to DefaultInstance of HasDefaultStatic.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainDrivenDesign.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>

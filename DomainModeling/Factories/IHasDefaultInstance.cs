@@ -7,5 +7,5 @@
 public interface IHasDefaultInstance<out T>
 	where T : IValueObject
 {
-	static abstract T Default { get; }
+	static abstract T DefaultInstance { get; }
 }

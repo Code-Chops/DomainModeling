@@ -12,7 +12,7 @@
 
     <PropertyGroup Label="Package">
         <Version>1.2.0</Version>
-        <PackageReleaseNotes>Renamed Default to DefaultInstance of HasDefaultStatic.</PackageReleaseNotes>
+        <PackageReleaseNotes>Renamed Default to DefaultInstance of HasDefaultStatic 2.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainDrivenDesign.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>

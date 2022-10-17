@@ -205,11 +205,11 @@ public class ValueObjectGenerator : IIncrementalGenerator
 			return data.AddParameterlessConstructor 
 				? $@"
 	[EditorBrowsable(EditorBrowsableState.Never)]	
-	public static {data.Name} Default {{ get; }} = new()
+	public static {data.Name} DefaultInstance {{ get; }} = new()
 ;"
 				: $@"
 	[EditorBrowsable(EditorBrowsableState.Never)]
-	public static {data.Name} Default {{ get; }} = new({data.GetDefaultValue()});
+	public static {data.Name} DefaultInstance {{ get; }} = new({data.GetDefaultValue()});
 ";
 		}
 

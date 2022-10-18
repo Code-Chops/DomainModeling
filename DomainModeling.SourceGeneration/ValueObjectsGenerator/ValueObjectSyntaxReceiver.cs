@@ -42,15 +42,15 @@ internal static class ValueObjectSyntaxReceiver
 		
 		if (attribute is null) return null;
 
-		var generateToString = attribute.GetArgumentOrDefault("generateToString", true);
-		var generateComparison = attribute.GetArgumentOrDefault("generateComparison", true);
-		var addCustomValidation = attribute.GetArgumentOrDefault("addCustomValidation", true);
-		var generateDefaultConstructor = attribute.GetArgumentOrDefault("generateDefaultConstructor", true);
-		var addParameterlessConstructor = attribute.GetArgumentOrDefault("addParameterlessConstructor", false);
-		var generateStaticDefault = attribute.GetArgumentOrDefault("generateStaticDefault", false);
-		var generateEnumerable = attribute.GetArgumentOrDefault("generateEnumerable", true);
-		var propertyName = attribute.GetArgumentOrDefault("propertyName", (string?)null);
-		var propertyIsPublic = attribute.GetArgumentOrDefault("propertyIsPublic", false);
+		var generateToString = attribute.GetArgumentOrDefault("generateToString", defaultValue: true);
+		var generateComparison = attribute.GetArgumentOrDefault("generateComparison", defaultValue: true);
+		var addCustomValidation = attribute.GetArgumentOrDefault("addCustomValidation", defaultValue: true);
+		var generateDefaultConstructor = attribute.GetArgumentOrDefault("generateDefaultConstructor", defaultValue: true);
+		var addParameterlessConstructor = attribute.GetArgumentOrDefault("addParameterlessConstructor", defaultValue: false);
+		var generateStaticDefault = attribute.GetArgumentOrDefault("generateStaticDefault", defaultValue: false);
+		var generateEnumerable = attribute.GetArgumentOrDefault("generateEnumerable", defaultValue: true);
+		var propertyName = attribute.GetArgumentOrDefault("propertyName", defaultValue: (string?)null);
+		var propertyIsPublic = attribute.GetArgumentOrDefault("propertyIsPublic", defaultValue: false);
 		
 		if (hasDefaultAttribute)
 			return new DefaultValueObject(
@@ -65,7 +65,7 @@ internal static class ValueObjectSyntaxReceiver
 				GenerateStaticDefault: generateStaticDefault,
 				PropertyName: propertyName,
 				PropertyIsPublic: propertyIsPublic,
-				AllowNull: attribute.GetArgumentOrDefault("allowNull", false),
+				AllowNull: attribute.GetArgumentOrDefault("allowNull", defaultValue: false),
 				MinimumValue: attribute.TryGetArgument<int>("minimumValue", out var minimumValue) && minimumValue != Int32.MinValue ? minimumValue : null,
 				MaximumValue: attribute.TryGetArgument<int>("maximumValue", out var maximumValue) && maximumValue != Int32.MinValue ? maximumValue : null);
 
@@ -82,7 +82,7 @@ internal static class ValueObjectSyntaxReceiver
 				GenerateEnumerable: generateEnumerable,
 				PropertyName: propertyName,
 				PropertyIsPublic: propertyIsPublic,
-				AllowNull: attribute.GetArgumentOrDefault("allowNull", false),
+				AllowNull: attribute.GetArgumentOrDefault("allowNull", defaultValue: false),
 				MinimumLength: attribute.TryGetArgument<int>("minimumLength", out var minimumLength) ? minimumLength : 0,
 				MaximumLength: attribute.TryGetArgument<int>("maximumLength", out var maximumLength) && maximumLength != Int32.MinValue ? maximumLength : null,
 				StringCaseConversion: attribute.GetArgumentOrDefault("stringCaseConversion", StringCaseConversion.NoConversion),

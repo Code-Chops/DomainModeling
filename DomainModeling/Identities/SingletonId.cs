@@ -7,4 +7,9 @@ public sealed record SingletonId<TEntity> : Id<SingletonId<TEntity>, string>
     where TEntity : Entity
 {
     public static SingletonId<TEntity> Instance { get; } = new();
+    
+    private SingletonId()
+        : base(typeof(TEntity).Name)
+    {
+    }
 }

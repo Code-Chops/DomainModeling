@@ -23,17 +23,30 @@ public class ValueObjectGenerator : IIncrementalGenerator
 	
 	private static void CreateSource(SourceProductionContext context, ImmutableArray<ValueObjectBase> models, AnalyzerConfigOptionsProvider configOptionsProvider)
 	{
-		foreach (var model in models)
+		try
 		{
-			var code = CreateSource(model);
+			foreach (var model in models)
+			{
+				var code = CreateSource(model);
+	
+				var fileName = model.Namespace is null 
+					? model.Name 
+					: $"{model.Namespace}.{model.Name}";
+				
+				fileName = FileNameHelpers.GetFileName(fileName, configOptionsProvider);
+				
+				context.AddSource(fileName, SourceText.From(code, Encoding.UTF8));
+			}
+		}
+		
+#pragma warning disable CS0168
+		catch (Exception e)
+#pragma warning restore CS0168
+		{
+			var descriptor = new DiagnosticDescriptor(nameof(ValueObjectGenerator), "Error", $"{nameof(ValueObjectGenerator)} failed to generate due to an error. Please inform CodeChops (www.CodeChops.nl). Error: {e}", "Compilation", DiagnosticSeverity.Error, isEnabledByDefault: true);
+			context.ReportDiagnostic(Diagnostic.Create(descriptor, null));
 
-			var fileName = model.Namespace is null 
-				? model.Name 
-				: $"{model.Namespace}.{model.Name}";
-			
-			fileName = FileNameHelpers.GetFileName(fileName, configOptionsProvider);
-			
-			context.AddSource(fileName, SourceText.From(code, Encoding.UTF8));
+			context.AddSource($"{nameof(ValueObjectGenerator)}_Exception_{Guid.NewGuid()}", SourceText.From($"/*{e}*/", Encoding.UTF8));
 		}
 	}
 

@@ -11,8 +11,8 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>1.2.1</Version>
-        <PackageReleaseNotes>Added exception reporting for source generators. Fixed singleton ID. Added custom iterator.</PackageReleaseNotes>
+        <Version>1.2.2</Version>
+        <PackageReleaseNotes>Made enhancements to user exceptions.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainDrivenDesign.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>

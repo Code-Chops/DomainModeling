@@ -5,5 +5,5 @@ namespace CodeChops.DomainDrivenDesign.DomainModeling.Exceptions.User.Core;
 /// </summary>
 public interface IUserException
 {
-	string ErrorCode { get; }
+	string? ErrorCode { get; }
 }

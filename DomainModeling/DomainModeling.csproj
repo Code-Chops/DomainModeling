@@ -11,8 +11,8 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>1.2.2</Version>
-        <PackageReleaseNotes>Made enhancements to user exceptions.</PackageReleaseNotes>
+        <Version>1.2.3</Version>
+        <PackageReleaseNotes>Added Message to IUserException.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainDrivenDesign.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>

@@ -14,4 +14,9 @@ public enum IdGenerationMethod
 	/// Generate a new ID-property and create equals.
 	/// </summary>
 	Class,
+	/// <summary>
+	/// Generate a new ID-property and create equals.
+	/// <para>Only use this in exceptional cases, for example with event contracts: they are a DTO and contain an ID.</para>
+	/// </summary>
+	Record,
 }

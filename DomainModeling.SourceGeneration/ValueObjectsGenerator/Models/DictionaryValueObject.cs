@@ -95,12 +95,16 @@ public record DictionaryValueObject(
 
 	public override string GetExtraCode() => $@"
 	public {(this.IsUnsealedRecordClass ? "virtual " : null)}{this.ValueType.Name} this[{this.KeyType.Name} key] => this.{this.PropertyName}.TryGetValue(key, out var value) ? value : new KeyNotFoundException<{this.KeyType.Name}, {this.Name}>().Throw<{this.ValueType.Name}>(key);
+	[DebuggerHidden]
 	[EditorBrowsable(EditorBrowsableState.Never)]
 	public IEnumerable<{this.KeyType.Name}> Keys => this.{this.PropertyName}.Keys;
+	[DebuggerHidden]
 	[EditorBrowsable(EditorBrowsableState.Never)]
 	public IEnumerable<{this.ValueType.Name}> Values => this.{this.PropertyName}.Values;
+	[DebuggerHidden]
 	[EditorBrowsable(EditorBrowsableState.Never)]
 	public bool ContainsKey({this.KeyType.Name} key) => this.{this.PropertyName}.ContainsKey(key);
+	[DebuggerHidden]
 	[EditorBrowsable(EditorBrowsableState.Never)]
 	public bool TryGetValue({this.KeyType.Name} key, [MaybeNullWhen(false)] out {this.ValueType.Name} value) => this.{this.PropertyName}.TryGetValue(key, out value);
 ";

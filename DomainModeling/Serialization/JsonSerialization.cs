@@ -18,7 +18,7 @@ public static class JsonSerialization
 		WriteIndented = false, 
 		Converters = { new ValueTupleJsonConverterFactory(), new IdentityJsonConverterFactory() },
 		IgnoreReadOnlyFields = true,
-		MaxDepth = 2,
+		MaxDepth = 3,
 		ReferenceHandler = ReferenceHandler.IgnoreCycles,
 	};
 }

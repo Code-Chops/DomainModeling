@@ -23,11 +23,9 @@ internal static class IdSyntaxReceiver
 		
 		// Check for attribute with explicit integral type.
 		if (!type.HasAttribute(IdGenerator.AttributeName, IdGenerator.AttributeNamespace, out var attribute, expectedGenericTypeParamCount: 1))
-		{
 			// Check for attribute without an explicit integral type.
 			if (!type.HasAttribute(IdGenerator.AttributeName, IdGenerator.AttributeNamespace, out attribute, expectedGenericTypeParamCount: 0))
 				return null;
-		}
 
 		if (attribute is null) return null;
 		
@@ -42,7 +40,7 @@ internal static class IdSyntaxReceiver
 		
 		var data = new IdDataModel(
 			OuterClassName: type.Name,
-			OuterClassGenericTypeParameters: typeDeclarationSyntax.TypeParameterList?.ToFullString(),
+			OuterClassGenericTypeParameters: typeDeclarationSyntax.TypeParameterList?.ToFullString().Trim(),
 			Namespace: @namespace, 
 			OuterClassDeclaration: type.GetObjectDeclaration(),
 			IdTypeName: idTypeName,
@@ -95,10 +93,9 @@ internal static class IdSyntaxReceiver
 
 		if (type.IsOrInheritsClass(interf => interf.IsType(IdGenerator.EntityName, IdGenerator.EntityNamespace), out _))
 			return IdGenerationMethod.EntityImplementation;
-
-		if (type.IsRecord)
-			throw new Exception($"Type {type.Name} is a record which shouldn't contain IDs.");
 			
-		return IdGenerationMethod.Class;
+		return type.IsRecord 
+			? IdGenerationMethod.Record 
+			: IdGenerationMethod.Class;
 	}
 }

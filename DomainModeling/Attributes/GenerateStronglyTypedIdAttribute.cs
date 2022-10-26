@@ -3,9 +3,9 @@
 #pragma warning disable IDE0060
 
 /// <summary>
-/// <inheritdoc cref="GenerateStronglyTypedId{TNumber}"/>
+/// <inheritdoc cref="GenerateStronglyTypedId{TPrimitive}"/>
 /// <para>
-/// The primitive type of the ID is ulong (default).
+/// The primitive type of the ID is ulong.
 /// </para>
 /// </summary>
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct)]

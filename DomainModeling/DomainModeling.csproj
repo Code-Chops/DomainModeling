@@ -11,8 +11,8 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>1.2.3</Version>
-        <PackageReleaseNotes>Added Message to IUserException.</PackageReleaseNotes>
+        <Version>1.2.4</Version>
+        <PackageReleaseNotes>Added DebuggerHidden attribute. Added record ID support.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainDrivenDesign.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>

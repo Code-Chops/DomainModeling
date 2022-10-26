@@ -63,7 +63,7 @@ public abstract record ValueObjectBase(
 	public abstract string GetValidationCode();
 	public abstract string? GetEnumeratorCode();
 	/// <summary>
-	/// Don't forget to place [EditorBrowsable(EditorBrowsableState.Never)] at the <b>extra</b> lines.
+	/// Don't forget to place [EditorBrowsable(EditorBrowsableState.Never)] and/or [DebuggerHidden] at the <b>extra</b> lines.
 	/// </summary>
 	public abstract string? GetExtraCode();
 }

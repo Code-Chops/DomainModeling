@@ -56,6 +56,7 @@ public class ValueObjectGenerator : IIncrementalGenerator
 		"System.Collections",
 		"System.Collections.Immutable",
 		"System.ComponentModel",
+		"System.Diagnostics",
 		"System.Diagnostics.CodeAnalysis",
 		"System.Globalization",
 		"System.Runtime.InteropServices",
@@ -71,38 +72,25 @@ public class ValueObjectGenerator : IIncrementalGenerator
 #pragma warning disable CS0612
 
 {GetUsings()}
-
 {GetNamespaceDeclaration()}
 
 /// <summary>
 /// {data.GetCommentsCode()}
 /// </summary>
 [StructLayout(LayoutKind.Auto)]
-{data.ValueObjectType.GetObjectDeclaration()} {data.ValueObjectType.GetTypeNameWithGenericParameters()} : IValueObject{GetInterfaces()}
-{data.TypeDeclarationSyntax.GetClassGenericConstraints()}
+{GetObjectDeclaration()}
 {{
 {GetToString()}
-
 {GetHashCode()}
-
 {GetEquals()}
-
 {GetComparison()}
-
 {GetEmptyStatic()}
-
 {GetProperty()}
-
 {GetLengthOrCountCode()}
-
 {GetCastCode()}
-
 {GetDefaultConstructor()}
-
 {AddForbiddenParameterlessConstructor()}	
-
 {GetEnumerator()}
-
 {GetExtraCode()}
 }}
 
@@ -145,10 +133,22 @@ public class ValueObjectGenerator : IIncrementalGenerator
 			
 			return interfaces.ToString();
 		}
-		
-		
+
+
+		string GetObjectDeclaration()
+		{
+			var code = new StringBuilder();
+			code.Append($"{data.ValueObjectType.GetObjectDeclaration()} {data.ValueObjectType.GetTypeNameWithGenericParameters()} : IValueObject{GetInterfaces()}");
+
+			var constraints = data.TypeDeclarationSyntax.GetClassGenericConstraints();
+			if (constraints is not null)
+				code.AppendLine(constraints);
+
+			return code.ToString();
+		}
+
 		string? GetToString() => data.GenerateToString 
-			? $@"
+			? $@"	[DebuggerHidden]
 	[EditorBrowsable(EditorBrowsableState.Never)]
 	{data.GetToStringCode()}" 
 			: null;
@@ -156,6 +156,7 @@ public class ValueObjectGenerator : IIncrementalGenerator
 		
 		string? GetHashCode() => data.GenerateComparison
 			? $@"
+	[DebuggerHidden]
 	[EditorBrowsable(EditorBrowsableState.Never)]
 	{data.GetHashCodeCode()}" 
 			: null;
@@ -166,12 +167,14 @@ public class ValueObjectGenerator : IIncrementalGenerator
 			if (!data.GenerateComparison) return null;
 
 			var equalsCode = new StringBuilder($@"
+	[DebuggerHidden]
 	[EditorBrowsable(EditorBrowsableState.Never)]
 	{data.GetEqualsCode()}
 ");
 
 			if (!data.ValueObjectType.IsRecord)
 				equalsCode.Append($@"
+	[DebuggerHidden]
 	[EditorBrowsable(EditorBrowsableState.Never)]
 	{data.GetObjectEqualsCode()}
 ");
@@ -183,9 +186,10 @@ public class ValueObjectGenerator : IIncrementalGenerator
 		{
 			var equalityOperators = data.ValueObjectType.IsRecord
 				? null
-				: $@"
+				: $@"[DebuggerHidden]
 	[EditorBrowsable(EditorBrowsableState.Never)]
 	public static bool operator ==({data.Name} left, {data.Name} right) => left.{data.PropertyName} == right.{data.PropertyName};
+	[DebuggerHidden]
 	[EditorBrowsable(EditorBrowsableState.Never)]
 	public static bool operator !=({data.Name} left, {data.Name} right) => !(left == right);";
 			
@@ -196,15 +200,20 @@ public class ValueObjectGenerator : IIncrementalGenerator
 			
 			return $@"
 	{equalityOperators}
+	[DebuggerHidden]
 	[EditorBrowsable(EditorBrowsableState.Never)]
 	{compareToCode}
 
+	[DebuggerHidden]
 	[EditorBrowsable(EditorBrowsableState.Never)]
 	public static bool operator <	({data.Name} left, {data.Name} right)	=> left.CompareTo(right) <	0;
+	[DebuggerHidden]
 	[EditorBrowsable(EditorBrowsableState.Never)]
 	public static bool operator <=	({data.Name} left, {data.Name} right)	=> left.CompareTo(right) <= 0;
+	[DebuggerHidden]
 	[EditorBrowsable(EditorBrowsableState.Never)]
 	public static bool operator >	({data.Name} left, {data.Name} right)	=> left.CompareTo(right) >	0;
+	[DebuggerHidden]
 	[EditorBrowsable(EditorBrowsableState.Never)]
 	public static bool operator >=	({data.Name} left, {data.Name} right)	=> left.CompareTo(right) >= 0;
 ";
@@ -217,11 +226,11 @@ public class ValueObjectGenerator : IIncrementalGenerator
 			
 			return data.AddParameterlessConstructor 
 				? $@"
-	[EditorBrowsable(EditorBrowsableState.Never)]	
+	[DebuggerHidden]
 	public static {data.Name} DefaultInstance {{ get; }} = new()
 ;"
 				: $@"
-	[EditorBrowsable(EditorBrowsableState.Never)]
+	[DebuggerHidden]
 	public static {data.Name} DefaultInstance {{ get; }} = new({data.GetDefaultValue()});
 ";
 		}
@@ -232,20 +241,21 @@ public class ValueObjectGenerator : IIncrementalGenerator
 			var callValidation = data.AddCustomValidation ? "this.Validate();" : null;
 			var error = $"Don't use this field, use the {data.PropertyName} property instead";
 
-			return $@"	
-#pragma warning disable CS0618 
+			return $@"#pragma warning disable CS0618 
 	/// <summary>
     /// The primitive structural value.
     /// </summary>
 	{(data.PropertyIsPublic ? "public" : "private")} {data.UnderlyingTypeName} {data.PropertyName} 
 	{{
+		[DebuggerHidden]
 		[EditorBrowsable(EditorBrowsableState.Never)]
 		get => this.{data.BackingFieldName};
+		[DebuggerHidden]
+		[EditorBrowsable(EditorBrowsableState.Never)]
 		{(data.PropertyIsPublic ? "private " : null)}init 
 		{{ 
-{data.GetValidationCode()}
+			{data.GetValidationCode().Trim()}
 			this.{data.BackingFieldName} = value;
-
 			{callValidation}
 		}}
 	}}
@@ -266,6 +276,7 @@ public class ValueObjectGenerator : IIncrementalGenerator
 			return code is null
 				? null
 				: $@"
+	[DebuggerHidden]
 	[EditorBrowsable(EditorBrowsableState.Never)]
 	{code}
 ";
@@ -276,18 +287,21 @@ public class ValueObjectGenerator : IIncrementalGenerator
 		{
 			var code = new StringBuilder();
 			code.AppendLine($@"
+	[DebuggerHidden]
 	[EditorBrowsable(EditorBrowsableState.Never)]
 	public static implicit operator {data.UnderlyingTypeName}({data.Name} {data.LocalVariableName}) => {data.LocalVariableName}.{data.PropertyName};");
 			
 			if (!data.GenerateDefaultConstructor) return code.ToString();
 			
 			code.AppendLine($@"	
+	[DebuggerHidden]
 	[EditorBrowsable(EditorBrowsableState.Never)]
 	public static explicit operator {data.Name}({data.UnderlyingTypeName} {data.LocalVariableName}) => new({data.LocalVariableName});");
 			
 			var extraCastCode = data.GetExtraCastCode(); 
 			
 			if (extraCastCode is not null) code.AppendLine($@"
+	[DebuggerHidden]
 	[EditorBrowsable(EditorBrowsableState.Never)]
 	{extraCastCode}");
 
@@ -297,7 +311,7 @@ public class ValueObjectGenerator : IIncrementalGenerator
 		
 		string? GetDefaultConstructor() => data.GenerateDefaultConstructor
 			? $@"
-	[EditorBrowsable(EditorBrowsableState.Never)]
+	[DebuggerHidden]
 	public {data.ValueObjectType.Name}({data.UnderlyingTypeName} {data.LocalVariableName})
 	{{	
 		this.{data.PropertyName} = {data.LocalVariableName};
@@ -314,6 +328,7 @@ public class ValueObjectGenerator : IIncrementalGenerator
 			return $@"
 #pragma warning disable CS8618
 	[Obsolete(""{error}"", true)]
+	[DebuggerHidden]
 	[EditorBrowsable(EditorBrowsableState.Never)]
 	public {data.ValueObjectType.Name}() => throw new InvalidOperationException($""{error}"");
 #pragma warning restore CS8618";
@@ -329,8 +344,10 @@ public class ValueObjectGenerator : IIncrementalGenerator
 			return enumeratorCode is null
 				? null
 				: @$"
+	[DebuggerHidden]
 	[EditorBrowsable(EditorBrowsableState.Never)]
 	{enumeratorCode}
+	[DebuggerHidden]
 	[EditorBrowsable(EditorBrowsableState.Never)]
 	IEnumerator IEnumerable.GetEnumerator()  => this.GetEnumerator();";
 		}
@@ -343,6 +360,7 @@ public class ValueObjectGenerator : IIncrementalGenerator
 			return code is null
 				? null
 				: $@"
+	[DebuggerHidden]
 	[EditorBrowsable(EditorBrowsableState.Never)]
 	{data.GetExtraCode()}
 ";

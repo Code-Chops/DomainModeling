@@ -24,7 +24,7 @@ public sealed class GenerateValueObjectAttribute<T> : Attribute
 	/// Default: false.
 	/// </param>
 	/// <param name="generateStaticDefault">Generate a static property with a default value. Default: false.</param>
-	/// <param name="propertyName">The name of the property. Default: Dictionary.</param>
+	/// <param name="propertyName">The name of the property. Default: Value.</param>
 	/// <param name="propertyIsPublic">If true, the generated property will be publicly accessible (not settable).</param>
 	/// <param name="allowNull">Allow the string to be null. Default: false.</param>
 	/// <param name="minimumValue">The minimum value. Default: no minimum value.</param>

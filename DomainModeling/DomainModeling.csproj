@@ -11,8 +11,8 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>1.2.4</Version>
-        <PackageReleaseNotes>Added DebuggerHidden attribute. Added record ID support.</PackageReleaseNotes>
+        <Version>1.2.5</Version>
+        <PackageReleaseNotes>Default generated value object property name is now Value for all types.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainDrivenDesign.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>

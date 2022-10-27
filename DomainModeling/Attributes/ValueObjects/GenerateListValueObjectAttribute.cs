@@ -25,7 +25,7 @@ public sealed class GenerateListValueObjectAttribute<T> : Attribute
 	/// </param>
 	/// <param name="generateStaticDefault">Generate a static property with a default value. Default: false.</param>
 	/// <param name="generateEnumerable">Generates an IEnumerable implementation and indexer.</param>
-	/// <param name="propertyName">The name of the property. Default: List.</param>
+	/// <param name="propertyName">The name of the property. Default: Value.</param>
 	/// <param name="propertyIsPublic">If true, the generated property will be publicly accessible (not settable).</param>
 	/// <param name="minimumCount">The minimum count in the collection. Default: 0.</param>
 	/// <param name="maximumCount">The maximum count in the collection. Default: no maximum count.</param>

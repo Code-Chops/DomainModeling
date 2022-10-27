@@ -96,7 +96,7 @@ public record StringValueObject(
 				_										=> throw new ArgumentOutOfRangeException(nameof(this.StringFormat), this.StringFormat, null)
 			};
 
-			validation.AppendLine($@"			if (Regex.IsMatch(value, ""{formatRegex}"", RegexOptions.Compiled)) throw new ArgumentException($""Invalid characters in {this.Name}: '{{value}}'."");");
+			validation.AppendLine($@"			if (!Regex.IsMatch(value, ""{formatRegex}"", RegexOptions.Compiled)) throw new ArgumentException($""Invalid characters in {this.Name}: '{{value}}'."");");
 		}
 			
 		if (this.MinimumLength is not null)

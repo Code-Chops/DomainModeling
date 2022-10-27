@@ -28,7 +28,7 @@ public record ListValueObject(
 		AddParameterlessConstructor: AddParameterlessConstructor, 
 		GenerateStaticDefault: GenerateStaticDefault,
 		GenerateEnumerable: GenerateEnumerable,
-		PropertyName: PropertyName ?? "List",
+		PropertyName: PropertyName ?? "Value",
 		PropertyIsPublic: PropertyIsPublic,
 		AddIComparable: false), 
 		IEnumerableValueObject

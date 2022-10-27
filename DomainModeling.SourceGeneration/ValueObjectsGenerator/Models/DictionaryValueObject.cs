@@ -28,7 +28,7 @@ public record DictionaryValueObject(
 		AddParameterlessConstructor: AddParameterlessConstructor, 
 		GenerateStaticDefault: GenerateStaticDefault,
 		GenerateEnumerable: GenerateEnumerable,
-		PropertyName: PropertyName ?? "Dictionary",
+		PropertyName: PropertyName ?? "Value",
 		PropertyIsPublic: PropertyIsPublic,
 		AddIComparable: false),
 		IEnumerableValueObject

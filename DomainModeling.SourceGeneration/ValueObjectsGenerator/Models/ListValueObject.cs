@@ -61,7 +61,7 @@ public record ListValueObject(
 
 	public override string? GetCompareToCode()		=> null;
 
-	public override string GetDefaultValue()		=> $"new List<{this.ElementTypeName}>().ToImmutableList()";
+	public override string GetDefaultValue()		=> $"ImmutableList<{this.ElementTypeName}>.Empty";
 	
 	public override string GetLengthOrCountCode()	=> $"public int Count => this.{this.PropertyName}.Count;";
 

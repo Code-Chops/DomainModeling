@@ -70,7 +70,7 @@ public record DictionaryValueObject(
 
 	public override string? GetCompareToCode()		=> null;
 
-	public override string GetDefaultValue()		=> $"new Dictionary<{this.KeyType.Name}, {this.ValueType.Name}>().ToImmutableDictionary()";
+	public override string GetDefaultValue()		=> $"ImmutableDictionary<{this.KeyType.Name}, {this.ValueType.Name}>.Empty";
 	
 	public override string GetLengthOrCountCode()	=> $"public int Count => this.{this.PropertyName}.Count;";
 

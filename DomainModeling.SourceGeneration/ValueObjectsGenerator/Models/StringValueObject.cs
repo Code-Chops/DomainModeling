@@ -72,7 +72,7 @@ public record StringValueObject(
 
 	public override string GetCompareToCode()		=> $"public int CompareTo({this.Name}{this.NullOperator} other) => String.Compare(this.{this.PropertyName}, other{this.NullOperator}.{this.PropertyName}, StringComparison.{this.CompareOptions});";
 
-	public override string GetDefaultValue()		=> $"\"\"";
+	public override string GetDefaultValue()		=> $"String.Empty";
 	
 	public override string GetLengthOrCountCode()	=> $"public int Length => this.{this.PropertyName}.Length;";
 

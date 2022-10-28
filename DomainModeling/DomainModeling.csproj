@@ -11,8 +11,8 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>1.2.5</Version>
-        <PackageReleaseNotes>Default generated value object property name is now Value for all types.</PackageReleaseNotes>
+        <Version>1.2.6</Version>
+        <PackageReleaseNotes>Fixed value object generator default value of reference types. Fixed retrieval of underlying values for default generated value objects.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainDrivenDesign.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>

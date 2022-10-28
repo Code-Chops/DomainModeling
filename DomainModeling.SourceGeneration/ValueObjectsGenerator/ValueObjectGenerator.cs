@@ -255,7 +255,7 @@ public class ValueObjectGenerator : IIncrementalGenerator
 		{(data.PropertyIsPublic ? "private " : null)}init 
 		{{ 
 			{data.GetValidationCode().Trim()}
-			this.{data.BackingFieldName} = value;
+			this.{data.BackingFieldName} = value{(data is DefaultValueObject ? null : $" ?? {data.GetDefaultValue()}")};
 			{callValidation}
 		}}
 	}}

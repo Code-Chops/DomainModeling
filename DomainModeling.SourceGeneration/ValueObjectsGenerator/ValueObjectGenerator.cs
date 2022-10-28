@@ -249,13 +249,13 @@ public class ValueObjectGenerator : IIncrementalGenerator
 	{{
 		[DebuggerHidden]
 		[EditorBrowsable(EditorBrowsableState.Never)]
-		get => this.{data.BackingFieldName};
+		get => this.{data.BackingFieldName}{(data is DefaultValueObject ? null : $" ?? {data.GetDefaultValue()}")};
 		[DebuggerHidden]
 		[EditorBrowsable(EditorBrowsableState.Never)]
 		{(data.PropertyIsPublic ? "private " : null)}init 
 		{{ 
 			{data.GetValidationCode().Trim()}
-			this.{data.BackingFieldName} = value{(data is DefaultValueObject ? null : $" ?? {data.GetDefaultValue()}")};
+			this.{data.BackingFieldName} = value;
 			{callValidation}
 		}}
 	}}

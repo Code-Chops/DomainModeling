@@ -75,7 +75,7 @@ public class ValueObjectGenerator : IIncrementalGenerator
 {GetNamespaceDeclaration()}
 
 /// <summary>
-/// {data.GetCommentsCode()}
+/// {GetComment()}
 /// </summary>
 [StructLayout(LayoutKind.Auto)]
 {GetObjectDeclaration()}
@@ -118,6 +118,12 @@ public class ValueObjectGenerator : IIncrementalGenerator
 			? null 
 			: $@"namespace {data.Namespace};";
 
+
+		string GetComment()
+		{
+			return $@"{data.GetCommentsCode()}
+/// Extends: <see cref=""{data.Name}""/>.";
+		}
 		
 		string GetInterfaces()
 		{
@@ -138,7 +144,13 @@ public class ValueObjectGenerator : IIncrementalGenerator
 		string GetObjectDeclaration()
 		{
 			var code = new StringBuilder();
-			code.Append($"{data.ValueObjectType.GetObjectDeclaration()} {data.ValueObjectType.GetTypeNameWithGenericParameters()} : IValueObject{GetInterfaces()}");
+
+			var declaration = data.ValueObjectType.GetObjectDeclaration();
+			
+			if (data.ValueObjectType.TypeKind == TypeKind.Struct)
+				declaration = declaration.Replace("partial", "readonly partial");
+
+			code.Append($"{declaration} {data.ValueObjectType.GetTypeNameWithGenericParameters()} : IValueObject{GetInterfaces()}");
 
 			var constraints = data.TypeDeclarationSyntax.GetClassGenericConstraints();
 			if (constraints is not null)
@@ -147,11 +159,11 @@ public class ValueObjectGenerator : IIncrementalGenerator
 			return code.ToString();
 		}
 
-		string? GetToString() => data.GenerateToString 
+		string GetToString() => data.GenerateToString 
 			? $@"	[DebuggerHidden]
 	[EditorBrowsable(EditorBrowsableState.Never)]
 	{data.GetToStringCode()}" 
-			: null;
+			: $@"	public override partial string ToString();";
 
 		
 		string? GetHashCode() => data.GenerateComparison

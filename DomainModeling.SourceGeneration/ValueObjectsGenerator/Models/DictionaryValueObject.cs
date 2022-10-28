@@ -52,7 +52,7 @@ public record DictionaryValueObject(
 		return Array.Empty<string>();
 	}
 	
-	public override string GetCommentsCode()		=> $"A dictionary of {this.ValueType.Name} by {this.KeyType.Name}.";
+	public override string GetCommentsCode()		=> $"An immutable value object with an immutable dictionary of {this.ValueType.Name} by {this.KeyType.Name} as underlying value.";
 
 	public override string GetToStringCode()		=> $"public override string ToString() => this.ToDisplayString(new {{ Key = \"{this.KeyType.Name}\", Value = \"{this.ValueType.Name}\" }}, this.Count.ToString());";
 	

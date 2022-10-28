@@ -43,7 +43,7 @@ public record ListValueObject(
 		return new[] { elementNamespace.ToDisplayString() };
 	}
 
-	public override string GetCommentsCode()		=> $"An enumerable of {this.ElementTypeName}.";
+	public override string GetCommentsCode()		=> $"An immutable value object with an immutable list of {this.ElementTypeName} as underlying value.";
 
 	public override string GetToStringCode()		=> $"public override string ToString() => this.ToDisplayString(new {{ Type = typeof({this.ElementTypeName}).Name }}, this.Count.ToString());";
 	

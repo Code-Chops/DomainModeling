@@ -1,28 +1,29 @@
 namespace CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration.UnitTests.ValueObjects;
 
-[GenerateStringValueObject(addCustomValidation: false)]
+[GenerateStringValueObject(addCustomValidation: false, generateToString: true)]
 public partial struct StringClassStructMock { }
 
-[GenerateStringValueObject(addCustomValidation: false)]
+[GenerateStringValueObject(addCustomValidation: false, generateToString: true)]
 public partial record struct StringRecordStructMock;
 
-[GenerateStringValueObject(addCustomValidation: false)]
+[GenerateStringValueObject(addCustomValidation: false, generateToString: true)]
 public readonly partial struct StringReadonlyStructMock { }
 
-[GenerateStringValueObject(addCustomValidation: false)]
+[GenerateStringValueObject(addCustomValidation: false, generateToString: true)]
 public partial record struct StringReadonlyRecordStructMock;
 
 
-[GenerateStringValueObject(addCustomValidation: false)]
+[GenerateStringValueObject(addCustomValidation: false, generateToString: true)]
 public partial class StringClassMock { }
 
-[GenerateStringValueObject(addCustomValidation: false)]
+[GenerateStringValueObject(addCustomValidation: false, generateToString: true)]
 public partial record StringRecordClassMock;
 
 
 [GenerateStringValueObject(
 	minimumLength: 0, 
-	maximumLength: 10, generateToString: false, 
+	maximumLength: 10, 
+	generateToString: true, 
 	generateDefaultConstructor: true, 
 	addParameterlessConstructor: true, 
 	generateComparison: false, 
@@ -43,7 +44,7 @@ public partial record struct StringRecordStructSettingsMock
 [GenerateStringValueObject(
 	minimumLength: 0, 
 	maximumLength: 10, 
-	generateToString: false,
+	generateToString: true,
 	generateDefaultConstructor: true, 
 	addParameterlessConstructor: true,
 	generateComparison: false,
@@ -64,7 +65,7 @@ public partial record StringRecordClassSettingsMock
 [GenerateStringValueObject(
 	minimumLength: 0, 
 	maximumLength: 10, 
-	generateToString: false, 
+	generateToString: true, 
 	generateDefaultConstructor: true,
 	addParameterlessConstructor: true,
 	generateComparison: false, 

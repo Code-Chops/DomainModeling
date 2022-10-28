@@ -1,29 +1,29 @@
 namespace CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration.UnitTests.ValueObjects;
 
-[GenerateListValueObject<string>(addCustomValidation: false)]
+[GenerateListValueObject<string>(addCustomValidation: false, generateToString: true)]
 public partial struct ListStructMock { }
 
-[GenerateListValueObject<string>(addCustomValidation: false)]
+[GenerateListValueObject<string>(addCustomValidation: false, generateToString: true)]
 public partial record struct ListRecordStructMock;
 
-[GenerateListValueObject<string>(addCustomValidation: false)]
+[GenerateListValueObject<string>(addCustomValidation: false, generateToString: true)]
 public readonly partial struct ListReadonlyStructMock { }
 
-[GenerateListValueObject<string>(addCustomValidation: false)]
+[GenerateListValueObject<string>(addCustomValidation: false, generateToString: true)]
 public partial record struct ListReadonlyRecordStructMock;
 
 
-[GenerateListValueObject<string>(addCustomValidation: false)]
+[GenerateListValueObject<string>(addCustomValidation: false, generateToString: true)]
 public partial class ListClassMock { }
 
-[GenerateListValueObject<string>(addCustomValidation: false)]
+[GenerateListValueObject<string>(addCustomValidation: false, generateToString: true)]
 public partial record ListRecordClassMock;
 
 
 [GenerateListValueObject<string>(
 	minimumCount: 0, 
 	maximumCount: 10, 
-	generateToString: false, 
+	generateToString: true, 
 	generateDefaultConstructor: true,
 	addParameterlessConstructor: true,
 	generateComparison: false,
@@ -40,7 +40,7 @@ public partial record struct ListRecordStructSettingsMock
 [GenerateListValueObject<string>(
 	minimumCount: 0, 
 	maximumCount: 10, 
-	generateToString: false, 
+	generateToString: true, 
 	generateDefaultConstructor: true, 
 	addParameterlessConstructor: true, 
 	generateComparison: false, 
@@ -57,7 +57,7 @@ public partial record ListRecordClassSettingsMock
 [GenerateListValueObject<string>(
 	minimumCount: 0, 
 	maximumCount: 10, 
-	generateToString: false, 
+	generateToString: true, 
 	generateDefaultConstructor: true, 
 	addParameterlessConstructor: true, 
 	generateComparison: false, 

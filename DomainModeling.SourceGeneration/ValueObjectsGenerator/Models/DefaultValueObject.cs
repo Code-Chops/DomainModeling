@@ -40,7 +40,7 @@ public sealed record DefaultValueObject(
 	
 	public override string[] GetNamespaces()		=> Array.Empty<string>();
 
-	public override string GetCommentsCode()		=> $"Type {this.UnderlyingTypeName}.";
+	public override string GetCommentsCode()		=> $"An immutable value object with an underlying value of type {this.UnderlyingTypeName}.";
 
 	public override string GetToStringCode()		=> $"public override string ToString() => this.ToDisplayString(new {{ this.{this.PropertyName} }});";
 	

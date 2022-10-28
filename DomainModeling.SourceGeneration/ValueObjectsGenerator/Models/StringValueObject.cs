@@ -59,7 +59,7 @@ public record StringValueObject(
 	
 	public override string[] GetNamespaces()		=> Array.Empty<string>();
 	
-	public override string GetCommentsCode()		=> $"A {(this.StringCaseConversion == StringCaseConversion.NoConversion ? null : $"{this.StringCaseConversion} ")}{this.StringFormat} string.";
+	public override string GetCommentsCode()		=> $"An immutable value type with an underlying value of {(this.StringCaseConversion == StringCaseConversion.NoConversion ? null : $"{this.StringCaseConversion} ")}{this.StringFormat} string.";
 
 	public override string GetToStringCode()		=> $"public override string ToString() => this.ToDisplayString(new {{ this.{this.PropertyName} }});";
 	

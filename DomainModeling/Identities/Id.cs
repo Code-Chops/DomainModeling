@@ -7,7 +7,7 @@ namespace CodeChops.DomainDrivenDesign.DomainModeling.Identities;
 /// An abstract identifier with a generic type as primitive value.
 /// </para>
 /// <para>
-/// <b>Prefer to use ID generation <see cref="GenerateStronglyTypedId{TNumber}"/> in order to use struct IDs.</b>
+/// <em>Prefer to use ID generation <see cref="GenerateStronglyTypedId{TNumber}"/> in order to use struct IDs.</em>
 /// </para>
 /// </summary>
 /// <typeparam name="TPrimitive">The primitive value of the identifier.</typeparam>

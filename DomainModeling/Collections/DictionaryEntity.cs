@@ -5,7 +5,8 @@
 /// </summary>
 /// <typeparam name="TKey">The type of the keys in the dictionary (which should be a domain object).</typeparam>
 /// <typeparam name="TValue">The type of the values in the dictionary (which should be a domain object).</typeparam>
-public abstract class DictionaryEntity<TKey, TValue> : Entity, IReadOnlyDictionary<TKey, TValue>
+public abstract class DictionaryEntity<TSelf, TKey, TValue> : Entity, IReadOnlyDictionary<TKey, TValue>
+	where TSelf : DictionaryEntity<TSelf, TKey, TValue>
 	where TKey : IDomainObject
 	where TValue : IDomainObject
 {
@@ -22,10 +23,8 @@ public abstract class DictionaryEntity<TKey, TValue> : Entity, IReadOnlyDictiona
 	public bool ContainsKey(TKey key) => this.Dictionary.ContainsKey(key);
 	public bool TryGetValue(TKey key, [MaybeNullWhen(false)] out TValue value) => this.Dictionary.TryGetValue(key, out value);
 
-	public virtual TValue this[TKey key] 
-		=> this.Dictionary.TryGetValue(key, out var value) 
-			? value 
-			: new KeyNotFoundException<TKey, TValue>().Throw<TValue>(key);
+	public virtual TValue this[TKey key]
+		=> Validator<TSelf>.ThrowWhenInvalid.GuardKeyExists(this.GetValueOrDefault, key, errorCode: null);
 
 	public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator() => this.Dictionary.GetEnumerator();
 	IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();

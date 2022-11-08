@@ -1,42 +1,44 @@
-﻿namespace CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration.UnitTests.ValueObjects.Default;
+﻿// ReSharper disable UnusedParameterInPartialMethod
 
-[GenerateValueObject<int>(addCustomValidation: false, generateToString: true)]
+namespace CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration.UnitTests.ValueObjects.Default;
+
+[GenerateValueObject<int>(minimumValue: Int32.MinValue, maximumValue: Int32.MaxValue, addCustomValidation: false, generateToString: true, useValidationExceptions: false)]
 public partial struct DefaultIntStructMock { }
 
-[GenerateValueObject<int>(addCustomValidation: false, generateToString: true)]
+[GenerateValueObject<int>(minimumValue: Int32.MinValue, maximumValue: Int32.MaxValue, addCustomValidation: false, generateToString: true, useValidationExceptions: false)]
 public partial record struct DefaultIntRecordStructMock;
 
-[GenerateValueObject<int>(addCustomValidation: false, generateToString: true)]
+[GenerateValueObject<int>(minimumValue: Int32.MinValue, maximumValue: Int32.MaxValue, addCustomValidation: false, generateToString: true, useValidationExceptions: false)]
 public readonly partial struct DefaultIntReadonlyStructMock { }
 
-[GenerateValueObject<int>(addCustomValidation: false, generateToString: true)]
+[GenerateValueObject<int>(minimumValue: Int32.MinValue, maximumValue: Int32.MaxValue, addCustomValidation: false, generateToString: true, useValidationExceptions: false)]
 public partial record struct DefaultIntReadonlyRecordStructMock;
 
 
-[GenerateValueObject<int>(addCustomValidation: false, generateToString: true)]
+[GenerateValueObject<int>(minimumValue: Int32.MinValue, maximumValue: Int32.MaxValue, addCustomValidation: false, generateToString: true, useValidationExceptions: false)]
 public partial class DefaultIntClassMock { }
 
-[GenerateValueObject<int>(addCustomValidation: false, generateToString: true)]
+[GenerateValueObject<int>(minimumValue: Int32.MinValue, maximumValue: Int32.MaxValue, addCustomValidation: false, generateToString: true, useValidationExceptions: false)]
 public partial record DefaultIntRecordClassMock;
 
 
-[GenerateValueObject<int>(minimumValue: 0, maximumValue: 10, generateDefaultConstructor: true, addParameterlessConstructor: true, generateComparison: false, addCustomValidation: true, generateStaticDefault: true, generateToString: true, propertyName: "Test", allowNull: true)]
+[GenerateValueObject<int>(minimumValue: 0, maximumValue: 10, constructorIsPublic: true, forbidParameterlessConstruction: false, generateComparison: false, addCustomValidation: true, generateStaticDefault: true, generateToString: true, propertyName: "Test", allowNull: true, useValidationExceptions: false)]
 public partial record struct DefaultIntRecordStructSettingsMock
 {
-	public void Validate() { }
+	private partial void Validate(Validator validator) { }
 	public DefaultIntRecordStructSettingsMock() { }
 }
 
-[GenerateValueObject<int>(minimumValue: 0, maximumValue: 10, generateDefaultConstructor: true, addParameterlessConstructor: true, generateComparison: false, addCustomValidation: true, generateStaticDefault: true, generateToString: true, propertyName: "Test", allowNull: true)]
+[GenerateValueObject<int>(minimumValue: 0, maximumValue: 10, constructorIsPublic: true, forbidParameterlessConstruction: false, generateComparison: false, addCustomValidation: true, generateStaticDefault: true, generateToString: true, propertyName: "Test", allowNull: true, useValidationExceptions: false)]
 public partial record DefaultIntRecordClassSettingsMock
 {
-	public void Validate() { }
+	private partial void Validate(Validator validator) { }
 	public DefaultIntRecordClassSettingsMock() { }
 }
 
-[GenerateValueObject<int>(minimumValue: 0, maximumValue: 10, generateDefaultConstructor: true, addParameterlessConstructor: true, generateComparison: false, addCustomValidation: true, generateStaticDefault: true, generateToString: true, propertyName: "Test", allowNull: true)]
+[GenerateValueObject<int>(minimumValue: 0, maximumValue: 10, constructorIsPublic: true, forbidParameterlessConstruction: false, generateComparison: false, addCustomValidation: true, generateStaticDefault: true, generateToString: true, propertyName: "Test", allowNull: true, useValidationExceptions: false)]
 public sealed partial record DefaultIntSealedRecordClassSettingsMock
 {
-	public void Validate() { }
+	private partial void Validate(Validator validator) { }
 	public DefaultIntSealedRecordClassSettingsMock() { }
 }

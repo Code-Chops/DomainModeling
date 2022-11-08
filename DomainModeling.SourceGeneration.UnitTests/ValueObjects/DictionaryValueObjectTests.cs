@@ -4,7 +4,7 @@ internal record MockId(ulong Value) : Id<MockId, ulong>(Value);
 // ReSharper disable once NotAccessedPositionalProperty.Local
 internal record DictionaryValueObjectMock(int Value) : IValueObject;
 
-[GenerateDictionaryValueObject<MockId, ValueObjectMock>(addCustomValidation: false, generateToString: true)]
+[GenerateDictionaryValueObject<MockId, ValueObjectMock>(addCustomValidation: false, generateToString: true, useValidationExceptions: false)]
 internal partial record DictionaryMock;
 
 public class DictionaryValueObjectTests

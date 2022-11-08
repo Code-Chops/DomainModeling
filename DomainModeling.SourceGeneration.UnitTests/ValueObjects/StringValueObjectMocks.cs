@@ -1,22 +1,24 @@
+// ReSharper disable UnusedParameterInPartialMethod
+
 namespace CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration.UnitTests.ValueObjects;
 
-[GenerateStringValueObject(addCustomValidation: false, generateToString: true)]
+[GenerateStringValueObject(minimumLength: Int32.MinValue, maximumLength: Int32.MaxValue, stringFormat: StringFormat.Default, stringComparison: StringComparison.Ordinal, addCustomValidation: false, generateToString: true, useValidationExceptions: false)]
 public partial struct StringClassStructMock { }
 
-[GenerateStringValueObject(addCustomValidation: false, generateToString: true)]
+[GenerateStringValueObject(minimumLength: Int32.MinValue, maximumLength: Int32.MaxValue, stringFormat: StringFormat.Default, stringComparison: StringComparison.Ordinal, addCustomValidation: false, generateToString: true, useValidationExceptions: false)]
 public partial record struct StringRecordStructMock;
 
-[GenerateStringValueObject(addCustomValidation: false, generateToString: true)]
+[GenerateStringValueObject(minimumLength: Int32.MinValue, maximumLength: Int32.MaxValue, stringFormat: StringFormat.Default, stringComparison: StringComparison.Ordinal, addCustomValidation: false, generateToString: true, useValidationExceptions: false)]
 public readonly partial struct StringReadonlyStructMock { }
 
-[GenerateStringValueObject(addCustomValidation: false, generateToString: true)]
+[GenerateStringValueObject(minimumLength: Int32.MinValue, maximumLength: Int32.MaxValue, stringFormat: StringFormat.Default, stringComparison: StringComparison.Ordinal, addCustomValidation: false, generateToString: true, useValidationExceptions: false)]
 public partial record struct StringReadonlyRecordStructMock;
 
 
-[GenerateStringValueObject(addCustomValidation: false, generateToString: true)]
+[GenerateStringValueObject(minimumLength: Int32.MinValue, maximumLength: Int32.MaxValue, stringFormat: StringFormat.Default, stringComparison: StringComparison.Ordinal, addCustomValidation: false, generateToString: true, useValidationExceptions: false)]
 public partial class StringClassMock { }
 
-[GenerateStringValueObject(addCustomValidation: false, generateToString: true)]
+[GenerateStringValueObject(minimumLength: Int32.MinValue, maximumLength: Int32.MaxValue, stringFormat: StringFormat.Default, stringComparison: StringComparison.Ordinal, addCustomValidation: false, generateToString: true, useValidationExceptions: false)]
 public partial record StringRecordClassMock;
 
 
@@ -24,61 +26,64 @@ public partial record StringRecordClassMock;
 	minimumLength: 0, 
 	maximumLength: 10, 
 	generateToString: true, 
-	generateDefaultConstructor: true, 
-	addParameterlessConstructor: true, 
+	constructorIsPublic: true, 
+	forbidParameterlessConstruction: false, 
 	generateComparison: false, 
 	addCustomValidation: true,
 	generateStaticDefault: false,
-	compareOptions: StringComparison.Ordinal,
+	stringComparison: StringComparison.Ordinal,
 	stringCaseConversion: StringCaseConversion.UpperInvariant,
 	stringFormat: StringFormat.AlphaNumericWithUnderscore,
 	propertyName: "Test",
 	allowNull: true,
 	generateEnumerable: false,
-	propertyIsPublic: true)]
+	propertyIsPublic: true, 
+	useValidationExceptions: false)]
 public partial record struct StringRecordStructSettingsMock
 {
-	public void Validate() { }
+	private partial void Validate(Validator validator) { }
 }
 
 [GenerateStringValueObject(
 	minimumLength: 0, 
 	maximumLength: 10, 
 	generateToString: true,
-	generateDefaultConstructor: true, 
-	addParameterlessConstructor: true,
+	constructorIsPublic: true, 
+	forbidParameterlessConstruction: false,
 	generateComparison: false,
 	addCustomValidation: true,
 	generateStaticDefault: false,
-	compareOptions: StringComparison.Ordinal,
+	stringComparison: StringComparison.Ordinal,
 	stringCaseConversion: StringCaseConversion.UpperInvariant,
 	stringFormat: StringFormat.AlphaNumericWithUnderscore,
 	propertyName: "Test", 
 	allowNull: true,
 	generateEnumerable: false,
-	propertyIsPublic: true)]
+	propertyIsPublic: true, 
+	useValidationExceptions: false)]
 public partial record StringRecordClassSettingsMock
 {
-	public void Validate() { }
+	private partial void Validate(Validator validator) { }
 }
 
 [GenerateStringValueObject(
 	minimumLength: 0, 
 	maximumLength: 10, 
 	generateToString: true, 
-	generateDefaultConstructor: true,
-	addParameterlessConstructor: true,
+	constructorIsPublic: true,
+	forbidParameterlessConstruction: false,
 	generateComparison: false, 
 	addCustomValidation: true,
 	generateStaticDefault: false,
-	compareOptions: StringComparison.Ordinal, 
+	stringComparison: StringComparison.Ordinal, 
 	stringCaseConversion: StringCaseConversion.UpperInvariant,
 	stringFormat: StringFormat.AlphaNumericWithUnderscore,
 	propertyName: "Test",
 	allowNull: true, 
 	generateEnumerable: false,
-	propertyIsPublic: true)]
+	propertyIsPublic: true, 
+	useValidationExceptions: false)]
 public sealed partial record StringSealedRecordClassSettingsMock
 {
-	public void Validate() { }
+	private partial void Validate(Validator validator) { }
 }

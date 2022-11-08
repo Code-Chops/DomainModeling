@@ -1,6 +1,6 @@
 ﻿namespace CodeChops.DomainDrivenDesign.DomainModeling.Attributes;
 
-#pragma warning disable IDE0060
+#pragma warning disable IDE0060 // Remove unused parameter
 
 /// <summary>
 /// <inheritdoc cref="GenerateStronglyTypedId{TPrimitive}"/>
@@ -50,4 +50,4 @@ public sealed class GenerateStronglyTypedId<TPrimitive> : Attribute
 	}
 }
 
-#pragma warning restore IDE0060
+#pragma warning restore IDE0060 // Remove unused parameter

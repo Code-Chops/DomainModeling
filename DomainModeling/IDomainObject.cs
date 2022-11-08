@@ -8,5 +8,5 @@ public interface IDomainObject
 	/// <summary>
 	/// Use <see cref="DisplayStringExtensions.ToDisplayString{TDomainObject}"/> for easy string display.
 	/// </summary>
-	string ToString();
+	string? ToString();
 }

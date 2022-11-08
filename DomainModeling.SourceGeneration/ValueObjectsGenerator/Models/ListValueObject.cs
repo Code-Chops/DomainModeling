@@ -1,39 +1,41 @@
 namespace CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration.ValueObjectsGenerator.Models;
 
 public record ListValueObject(
+		bool UseValidationExceptions,
+		int? MinimumCount,
+		int? MaximumCount,
 		INamedTypeSymbol ValueObjectType,
 		// ReSharper disable once NotAccessedPositionalProperty.Global
 		AttributeData Attribute,
-		TypeDeclarationSyntax TypeDeclarationSyntax,
 		bool GenerateToString,
 		bool GenerateComparison,
 		bool AddCustomValidation,
-		bool GenerateDefaultConstructor,
-		bool AddParameterlessConstructor,
+		bool ConstructorIsPublic,
+		bool ForbidParameterlessConstruction,
 		bool GenerateStaticDefault,
 		bool GenerateEnumerable,
 		string? PropertyName,
 		bool PropertyIsPublic,
-		int? MinimumCount,
-		int? MaximumCount) 
+		bool AllowNull) 
 	: ValueObjectBase(
+		UseValidationExceptions: UseValidationExceptions,
 		ValueObjectType: ValueObjectType,
-		TypeDeclarationSyntax: TypeDeclarationSyntax,
-		UnderlyingTypeName: $"ImmutableList<{Attribute.AttributeClass!.TypeArguments.Single().Name}>",
-		UnderlyingTypeNameBase: $"List<{Attribute.AttributeClass!.TypeArguments.Single().Name}>",
+		UnderlyingTypeName: $"ImmutableList<{Attribute.AttributeClass!.TypeArguments.Single().Name}{(AllowNull ? "?" : null)}>",
+		UnderlyingTypeNameBase: $"List<{Attribute.AttributeClass!.TypeArguments.Single().Name}{(AllowNull ? "?" : null)}>",
 		GenerateToString: GenerateToString,
 		GenerateComparison: GenerateComparison,
 		AddCustomValidation: AddCustomValidation,
-		GenerateDefaultConstructor: GenerateDefaultConstructor,
-		AddParameterlessConstructor: AddParameterlessConstructor, 
+		ConstructorIsPublic: ConstructorIsPublic,
+		ForbidParameterlessConstruction: ForbidParameterlessConstruction, 
 		GenerateStaticDefault: GenerateStaticDefault,
 		GenerateEnumerable: GenerateEnumerable,
 		PropertyName: PropertyName ?? "Value",
 		PropertyIsPublic: PropertyIsPublic,
-		AddIComparable: false), 
+		AddIComparable: false,
+		AllowNull: AllowNull), 
 		IEnumerableValueObject
 {
-	public string ElementTypeName { get; } = Attribute.AttributeClass!.TypeArguments.Single().Name;
+	public string ElementTypeName { get; } = $"{Attribute.AttributeClass!.TypeArguments.Single().Name}{(AllowNull ? "?" : null)}";
 
 	public override string[] GetNamespaces()
 	{
@@ -45,7 +47,7 @@ public record ListValueObject(
 
 	public override string GetCommentsCode()		=> $"An immutable value object with an immutable list of {this.ElementTypeName} as underlying value.";
 
-	public override string GetToStringCode()		=> $"public override string ToString() => this.ToDisplayString(new {{ Type = typeof({this.ElementTypeName}).Name }}, this.Count.ToString());";
+	public override string GetToStringCode()		=> $"public override string ToString() => this.ToDisplayString(new {{ Type = \"{this.ElementTypeName}\" }}, this.Count.ToString());";
 	
 	public override string? GetInterfacesCode()		=> this.GenerateEnumerable ? $"IReadOnlyList<{this.ElementTypeName}>" : null;
 
@@ -67,22 +69,23 @@ public record ListValueObject(
 
 	public override string GetExtraCastCode()		=> $"public static explicit operator {this.Name}({this.UnderlyingTypeNameBase} {this.LocalVariableName}) => new({this.LocalVariableName}.ToImmutableList());";
 
-	public override string GetValidationCode()
+	public override string GetValidationCode(string errorCodeStart)
 	{
 		var validation = new StringBuilder();
 
-		validation.AppendLine($@"			if (value is null) throw new ArgumentNullException(nameof(value));");
+		validation.AppendLine(this.GetGuardLine(Guard.NotNull, null, errorCodeStart));
 
-		if (this.MinimumCount is not null)
-			validation.AppendLine($@"			if (value.Count < {this.MinimumCount}) throw new ArgumentException($""{this.Name} count {{value.Count}} is less than {nameof(this.MinimumCount)} {this.MinimumCount}."");");
-			
-		if (this.MaximumCount is not null)
-			validation.AppendLine($@"			if (value.Count > {this.MaximumCount}) throw new ArgumentException($""{this.Name} count {{value.Count}} is higher than {nameof(this.MaximumCount)} {this.MaximumCount}."");");
+		if (this.MinimumCount is not null || this.MaximumCount is not null)
+			validation.AppendLine(this.GetGuardLine<int>(Guard.InRange, $"{this.LocalVariableName}.Count", errorCodeStart, this.MinimumCount, this.MaximumCount));
 
 		return validation.ToString();
 	}
-	
+
+	public override string? GetValueTransformation() => null;
+
 	public override string GetEnumeratorCode() => $"public IEnumerator<{this.ElementTypeName}> GetEnumerator() => this.{this.PropertyName}.GetEnumerator();";
 
-	public override string GetExtraCode() => $@"public {(this.IsUnsealedRecordClass ?  "virtual " : null)}{this.ElementTypeName} this[int index] => index >= 0 && index < this.Count ? this.{this.PropertyName}[index] : new IndexOutOfRangeException<{this.Name}>().Throw<{this.ElementTypeName}>(index);";
+	public override string GetExtraCode() => $@"
+	public {(this.IsUnsealedRecordClass ?  "virtual " : null)}{this.ElementTypeName} this[int index] 
+		=> Validator<{this.Name}>.ThrowWhenInvalid.GuardInRange(this.{this.PropertyName}, index, errorCode: null)!;";
 }

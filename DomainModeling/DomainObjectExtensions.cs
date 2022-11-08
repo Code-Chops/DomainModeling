@@ -31,4 +31,10 @@ public static class DisplayStringExtensions
 
 		return text;
 	}
+	
+	// // ReSharper disable ExplicitCallerInfoArgument
+	// public static Validation<TObject> Validate<TObject>(this TObject _, bool throwWhenInvalid = true, 
+	// 	[CallerMemberName] string? callerMemberName = null, [CallerFilePath] string? callerFilePath = null, [CallerLineNumber] int? callerLineNumber = null)
+	// 	where TObject : IDomainObject
+	// 	=> new(throwWhenInvalid, callerMemberName, callerFilePath, callerLineNumber);
 }

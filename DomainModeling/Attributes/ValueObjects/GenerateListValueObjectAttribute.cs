@@ -1,6 +1,6 @@
 ﻿namespace CodeChops.DomainDrivenDesign.DomainModeling.Attributes.ValueObjects;
 
-#pragma warning disable IDE0060
+#pragma warning disable IDE0060 // Remove unused parameter
 
 /// <summary>
 /// Generates a value object with a single structural value of type ImmutableList&lt;<typeparamref name="T"/>&gt;.
@@ -10,6 +10,8 @@
 // ReSharper disable once UnusedTypeParameter
 public sealed class GenerateListValueObjectAttribute<T> : Attribute
 {
+	/// <param name="minimumCount">The minimum element count in the collection. Default: no minimum (Int32.MinValue).</param>
+	/// <param name="maximumCount">The maximum element count in the collection. Default: no maximum (Int32.MaxValue).</param>
 	/// <param name="generateToString">Generates a ToString(). Default: true.</param>
 	/// <param name="generateComparison">
 	/// Generates Equals(), GetHashCode(), comparison operators (and CompareTo() if possible).
@@ -17,34 +19,32 @@ public sealed class GenerateListValueObjectAttribute<T> : Attribute
 	/// Default: true.
 	/// </param>
 	/// <param name="addCustomValidation">Forces to create a Validate method so custom validation can be implemented. Default: true.</param>
-	/// <param name="generateDefaultConstructor">Generates a default constructor. Default: true.</param>
-	/// <param name="addParameterlessConstructor">
-	/// If true, it forces to create a parameterless constructor (in order to define a default value).
-	/// If false, it creates an obsolete parameterless private constructor that throws an exception.
-	/// Default: false.
-	/// </param>
+	/// <param name="constructorIsPublic">Set to true if the default constructor should be public, if false it will be private. Default: true.</param>
+	/// <param name="forbidParameterlessConstruction">If true (default), it creates an obsolete parameterless private constructor that throws an exception.</param>
 	/// <param name="generateStaticDefault">Generate a static property with a default value. Default: false.</param>
-	/// <param name="generateEnumerable">Generates an IEnumerable implementation and indexer.</param>
-	/// <param name="propertyName">The name of the property. Default: Value.</param>
-	/// <param name="propertyIsPublic">If true, the generated property will be publicly accessible (not settable).</param>
-	/// <param name="minimumCount">The minimum count in the collection. Default: 0.</param>
-	/// <param name="maximumCount">The maximum count in the collection. Default: no maximum count.</param>
+	/// <param name="generateEnumerable">Generates an IEnumerable implementation and indexer. Default: true.</param>
+	/// <param name="propertyName">The name of the property. Default: 'Value'.</param>
+	/// <param name="propertyIsPublic">If true, the generated property will be publicly accessible (not settable). Default: false.</param>
+	/// <param name="allowNull">Allow the element value to be null. Default: false.</param>
+	/// <param name="useValidationExceptions">Throw validation exceptions instead of system exceptions. Default: true.</param>
 	// ReSharper disable always UnusedParameter.Local
 	public GenerateListValueObjectAttribute(
+		int minimumCount = Int32.MinValue, 
+		int maximumCount = Int32.MaxValue,
 		bool generateToString = true,
 		bool generateComparison = true,
 		bool addCustomValidation = true,
-		bool generateDefaultConstructor = true,
-		bool addParameterlessConstructor = false, 
+		bool constructorIsPublic = true,
+		bool forbidParameterlessConstruction = true, 
 		bool generateStaticDefault = false,
 		bool generateEnumerable = true,
 		string? propertyName = null,
 		bool propertyIsPublic = false,
-		int minimumCount = 0, 
-		int maximumCount = Int32.MinValue)
+		bool allowNull = false,
+		bool useValidationExceptions = true)
 	{
 		// These parameters will be read from the attribute arguments itself and therefore don't need to be assigned.
 	}
 }
 
-#pragma warning restore IDE0060
+#pragma warning restore IDE0060 // Remove unused parameter

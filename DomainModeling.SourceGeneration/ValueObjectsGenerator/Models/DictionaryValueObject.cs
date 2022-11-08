@@ -1,39 +1,42 @@
 namespace CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration.ValueObjectsGenerator.Models;
 
 public record DictionaryValueObject(
+		bool UseValidationExceptions,
+		int? MinimumCount,
+		int? MaximumCount,
 		INamedTypeSymbol ValueObjectType,
 		ITypeSymbol KeyType,
 		ITypeSymbol ValueType,
-		TypeDeclarationSyntax TypeDeclarationSyntax,
 		bool GenerateToString,
 		bool GenerateComparison,
 		bool AddCustomValidation,
-		bool GenerateDefaultConstructor,
-		bool AddParameterlessConstructor,
+		bool ConstructorIsPublic,
+		bool ForbidParameterlessConstruction,
 		bool GenerateStaticDefault,
 		bool GenerateEnumerable,
 		string? PropertyName,
 		bool PropertyIsPublic,
-		int? MinimumCount,
-		int? MaximumCount) 
+		bool AllowNull) 
 	: ValueObjectBase(
+		UseValidationExceptions: UseValidationExceptions,
 		ValueObjectType: ValueObjectType,
-		TypeDeclarationSyntax: TypeDeclarationSyntax,
-		UnderlyingTypeName: $"ImmutableDictionary<{KeyType},{ValueType}>",
-		UnderlyingTypeNameBase: $"Dictionary<{KeyType},{ValueType}>",
+		UnderlyingTypeName: $"ImmutableDictionary<{KeyType.Name}, {ValueType.Name}{(AllowNull ? "?" : null)}>",
+		UnderlyingTypeNameBase: $"Dictionary<{KeyType.Name}, {ValueType.Name}{(AllowNull ? "?" : null)}>",
 		GenerateToString: GenerateToString, 
 		GenerateComparison: GenerateComparison,
 		AddCustomValidation: AddCustomValidation,
-		GenerateDefaultConstructor: GenerateDefaultConstructor,
-		AddParameterlessConstructor: AddParameterlessConstructor, 
+		ConstructorIsPublic: ConstructorIsPublic,
+		ForbidParameterlessConstruction: ForbidParameterlessConstruction, 
 		GenerateStaticDefault: GenerateStaticDefault,
 		GenerateEnumerable: GenerateEnumerable,
 		PropertyName: PropertyName ?? "Value",
 		PropertyIsPublic: PropertyIsPublic,
-		AddIComparable: false),
+		AddIComparable: false,
+		AllowNull: AllowNull),
 		IEnumerableValueObject
 {
-	public string ElementTypeName { get; } = $"KeyValuePair<{KeyType.Name}, {ValueType.Name}>";
+	public string ElementTypeName { get; } = $"KeyValuePair<{KeyType.Name}, {ValueType.Name}{(AllowNull ? "?" : null)}>";
+	public string ValueTypeName { get; } = $"{ValueType.Name}{(AllowNull ? "?" : null)}";
 	
 	public override string[] GetNamespaces()
 	{
@@ -52,9 +55,9 @@ public record DictionaryValueObject(
 		return Array.Empty<string>();
 	}
 	
-	public override string GetCommentsCode()		=> $"An immutable value object with an immutable dictionary of {this.ValueType.Name} by {this.KeyType.Name} as underlying value.";
+	public override string GetCommentsCode()		=> $"An immutable value object with an immutable dictionary of {this.ValueTypeName} by {this.KeyType.Name} as underlying value.";
 
-	public override string GetToStringCode()		=> $"public override string ToString() => this.ToDisplayString(new {{ Key = \"{this.KeyType.Name}\", Value = \"{this.ValueType.Name}\" }}, this.Count.ToString());";
+	public override string GetToStringCode()		=> $"public override string ToString() => this.ToDisplayString(new {{ Key = \"{this.KeyType.Name}\", Value = \"{this.ValueTypeName}\" }}, this.Count.ToString());";
 	
 	public override string? GetInterfacesCode()		=> this.GenerateEnumerable ? $"IReadOnlyDictionary<{this.KeyType.Name}, {this.ValueType.Name}>" : null;
 
@@ -70,42 +73,43 @@ public record DictionaryValueObject(
 
 	public override string? GetCompareToCode()		=> null;
 
-	public override string GetDefaultValue()		=> $"ImmutableDictionary<{this.KeyType.Name}, {this.ValueType.Name}>.Empty";
+	public override string GetDefaultValue()		=> $"{this.UnderlyingTypeName}.Empty";
 	
 	public override string GetLengthOrCountCode()	=> $"public int Count => this.{this.PropertyName}.Count;";
 
 	public override string GetExtraCastCode()		=> $"public static explicit operator {this.Name}({this.UnderlyingTypeNameBase} {this.LocalVariableName}) => new({this.LocalVariableName}.ToImmutableDictionary());";
 
-	public override string GetValidationCode()
+	public override string GetValidationCode(string errorCodeStart)
 	{
 		var validation = new StringBuilder();
 
-		validation.AppendLine($@"			if (value is null) throw new ArgumentNullException(nameof(value));");
+		validation.AppendLine(this.GetGuardLine(Guard.NotNull, null, errorCodeStart));
 
-		if (this.MinimumCount is not null)
-			validation.AppendLine($@"			if (value.Count < {this.MinimumCount}) throw new ArgumentException($""{this.Name} count {{value.Count}} is less than {nameof(this.MinimumCount)} {this.MinimumCount}."");");
-			
-		if (this.MaximumCount is not null)
-			validation.AppendLine($@"			if (value.Count > {this.MaximumCount}) throw new ArgumentException($""{this.Name} count {{value.Count}} is higher than {nameof(this.MaximumCount)} {this.MaximumCount}."");");
+		if (this.MinimumCount is not null || this.MaximumCount is not null)
+			validation.AppendLine(this.GetGuardLine<int>(Guard.InRange, $"{this.LocalVariableName}.Count", errorCodeStart, this.MinimumCount, this.MaximumCount));
 
 		return validation.ToString();
 	}
-	
+
+	public override string? GetValueTransformation() => null;
+
 	public override string GetEnumeratorCode() => $"public IEnumerator<{this.ElementTypeName}> GetEnumerator() => this.{this.PropertyName}.GetEnumerator();";
 
 	public override string GetExtraCode() => $@"
-	public {(this.IsUnsealedRecordClass ? "virtual " : null)}{this.ValueType.Name} this[{this.KeyType.Name} key] => this.{this.PropertyName}.TryGetValue(key, out var value) ? value : new KeyNotFoundException<{this.KeyType.Name}, {this.Name}>().Throw<{this.ValueType.Name}>(key);
+	public {(this.IsUnsealedRecordClass ? "virtual " : null)}{this.ValueTypeName} this[{this.KeyType.Name} key] 
+		=> Validator<{this.Name}>.ThrowWhenInvalid.GuardKeyExists(this.{this.PropertyName}.GetValueOrDefault, key, errorCode: null);
+
 	[DebuggerHidden]
 	[EditorBrowsable(EditorBrowsableState.Never)]
 	public IEnumerable<{this.KeyType.Name}> Keys => this.{this.PropertyName}.Keys;
 	[DebuggerHidden]
 	[EditorBrowsable(EditorBrowsableState.Never)]
-	public IEnumerable<{this.ValueType.Name}> Values => this.{this.PropertyName}.Values;
+	public IEnumerable<{this.ValueTypeName}> Values => this.{this.PropertyName}.Values;
 	[DebuggerHidden]
 	[EditorBrowsable(EditorBrowsableState.Never)]
 	public bool ContainsKey({this.KeyType.Name} key) => this.{this.PropertyName}.ContainsKey(key);
 	[DebuggerHidden]
 	[EditorBrowsable(EditorBrowsableState.Never)]
-	public bool TryGetValue({this.KeyType.Name} key, [MaybeNullWhen(false)] out {this.ValueType.Name} value) => this.{this.PropertyName}.TryGetValue(key, out value);
+	public bool TryGetValue({this.KeyType.Name} key, [MaybeNullWhen(false)] out {this.ValueTypeName} value) => this.{this.PropertyName}.TryGetValue(key, out value)!;
 ";
 }

@@ -13,15 +13,14 @@ global using CodeChops.DomainDrivenDesign.DomainModeling.Attributes.ValueObjects
 global using CodeChops.DomainDrivenDesign.DomainModeling.Collections;
 global using CodeChops.DomainDrivenDesign.DomainModeling.Exceptions;
 global using CodeChops.DomainDrivenDesign.DomainModeling.Exceptions.System;
-global using CodeChops.DomainDrivenDesign.DomainModeling.Exceptions.System.Core;
-global using CodeChops.DomainDrivenDesign.DomainModeling.Exceptions.User;
-global using CodeChops.DomainDrivenDesign.DomainModeling.Exceptions.User.Core;
+global using CodeChops.DomainDrivenDesign.DomainModeling.Exceptions.Validation;
+global using CodeChops.DomainDrivenDesign.DomainModeling.Extensions;
 global using CodeChops.DomainDrivenDesign.DomainModeling.Factories;
 global using CodeChops.DomainDrivenDesign.DomainModeling.Identities;
-global using CodeChops.DomainDrivenDesign.DomainModeling.Serialization;
-global using CodeChops.DomainDrivenDesign.DomainModeling.TypeExtensions;
 global using CodeChops.DomainDrivenDesign.DomainModeling.Validation;
+global using CodeChops.DomainDrivenDesign.DomainModeling.Validation.Guards;
 global using CodeChops.DomainDrivenDesign.DomainModeling;
+global using CodeChops.GenericMath;
 ";
 
 			i.AddSource("GlobalUsings.g.cs", globalUsingsCode);

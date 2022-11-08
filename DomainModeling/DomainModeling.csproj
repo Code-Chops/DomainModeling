@@ -3,16 +3,27 @@
     <PropertyGroup Label="Main">
         <AssemblyName>CodeChops.DomainDrivenDesign.DomainModeling</AssemblyName>
         <RootNamespace>CodeChops.DomainDrivenDesign.DomainModeling</RootNamespace>
-        <TargetFramework>net6.0</TargetFramework>
-        <LangVersion>10</LangVersion>
+        <TargetFramework>net7.0</TargetFramework>
+        <LangVersion>11</LangVersion>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <EnablePreviewFeatures>true</EnablePreviewFeatures>
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>1.2.8</Version>
-        <PackageReleaseNotes>Improved generated value object comment. Now requiring ToString implementation. Forces readonly struct when struct.</PackageReleaseNotes>
+        <Version>1.3.0</Version>
+        <PackageReleaseNotes>
+			-Added creatable extensions
+			-Changed some value object generation attribute variables
+			-Simplified List and Dictionary entity out-of-range checks
+			-Added ExceptionMessage
+			-Fixed HashSet entity
+			-Added tuple enumerator
+			-Added guards
+			-Reshaped system and validation exceptions
+			-Added unit tests
+			-Changed value object generation (now validation in constructor)
+		</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainDrivenDesign.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>
@@ -65,6 +76,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <PackageReference Include="CodeChops.GenericMath" Version="3.1.1" />
       <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
     </ItemGroup>
 

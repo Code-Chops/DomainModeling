@@ -1,4 +1,4 @@
-﻿using System.Collections.Immutable;
+using System.Collections.Immutable;
 using CodeChops.SourceGeneration.Utilities;
 using Microsoft.CodeAnalysis.Diagnostics;
 
@@ -46,9 +46,7 @@ public class IdGenerator : IIncrementalGenerator
 			}
 		}
 		
-#pragma warning disable CS0168
 		catch (Exception e)
-#pragma warning restore CS0168
 		{
 			var descriptor = new DiagnosticDescriptor(nameof(IdGenerator), "Error", $"{nameof(IdGenerator)} failed to generate due to an error. Please inform CodeChops (www.CodeChops.nl). Error: {e}", "Compilation", DiagnosticSeverity.Error, isEnabledByDefault: true);
 			context.ReportDiagnostic(Diagnostic.Create(descriptor, null));

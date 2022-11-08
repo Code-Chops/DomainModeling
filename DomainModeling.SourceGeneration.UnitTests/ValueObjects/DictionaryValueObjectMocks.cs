@@ -1,22 +1,24 @@
+// ReSharper disable UnusedParameterInPartialMethod
+
 namespace CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration.UnitTests.ValueObjects;
 
-[GenerateDictionaryValueObject<int, string>(addCustomValidation: false, generateToString: true)]
+[GenerateDictionaryValueObject<int, string>(addCustomValidation: false, generateToString: true, useValidationExceptions: false)]
 public partial struct DictionaryClassStructMock { }
 
-[GenerateDictionaryValueObject<int, string>(addCustomValidation: false, generateToString: true)]
+[GenerateDictionaryValueObject<int, string>(addCustomValidation: false, generateToString: true, useValidationExceptions: false)]
 public partial record struct DictionaryRecordStructMock;
 
-[GenerateDictionaryValueObject<int, string>(addCustomValidation: false, generateToString: true)]
+[GenerateDictionaryValueObject<int, string>(addCustomValidation: false, generateToString: true, useValidationExceptions: false)]
 public readonly partial struct DictionaryReadonlyStructMock { }
 
-[GenerateDictionaryValueObject<int, string>(addCustomValidation: false, generateToString: true)]
+[GenerateDictionaryValueObject<int, string>(addCustomValidation: false, generateToString: true, useValidationExceptions: false)]
 public partial record struct DictionaryReadonlyRecordStructMock;
 
 
-[GenerateDictionaryValueObject<int, string>(addCustomValidation: false, generateToString: true)]
+[GenerateDictionaryValueObject<int, string>(addCustomValidation: false, generateToString: true, useValidationExceptions: false)]
 public partial class DictionaryClassMock { }
 
-[GenerateDictionaryValueObject<int, string>(addCustomValidation: false, generateToString: true)]
+[GenerateDictionaryValueObject<int, string>(addCustomValidation: false, generateToString: true, useValidationExceptions: false)]
 public partial record DictionaryRecordClassMock;
 
 
@@ -24,49 +26,55 @@ public partial record DictionaryRecordClassMock;
 	minimumCount: 0,
 	maximumCount: 10, 
 	generateToString: true,
-	addParameterlessConstructor: false,
+	forbidParameterlessConstruction: false,
 	addCustomValidation: true, 
 	generateStaticDefault: false,
 	propertyName: "Test",
 	generateComparison: false, 
 	generateEnumerable: false,
-	generateDefaultConstructor: false,
-	propertyIsPublic: true)]
+	constructorIsPublic: false,
+	propertyIsPublic: true, 
+	allowNull: true,
+	useValidationExceptions: false)]
 public partial record struct DictionaryRecordStructSettingsMock
 {
-	public void Validate() { }
+	private partial void Validate(Validator validator) { }
 }
 
 [GenerateDictionaryValueObject<int, string>(
 	minimumCount: 0,
 	maximumCount: 10, 
 	generateToString: true, 
-	addParameterlessConstructor: false, 
+	forbidParameterlessConstruction: false, 
 	addCustomValidation: true,
 	generateStaticDefault: false, 
 	propertyName: "Test", 
 	generateComparison: false, 
 	generateEnumerable: false, 
-	generateDefaultConstructor: false,
-	propertyIsPublic: true)]
+	constructorIsPublic: false,
+	propertyIsPublic: true, 
+	allowNull: true,
+	useValidationExceptions: false)]
 public partial record DictionaryRecordClassSettingsMock
 {
-	public void Validate() { }
+	private partial void Validate(Validator validator) { }
 }
 
 [GenerateDictionaryValueObject<int, string>(
 	minimumCount: 0, 
 	maximumCount: 10,
 	generateToString: true, 
-	addParameterlessConstructor: false, 
+	forbidParameterlessConstruction: false, 
 	addCustomValidation: true, 
 	generateStaticDefault: false, 
 	propertyName: "Test",
 	generateComparison: false, 
 	generateEnumerable: false, 
-	generateDefaultConstructor: false,
-	propertyIsPublic: true)]
+	constructorIsPublic: false,
+	propertyIsPublic: true, 
+	allowNull: true,
+	useValidationExceptions: false)]
 public sealed partial record DictionarySealedRecordClassSettingsMock
 {
-	public void Validate() { }
+	private partial void Validate(Validator validator) { }
 }

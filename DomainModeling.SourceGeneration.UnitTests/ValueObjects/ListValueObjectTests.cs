@@ -3,7 +3,7 @@
 // ReSharper disable once NotAccessedPositionalProperty.Local
 internal record ValueObjectMock(int Value) : IValueObject;
 
-[GenerateListValueObject<ValueObjectMock>(addCustomValidation: false, generateToString: true)]
+[GenerateListValueObject<ValueObjectMock>(addCustomValidation: false, generateToString: true, useValidationExceptions: false)]
 internal partial record ListMock;
 
 public class ListValueObjectTests

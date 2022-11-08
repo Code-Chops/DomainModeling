@@ -1,4 +1,7 @@
-﻿namespace CodeChops.DomainDrivenDesign.DomainModeling.UnitTests.Identities;
+﻿using CodeChops.DomainDrivenDesign.DomainModeling.Exceptions.System;
+using CodeChops.DomainDrivenDesign.DomainModeling.Validation.Guards;
+
+namespace CodeChops.DomainDrivenDesign.DomainModeling.UnitTests.Identities;
 
 public class GuidTests
 {
@@ -10,7 +13,7 @@ public class GuidTests
 	[InlineData("95BDDA09-AB70-4F83-AABD-0219EA82F516", false)]
 	public void Guid_Should_Be_Valid(string? value, bool expectedToBeValid)
 	{
-		if (!expectedToBeValid) Assert.Throws<ArgumentException>(CreateGuid);
+		if (!expectedToBeValid) Assert.Throws<SystemException<RegexGuard>>(CreateGuid);
 
 		object CreateGuid() => value is null ? new Uuid() : new Uuid(value);
 	}

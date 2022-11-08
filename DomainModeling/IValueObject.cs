@@ -2,7 +2,7 @@
 
 /// <summary>
 /// <para>
-/// <b>Be sure that structural equality comparison is implemented for all children! Also implement ToString().</b>
+/// <em>Be sure that structural equality comparison is implemented for all children! Also implement ToString().</em>
 /// </para>
 /// <para>
 /// A value object should be immutable, lightweight, should have structural equality, and therefore shouldn't contain an ID.
@@ -19,7 +19,7 @@
 /// Value objects can belong to multiple <see cref="AggregateRoot"/>s.
 /// </para>
 /// <para>
-/// <b>
+/// <em>
 /// Use the following attributes to generate simple value objects:
 /// <list type="bullet">
 /// <item>A value object that wraps a primitive type: <see cref="GenerateValueObjectAttribute{T}"/></item>
@@ -27,7 +27,7 @@
 /// <item>A value object that wraps a list: <see cref="GenerateListValueObjectAttribute{T}"/></item>
 /// <item>A value object that wraps a dictionary: <see cref="GenerateDictionaryValueObjectAttribute{TKey, TValue}"/></item>
 /// </list>
-/// </b>
+/// </em>
 /// </para>
 /// </summary>
 public interface IValueObject : IDomainObject

@@ -20,7 +20,7 @@ public static class DisplayStringExtensions
 		var text = new StringBuilder();
 		text.Append(extraText is null ? " " : $" ({extraText}) ");
 		
-		var serializedParameters = JsonSerializer.Serialize(parameters, jsonSerializerOptions ?? JsonSerialization.DefaultDisplayStringOptions) // TODO rewrite to custom serializer.
+		var serializedParameters = JsonSerializer.Serialize(parameters, jsonSerializerOptions ?? JsonSerialization.DefaultDisplayStringOptions)
 			.Replace("\"", "")
 			.Replace(":", " = ")
 			.Replace(",", ", ")
@@ -31,10 +31,4 @@ public static class DisplayStringExtensions
 
 		return text;
 	}
-	
-	// // ReSharper disable ExplicitCallerInfoArgument
-	// public static Validation<TObject> Validate<TObject>(this TObject _, bool throwWhenInvalid = true, 
-	// 	[CallerMemberName] string? callerMemberName = null, [CallerFilePath] string? callerFilePath = null, [CallerLineNumber] int? callerLineNumber = null)
-	// 	where TObject : IDomainObject
-	// 	=> new(throwWhenInvalid, callerMemberName, callerFilePath, callerLineNumber);
 }

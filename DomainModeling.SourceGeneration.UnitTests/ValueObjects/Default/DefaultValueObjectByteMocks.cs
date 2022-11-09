@@ -25,20 +25,20 @@ public partial record DefaultByteRecordClassMock;
 [GenerateValueObject<byte>(minimumValue: 0, maximumValue: 10, constructorIsPublic: true, forbidParameterlessConstruction: false, generateComparison: false, addCustomValidation: true, generateStaticDefault: true, generateToString: true, propertyName: "Test", allowNull: true, useValidationExceptions: false)]
 public partial record struct DefaultByteRecordStructSettingsMock
 {
-	private partial void Validate(Validator validator) { }
+	private partial void Validate(Validator<DefaultByteRecordStructSettingsMock> validator) { }
 	public DefaultByteRecordStructSettingsMock() { }
 }
 
 [GenerateValueObject<byte>(minimumValue: 0, maximumValue: 10, constructorIsPublic: true, forbidParameterlessConstruction: false, generateComparison: false, addCustomValidation: true, generateStaticDefault: true, generateToString: true, propertyName: "Test", allowNull: true, useValidationExceptions: false)]
 public partial record DefaultByteRecordClassSettingsMock
 {
-	private partial void Validate(Validator validator) { }
+	private partial void Validate(Validator<DefaultByteRecordClassSettingsMock> validator) { }
 	public DefaultByteRecordClassSettingsMock() { }
 }
 
 [GenerateValueObject<byte>(minimumValue: 0, maximumValue: 10, constructorIsPublic: true, forbidParameterlessConstruction: false, generateComparison: false, addCustomValidation: true, generateStaticDefault: true, generateToString: true, propertyName: "Test", allowNull: true, useValidationExceptions: false)]
 public sealed partial record DefaultByteSealedRecordClassSettingsMock
 {
-	private partial void Validate(Validator validator) { }
+	private partial void Validate(Validator<DefaultByteSealedRecordClassSettingsMock> validator) { }
 	public DefaultByteSealedRecordClassSettingsMock() { }
 }

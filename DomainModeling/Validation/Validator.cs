@@ -5,7 +5,8 @@ namespace CodeChops.DomainDrivenDesign.DomainModeling.Validation;
 public record Validator<TObject> : Validator
 	where TObject : IDomainObject
 {
-	public static Validator<TObject> ThrowWhenInvalid { get; } = new();
+	// The object is immutable when throwWhenInvalid is true.
+	public static Validator<TObject> ThrowWhenInvalid { get; } = new(throwWhenInvalid: true);
 
 	public Validator(bool throwWhenInvalid = true)
 		: base(objectName: typeof(TObject).Name, throwWhenInvalid: throwWhenInvalid)

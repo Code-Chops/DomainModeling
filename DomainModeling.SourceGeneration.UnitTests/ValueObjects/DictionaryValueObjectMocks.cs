@@ -38,7 +38,7 @@ public partial record DictionaryRecordClassMock;
 	useValidationExceptions: false)]
 public partial record struct DictionaryRecordStructSettingsMock
 {
-	private partial void Validate(Validator validator) { }
+	private partial void Validate(Validator<DictionaryRecordStructSettingsMock> validator) { }
 }
 
 [GenerateDictionaryValueObject<int, string>(
@@ -57,7 +57,7 @@ public partial record struct DictionaryRecordStructSettingsMock
 	useValidationExceptions: false)]
 public partial record DictionaryRecordClassSettingsMock
 {
-	private partial void Validate(Validator validator) { }
+	private partial void Validate(Validator<DictionaryRecordClassSettingsMock> validator) { }
 }
 
 [GenerateDictionaryValueObject<int, string>(
@@ -76,5 +76,5 @@ public partial record DictionaryRecordClassSettingsMock
 	useValidationExceptions: false)]
 public sealed partial record DictionarySealedRecordClassSettingsMock
 {
-	private partial void Validate(Validator validator) { }
+	private partial void Validate(Validator<DictionarySealedRecordClassSettingsMock> validator) { }
 }

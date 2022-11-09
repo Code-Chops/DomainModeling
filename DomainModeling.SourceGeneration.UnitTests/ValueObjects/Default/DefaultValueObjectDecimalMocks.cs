@@ -25,20 +25,20 @@ public partial record DefaultDecimalRecordClassMock;
 [GenerateValueObject<decimal>(minimumValue: 0, maximumValue: 10, constructorIsPublic: true, forbidParameterlessConstruction: false, generateComparison: false, addCustomValidation: true, generateStaticDefault: true, generateToString: true, propertyName: "Test", allowNull: true, useValidationExceptions: false)]
 public partial record struct DefaultDecimalRecordStructSettingsMock
 {
-	private partial void Validate(Validator validator) { }
+	private partial void Validate(Validator<DefaultDecimalRecordStructSettingsMock> validator) { }
 	public DefaultDecimalRecordStructSettingsMock() { }
 }
 
 [GenerateValueObject<decimal>(minimumValue: 0, maximumValue: 10, constructorIsPublic: true, forbidParameterlessConstruction: false, generateComparison: false, addCustomValidation: true, generateStaticDefault: true, generateToString: true, propertyName: "Test", allowNull: true, useValidationExceptions: false)]
 public partial record DefaultDecimalRecordClassSettingsMock
 {
-	private partial void Validate(Validator validator) { }
+	private partial void Validate(Validator<DefaultDecimalRecordClassSettingsMock> validator) { }
 	public DefaultDecimalRecordClassSettingsMock() { }
 }
 
 [GenerateValueObject<decimal>(minimumValue: 0, maximumValue: 10, constructorIsPublic: true, forbidParameterlessConstruction: false, generateComparison: false, addCustomValidation: true, generateStaticDefault: true, generateToString: true, propertyName: "Test", allowNull: true, useValidationExceptions: false)]
 public sealed partial record DefaultDecimalSealedRecordClassSettingsMock
 {
-	private partial void Validate(Validator validator) { }
+	private partial void Validate(Validator<DefaultDecimalSealedRecordClassSettingsMock> validator) { }
 	public DefaultDecimalSealedRecordClassSettingsMock() { }
 }

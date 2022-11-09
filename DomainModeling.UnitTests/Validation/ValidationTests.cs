@@ -15,7 +15,7 @@ public class ValidationTests
 		static ValidatedObjectMock Initialized()
 		{
 			var validation = new Validator<ValidatedObjectMock>(); 
-			return new("ThisNameIsTooLong", ref validation);
+			return new("ThisNameIsTooLong", validation);
 		}
 	}
 	
@@ -27,7 +27,7 @@ public class ValidationTests
 		static ValidatedObjectMock Initialized()
 		{
 			var validation = new Validator<ValidatedObjectMock>(); 
-			return new("Unknown", ref validation);
+			return new("Unknown", validation);
 		}
 	}
 	
@@ -39,7 +39,7 @@ public class ValidationTests
 		static ValidatedObjectMock Initialized()
 		{
 			var validation = new Validator<ValidatedObjectMock>(); 
-			return new(name: null!, ref validation);
+			return new(name: null!, validation);
 		}
 	}
 	
@@ -52,13 +52,37 @@ public class ValidationTests
 	}
 
 	[Fact]
-	public void Validation_ShouldNotThrow_Exception_WhenTryCreate()
+	public void Validation_ShouldNotThrow_WhenTryCreate()
 	{
-		var validation = new Validator<ValidatedObjectMock>(throwWhenInvalid: false);
-		var _ = new ValidatedObjectMock("ThisNameIsTooLong", ref validation);
+		var valid = ValidatedObjectMock.TryCreate("ThisNameIsTooLong", out var o, out var validation);
 		
-		Assert.NotNull(validation.CurrentExceptions);
-		Assert.True(!validation.IsValid);
+		Assert.False(valid);
+		Assert.Null(o);
+		Assert.NotEmpty(validation.CurrentExceptions);
+		Assert.False(validation.IsValid);
 		Assert.Equal(nameof(ValidatedObjectMock), validation.ObjectName);
+	}
+	
+	[Fact]
+	public void Validation_ShouldBeCorrect_WhenTryCreate()
+	{
+		var valid = ValidatedObjectMock.TryCreate("Max", out var o, out var validation);
+		
+		Assert.True(valid);
+		Assert.NotNull(o);
+		Assert.Empty(validation.CurrentExceptions);
+		Assert.True(validation.IsValid);
+		Assert.Equal(nameof(ValidatedObjectMock), validation.ObjectName);
+	}
+	
+	[Fact]
+	public void Validation_ShouldThrow_WhenCreate()
+	{
+		Assert.Throws<ValidationException<InRangeNoOutputGuard<int>>>(Initialized);
+
+		static void Initialized()
+		{
+			ValidatedObjectMock.Create("ThisNameIsTooLong", new());
+		}
 	}
 }

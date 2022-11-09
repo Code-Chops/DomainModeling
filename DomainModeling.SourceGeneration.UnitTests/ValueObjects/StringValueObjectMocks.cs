@@ -41,7 +41,7 @@ public partial record StringRecordClassMock;
 	useValidationExceptions: false)]
 public partial record struct StringRecordStructSettingsMock
 {
-	private partial void Validate(Validator validator) { }
+	private partial void Validate(Validator<StringRecordStructSettingsMock> validator) { }
 }
 
 [GenerateStringValueObject(
@@ -63,7 +63,7 @@ public partial record struct StringRecordStructSettingsMock
 	useValidationExceptions: false)]
 public partial record StringRecordClassSettingsMock
 {
-	private partial void Validate(Validator validator) { }
+	private partial void Validate(Validator<StringRecordClassSettingsMock> validator) { }
 }
 
 [GenerateStringValueObject(
@@ -85,5 +85,5 @@ public partial record StringRecordClassSettingsMock
 	useValidationExceptions: false)]
 public sealed partial record StringSealedRecordClassSettingsMock
 {
-	private partial void Validate(Validator validator) { }
+	private partial void Validate(Validator<StringSealedRecordClassSettingsMock> validator) { }
 }

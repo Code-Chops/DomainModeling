@@ -1,4 +1,5 @@
-﻿using CodeChops.DomainDrivenDesign.DomainModeling.Factories;
+﻿using System.Diagnostics.CodeAnalysis;
+using CodeChops.DomainDrivenDesign.DomainModeling.Factories;
 using CodeChops.DomainDrivenDesign.DomainModeling.Validation;
 using CodeChops.DomainDrivenDesign.DomainModeling.Validation.Guards;
 
@@ -10,7 +11,7 @@ public class ValidatedObjectMock : IDomainObject, ICreatable<ValidatedObjectMock
 	
 	public string Name { get; }
 	
-	public ValidatedObjectMock(string name, ref Validator<ValidatedObjectMock> validator)
+	public ValidatedObjectMock(string name, Validator<ValidatedObjectMock> validator)
 	{
 		var errorCode = new ErrorCodeMock();
 		
@@ -23,5 +24,16 @@ public class ValidatedObjectMock : IDomainObject, ICreatable<ValidatedObjectMock
 	}
 
 	public static ValidatedObjectMock Create(string name, Validator<ValidatedObjectMock> validator)
-		=> new(name, ref validator);
+		=> new(name, validator);
+	
+	public static bool TryCreate(string name, [NotNullWhen(true)] out ValidatedObjectMock? createdObject, out Validator<ValidatedObjectMock> validator)
+	{
+		validator = new Validator<ValidatedObjectMock>(throwWhenInvalid: false);
+		createdObject = Create(name, validator);
+		
+		if (!validator.IsValid)
+			createdObject = default;
+		
+		return validator.IsValid;
+	}
 }

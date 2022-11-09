@@ -47,7 +47,7 @@ public record ListValueObject(
 
 	public override string GetCommentsCode()		=> $"An immutable value object with an immutable list of {this.ElementTypeName} as underlying value.";
 
-	public override string GetToStringCode()		=> $"public override string ToString() => this.ToDisplayString(new {{ Type = \"{this.ElementTypeName}\" }}, this.Count.ToString());";
+	public override string GetToStringCode()		=> $"public override string ToString() => this.ToDisplayString(new {{ Type = \"{this.ElementTypeName}\" }}, extraText: this.Count.ToString());";
 	
 	public override string? GetInterfacesCode()		=> this.GenerateEnumerable ? $"IReadOnlyList<{this.ElementTypeName}>" : null;
 

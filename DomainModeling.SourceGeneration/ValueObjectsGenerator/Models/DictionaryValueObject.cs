@@ -57,7 +57,7 @@ public record DictionaryValueObject(
 	
 	public override string GetCommentsCode()		=> $"An immutable value object with an immutable dictionary of {this.ValueTypeName} by {this.KeyType.Name} as underlying value.";
 
-	public override string GetToStringCode()		=> $"public override string ToString() => this.ToDisplayString(new {{ Key = \"{this.KeyType.Name}\", Value = \"{this.ValueTypeName}\" }}, this.Count.ToString());";
+	public override string GetToStringCode()		=> $"public override string ToString() => this.ToDisplayString(new {{ Key = \"{this.KeyType.Name}\", Value = \"{this.ValueTypeName}\" }}, extraText: this.Count.ToString());";
 	
 	public override string? GetInterfacesCode()		=> this.GenerateEnumerable ? $"IReadOnlyDictionary<{this.KeyType.Name}, {this.ValueType.Name}>" : null;
 

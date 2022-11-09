@@ -11,14 +11,8 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>1.3.1</Version>
-        <PackageReleaseNotes>
-			-Changed creatable extensions to interface extension
-			-Added unit tests
-			-Added trycreate to value object generation
-			-Removed unnecessary white lines in generated value objects
-			-Added regions to generated value object code
-		</PackageReleaseNotes>
+        <Version>1.3.2</Version>
+        <PackageReleaseNotes>Small generated value object formatting changes.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainDrivenDesign.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>

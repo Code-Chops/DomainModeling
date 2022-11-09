@@ -83,7 +83,7 @@ public class ValueObjectGenerator : IIncrementalGenerator
 			.AppendLine(GetHashCode)
 			.AppendLine(GetEquals)
 			.AppendLine(GetComparison)
-			.AppendLine(GetDefaultStatic)
+			.AppendLine(GetStaticDefaultInstance, trimEnd: true)
 			.AppendLine(GetCast)
 			.AppendLine(GetLengthOrCount)
 			.AppendLine(GetEnumerator)
@@ -258,7 +258,7 @@ public class ValueObjectGenerator : IIncrementalGenerator
 		}
 		
 		
-		string? GetDefaultStatic()
+		string? GetStaticDefaultInstance()
 		{
 			if (!data.GenerateStaticDefault) return null;
 			
@@ -297,7 +297,7 @@ public class ValueObjectGenerator : IIncrementalGenerator
 	{extraCastCode}
 ");
 
-			code.TrimEnd().AppendLine().Append("#endregion");
+			code.TrimEnd().AppendLine().Append("	#endregion");
 			
 			return code.ToString();
 		}

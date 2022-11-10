@@ -14,7 +14,11 @@ public abstract record NoOutputGuardBase<TSelf, TInput, TMessageParam> : IGuard<
 		[CallerLineNumber] int? callerLineNumber = null)
 	{
 		if (!TSelf.IsValid(input))
-			validator.Throw(IGuard<TSelf>.CreateException(IGuard<TSelf, TMessageParam>.GetMessage(validator.ObjectName, messageParameter), errorCode, innerException, callerMemberName, callerFilePath, callerLineNumber));
+			validator.Throw(IGuard<TSelf>.CreateException(
+				message: IGuard<TSelf, TMessageParam>.GetMessage(validator.ObjectName, messageParameter), 
+				errorCode, 
+				innerException,
+				callerMemberName, callerFilePath, callerLineNumber));
 
 		return validator;
 	}

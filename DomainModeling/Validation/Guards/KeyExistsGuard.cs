@@ -30,7 +30,7 @@ public static class GuardKeyExistsExtensions
 		where TKey : notnull
 		=> KeyExistsNoOutputGuard<TKey>.Guard(validator, (key, retriever), messageParameter: key, errorCode, innerException);
 	
-	public static TValue GuardKeyExists<TKey, TValue>(this Validator validator, Func<TKey, TValue?> retriever, TKey key, IErrorCode? errorCode, Exception? innerException = null)
+	public static TValue? GuardKeyExists<TKey, TValue>(this Validator validator, Func<TKey, TValue?> retriever, TKey key, IErrorCode? errorCode, Exception? innerException = null)
 		where TKey : notnull
 		=> KeyExistsGuard<TKey, TValue>.Guard(validator, (key, retriever), messageParameter: key, errorCode, innerException);
 }

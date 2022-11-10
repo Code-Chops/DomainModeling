@@ -21,7 +21,7 @@ public partial record struct Uuid
     public Uuid(string value, Validator<Uuid>? validator = null)
 		: this(value)
     {
-	    validator ??= Validator<Uuid>.ThrowWhenInvalid;
+	    validator ??= Validator<Uuid>.Default;
 	    validator.GuardRegex(value, "^[0-9A-F]{32}$", errorCode: null);
     }
 }

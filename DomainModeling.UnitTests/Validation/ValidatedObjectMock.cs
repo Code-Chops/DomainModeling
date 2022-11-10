@@ -28,7 +28,7 @@ public class ValidatedObjectMock : IDomainObject, ICreatable<ValidatedObjectMock
 	
 	public static bool TryCreate(string name, [NotNullWhen(true)] out ValidatedObjectMock? createdObject, out Validator<ValidatedObjectMock> validator)
 	{
-		validator = new Validator<ValidatedObjectMock>(throwWhenInvalid: false);
+		validator = Validator<ValidatedObjectMock>.DoNotThrow();
 		createdObject = Create(name, validator);
 		
 		if (!validator.IsValid)

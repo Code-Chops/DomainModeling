@@ -153,7 +153,7 @@ public class ValueObjectGenerator : IIncrementalGenerator
 			
 			var interfaces = new StringBuilder(" : IValueObject");
 			if (data.ConstructorIsPublic && data.UseValidationExceptions) interfaces.Append($", ICreatable<{data.Name}, {data.UnderlyingTypeName}>");
-			if (data.GenerateComparison && data.GetCompareToCode() is not null) interfaces.Append($", IEquatable<{data.Name}>");
+			if (data.GenerateComparison && data.GetCompareToCode() is not null) interfaces.Append($", IEquatable<{data.Name}{data.NullOperator}>");
 			if (data.GenerateStaticDefault) interfaces.Append($", IHasDefaultInstance<{data.Name}>");
 			if (data.AddIComparable && data.GenerateComparison) interfaces.Append($", IComparable<{data.Name}>");
 			if (data.GenerateEnumerable && data is IEnumerableValueObject enumerableValueObject) interfaces.Append($", IEnumerable<{enumerableValueObject.ElementTypeName}>");
@@ -374,10 +374,10 @@ public class ValueObjectGenerator : IIncrementalGenerator
 				code
 					.Append("var validator = ")
 					.AppendLine(data.ValueObjectType.IsRefLikeType 
-						? $"new Validator(objectName: typeof({data.ValueObjectType.GetTypeNameWithGenericParameters()}).Name, throwWhenInvalid: true);" 
-						: $"{validatorType}.ThrowWhenInvalid;");
+						? $"new Validator(objectName: typeof({data.ValueObjectType.GetTypeNameWithGenericParameters()}).Name, ValidatorMode.Throw);" 
+						: $"{validatorType}.Default;");
 			else
-				code.AppendLine($"validator ??= {(data.ValueObjectType.IsRefLikeType ? $"new Validator(objectName: typeof({data.ValueObjectType.GetTypeNameWithGenericParameters()}).Name, throwWhenInvalid: true);" : $"{validatorType}.ThrowWhenInvalid;")}");
+				code.AppendLine($"validator ??= {(data.ValueObjectType.IsRefLikeType ? $"new Validator(objectName: typeof({data.ValueObjectType.GetTypeNameWithGenericParameters()}).Name, ValidatorMode.Throw);" : $"{validatorType}.Default;")}");
 					
 			var index = rootNamespace.IndexOf(".Domain", StringComparison.Ordinal);
 			
@@ -425,8 +425,8 @@ public class ValueObjectGenerator : IIncrementalGenerator
 		string GetFactories()
 		{
 			var validatorInitialization = data.ValueObjectType.IsRefLikeType
-				? $"new Validator(objectName: typeof({data.ValueObjectType.GetTypeNameWithGenericParameters()}).Name, throwWhenInvalid: false)" 
-				: "new(throwWhenInvalid: false)";
+				? $"new Validator(objectName: typeof({data.ValueObjectType.GetTypeNameWithGenericParameters()}).Name, ValidatorMode.DoNotThrow)" 
+				: $"{validatorType}.DoNotThrow()";
 			
 			return $@"
 	#region Factories

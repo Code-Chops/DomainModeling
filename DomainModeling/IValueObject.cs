@@ -6,7 +6,7 @@ public interface IValueObject<T> : IValueObject
 	public static bool TryCreate<TObject, T1>(T1 parameter1, [NotNullWhen(true)] out TObject createdObject, out Validator<TObject> validator)
 		where TObject : ICreatable<TObject, T1>, IDomainObject
 	{
-		validator = new Validator<TObject>(throwWhenInvalid: false);
+		validator = Validator<TObject>.DoNotThrow();
 		createdObject = TObject.Create(parameter1, validator);
 
 		return validator.IsValid;
@@ -15,7 +15,7 @@ public interface IValueObject<T> : IValueObject
 	public static bool TryCreate<TObject, T1, T2>(T1 parameter1, T2 parameter2, [NotNullWhen(true)] out TObject createdObject, out Validator<TObject> validator)
 		where TObject : ICreatable<TObject, T1, T2>, IDomainObject
 	{
-		validator = new Validator<TObject>(throwWhenInvalid: false);
+		validator = Validator<TObject>.DoNotThrow();
 		createdObject = TObject.Create(parameter1, parameter2, validator);
 
 		return validator.IsValid;
@@ -24,7 +24,7 @@ public interface IValueObject<T> : IValueObject
 	public static bool TryCreate<TObject, T1, T2, T3>(T1 parameter1, T2 parameter2, T3 parameter3, [NotNullWhen(true)] out TObject createdObject, out Validator<TObject> validator)
 		where TObject : ICreatable<TObject, T1, T2, T3>, IDomainObject
 	{
-		validator = new Validator<TObject>(throwWhenInvalid: false);
+		validator = Validator<TObject>.DoNotThrow();
 		createdObject = TObject.Create(parameter1, parameter2, parameter3, validator);
 
 		return validator.IsValid;
@@ -33,7 +33,7 @@ public interface IValueObject<T> : IValueObject
 	public static bool TryCreate<TObject, T1, T2, T3, T4>(T1 parameter1, T2 parameter2, T3 parameter3, T4 parameter4, [NotNullWhen(true)] out TObject createdObject, out Validator<TObject> validator)
 		where TObject : ICreatable<TObject, T1, T2, T3, T4>, IDomainObject
 	{
-		validator = new Validator<TObject>(throwWhenInvalid: false);
+		validator = Validator<TObject>.DoNotThrow();
 		createdObject = TObject.Create(parameter1, parameter2, parameter3, parameter4, validator);
 
 		return validator.IsValid;
@@ -42,7 +42,7 @@ public interface IValueObject<T> : IValueObject
 	public static bool TryCreate<TObject, T1, T2, T3, T4, T5>(T1 parameter1, T2 parameter2, T3 parameter3, T4 parameter4, T5 parameter5, [NotNullWhen(true)] out TObject? createdObject, out Validator<TObject> validator)
 		where TObject : ICreatable<TObject, T1, T2, T3, T4, T5>, IDomainObject
 	{
-		validator = new Validator<TObject>(throwWhenInvalid: false);
+		validator = Validator<TObject>.DoNotThrow();
 		createdObject = TObject.Create(parameter1, parameter2, parameter3, parameter4, parameter5, validator);
 
 		return validator.IsValid;

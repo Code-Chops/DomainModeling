@@ -5,11 +5,15 @@ namespace CodeChops.DomainDrivenDesign.DomainModeling.Validation;
 public record Validator<TObject> : Validator
 	where TObject : IDomainObject
 {
-	// The object is immutable when throwWhenInvalid is true.
-	public static Validator<TObject> ThrowWhenInvalid { get; } = new(throwWhenInvalid: true);
+	/// <inheritdoc cref="ValidatorMode.Throw"/>
+	public static Validator<TObject> Default { get; } = new();
+	/// <inheritdoc cref="ValidatorMode.DoNotThrow"/>
+	public static Validator<TObject> DoNotThrow() => new(ValidatorMode.DoNotThrow);
+	/// <inheritdoc cref="ValidatorMode.Ignore"/>
+	public static Validator<TObject> IgnoreWhenInvalid { get; } = new(ValidatorMode.Ignore);
 
-	public Validator(bool throwWhenInvalid = true)
-		: base(objectName: typeof(TObject).Name, throwWhenInvalid: throwWhenInvalid)
+	protected Validator(ValidatorMode mode = ValidatorMode.Throw)
+		: base(objectName: typeof(TObject).Name, mode)
 	{
 	}
 }
@@ -27,17 +31,17 @@ public record Validator
 	
 	public bool IsValid => this.CurrentExceptions.Count == 0;
 
-	private readonly bool _throwWhenInvalid;
+	public ValidatorMode Mode { get; }
 	
-	public Validator(string objectName, bool throwWhenInvalid = true)
+	public Validator(string objectName, ValidatorMode mode = ValidatorMode.Throw)
 	{
 		this.ObjectName = objectName;
 		this._currentExceptions = new();
-		this._throwWhenInvalid = throwWhenInvalid;
+		this.Mode = mode;
 	}
 	
 	/// <summary>
-	/// Throws the exception when <see cref="_throwWhenInvalid"/> is true.
+	/// Throws the exception when <see cref="Mode"/> is true.
 	/// </summary>
 	// ReSharper disable twice ExplicitCallerInfoArgument
 	public void Throw<TException>(TException exception)
@@ -45,12 +49,12 @@ public record Validator
 		=> this.Throw<TException, int>(exception);
 
 	/// <summary>
-	/// Throws the exception when <see cref="_throwWhenInvalid"/> is true, otherwise it returns the default of the provided return type (so it can be used in an inline if-else).
+	/// Throws the exception when <see cref="Mode"/> is true, otherwise it returns the default of the provided return type (so it can be used in an inline if-else).
 	/// </summary>
 	public TReturn? Throw<TException, TReturn>(TException exception)
 		where TException : ICustomException
 	{
-		if (this._throwWhenInvalid)
+		if (this.Mode == ValidatorMode.Throw)
 		{
 			if (exception is IValidationException validationException) validationException.Throw<int>();
 			if (exception is ISystemException systemException) systemException.Throw<int>();
@@ -58,7 +62,8 @@ public record Validator
 			throw new InvalidOperationException($"An unknown exception type was thrown during validation. Exception: {exception.GetType().Name}.");
 		}
 		
-		this._currentExceptions.Add(exception);
+		if (this.Mode != ValidatorMode.Ignore)
+			this._currentExceptions.Add(exception);
 
 		return default;
 	}

@@ -24,7 +24,7 @@ public abstract class DictionaryEntity<TSelf, TKey, TValue> : Entity, IReadOnlyD
 	public bool TryGetValue(TKey key, [MaybeNullWhen(false)] out TValue value) => this.Dictionary.TryGetValue(key, out value);
 
 	public virtual TValue this[TKey key]
-		=> Validator<TSelf>.ThrowWhenInvalid.GuardKeyExists(this.GetValueOrDefault, key, errorCode: null);
+		=> Validator<TSelf>.Default.GuardKeyExists(this.GetValueOrDefault, key, errorCode: null);
 
 	public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator() => this.Dictionary.GetEnumerator();
 	IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();

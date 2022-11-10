@@ -87,5 +87,5 @@ public record ListValueObject(
 
 	public override string GetExtraCode() => $@"
 	public {(this.IsUnsealedRecordClass ?  "virtual " : null)}{this.ElementTypeName} this[int index] 
-		=> Validator<{this.Name}>.ThrowWhenInvalid.GuardInRange(this.{this.PropertyName}, index, errorCode: null)!;";
+		=> Validator<{this.Name}>.Default.GuardInRange(this.{this.PropertyName}, index, errorCode: null)!;";
 }

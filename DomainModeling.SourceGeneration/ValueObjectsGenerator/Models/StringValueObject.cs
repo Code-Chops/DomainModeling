@@ -113,5 +113,5 @@ public record StringValueObject(
 	public override string GetEnumeratorCode() => $"public IEnumerator<{this.ElementTypeName}> GetEnumerator() => this.{this.PropertyName}.GetEnumerator();";
 
 	public override string GetExtraCode()	=> $@"public {(this.IsUnsealedRecordClass ?  "virtual " : null)}{this.ElementTypeName}? this[int index] 
-		=> Validator<{this.Name}>.ThrowWhenInvalid.GuardInRange(this.{this.PropertyName}, index, errorCode: null)!;";
+		=> Validator<{this.Name}>.Default.GuardInRange(this.{this.PropertyName}, index, errorCode: null)!;";
 }

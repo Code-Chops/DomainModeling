@@ -11,8 +11,8 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>1.3.3</Version>
-        <PackageReleaseNotes>Updated packages.</PackageReleaseNotes>
+        <Version>1.4.0</Version>
+        <PackageReleaseNotes>Added ValidatorModes and added Ignore.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainDrivenDesign.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>

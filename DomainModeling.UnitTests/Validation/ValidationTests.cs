@@ -14,7 +14,7 @@ public class ValidationTests
 
 		static ValidatedObjectMock Initialized()
 		{
-			var validation = new Validator<ValidatedObjectMock>(); 
+			var validation = Validator<ValidatedObjectMock>.Default; 
 			return new("ThisNameIsTooLong", validation);
 		}
 	}
@@ -26,7 +26,7 @@ public class ValidationTests
 
 		static ValidatedObjectMock Initialized()
 		{
-			var validation = new Validator<ValidatedObjectMock>(); 
+			var validation = Validator<ValidatedObjectMock>.Default; 
 			return new("Unknown", validation);
 		}
 	}
@@ -38,7 +38,7 @@ public class ValidationTests
 
 		static ValidatedObjectMock Initialized()
 		{
-			var validation = new Validator<ValidatedObjectMock>(); 
+			var validation = Validator<ValidatedObjectMock>.Default; 
 			return new(name: null!, validation);
 		}
 	}
@@ -82,7 +82,7 @@ public class ValidationTests
 
 		static void Initialized()
 		{
-			ValidatedObjectMock.Create("ThisNameIsTooLong", new());
+			ValidatedObjectMock.Create("ThisNameIsTooLong", Validator<ValidatedObjectMock>.Default);
 		}
 	}
 }

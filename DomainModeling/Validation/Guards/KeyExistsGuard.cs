@@ -4,7 +4,9 @@ namespace CodeChops.DomainDrivenDesign.DomainModeling.Validation.Guards;
 
 public record KeyExistsNoOutputGuard<TKey> : NoOutputGuardBase<KeyExistsNoOutputGuard<TKey>, (TKey Key, Func<TKey, bool> Retriever), TKey>, 
 	INoOutputGuard<(TKey Key, Func<TKey, bool> Retriever)>, 
-	IHasExceptionMessage<KeyExistsNoOutputGuard<TKey>, TKey>, IGuard<KeyExistsNoOutputGuard<TKey>, TKey> where TKey : notnull
+	IHasExceptionMessage<KeyExistsNoOutputGuard<TKey>, TKey>, 
+	IGuard<KeyExistsNoOutputGuard<TKey>, TKey> 
+	where TKey : notnull
 {
 	public static string GetMessage(string objectName, TKey key)
 		=> "{0} {1} not found.";
@@ -14,7 +16,9 @@ public record KeyExistsNoOutputGuard<TKey> : NoOutputGuardBase<KeyExistsNoOutput
 }
 
 public record KeyExistsGuard<TKey, TValue> : OutputGuardBase<KeyExistsGuard<TKey, TValue>, (TKey Key, Func<TKey, TValue?> Retriever), TValue, TKey>, 
-	IOutputGuard<(TKey Key, Func<TKey, TValue?> Retriever), TValue>, IHasExceptionMessage<KeyExistsGuard<TKey, TValue>, TKey>, IGuard<KeyExistsGuard<TKey, TValue>, TKey> 
+	IOutputGuard<(TKey Key, Func<TKey, TValue?> Retriever), TValue>, 
+	IHasExceptionMessage<KeyExistsGuard<TKey, TValue>, TKey>, 
+	IGuard<KeyExistsGuard<TKey, TValue>, TKey> 
 	where TKey : notnull
 {
 	public static string GetMessage(string objectName, TKey key)

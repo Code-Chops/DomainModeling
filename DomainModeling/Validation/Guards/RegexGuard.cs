@@ -5,7 +5,8 @@ namespace CodeChops.DomainDrivenDesign.DomainModeling.Validation.Guards;
 
 public record RegexGuard : NoOutputGuardBase<RegexGuard, (string Value, string Pattern), string>, 
 	INoOutputGuard<(string Value, string Pattern)>, 
-	IHasExceptionMessage<RegexGuard, string>, IGuard<RegexGuard, string>
+	IHasExceptionMessage<RegexGuard, string>, 
+	IGuard<RegexGuard, string>
 {
 	public static string GetMessage(string objectName, string value)
 		=> "{0} {1} is incorrect.";

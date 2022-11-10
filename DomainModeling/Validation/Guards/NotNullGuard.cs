@@ -4,7 +4,8 @@ namespace CodeChops.DomainDrivenDesign.DomainModeling.Validation.Guards;
 
 public record NotNullGuard<TValue> : NoOutputGuardBase<NotNullGuard<TValue?>, TValue?, string>, 
 	INoOutputGuard<TValue>, 
-	IHasExceptionMessage<NotNullGuard<TValue?>, string>, IGuard<NotNullGuard<TValue?>, string>
+	IHasExceptionMessage<NotNullGuard<TValue?>, string>, 
+	IGuard<NotNullGuard<TValue?>, string>
 {
 	public static string GetMessage(string objectName, string parameterName)
 		=> "Required data {1} for {0} is missing.";

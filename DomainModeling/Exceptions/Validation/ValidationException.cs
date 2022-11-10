@@ -22,7 +22,7 @@ public class ValidationException<TGuard> : ValidationException
 /// <inheritdoc cref="IValidationException"/>
 /// </summary>
 // ReSharper disable once UnusedTypeParameter
-public class ValidationException : CustomException, IValidationException
+public class ValidationException : CustomException, IDomainObject, IValidationException
 {
 	/// <summary>
 	/// Is communicated externally!
@@ -31,7 +31,7 @@ public class ValidationException : CustomException, IValidationException
 	
 	/// <param name="errorCode">Is communicated externally!</param>
 	/// <param name="message">Is communicated externally!</param>
-	public ValidationException(IErrorCode errorCode, string message, Exception? innerException = null)
+	internal ValidationException(IErrorCode errorCode, string message, Exception? innerException = null)
 		: base(message: $"{message} (error code: {errorCode}).", innerException)
 	{
 		this.ErrorCode = errorCode;

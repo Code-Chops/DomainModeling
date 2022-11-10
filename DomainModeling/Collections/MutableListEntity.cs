@@ -16,7 +16,7 @@ public abstract class MutableListEntity<TSelf, TElement> : Entity, IReadOnlyList
 	public int Count => this.List.Count;
 	
 	public virtual TElement this[int index] 
-		=> Validator<TSelf>.Default.GuardInRange(this.List, index, errorCode: null)!;
+		=> Validator.Get<TSelf>.Default.GuardInRange(this.List, index, errorCode: null)!;
 
 	IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
 	public IEnumerator<TElement> GetEnumerator() => this.List.GetEnumerator();

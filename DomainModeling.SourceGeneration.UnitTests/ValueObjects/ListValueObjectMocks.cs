@@ -38,7 +38,7 @@ public partial record ListRecordClassMock;
 	useValidationExceptions: false)]
 public partial record struct ListRecordStructSettingsMock
 {
-	private partial void Validate(Validator<ListRecordStructSettingsMock> validator) { }
+	private partial void Validate(Validator validator) { }
 }
 
 [GenerateListValueObject<string>(
@@ -57,7 +57,7 @@ public partial record struct ListRecordStructSettingsMock
 	useValidationExceptions: false)]
 public partial record ListRecordClassSettingsMock
 {
-	private partial void Validate(Validator<ListRecordClassSettingsMock> validator) { }
+	private partial void Validate(Validator validator) { }
 }
 
 [GenerateListValueObject<string>(
@@ -75,5 +75,5 @@ public partial record ListRecordClassSettingsMock
 	useValidationExceptions: false)]
 public sealed partial record ListSealedRecordClassSettingsMock
 {
-	private partial void Validate(Validator<ListSealedRecordClassSettingsMock> validator) { }
+	private partial void Validate(Validator validator) { }
 }

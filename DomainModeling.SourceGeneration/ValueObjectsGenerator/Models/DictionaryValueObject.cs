@@ -97,7 +97,7 @@ public record DictionaryValueObject(
 
 	public override string GetExtraCode() => $@"
 	public {(this.IsUnsealedRecordClass ? "virtual " : null)}{this.ValueTypeName} this[{this.KeyType.Name} key] 
-		=> Validator<{this.Name}>.Default.GuardKeyExists(this.{this.PropertyName}.GetValueOrDefault, key, errorCode: null)!;
+		=> Validator.Get<{this.Name}>.Default.GuardKeyExists(this.{this.PropertyName}.GetValueOrDefault, key, errorCode: null)!;
 
 	[DebuggerHidden]
 	[EditorBrowsable(EditorBrowsableState.Never)]

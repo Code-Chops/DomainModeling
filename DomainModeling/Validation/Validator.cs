@@ -1,26 +1,17 @@
-﻿using System.Runtime.InteropServices;
+﻿namespace CodeChops.DomainDrivenDesign.DomainModeling.Validation;
 
-namespace CodeChops.DomainDrivenDesign.DomainModeling.Validation;
-
-public record Validator<TObject> : Validator
-	where TObject : IDomainObject
-{
-	/// <inheritdoc cref="ValidatorMode.Throw"/>
-	public static Validator<TObject> Default { get; } = new();
-	/// <inheritdoc cref="ValidatorMode.DoNotThrow"/>
-	public static Validator<TObject> DoNotThrow() => new(ValidatorMode.DoNotThrow);
-	/// <inheritdoc cref="ValidatorMode.Ignore"/>
-	public static Validator<TObject> IgnoreWhenInvalid { get; } = new(ValidatorMode.Ignore);
-
-	protected Validator(ValidatorMode mode = ValidatorMode.Throw)
-		: base(objectName: typeof(TObject).Name, mode)
-	{
-	}
-}
-
-[StructLayout(LayoutKind.Auto)]
 public record Validator
 {
+	public static class Get<TObject>
+	{
+		/// <inheritdoc cref="ValidatorMode.Default"/>
+		public static Validator Default { get; } = new(objectName: typeof(TObject).Name);
+		/// <inheritdoc cref="ValidatorMode.DoNotThrow"/>
+		public static Validator DoNotThrow() => new(objectName: typeof(TObject).Name, ValidatorMode.DoNotThrow);
+		/// <inheritdoc cref="ValidatorMode.Oblivious"/>
+		public static Validator Oblivious { get; } = new(objectName: typeof(TObject).Name, ValidatorMode.Oblivious);
+	}
+	
 	public string ObjectName { get; }
 
 	/// <summary>
@@ -32,8 +23,14 @@ public record Validator
 	public bool IsValid => this.CurrentExceptions.Count == 0;
 
 	public ValidatorMode Mode { get; }
-	
-	public Validator(string objectName, ValidatorMode mode = ValidatorMode.Throw)
+
+	/// <summary>
+	/// <p><b>Use Validator.<see cref="Validator.Get{TObject}"/> to get a validator.</b></p>
+	/// <p>Only use this constructor if the object to be validated is a ref struct.</p>
+	/// </summary>
+	/// <param name="objectName"></param>
+	/// <param name="mode"></param>
+	public Validator(string objectName, ValidatorMode mode = ValidatorMode.Default)
 	{
 		this.ObjectName = objectName;
 		this._currentExceptions = new();
@@ -54,7 +51,7 @@ public record Validator
 	public TReturn? Throw<TException, TReturn>(TException exception)
 		where TException : ICustomException
 	{
-		if (this.Mode == ValidatorMode.Throw)
+		if (this.Mode == ValidatorMode.Default)
 		{
 			if (exception is IValidationException validationException) validationException.Throw<int>();
 			if (exception is ISystemException systemException) systemException.Throw<int>();
@@ -62,7 +59,7 @@ public record Validator
 			throw new InvalidOperationException($"An unknown exception type was thrown during validation. Exception: {exception.GetType().Name}.");
 		}
 		
-		if (this.Mode != ValidatorMode.Ignore)
+		if (this.Mode != ValidatorMode.Oblivious)
 			this._currentExceptions.Add(exception);
 
 		return default;

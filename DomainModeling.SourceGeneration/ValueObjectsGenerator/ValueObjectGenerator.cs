@@ -53,12 +53,8 @@ public class ValueObjectGenerator : IIncrementalGenerator
 		if (!configOptionsProvider.GlobalOptions.TryGetValue("build_property.RootNamespace", out var rootNamespace))
 			rootNamespace = "global::";
 		
-		var validatorType = data.ValueObjectType.IsRefLikeType 
-			? "Validator" 
-			: $"Validator<{data.ValueObjectType.GetTypeNameWithGenericParameters()}>";
-			
 		var validatorArgument = data.UseValidationExceptions
-			? $", {validatorType}? validator = null"
+			? ", Validator? validator = null"
 			: null;
 
 		var code = new StringBuilder();
@@ -374,10 +370,10 @@ public class ValueObjectGenerator : IIncrementalGenerator
 				code
 					.Append("var validator = ")
 					.AppendLine(data.ValueObjectType.IsRefLikeType 
-						? $"new Validator(objectName: typeof({data.ValueObjectType.GetTypeNameWithGenericParameters()}).Name, ValidatorMode.Throw);" 
-						: $"{validatorType}.Default;");
+						? $"new Validator(objectName: typeof({data.ValueObjectType.GetTypeNameWithGenericParameters()}).Name, ValidatorMode.Default);" 
+						: $"Validator.Get<{data.Name}>.Default;");
 			else
-				code.AppendLine($"validator ??= {(data.ValueObjectType.IsRefLikeType ? $"new Validator(objectName: typeof({data.ValueObjectType.GetTypeNameWithGenericParameters()}).Name, ValidatorMode.Throw);" : $"{validatorType}.Default;")}");
+				code.AppendLine($"validator ??= {(data.ValueObjectType.IsRefLikeType ? $"new Validator(objectName: typeof({data.ValueObjectType.GetTypeNameWithGenericParameters()}).Name, ValidatorMode.Default);" : $"Validator.Get<{data.Name}>.Default;")}");
 					
 			var index = rootNamespace.IndexOf(".Domain", StringComparison.Ordinal);
 			
@@ -426,13 +422,13 @@ public class ValueObjectGenerator : IIncrementalGenerator
 		{
 			var validatorInitialization = data.ValueObjectType.IsRefLikeType
 				? $"new Validator(objectName: typeof({data.ValueObjectType.GetTypeNameWithGenericParameters()}).Name, ValidatorMode.DoNotThrow)" 
-				: $"{validatorType}.DoNotThrow()";
+				: $"Validator.Get<{data.Name}>.DoNotThrow()";
 			
 			return $@"
 	#region Factories
 	[DebuggerHidden] 
 	[EditorBrowsable(EditorBrowsableState.Never)]
-	public static bool TryCreate({data.UnderlyingTypeName} {data.LocalVariableName}, {(data.NullOperator is null ? null : "[NotNullWhen(true)] ")}out {data.Name}{data.NullOperator} createdObject, out {validatorType} validator)
+	public static bool TryCreate({data.UnderlyingTypeName} {data.LocalVariableName}, {(data.NullOperator is null ? null : "[NotNullWhen(true)] ")}out {data.Name}{data.NullOperator} createdObject, out Validator validator)
 	{{
 		validator = {validatorInitialization};
 		createdObject = Create({data.LocalVariableName}{(validatorArgument is null ? null : ", validator")});
@@ -458,7 +454,7 @@ public class ValueObjectGenerator : IIncrementalGenerator
 
 			if (data.AddCustomValidation)
 				code.Append($@"
-	private partial void Validate({validatorType} validator);
+	private partial void Validate(Validator validator);
 ");
 			else 
 				code.Append($@"
@@ -466,7 +462,7 @@ public class ValueObjectGenerator : IIncrementalGenerator
 	/// This placeholder is created so Validate will always be called from the constructor.
 	/// If a custom validation already exists, this will cause an error. In that case, set addCustomValidation to true.
 	/// </summary>
-	private void Validate({validatorType} validator)
+	private void Validate(Validator validator)
 	{{
 	}}
 ");

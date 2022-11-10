@@ -89,7 +89,7 @@ public abstract record ValueObjectBase(
 	public abstract string? GetValueTransformation();
 	public abstract string? GetEnumeratorCode();
 	/// <summary>
-	/// Don't forget to place [EditorBrowsable(EditorBrowsableState.Never)] and/or [DebuggerHidden] at the <em>extra</em> lines.
+	/// Don't forget to place [EditorBrowsable(EditorBrowsableState.Never)] and/or [DebuggerHidden] at the each extra line.
 	/// </summary>
 	public abstract string? GetExtraCode();
 }

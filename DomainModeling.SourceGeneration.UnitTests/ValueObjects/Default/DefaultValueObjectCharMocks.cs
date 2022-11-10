@@ -25,20 +25,20 @@ public partial record DefaultCharRecordClassMock;
 [GenerateValueObject<char>(minimumValue: 0, maximumValue: 10, constructorIsPublic: true, forbidParameterlessConstruction: false, generateComparison: false, addCustomValidation: true, generateStaticDefault: true, generateToString: true, propertyName: "Test", allowNull: true, useValidationExceptions: false)]
 public partial record struct DefaultCharRecordStructSettingsMock
 {
-	private partial void Validate(Validator<DefaultCharRecordStructSettingsMock> validator) { }
+	private partial void Validate(Validator validator) { }
 	public DefaultCharRecordStructSettingsMock() { }
 }
 
 [GenerateValueObject<char>(minimumValue: 0, maximumValue: 10, constructorIsPublic: true, forbidParameterlessConstruction: false, generateComparison: false, addCustomValidation: true, generateStaticDefault: true, generateToString: true, propertyName: "Test", allowNull: true, useValidationExceptions: false)]
 public partial record DefaultCharRecordClassSettingsMock
 {
-	private partial void Validate(Validator<DefaultCharRecordClassSettingsMock> validator) { }
+	private partial void Validate(Validator validator) { }
 	public DefaultCharRecordClassSettingsMock() { }
 }
 
 [GenerateValueObject<char>(minimumValue: 0, maximumValue: 10, constructorIsPublic: true, forbidParameterlessConstruction: false, generateComparison: false, addCustomValidation: true, generateStaticDefault: true, generateToString: true, propertyName: "Test", allowNull: true, useValidationExceptions: false)]
 public sealed partial record DefaultCharSealedRecordClassSettingsMock
 {
-	private partial void Validate(Validator<DefaultCharSealedRecordClassSettingsMock> validator) { }
+	private partial void Validate(Validator validator) { }
 	public DefaultCharSealedRecordClassSettingsMock() { }
 }

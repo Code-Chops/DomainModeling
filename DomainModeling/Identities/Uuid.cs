@@ -18,10 +18,10 @@ public partial record struct Uuid
     {
     }
     
-    public Uuid(string value, Validator<Uuid>? validator = null)
+    public Uuid(string value, Validator? validator = null)
 		: this(value)
     {
-	    validator ??= Validator<Uuid>.Default;
+	    validator ??= Validator.Get<Uuid>.Default;
 	    validator.GuardRegex(value, "^[0-9A-F]{32}$", errorCode: null);
     }
 }

@@ -11,8 +11,8 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>1.4.1</Version>
-        <PackageReleaseNotes>Prohibit returning invalid state object when guard invalidates.</PackageReleaseNotes>
+        <Version>1.4.2</Version>
+        <PackageReleaseNotes>Changed creation of Validator.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainDrivenDesign.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>

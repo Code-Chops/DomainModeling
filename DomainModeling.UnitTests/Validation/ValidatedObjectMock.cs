@@ -11,7 +11,7 @@ public class ValidatedObjectMock : IDomainObject, ICreatable<ValidatedObjectMock
 	
 	public string Name { get; }
 	
-	public ValidatedObjectMock(string name, Validator<ValidatedObjectMock> validator)
+	public ValidatedObjectMock(string name, Validator validator)
 	{
 		var errorCode = new ErrorCodeMock();
 		
@@ -23,12 +23,12 @@ public class ValidatedObjectMock : IDomainObject, ICreatable<ValidatedObjectMock
 		this.Name = name;
 	}
 
-	public static ValidatedObjectMock Create(string name, Validator<ValidatedObjectMock> validator)
+	public static ValidatedObjectMock Create(string name, Validator validator)
 		=> new(name, validator);
 	
-	public static bool TryCreate(string name, [NotNullWhen(true)] out ValidatedObjectMock? createdObject, out Validator<ValidatedObjectMock> validator)
+	public static bool TryCreate(string name, [NotNullWhen(true)] out ValidatedObjectMock? createdObject, out Validator validator)
 	{
-		validator = Validator<ValidatedObjectMock>.DoNotThrow();
+		validator = Validator.Get<ValidatedObjectMock>.DoNotThrow();
 		createdObject = Create(name, validator);
 		
 		if (!validator.IsValid)

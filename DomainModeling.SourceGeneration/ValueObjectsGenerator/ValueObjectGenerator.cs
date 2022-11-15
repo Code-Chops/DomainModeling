@@ -350,7 +350,7 @@ public class ValueObjectGenerator : IIncrementalGenerator
 	/// </summary>
 	[Obsolete(""{error}."")]
 	[EditorBrowsable(EditorBrowsableState.Never)]
-	private readonly {data.UnderlyingTypeName} {data.BackingFieldName} = {data.GetDefaultValue()}!;
+	private readonly {data.UnderlyingTypeName} {data.BackingFieldName} = {data.GetDefaultValue()};
 	#endregion
 ";
 		}
@@ -425,6 +425,11 @@ public class ValueObjectGenerator : IIncrementalGenerator
 				: $"Validator.Get<{data.Name}>.DoNotThrow()";
 			
 			return $@"
+	[DebuggerHidden] 
+	[EditorBrowsable(EditorBrowsableState.Never)]
+	public static bool TryCreate({data.UnderlyingTypeName} {data.LocalVariableName}, {(data.NullOperator is null ? null : "[NotNullWhen(true)] ")}out {data.Name}{data.NullOperator} createdObject)
+		=> TryCreate({data.LocalVariableName}, out createdObject, out _);
+
 	#region Factories
 	[DebuggerHidden] 
 	[EditorBrowsable(EditorBrowsableState.Never)]
@@ -475,15 +480,16 @@ public class ValueObjectGenerator : IIncrementalGenerator
 		
 		string? GetExtraCode()
 		{
-			var code = data.GetExtraCode();
-			
-			return code is null
-				? null
-				: $@"
+			var code = data.GetExtraCode()?.Trim();
+
+			if (code is null)
+				return null;
+
+			return $@"
 	#region TypeSpecific
 	[DebuggerHidden]
 	[EditorBrowsable(EditorBrowsableState.Never)]
-	{data.GetExtraCode()}
+	{code}
 	#endregion
 ";
 		}

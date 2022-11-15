@@ -25,7 +25,7 @@ public class SystemException<TGuard> : CustomException, ISystemException
 	public int? LineNumber { get; }
 	
 	// ReSharper disable ExplicitCallerInfoArgument
-	public SystemException(ExceptionMessage<TGuard> message, Exception? innerException = null,
+	public SystemException(ValidationExceptionMessage message, Exception? innerException = null,
 		[CallerMemberName] string? callerMemberName = null,
 		[CallerFilePath] string? callerFilePath = null, 
 		[CallerLineNumber] int? callerLineNumber = null)

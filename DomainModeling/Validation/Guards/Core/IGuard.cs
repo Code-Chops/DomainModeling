@@ -25,24 +25,24 @@ public interface IGuard<TSelf, in TMessageParam> : IGuard<TSelf>
 		return exception.Throw<TReturn>();
 	}
 	
-	public static ExceptionMessage<TSelf> GetMessage<TObject>(TMessageParam messageParameter)
+	public static ValidationExceptionMessage GetMessage<TObject>(TMessageParam messageParameter)
 		where TObject : IDomainObject
 		=> GetMessage(typeof(TObject).Name, messageParameter);
 	
-	public static ExceptionMessage<TSelf> GetMessage(string objectName, TMessageParam messageParameter)
+	public static ValidationExceptionMessage GetMessage(string objectName, TMessageParam messageParameter)
 	{
 		var message = TSelf.GetMessage(objectName, messageParameter);
 		
 		return messageParameter is ITuple tuple
-			? new ExceptionMessage<TSelf>(objectName, message, tuple.GetEnumerable())
-			: new ExceptionMessage<TSelf>(objectName, message, messageParameter);
+			? new ValidationExceptionMessage(objectName, message, tuple.GetEnumerable())
+			: new ValidationExceptionMessage(objectName, message, messageParameter);
 	}
 }
 
 public interface IGuard<TSelf> : IGuard
 	where TSelf : IGuard<TSelf>
 {
-	public static CustomException CreateException(ExceptionMessage<TSelf> message, IErrorCode? errorCode, Exception? innerException,
+	public static CustomException CreateException(ValidationExceptionMessage message, IErrorCode? errorCode, Exception? innerException,
 		[CallerMemberName] string? callerMemberName = null,
 		[CallerFilePath] string? callerFilePath = null, 
 		[CallerLineNumber] int? callerLineNumber = null)

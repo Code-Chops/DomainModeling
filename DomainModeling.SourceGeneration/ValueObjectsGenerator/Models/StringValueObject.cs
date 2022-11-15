@@ -65,7 +65,7 @@ public record StringValueObject(
 	
 	public override string? GetInterfacesCode()		=> null;
 
-	public override string GetHashCodeCode()		=> $"public override int GetHashCode() => String.GetHashCode({this.PropertyName}, StringComparison.{this.StringComparison});";
+	public override string GetHashCodeCode()		=> $"public override int GetHashCode() => String.GetHashCode(this.{this.PropertyName}, StringComparison.{this.StringComparison});";
 
 	public override string GetEqualsCode()			=> $"public {(this.IsUnsealedRecordClass ? "virtual " : null)}bool Equals({this.Name}{this.NullOperator} other) => String.Equals(this.{this.PropertyName}, other{this.NullOperator}.{this.PropertyName}, StringComparison.{this.StringComparison});";
 	public override string GetObjectEqualsCode()	=> $"public override {(this.IsUnsealedRecordClass ? "virtual " : null)}bool Equals(object? other) => other is {this.Name} {this.LocalVariableName} && this.Equals({this.LocalVariableName});";

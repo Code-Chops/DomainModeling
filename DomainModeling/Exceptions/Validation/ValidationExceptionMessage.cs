@@ -3,7 +3,7 @@
 /// <summary>
 /// Is communicated externally!
 /// </summary>
-[GenerateValueObject<(string, List<object>)>(minimumValue: 0, maximumValue: Int32.MaxValue, addCustomValidation: false, generateToString: false, useValidationExceptions: false)]
+[GenerateValueObject<(string, ImmutableList<object>)>(minimumValue: 0, maximumValue: Int32.MaxValue, addCustomValidation: false, generateToString: false, useValidationExceptions: false)]
 public readonly partial record struct ValidationExceptionMessage
 {
 	public override partial string ToString() => String.Format(this.Message, this.Parameters.ToArray());
@@ -16,15 +16,23 @@ public readonly partial record struct ValidationExceptionMessage
 	/// <summary>
 	/// Is communicated externally!
 	/// </summary>
-	public IReadOnlyList<object?> Parameters => this.Value.Item2;
+	public ImmutableList<object?> Parameters => this.Value.Item2!;
 
 	public ValidationExceptionMessage(string objectName, string message, IEnumerable<object?> parameters)
-		: this(((string, List<object>))(message, new object?[] { objectName}.Concat(parameters).ToList())!)
+		: this(((string, ImmutableList<object>))(message, new object?[] { objectName}.Concat(parameters).ToImmutableList())!)
 	{
 	}
 	
 	public ValidationExceptionMessage(string objectName, string message, object? parameter)
-		: this(((string, List<object>))(message, new[] { objectName, parameter }.ToList())!)
+		: this(((string, ImmutableList<object>))(message, new[] { objectName, parameter }.ToImmutableList())!)
+	{	
+	}
+	
+	/// <summary>
+	/// Used for deserialization.
+	/// </summary>
+	internal ValidationExceptionMessage(string message, IEnumerable<object?> parameters)
+		: this(((string, ImmutableList<object>))(message, parameters.ToImmutableList())!)
 	{	
 	}
 }

@@ -29,7 +29,7 @@ public class ValidationException : CustomException, IDomainObject, IValidationEx
 	/// </summary>
 	public IErrorCode ErrorCode { get; }
 	
-	public ValidationExceptionMessage ValidationValidationMessage { get; }
+	public ValidationExceptionMessage ValidationMessage { get; }
 	
 	/// <param name="errorCode">Is communicated externally!</param>
 	/// <param name="validationMessage">Is communicated externally!</param>
@@ -37,7 +37,7 @@ public class ValidationException : CustomException, IDomainObject, IValidationEx
 		: base(message: $"{validationMessage} (error code: {errorCode}).", innerException)
 	{
 		this.ErrorCode = errorCode;
-		this.ValidationValidationMessage = validationMessage;
+		this.ValidationMessage = validationMessage;
 	}
 }
 

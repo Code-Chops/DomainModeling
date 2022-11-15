@@ -10,13 +10,8 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>1.4.4</Version>
-        <PackageReleaseNotes>
-			-Removed enable preview features.
-			-Small value object generation enhancements.
-			-Added ValidationExceptionMessage to ValidationException.
-			-Updated GenericMath.
-		</PackageReleaseNotes>
+        <Version>1.4.5</Version>
+        <PackageReleaseNotes>Renamed ValidationValidationMessage.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainDrivenDesign.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>

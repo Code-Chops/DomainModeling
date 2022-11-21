@@ -8,4 +8,5 @@
 public abstract partial class Entity : IDomainObject, IEquatable<Entity?>, IHasId
 {
 	public override string ToString() => this.ToDisplayString(new { this.Id });
+
 }

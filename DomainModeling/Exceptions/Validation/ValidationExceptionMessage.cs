@@ -1,4 +1,4 @@
-﻿namespace CodeChops.DomainDrivenDesign.DomainModeling.Exceptions.Validation;
+namespace CodeChops.DomainDrivenDesign.DomainModeling.Exceptions.Validation;
 
 /// <summary>
 /// Is communicated externally!
@@ -19,12 +19,12 @@ public readonly partial record struct ValidationExceptionMessage
 	public ImmutableList<object?> Parameters => this.Value.Item2!;
 
 	public ValidationExceptionMessage(string objectName, string message, IEnumerable<object?> parameters)
-		: this(((string, ImmutableList<object>))(message, new object?[] { objectName}.Concat(parameters).ToImmutableList())!)
+		: this((message, new object?[] { objectName}.Concat(parameters).ToImmutableList())!)
 	{
 	}
 	
 	public ValidationExceptionMessage(string objectName, string message, object? parameter)
-		: this(((string, ImmutableList<object>))(message, new[] { objectName, parameter }.ToImmutableList())!)
+		: this((message, new[] { objectName, parameter }.ToImmutableList())!)
 	{	
 	}
 	
@@ -32,7 +32,7 @@ public readonly partial record struct ValidationExceptionMessage
 	/// Used for deserialization.
 	/// </summary>
 	internal ValidationExceptionMessage(string message, IEnumerable<object?> parameters)
-		: this(((string, ImmutableList<object>))(message, parameters.ToImmutableList())!)
+		: this((message, parameters.ToImmutableList())!)
 	{	
 	}
 }

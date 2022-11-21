@@ -74,7 +74,7 @@ using CodeChops.DomainDrivenDesign.DomainModeling.Identities;
 {GetClassDeclaration()}
 {{	
 	{GetIdPropertyCreation()}
-	{GetIdObjectCreation(data.IdGenerationMethod, data.IdTypeName, data.IdBaseType, data.IdPrimitiveType)}
+	{GetIdObjectCreation()}
 	{GetEqualityComparison()}
 }}
 
@@ -84,24 +84,17 @@ using CodeChops.DomainDrivenDesign.DomainModeling.Identities;
 		return code.ToString();
 
 
-		string? GetPrimitiveTypeUsing()
-		{
-			return data.PrimitiveTypeNamespace is null 
+		string? GetPrimitiveTypeUsing() 
+			=> data.PrimitiveTypeNamespace is null
 				? null
 				: $"using {data.PrimitiveTypeNamespace};";
-		}
-		
-		
+
+
 		// Creates the namespace definition of the location of the enum definition (or null if the namespace is not defined).
-		string? GetNamespaceDeclaration()
-		{
-			if (data.Namespace is null) return null;
+		string? GetNamespaceDeclaration() 
+			=> data.Namespace is null ? null : $@"namespace {data.Namespace};";
 
-			var code = $@"namespace {data.Namespace};";
-			return code;
-		}
 
-		
 		string GetClassDeclaration()
 		{
 			var iHasIdImplementation = data.IdGenerationMethod == IdGenerationMethod.EntityBase || data.IdPropertyName != DefaultIdPropertyName 
@@ -196,50 +189,50 @@ using CodeChops.DomainDrivenDesign.DomainModeling.Identities;
 		}
 		
 		
-		static string? GetIdObjectCreation(IdGenerationMethod generationMethod, string idName, string idBaseType, string? primitiveType)
+		string? GetIdObjectCreation()
 		{
-			if (generationMethod == IdGenerationMethod.EntityBase)
+			if (data.IdGenerationMethod == IdGenerationMethod.EntityBase)
 				return null;
 			
 			var code = $@"
-	public readonly partial record struct {idName} : {idBaseType}
+	public readonly partial record struct {data.IdTypeName} : IId<{data.IdTypeName}, {data.PrimitiveType}>
 	{{ 
 		[DebuggerHidden]
 		[EditorBrowsable(EditorBrowsableState.Never)]
-		public override string ToString() => this.ToDisplayString(new {{ this.Value, PrimitiveType = nameof({primitiveType}) }});
+		public override string ToString() => this.ToDisplayString(new {{ this.Value, PrimitiveType = nameof({data.PrimitiveType}) }});
 
 		[EditorBrowsable(EditorBrowsableState.Never)]
-		public {primitiveType} Value {{ get; private init; }}
+		public {data.PrimitiveType} Value {{ get; private init; }}
 	
 		[DebuggerHidden]
 		[EditorBrowsable(EditorBrowsableState.Never)]
-		public static explicit operator {idName}({primitiveType} value) => new() {{ Value = value }};
+		public static explicit operator {data.IdTypeName}({data.PrimitiveType} value) => new() {{ Value = value }};
 		[DebuggerHidden]
 		[EditorBrowsable(EditorBrowsableState.Never)]
-		public static implicit operator {primitiveType}({idName} id) => id.Value;
+		public static implicit operator {data.PrimitiveType}({data.IdTypeName}{data.NullOperator} id) => id.Value;
 	
 		#region Comparison
 		[DebuggerHidden]
 		[EditorBrowsable(EditorBrowsableState.Never)]
-		public int CompareTo(IId? other) 
-			=> other is null ? 1 : this.Value.CompareTo(({primitiveType})other.GetValue());
+		public int CompareTo({data.IdTypeName} other) 
+			=> {(data.NullOperator is null ? null : "other is null ? 1 : ")}this.Value.CompareTo(({data.IdTypeName})other.GetValue());
 		
 		[DebuggerHidden]
 		[EditorBrowsable(EditorBrowsableState.Never)]
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static bool operator <	({idName} left, IId right)	=> left.CompareTo(right) <	0;
+		public static bool operator <	({data.IdTypeName} left, {data.IdTypeName}{data.NullOperator} right)	=> left.CompareTo(right) <	0;
 		[DebuggerHidden]
 		[EditorBrowsable(EditorBrowsableState.Never)]
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static bool operator <=	({idName} left, IId right)	=> left.CompareTo(right) <= 0;
+		public static bool operator <=	({data.IdTypeName} left, {data.IdTypeName}{data.NullOperator} right)	=> left.CompareTo(right) <= 0;
 		[DebuggerHidden]
 		[EditorBrowsable(EditorBrowsableState.Never)]
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static bool operator >	({idName} left, IId right)	=> left.CompareTo(right) >	0;
+		public static bool operator >	({data.IdTypeName} left, {data.IdTypeName}{data.NullOperator} right)	=> left.CompareTo(right) >	0;
 		[DebuggerHidden]
 		[EditorBrowsable(EditorBrowsableState.Never)]
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static bool operator >=	({idName} left, IId right)	=> left.CompareTo(right) >= 0;
+		public static bool operator >=	({data.IdTypeName} left, {data.IdTypeName}{data.NullOperator} right)	=> left.CompareTo(right) >= 0;
 		#endregion
 	
 		/// <summary>
@@ -249,18 +242,18 @@ using CodeChops.DomainDrivenDesign.DomainModeling.Identities;
 		public object GetValue() => this.Value;
 	
 		[DebuggerHidden]
-		public bool HasDefaultValue => this.Value.Equals(IId<{primitiveType}>.DefaultValue);
+		public bool HasDefaultValue => this.Value.Equals(IId<{data.PrimitiveType}>.DefaultValue);
 	
 		[DebuggerHidden]
-		public {idName}({primitiveType} value)
+		public {data.IdTypeName}({data.PrimitiveType} value)
 		{{
 			this.Value = value;
 		}}
 		
 		[DebuggerHidden]
-		public {idName}()
+		public {data.IdTypeName}()
 		{{
-			this.Value = default({primitiveType});
+			this.Value = default({data.PrimitiveType});
 		}}
 	}}
 ";

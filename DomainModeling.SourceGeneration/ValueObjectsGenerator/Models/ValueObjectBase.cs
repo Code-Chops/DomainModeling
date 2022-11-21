@@ -24,7 +24,7 @@ public abstract record ValueObjectBase(
 	/// <summary>
 	/// Null conditional operator for the value object.
 	/// </summary>
-	public string? NullOperator { get; } = ValueObjectType.TypeKind is not TypeKind.Struct ? "?" : null;
+	public char? NullOperator { get; } = ValueObjectType.TypeKind is not TypeKind.Struct ? '?' : null;
 	
 	/// <summary>
 	/// The name of the value object being generated.

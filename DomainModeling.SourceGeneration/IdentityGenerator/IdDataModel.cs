@@ -1,4 +1,4 @@
-﻿namespace CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration.IdentityGenerator;
+namespace CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration.IdentityGenerator;
 
 public record IdDataModel(
 	string OuterClassName, 
@@ -7,7 +7,7 @@ public record IdDataModel(
 	string OuterClassDeclaration, 
 	string IdTypeName, 
 	string IdPropertyName, 
-	string IdPrimitiveType,
+	string PrimitiveType,
 	string? PrimitiveTypeNamespace,
-	string IdBaseType, 
-	IdGenerationMethod IdGenerationMethod);
+	IdGenerationMethod IdGenerationMethod,
+	char? NullOperator);

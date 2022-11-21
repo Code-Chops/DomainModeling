@@ -1,4 +1,6 @@
-﻿namespace CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration.IdentityGenerator;
+using CodeChops.SourceGeneration.Utilities.Extensions;
+
+namespace CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration.IdentityGenerator;
 
 internal static class IdSyntaxReceiver
 {
@@ -36,7 +38,7 @@ internal static class IdSyntaxReceiver
 
 		var idTypeName = attribute.GetArgumentOrDefault("name", IdGenerator.DefaultIdTypeName)!;
 		var idPropertyName = attribute.GetArgumentOrDefault("propertyName", IdGenerator.DefaultIdPropertyName)!;
-		var (baseType, primitiveType, primitiveTypeNamespace) = GetTypeNames(attribute, type);
+		var (primitiveType, primitiveTypeNamespace) = GetTypeNames(attribute);
 		
 		var data = new IdDataModel(
 			OuterClassName: type.Name,
@@ -45,15 +47,15 @@ internal static class IdSyntaxReceiver
 			OuterClassDeclaration: type.GetObjectDeclaration(),
 			IdTypeName: idTypeName,
 			IdPropertyName: idPropertyName,
-			IdPrimitiveType: primitiveType,
+			PrimitiveType: primitiveType,
 			PrimitiveTypeNamespace: primitiveTypeNamespace,
-			IdBaseType: baseType,
-			IdGenerationMethod: GetClassType(type, isEntityBase));
+			IdGenerationMethod: GetClassType(type, isEntityBase),
+			NullOperator: type.NullableAnnotation is NullableAnnotation.Annotated && type.TypeKind is not TypeKind.Struct ? '?' : null);
 		
 		return data;
 	}
 
-	private static (string BaseType, string PrimitiveType, string? PrimitiveTypeNamespace) GetTypeNames(AttributeData attribute, INamedTypeSymbol type)
+	private static (string PrimitiveType, string? PrimitiveTypeNamespace) GetTypeNames(AttributeData attribute)
 	{
 		var primitiveType = IdGenerator.DefaultIdPrimitiveType;
 		var primitiveTypeNamespace = (string?)null;
@@ -70,20 +72,7 @@ internal static class IdSyntaxReceiver
 				primitiveTypeNamespace = null;
 		}
 
-		// Get the primitive type as provided in the constructor of the attribute.
-		if (attribute.TryGetArguments(out var argumentConstantByNames) && argumentConstantByNames!.TryGetValue("baseType", out var providedBaseType) && providedBaseType.Value is not null)
-		{
-			if (providedBaseType.Value is not ITypeSymbol value)
-				throw new InvalidCastException($"Unable to cast value of \"baseType\" to {nameof(ITypeSymbol)}, from attribute for {attribute.AttributeClass?.Name} of class {type.Name}.");
-
-			var baseType = value.GetTypeNameWithGenericParameters().Replace(" ", "");
-			baseType = baseType.Replace("<>", "");
-			baseType = baseType.Replace("<,>", $"<{primitiveType}>");
-			
-			return (baseType, primitiveType, primitiveTypeNamespace);
-		}
-		
-		return ($"IId<{primitiveType}>", primitiveType, primitiveTypeNamespace);
+		return (primitiveType, primitiveTypeNamespace);
 	}
 
 	private static IdGenerationMethod GetClassType(INamedTypeSymbol type, bool isEntityBase)

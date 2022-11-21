@@ -1,6 +1,12 @@
-﻿namespace CodeChops.DomainDrivenDesign.DomainModeling.Identities;
+namespace CodeChops.DomainDrivenDesign.DomainModeling.Identities;
 
-public interface IId<out TPrimitive> : IId, IComparable<IId>
+public interface IId<TSelf, TPrimitive> : IId<TPrimitive>, IComparable<TSelf>
+	where TSelf : IId<TSelf, TPrimitive>
+	where TPrimitive : IEquatable<TPrimitive>, IComparable<TPrimitive>
+{
+}
+
+public interface IId<out TPrimitive> : IId
 	where TPrimitive : IEquatable<TPrimitive>, IComparable<TPrimitive>
 {
 	protected static readonly TPrimitive DefaultValue = default!;

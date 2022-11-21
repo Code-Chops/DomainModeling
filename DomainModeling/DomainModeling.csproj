@@ -10,8 +10,8 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>1.4.8</Version>
-        <PackageReleaseNotes>Extended ICustomException.</PackageReleaseNotes>
+        <Version>1.4.9</Version>
+        <PackageReleaseNotes>Extendend IId with TSelf parameter. Changed equality comparison of generated IDs.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainDrivenDesign.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>

@@ -1,4 +1,4 @@
-﻿using System.Runtime.Serialization;
+using System.Runtime.Serialization;
 
 namespace CodeChops.DomainDrivenDesign.DomainModeling.Identities;
 
@@ -11,7 +11,7 @@ namespace CodeChops.DomainDrivenDesign.DomainModeling.Identities;
 /// </para>
 /// </summary>
 /// <typeparam name="TPrimitive">The primitive value of the identifier.</typeparam>
-public abstract record Id<TSelf, TPrimitive> : IId<TPrimitive>
+public abstract record Id<TSelf, TPrimitive> : IId<TSelf, TPrimitive>
 	where TSelf : Id<TSelf, TPrimitive>
 	where TPrimitive : IEquatable<TPrimitive>, IComparable<TPrimitive>
 {
@@ -29,17 +29,17 @@ public abstract record Id<TSelf, TPrimitive> : IId<TPrimitive>
 	public static implicit operator TPrimitive(Id<TSelf, TPrimitive> id) => id.Value;
 
 	#region Comparison
-	public int CompareTo(IId? other) 
+	public int CompareTo(TSelf? other) 
 		=> other is null ? 1 : this.Value.CompareTo((TPrimitive)other.GetValue());
 	
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	public static bool operator <	(Id<TSelf, TPrimitive> left, IId right)	=> left.CompareTo(right) <	0;
+	public static bool operator <	(Id<TSelf, TPrimitive> left, TSelf? right)	=> left.CompareTo(right) <	0;
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	public static bool operator <=	(Id<TSelf, TPrimitive> left, IId right)	=> left.CompareTo(right) <= 0;
+	public static bool operator <=	(Id<TSelf, TPrimitive> left, TSelf? right)	=> left.CompareTo(right) <= 0;
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	public static bool operator >	(Id<TSelf, TPrimitive> left, IId right)	=> left.CompareTo(right) >	0;
+	public static bool operator >	(Id<TSelf, TPrimitive> left, TSelf? right)	=> left.CompareTo(right) >	0;
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	public static bool operator >=	(Id<TSelf, TPrimitive> left, IId right)	=> left.CompareTo(right) >= 0;
+	public static bool operator >=	(Id<TSelf, TPrimitive> left, TSelf? right)	=> left.CompareTo(right) >= 0;
 	#endregion
 
 	/// <summary>
@@ -47,7 +47,7 @@ public abstract record Id<TSelf, TPrimitive> : IId<TPrimitive>
 	/// </summary>
 	public object GetValue() => this.Value;
 
-	public bool HasDefaultValue => this.Value.Equals(IId<TPrimitive>.DefaultValue);
+	public bool HasDefaultValue => this.Value.Equals(IId<TSelf, TPrimitive>.DefaultValue);
 
 	protected Id(TPrimitive value)
 	{

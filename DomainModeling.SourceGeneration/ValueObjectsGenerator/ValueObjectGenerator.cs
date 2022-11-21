@@ -79,7 +79,7 @@ public class ValueObjectGenerator : IIncrementalGenerator
 			.AppendLine(GetHashCode)
 			.AppendLine(GetEquals)
 			.AppendLine(GetComparison)
-			.AppendLine(GetStaticDefaultInstance, trimEnd: true)
+			.AppendLine(GetStaticDefault, trimEnd: true)
 			.AppendLine(GetCast)
 			.AppendLine(GetLengthOrCount)
 			.AppendLine(GetEnumerator)
@@ -150,7 +150,7 @@ public class ValueObjectGenerator : IIncrementalGenerator
 			var interfaces = new StringBuilder(" : IValueObject");
 			if (data.ConstructorIsPublic && data.UseValidationExceptions) interfaces.Append($", ICreatable<{data.Name}, {data.UnderlyingTypeName}>");
 			if (data.GenerateComparison && data.GetCompareToCode() is not null) interfaces.Append($", IEquatable<{data.Name}{data.NullOperator}>");
-			if (data.GenerateStaticDefault) interfaces.Append($", IHasDefaultInstance<{data.Name}>");
+			if (data.GenerateStaticDefault) interfaces.Append($", IHasDefault<{data.Name}>");
 			if (data.AddIComparable && data.GenerateComparison) interfaces.Append($", IComparable<{data.Name}>");
 			if (data.GenerateEnumerable && data is IEnumerableValueObject enumerableValueObject) interfaces.Append($", IEnumerable<{enumerableValueObject.ElementTypeName}>");
 
@@ -254,18 +254,18 @@ public class ValueObjectGenerator : IIncrementalGenerator
 		}
 		
 		
-		string? GetStaticDefaultInstance()
+		string? GetStaticDefault()
 		{
 			if (!data.GenerateStaticDefault) return null;
 			
 			return data.ForbidParameterlessConstruction 
 				? $@"
 	[DebuggerHidden]
-	public static {data.Name} DefaultInstance {{ get; }} = new()
+	public static {data.Name} Default {{ get; }} = new()
 ;"
 				: $@"
 	[DebuggerHidden]
-	public static {data.Name} DefaultInstance {{ get; }} = new({data.GetDefaultValue()});
+	public static {data.Name} Default {{ get; }} = new({data.GetDefaultValue()});
 ";
 		}
 		

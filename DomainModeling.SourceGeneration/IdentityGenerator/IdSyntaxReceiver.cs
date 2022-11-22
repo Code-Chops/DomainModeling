@@ -1,5 +1,3 @@
-using CodeChops.SourceGeneration.Utilities.Extensions;
-
 namespace CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration.IdentityGenerator;
 
 internal static class IdSyntaxReceiver
@@ -38,7 +36,7 @@ internal static class IdSyntaxReceiver
 
 		var idTypeName = attribute.GetArgumentOrDefault("name", IdGenerator.DefaultIdTypeName)!;
 		var idPropertyName = attribute.GetArgumentOrDefault("propertyName", IdGenerator.DefaultIdPropertyName)!;
-		var (primitiveType, primitiveTypeNamespace) = GetTypeNames(attribute);
+		var primitiveTypeFullName = GetTypeName(attribute);
 		
 		var data = new IdDataModel(
 			OuterClassName: type.Name,
@@ -47,32 +45,27 @@ internal static class IdSyntaxReceiver
 			OuterClassDeclaration: type.GetObjectDeclaration(),
 			IdTypeName: idTypeName,
 			IdPropertyName: idPropertyName,
-			PrimitiveType: primitiveType,
-			PrimitiveTypeNamespace: primitiveTypeNamespace,
+			PrimitiveTypeFullName: primitiveTypeFullName,
 			IdGenerationMethod: GetClassType(type, isEntityBase),
 			NullOperator: type.NullableAnnotation is NullableAnnotation.Annotated && type.TypeKind is not TypeKind.Struct ? '?' : null);
 		
 		return data;
 	}
 
-	private static (string PrimitiveType, string? PrimitiveTypeNamespace) GetTypeNames(AttributeData attribute)
+	private static string GetTypeName(AttributeData attribute)
 	{
-		var primitiveType = IdGenerator.DefaultIdPrimitiveType;
-		var primitiveTypeNamespace = (string?)null;
-		
 		// Get the primitive type using the generic parameter of the attribute. 
 		var genericParameterName = attribute.AttributeClass?.TypeArguments.SingleOrDefault();
-		if (genericParameterName is not null)
-		{
-			primitiveType = genericParameterName.GetTypeNameWithGenericParameters();
+		if (genericParameterName is null) 
+			return IdGenerator.DefaultIdPrimitiveType;
+		
+		var primitiveType = genericParameterName.GetTypeNameWithGenericParameters();
 
-			primitiveTypeNamespace = genericParameterName.ContainingNamespace.ToDisplayString();
+		var primitiveTypeNamespace = genericParameterName.ContainingNamespace.ToDisplayString();
 			
-			if (genericParameterName.ContainingNamespace.IsGlobalNamespace || primitiveTypeNamespace == "System")
-				primitiveTypeNamespace = null;
-		}
-
-		return (primitiveType, primitiveTypeNamespace);
+		return genericParameterName.ContainingNamespace.IsGlobalNamespace 
+			? $"global::{primitiveType}" 
+			: $"global::{primitiveTypeNamespace}.{primitiveType}";
 	}
 
 	private static IdGenerationMethod GetClassType(INamedTypeSymbol type, bool isEntityBase)

@@ -8,13 +8,13 @@ namespace CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration.IdentityG
 public class IdGenerator : IIncrementalGenerator
 {
 	internal const string AttributeNamespace		= "CodeChops.DomainDrivenDesign.DomainModeling.Attributes";
-	internal const string AttributeName		= "GenerateStronglyTypedId";
+	internal const string AttributeName				= "GenerateStronglyTypedId";
 	internal const string EntityNamespace			= "CodeChops.DomainDrivenDesign.DomainModeling";
 	internal const string EntityName				= "Entity";
 	internal const string IdNamespace				= "CodeChops.DomainDrivenDesign.DomainModeling.Identities";
 	internal const string DefaultIdTypeName			= "Identity";
 	internal const string DefaultIdPropertyName		= "Id";
-	internal const string DefaultIdPrimitiveType	= "UInt64";
+	internal const string DefaultIdPrimitiveType	= "global::System.UInt64";
 	
 	public void Initialize(IncrementalGeneratorInitializationContext context)
 	{		
@@ -68,7 +68,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Runtime.CompilerServices;
 using CodeChops.DomainDrivenDesign.DomainModeling.Identities;
-{GetPrimitiveTypeUsing()}
+
 {GetNamespaceDeclaration()}
 
 {GetClassDeclaration()}
@@ -82,12 +82,6 @@ using CodeChops.DomainDrivenDesign.DomainModeling.Identities;
 ").TrimEnd();
 
 		return code.ToString();
-
-
-		string? GetPrimitiveTypeUsing() 
-			=> data.PrimitiveTypeNamespace is null
-				? null
-				: $"using {data.PrimitiveTypeNamespace};";
 
 
 		// Creates the namespace definition of the location of the enum definition (or null if the namespace is not defined).
@@ -195,21 +189,21 @@ using CodeChops.DomainDrivenDesign.DomainModeling.Identities;
 				return null;
 			
 			var code = $@"
-	public readonly partial record struct {data.IdTypeName} : IId<{data.IdTypeName}, {data.PrimitiveType}>
+	public readonly partial record struct {data.IdTypeName} : IId<{data.IdTypeName}, {data.PrimitiveTypeFullName}>
 	{{ 
 		[DebuggerHidden]
 		[EditorBrowsable(EditorBrowsableState.Never)]
-		public override string ToString() => this.ToDisplayString(new {{ this.Value, PrimitiveType = nameof({data.PrimitiveType}) }});
+		public override string ToString() => this.ToDisplayString(new {{ this.Value, PrimitiveType = nameof({data.PrimitiveTypeFullName}) }});
 
 		[EditorBrowsable(EditorBrowsableState.Never)]
-		public {data.PrimitiveType} Value {{ get; private init; }}
+		public {data.PrimitiveTypeFullName} Value {{ get; private init; }}
 	
 		[DebuggerHidden]
 		[EditorBrowsable(EditorBrowsableState.Never)]
-		public static explicit operator {data.IdTypeName}({data.PrimitiveType} value) => new() {{ Value = value }};
+		public static explicit operator {data.IdTypeName}({data.PrimitiveTypeFullName} value) => new() {{ Value = value }};
 		[DebuggerHidden]
 		[EditorBrowsable(EditorBrowsableState.Never)]
-		public static implicit operator {data.PrimitiveType}({data.IdTypeName}{data.NullOperator} id) => id.Value;
+		public static implicit operator {data.PrimitiveTypeFullName}({data.IdTypeName}{data.NullOperator} id) => id.Value;
 	
 		#region Comparison
 		[DebuggerHidden]
@@ -242,10 +236,10 @@ using CodeChops.DomainDrivenDesign.DomainModeling.Identities;
 		public object GetValue() => this.Value;
 	
 		[DebuggerHidden]
-		public bool HasDefaultValue => this.Value.Equals(IId<{data.PrimitiveType}>.DefaultValue);
+		public bool HasDefaultValue => this.Value.Equals(IId<{data.PrimitiveTypeFullName}>.DefaultValue);
 	
 		[DebuggerHidden]
-		public {data.IdTypeName}({data.PrimitiveType} value)
+		public {data.IdTypeName}({data.PrimitiveTypeFullName} value)
 		{{
 			this.Value = value;
 		}}
@@ -253,7 +247,7 @@ using CodeChops.DomainDrivenDesign.DomainModeling.Identities;
 		[DebuggerHidden]
 		public {data.IdTypeName}()
 		{{
-			this.Value = default({data.PrimitiveType});
+			this.Value = default({data.PrimitiveTypeFullName});
 		}}
 	}}
 ";

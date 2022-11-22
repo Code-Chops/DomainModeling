@@ -1,6 +1,4 @@
-﻿using System.Collections.Immutable;
-
-namespace CodeChops.DomainDrivenDesign.DomainModeling.Extensions;
+﻿namespace CodeChops.DomainDrivenDesign.DomainModeling.Extensions;
 
 public static class TupleExtensions
 {

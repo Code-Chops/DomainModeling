@@ -1,4 +1,4 @@
-using CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration.IdentityGenerator;
+﻿using CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration.IdentityGenerator;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -15,11 +15,11 @@ public class IdBaseTypeExtractionTest
 	}
 	
 	[Theory]
-	[InlineData("[GenerateStronglyTypedId]", 						"UInt64")]
-	[InlineData("[GenerateStronglyTypedId<ulong>]",					"UInt64")]				
-	[InlineData("[GenerateStronglyTypedId<string>]",				"string")] 	
-	[InlineData("[GenerateStronglyTypedId<string>(typeof(Guid))]",	"string")]
-	[InlineData("[GenerateStronglyTypedId<Tuple>(typeof(Tuple))]",	"Tuple")]
+	[InlineData("[GenerateStronglyTypedId]", 						"global::System.UInt64")]
+	[InlineData("[GenerateStronglyTypedId<ulong>]",					"global::System.UInt64")]				
+	[InlineData("[GenerateStronglyTypedId<string>]",				"global::System.String")] 	
+	[InlineData("[GenerateStronglyTypedId<string>(typeof(Guid))]",	"global::System.String")]
+	[InlineData("[GenerateStronglyTypedId<Tuple>(typeof(Tuple))]",	"global::System.Tuple")]
 	public void IdType_Extraction_IsCorrect(string attribute, string expectedPrimitiveType)
 	{
 		var syntaxTree = GetSyntaxTree(attribute);
@@ -36,7 +36,7 @@ public class IdBaseTypeExtractionTest
 		
 		Assert.NotNull(model);
 		
-		Assert.Equal(expectedPrimitiveType, model.PrimitiveType, StringComparer.OrdinalIgnoreCase);
+		Assert.Equal(expectedPrimitiveType, model.PrimitiveTypeFullName, StringComparer.OrdinalIgnoreCase);
 	}
 
 	private static SyntaxTree GetSyntaxTree(string attribute)

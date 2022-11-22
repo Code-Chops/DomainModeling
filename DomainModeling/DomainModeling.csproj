@@ -10,8 +10,8 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>1.4.10</Version>
-        <PackageReleaseNotes>Changed IHasDefaultInstance to IHasDefault.</PackageReleaseNotes>
+        <Version>1.4.11</Version>
+        <PackageReleaseNotes>ID generator now uses full type name for underlying type.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainDrivenDesign.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>
@@ -64,7 +64,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="CodeChops.GenericMath" Version="3.2.1" />
+      <PackageReference Include="CodeChops.GenericMath" Version="3.2.2" />
       <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
     </ItemGroup>
 

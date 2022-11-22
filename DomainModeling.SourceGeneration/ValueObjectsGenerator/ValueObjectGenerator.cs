@@ -79,7 +79,7 @@ public class ValueObjectGenerator : IIncrementalGenerator
 			.AppendLine(GetHashCode)
 			.AppendLine(GetEquals)
 			.AppendLine(GetComparison)
-			.AppendLine(GetStaticDefault, trimEnd: true)
+			.AppendLine(GetStaticDefault)
 			.AppendLine(GetCast)
 			.AppendLine(GetLengthOrCount)
 			.AppendLine(GetEnumerator)
@@ -261,11 +261,11 @@ public class ValueObjectGenerator : IIncrementalGenerator
 			return data.ForbidParameterlessConstruction 
 				? $@"
 	[DebuggerHidden]
-	public static {data.Name} Default {{ get; }} = new()
-;"
+	public static {data.Name} Default {{ get; }} = new({data.GetDefaultValue()});
+"
 				: $@"
 	[DebuggerHidden]
-	public static {data.Name} Default {{ get; }} = new({data.GetDefaultValue()});
+	public static {data.Name} Default {{ get; }} = new();
 ";
 		}
 		

@@ -10,8 +10,8 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>1.4.11</Version>
-        <PackageReleaseNotes>ID generator now uses full type name for underlying type.</PackageReleaseNotes>
+        <Version>1.5.0</Version>
+        <PackageReleaseNotes>Support for non-native underlying types of generated IDs.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainDrivenDesign.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>

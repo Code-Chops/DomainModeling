@@ -32,7 +32,7 @@ public sealed class GenerateStronglyTypedId : Attribute
 /// <typeparam name="TPrimitive">The primitive value of the ID.</typeparam>
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct)]
 public sealed class GenerateStronglyTypedId<TPrimitive> : Attribute
-	where TPrimitive : IEquatable<TPrimitive>, IComparable<TPrimitive>
+	where TPrimitive : struct, IEquatable<TPrimitive>, IComparable<TPrimitive>
 {
 	/// <param name="name">If not provided, 'Identity' will be the default name.</param>
 	/// <param name="propertyName">If not provided, 'Id' will be the default property name.</param>

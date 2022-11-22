@@ -56,16 +56,10 @@ internal static class IdSyntaxReceiver
 	{
 		// Get the primitive type using the generic parameter of the attribute. 
 		var genericParameterName = attribute.AttributeClass?.TypeArguments.SingleOrDefault();
-		if (genericParameterName is null) 
-			return IdGenerator.DefaultIdPrimitiveType;
 		
-		var primitiveType = genericParameterName.GetTypeNameWithGenericParameters();
-
-		var primitiveTypeNamespace = genericParameterName.ContainingNamespace.ToDisplayString();
-			
-		return genericParameterName.ContainingNamespace.IsGlobalNamespace 
-			? $"global::{primitiveType}" 
-			: $"global::{primitiveTypeNamespace}.{primitiveType}";
+		return genericParameterName is null 
+			? IdGenerator.DefaultIdPrimitiveType 
+			: genericParameterName.GetFullTypeNameWithGenericParameters();
 	}
 
 	private static IdGenerationMethod GetClassType(INamedTypeSymbol type, bool isEntityBase)

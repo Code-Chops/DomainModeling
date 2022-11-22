@@ -111,8 +111,6 @@ using CodeChops.DomainDrivenDesign.DomainModeling.Identities;
 			}
 
 			var code = $@"
-	[DebuggerHidden]
-	[EditorBrowsable(EditorBrowsableState.Never)]
 	public {(data.IdGenerationMethod == IdGenerationMethod.EntityImplementation ? "override " : "")}IId {data.IdPropertyName} {{ get; }} = new {data.IdTypeName}();
 ".TrimStart();
 

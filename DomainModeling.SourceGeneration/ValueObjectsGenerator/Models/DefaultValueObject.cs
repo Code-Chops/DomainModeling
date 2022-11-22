@@ -66,12 +66,16 @@ public sealed record DefaultValueObject(
 	{
 		var underlyingType = GetUnderlyingType(this.Attribute);
 		
-		if (!underlyingType.GetAvailableConversionsFromPrimitives(skipForSystemTypes: false).Contains(typeof(int)) || (this.MinimumValue is null && this.MaximumValue is null)) 
+		if (!(underlyingType.IsNumeric(seeThroughNullable: true) || underlyingType.IsType<char>()) || (this.MinimumValue is null && this.MaximumValue is null)) 
 			return null;
 
 		var validationType = $"({underlyingType.Name}{(underlyingType.TypeKind is TypeKind.Struct && this.AllowNull ? "?" : null)}){this.LocalVariableName}";
 		
-		return this.GetGuardLine(Guard.InRange, validationType, errorCodeStart, genericParameterName: underlyingType.Name, this.MinimumValue, this.MaximumValue);
+		var underlyingTypeName = underlyingType.IsType<char>() 
+			? typeof(int).FullName
+			: underlyingType.Name;
+		
+		return this.GetGuardLine(Guard.InRange, validationType, errorCodeStart, genericParameterName: underlyingTypeName, this.MinimumValue, this.MaximumValue);
 	}
 	
 	public override string? GetValueTransformation() => null;

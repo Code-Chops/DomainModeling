@@ -9,7 +9,7 @@ public record InRangeNoOutputGuard<TNumber> : NoOutputGuardBase<InRangeNoOutputG
 	where TNumber : struct, IComparable<TNumber>, IEquatable<TNumber>, IConvertible
 {
 	public static string GetMessage(string objectName, (Number<TNumber> Index, Number<TNumber>? LowerBound, Number<TNumber>? UpperBound) parameter)
-		=> $"{{0}} {{1}} is out of range{parameter.LowerBound?.Write(" (Lower bound: {2})")}{parameter.UpperBound?.Write(" (Upper bound: {3})")}.";
+		=> $"Value {{1}} is out of range for {{0}} {parameter.LowerBound?.Write(" (Lower bound: {2})")}{parameter.UpperBound?.Write(" (Upper bound: {3})")}.";
 	
 	public static bool IsValid((Number<TNumber> Index, Number<TNumber>? LowerBound, Number<TNumber>? UpperBound) input)
 		=> input.Index >= input.LowerBound && input.Index <= input.UpperBound;
@@ -21,7 +21,7 @@ public record InRangeGuard<TElement> : OutputGuardBase<InRangeGuard<TElement>, (
 	IGuard<InRangeGuard<TElement>, (int Index, int Upperbound)>
 {
 	public static string GetMessage(string objectName, (int Index, int Upperbound) parameter)
-		=> $"{{0}} {{1}} is out of range (Lower bound: 0) (Upper bound: {parameter.Upperbound})";
+		=> $"Value {{1}} is out of range for {{0}} (Lower bound: 0) (Upper bound: {parameter.Upperbound})";
 	
 	public static bool IsValid((IReadOnlyList<TElement> List, int Index) input, out TElement? output)
 	{

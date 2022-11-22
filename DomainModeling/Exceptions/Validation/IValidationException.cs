@@ -6,4 +6,5 @@ namespace CodeChops.DomainDrivenDesign.DomainModeling.Exceptions.Validation;
 public interface IValidationException : ICustomException
 {
 	IErrorCode ErrorCode { get; }
+	ValidationExceptionMessage ValidationMessage { get; }
 }

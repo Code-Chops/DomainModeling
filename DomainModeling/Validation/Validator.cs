@@ -1,4 +1,6 @@
-﻿namespace CodeChops.DomainDrivenDesign.DomainModeling.Validation;
+﻿using System.Diagnostics;
+
+namespace CodeChops.DomainDrivenDesign.DomainModeling.Validation;
 
 public record Validator
 {
@@ -51,16 +53,23 @@ public record Validator
 	public TReturn? Throw<TException, TReturn>(TException exception)
 		where TException : ICustomException
 	{
-		if (this.Mode == ValidatorMode.Default)
+		switch (this.Mode)
 		{
-			if (exception is IValidationException validationException) validationException.Throw<int>();
-			if (exception is ISystemException systemException) systemException.Throw<int>();
+			case ValidatorMode.Oblivious:
+				return default;
+			case ValidatorMode.Default:
+				{
+					if (exception is IValidationException validationException) validationException.Throw<int>();
+					if (exception is ISystemException systemException) systemException.Throw<int>();
 			
-			throw new InvalidOperationException($"An unknown exception type was thrown during validation. Exception: {exception.GetType().Name}.");
+					throw new InvalidOperationException($"An unknown exception type was thrown during validation. Exception: {exception.GetType().Name}.");
+				}
+			case ValidatorMode.DoNotThrow:
+				this._currentExceptions.Add(exception);
+				break;
+			default:
+				throw new UnreachableException($"{nameof(ValidatorMode)} has an unexpected value of {this.Mode}. This should not happen!");
 		}
-		
-		if (this.Mode != ValidatorMode.Oblivious)
-			this._currentExceptions.Add(exception);
 
 		return default;
 	}

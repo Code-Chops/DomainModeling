@@ -10,8 +10,8 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>1.5.1</Version>
-        <PackageReleaseNotes>StaticDefault and ForbidParameterlessConstruction fix.</PackageReleaseNotes>
+        <Version>1.5.2</Version>
+        <PackageReleaseNotes>Minor improvements and extended IValidationException.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainDrivenDesign.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>

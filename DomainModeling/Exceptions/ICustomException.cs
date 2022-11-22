@@ -1,6 +1,6 @@
 ﻿namespace CodeChops.DomainDrivenDesign.DomainModeling.Exceptions;
 
-public interface ICustomException
+public interface ICustomException : IDomainObject
 {
 	string Message { get; }
 	

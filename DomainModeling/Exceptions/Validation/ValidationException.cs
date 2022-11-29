@@ -22,7 +22,7 @@ public class ValidationException<TGuard> : ValidationException
 /// <inheritdoc cref="IValidationException"/>
 /// </summary>
 // ReSharper disable once UnusedTypeParameter
-public class ValidationException : CustomException, IDomainObject, IValidationException
+public class ValidationException : CustomException, IValidationException
 {
 	/// <summary>
 	/// Is communicated externally!

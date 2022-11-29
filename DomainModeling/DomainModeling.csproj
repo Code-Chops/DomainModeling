@@ -10,8 +10,8 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>1.5.3</Version>
-        <PackageReleaseNotes>Added IDomainObject to ICustomException.</PackageReleaseNotes>
+        <Version>1.5.4</Version>
+        <PackageReleaseNotes>Added ICreatable interface without parameters.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainDrivenDesign.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>

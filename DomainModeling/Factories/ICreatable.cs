@@ -1,6 +1,16 @@
 ﻿namespace CodeChops.DomainDrivenDesign.DomainModeling.Factories;
 
 /// <summary>
+/// Has a factory to create objects of type <typeparamref name="TObject"/>.
+/// </summary>
+/// <typeparam name="TObject">The type to be created.</typeparam>
+public interface ICreatable<out TObject> 
+	where TObject : IDomainObject
+{
+	static abstract TObject Create(Validator validator);
+}
+
+/// <summary>
 /// Has a factory to create objects of type <typeparamref name="TObject"/>
 /// by providing parameter <typeparamref name="T"/>.
 /// </summary>

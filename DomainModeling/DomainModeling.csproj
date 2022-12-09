@@ -11,7 +11,7 @@
 
     <PropertyGroup Label="Package">
         <Version>1.6.3</Version>
-        <PackageReleaseNotes>Updated GenericMath package reference 2.</PackageReleaseNotes>
+        <PackageReleaseNotes>Moved License and Icon to solution folder. Updated GenericMath package reference.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainDrivenDesign.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>
@@ -49,8 +49,8 @@
     </Target>
 
     <ItemGroup Label="PackageAssets">
-        <None Include="Properties\LICENSE" Pack="true" PackagePath="" />
-        <None Include="Properties\icon.png" Pack="true" Visible="true" PackagePath="" />
+		<None Include="..\LICENSE" Pack="true" PackagePath="" />
+		<None Include="..\icon.png" Pack="true" Visible="true" PackagePath="" />
 		<None Include="..\README.md" Pack="true" PackagePath="\" />
     </ItemGroup>
 

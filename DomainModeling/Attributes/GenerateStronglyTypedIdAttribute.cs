@@ -29,10 +29,10 @@ public sealed class GenerateStronglyTypedId : Attribute
 /// If the ID has a default value, comparison is done by their reference.
 /// </para>
 /// </summary>
-/// <typeparam name="TPrimitive">The primitive value of the ID.</typeparam>
+/// <typeparam name="T">The underlying value of the ID.</typeparam>
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct)]
-public sealed class GenerateStronglyTypedId<TPrimitive> : Attribute
-	where TPrimitive : struct, IEquatable<TPrimitive>, IComparable<TPrimitive>
+public sealed class GenerateStronglyTypedId<T> : Attribute
+	where T : struct, IEquatable<T>, IComparable<T>
 {
 	/// <param name="name">If not provided, 'Identity' will be the default name.</param>
 	/// <param name="propertyName">If not provided, 'Id' will be the default property name.</param>

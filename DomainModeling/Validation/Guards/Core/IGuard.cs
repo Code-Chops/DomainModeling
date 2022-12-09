@@ -5,7 +5,7 @@ namespace CodeChops.DomainDrivenDesign.DomainModeling.Validation.Guards.Core;
 public interface IGuard<TSelf, in TMessageParam> : IGuard<TSelf>
 	where TSelf : IGuard<TSelf, TMessageParam>, IHasExceptionMessage<TSelf, TMessageParam>
 {
-	public void Throw<TException>(string objectName, TMessageParam messageParameter, IErrorCode? errorCode, Exception? innerException,
+	public void Throw<TException>(string objectName, TMessageParam messageParameter, object? errorCode, Exception? innerException,
 		[CallerMemberName] string? callerMemberName = null,
 		[CallerFilePath] string? callerFilePath = null, 
 		[CallerLineNumber] int? callerLineNumber = null)
@@ -13,7 +13,7 @@ public interface IGuard<TSelf, in TMessageParam> : IGuard<TSelf>
 		=> this.Throw<TException, int>(objectName, messageParameter, errorCode, innerException, callerMemberName, callerFilePath, callerLineNumber);
 
 	[DoesNotReturn]
-	public TReturn Throw<TException, TReturn>(string objectName, TMessageParam messageParameter, IErrorCode? errorCode, Exception? innerException,
+	public TReturn Throw<TException, TReturn>(string objectName, TMessageParam messageParameter, object? errorCode, Exception? innerException,
 		[CallerMemberName] string? callerMemberName = null,
 		[CallerFilePath] string? callerFilePath = null, 
 		[CallerLineNumber] int? callerLineNumber = null)
@@ -31,7 +31,7 @@ public interface IGuard<TSelf, in TMessageParam> : IGuard<TSelf>
 	
 	public static ValidationExceptionMessage GetMessage(string objectName, TMessageParam messageParameter)
 	{
-		var message = TSelf.GetMessage(objectName, messageParameter);
+		var message = TSelf.GetExceptionMessage(objectName, messageParameter);
 		
 		return messageParameter is ITuple tuple
 			? new ValidationExceptionMessage(objectName, message, tuple.GetEnumerable())
@@ -42,7 +42,7 @@ public interface IGuard<TSelf, in TMessageParam> : IGuard<TSelf>
 public interface IGuard<TSelf> : IGuard
 	where TSelf : IGuard<TSelf>
 {
-	public static CustomException CreateException(ValidationExceptionMessage message, IErrorCode? errorCode, Exception? innerException,
+	public static CustomException CreateException(ValidationExceptionMessage message, object? errorCode, Exception? innerException,
 		[CallerMemberName] string? callerMemberName = null,
 		[CallerFilePath] string? callerFilePath = null, 
 		[CallerLineNumber] int? callerLineNumber = null)
@@ -53,6 +53,23 @@ public interface IGuard<TSelf> : IGuard
 	}
 }
 
+/// <summary>
+/// <para>
+/// A guard contains domain object validation logic and an exception message.
+/// This way validation checks can be re-used and exception messages are consistent.
+/// Consistency of messages is especially relevant when using <see cref="IValidationException"/>s.
+/// </para>
+/// <para>
+/// Guards also help avoid the usage of the throw keyword in hot paths as throw keywords prevent JIT-inlining.
+/// </para>
+/// <para>
+/// The two types of validation are:
+/// <list type="bullet">
+/// <item><see cref="NoOutputGuardBase{TSelf,TInput}"/></item>
+/// <item><see cref="OutputGuardBase{TSelf,TInput,TOutput}"/></item>
+/// </list>
+/// </para>
+/// </summary>
 public interface IGuard
 {
 }

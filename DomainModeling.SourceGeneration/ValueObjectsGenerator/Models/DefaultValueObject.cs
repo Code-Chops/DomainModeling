@@ -2,21 +2,20 @@
 namespace CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration.ValueObjectsGenerator.Models;
 
 public sealed record DefaultValueObject(
-		bool UseValidationExceptions,
-		int? MinimumValue,
-		int? MaximumValue,
 		INamedTypeSymbol ValueObjectType,
 		AttributeData Attribute,
 		TypeDeclarationSyntax TypeDeclarationSyntax,
+		int? MinimumValue,
+		int? MaximumValue,
 		bool GenerateToString,
 		bool GenerateComparison,
-		bool AddCustomValidation,
-		bool ConstructorIsPublic,
+		bool GenerateDefaultConstructor,
 		bool ForbidParameterlessConstruction,
 		bool GenerateStaticDefault,
 		string? PropertyName,
 		bool PropertyIsPublic,
-		bool AllowNull) 
+		bool AllowNull, 
+		bool UseValidationExceptions)
 	: ValueObjectBase(		
 		UseValidationExceptions: UseValidationExceptions,
 		ValueObjectType: ValueObjectType,
@@ -24,8 +23,7 @@ public sealed record DefaultValueObject(
 		UnderlyingTypeNameBase: null,
 		GenerateToString: GenerateToString,  
 		GenerateComparison: GenerateComparison,
-		AddCustomValidation: AddCustomValidation,
-		ConstructorIsPublic: ConstructorIsPublic,
+		GenerateDefaultConstructor: GenerateDefaultConstructor,
 		ForbidParameterlessConstruction: ForbidParameterlessConstruction,  
 		GenerateStaticDefault: GenerateStaticDefault,
 		GenerateEnumerable: false,
@@ -36,8 +34,8 @@ public sealed record DefaultValueObject(
 {
 	private static ITypeSymbol GetUnderlyingType(AttributeData attribute) 
 		=> attribute.AttributeClass!.TypeArguments.Single();
-	private static string GetUnderlyingTypeName(ITypeSymbol type, bool allowNull) 
-		=> $"{type.GetTypeNameWithGenericParameters()}{(type.TypeKind is TypeKind.Struct && allowNull ? "?" : null)}";
+	private static string GetUnderlyingTypeName(ITypeSymbol type, bool valueIsNullable) 
+		=> $"{type.GetTypeNameWithGenericParameters()}{(type.TypeKind is TypeKind.Struct && valueIsNullable ? "?" : null)}";
 
 	public override string[] GetNamespaces()		=> Array.Empty<string>();
 

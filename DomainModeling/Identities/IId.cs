@@ -1,6 +1,6 @@
 namespace CodeChops.DomainDrivenDesign.DomainModeling.Identities;
 
-public interface IId<TSelf, TPrimitive> : IId<TPrimitive>, IComparable<TSelf>
+public interface IId<in TSelf, out TPrimitive> : IId<TPrimitive>, IComparable<TSelf>
 	where TSelf : IId<TSelf, TPrimitive>
 	where TPrimitive : IEquatable<TPrimitive>, IComparable<TPrimitive>
 {

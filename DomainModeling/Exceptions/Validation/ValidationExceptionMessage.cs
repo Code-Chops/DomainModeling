@@ -1,9 +1,9 @@
 namespace CodeChops.DomainDrivenDesign.DomainModeling.Exceptions.Validation;
 
 /// <summary>
-/// Is communicated externally!
+/// A validation message is communicated externally and contains a string message and parameters (which can be used for String.Format).
 /// </summary>
-[GenerateValueObject<(string, ImmutableList<object>)>(minimumValue: 0, maximumValue: Int32.MaxValue, addCustomValidation: false, generateToString: false, useValidationExceptions: false)]
+[GenerateValueObject<(string, ImmutableList<object>)>(minimumValue: 0, maximumValue: Int32.MaxValue, generateToString: false, useValidationExceptions: false)]
 public readonly partial record struct ValidationExceptionMessage
 {
 	public override partial string ToString() => String.Format(this.Message, this.Parameters.ToArray());

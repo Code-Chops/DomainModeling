@@ -1,7 +1,7 @@
 ﻿namespace CodeChops.DomainDrivenDesign.DomainModeling.Identities;
 
 /// <summary>
-/// A singleton null ID for singleton entities or testing purposes.
+/// A singleton ID for entities that only have one ID per type. 
 /// </summary>
 public sealed record SingletonId<TEntity> : Id<SingletonId<TEntity>, string>
     where TEntity : Entity
@@ -9,7 +9,7 @@ public sealed record SingletonId<TEntity> : Id<SingletonId<TEntity>, string>
     public static SingletonId<TEntity> Instance { get; } = new();
     
     private SingletonId()
-        : base(typeof(TEntity).Name)
+        : base(typeof(TEntity).FullName ?? typeof(TEntity).Name)
     {
     }
 }

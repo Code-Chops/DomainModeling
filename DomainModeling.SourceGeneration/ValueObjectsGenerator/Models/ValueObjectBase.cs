@@ -3,21 +3,20 @@ namespace CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration.ValueObje
 /// <param name="ValueObjectType">The type of the partial class being generated.</param>
 public abstract record ValueObjectBase(
 // ReSharper disable once NotAccessedPositionalProperty.Global
-	bool UseValidationExceptions,
 	INamedTypeSymbol ValueObjectType,
 	string UnderlyingTypeName,
 	string? UnderlyingTypeNameBase,
 	bool GenerateToString, 
 	bool GenerateComparison,
-	bool AddCustomValidation,
-	bool ConstructorIsPublic,
+	bool GenerateDefaultConstructor,
 	bool ForbidParameterlessConstruction,
 	bool GenerateStaticDefault,
 	bool GenerateEnumerable,
 	string PropertyName,
 	bool PropertyIsPublic,
-	bool AddIComparable,
-	bool AllowNull)
+	bool AllowNull,
+	bool UseValidationExceptions,
+	bool AddIComparable)
 {
 	public bool IsUnsealedRecordClass { get; } = ValueObjectType.IsRecord && ValueObjectType.TypeKind is not TypeKind.Struct && !ValueObjectType.IsSealed;
 
@@ -37,7 +36,7 @@ public abstract record ValueObjectBase(
 	/// <summary>
 	/// Has a different name each time it's generated. In order to prohibit direct usage of the backing field.
 	/// </summary>
-	public string BackingFieldName { get; } = $"_{PropertyName.Substring(0, 1).ToLowerInvariant()}{PropertyName.Substring(1)}{new Random().Next(0, 9999)}";
+	public string BackingFieldName { get; } = $"_{PropertyName.Substring(0, 1).ToLowerInvariant()}{PropertyName.Substring(1)}{(GenerateDefaultConstructor ? new Random().Next(0, 9999) : null)}";
 	public string LocalVariableName { get; } = PropertyName.Substring(0, 1).ToLowerInvariant() + PropertyName.Substring(1);
 
 	public List<string> ErrorCodes { get; } = new();
@@ -46,32 +45,34 @@ public abstract record ValueObjectBase(
 	{
 		NotNull,
 		InRange,
+		LengthInRange,
 		Regex,
 	}
 	
-	public string GetGuardLine<T>(Guard guard, string? valueName, string errorCodeStart, params object?[] parameters)
-		=> this.GetGuardLine(guard, valueName: valueName, errorCodeStart, genericParameterName: typeof(T).Name, parameters);
+	public string GetGuardLine<T>(Guard guard, string? variableName, string errorCodeStart, params object?[] parameters)
+		=> this.GetGuardLine(guard, variableName: variableName, errorCodeStart, genericParameterName: typeof(T).Name, parameters);
 	
-	public string GetGuardLine(Guard guard, string? valueName, string errorCodeStart, string? genericParameterName = null, params object?[] parameters)
+	public string GetGuardLine(Guard guard, string? variableName, string errorCodeStart, string? genericParameterName = null, params object?[] parameters)
 	{
-		var errorCode = "null";
+		var errorCode = "errorCode: null";
 		if (this.UseValidationExceptions)
 		{
 			errorCode = $@"errorCode: ErrorCode_{errorCodeStart}_{guard switch
 			{
-				Guard.NotNull	=> "Null",
-				Guard.InRange	=> "OutOfRange",
-				Guard.Regex		=> "Regex",
-				_				=> "_Unknown_",
+				Guard.NotNull		=> "Null",
+				Guard.InRange		=> "OutOfRange",
+				Guard.LengthInRange	=> "LengthOutOfRange",
+				Guard.Regex			=> "Regex",
+				_					=> "_Unknown_",
 			}}";
 		
 			this.ErrorCodes.Add(errorCode);
 		}
 
-		var stringParameters = new[] { valueName ?? this.LocalVariableName }.Concat(parameters.Select(p => p?.ToString() ?? "null")).Append(errorCode);
+		var stringParameters = new[] { variableName ?? this.LocalVariableName }.Concat(parameters.Select(p => p?.ToString() ?? "null")).Append(errorCode);
 		var parametersString = String.Join(", ", stringParameters);
 		
-		return $@"			.Guard{guard}{genericParameterName?.Write($"<{genericParameterName}>")}({parametersString})";
+		return $@"		validator.Guard{guard}{genericParameterName?.Write($"<{genericParameterName}>")}({parametersString});";
 	}
 	
 	public abstract string[] GetNamespaces();

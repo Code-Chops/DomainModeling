@@ -2,6 +2,12 @@
 
 namespace CodeChops.DomainDrivenDesign.DomainModeling.Validation;
 
+/// <summary>
+/// <para>
+/// Provides a way to easily use validation in different <see cref="ValidatorMode"/>s and enables the usage of <see cref="Guards.Core.IGuard"/>s.
+/// </para>
+/// <para></para>
+/// </summary>
 public record Validator
 {
 	public static class Get<TObject>
@@ -27,8 +33,8 @@ public record Validator
 	public ValidatorMode Mode { get; }
 
 	/// <summary>
-	/// <p><b>Use Validator.<see cref="Validator.Get{TObject}"/> to get a validator.</b></p>
-	/// <p>Only use this constructor if the object to be validated is a ref struct.</p>
+	/// <para><b>Use Validator.<see cref="Validator.Get{TObject}"/> to get a validator.</b></para>
+	/// <para>Only use this constructor if the object to be validated is a ref struct.</para>
 	/// </summary>
 	/// <param name="objectName"></param>
 	/// <param name="mode"></param>

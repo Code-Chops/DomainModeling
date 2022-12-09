@@ -12,7 +12,7 @@ public class ValidationException<TGuard> : ValidationException
 	/// <param name="errorCode">Is communicated externally!</param>
 	/// <param name="validationMessage">Is communicated externally!</param>
 	// ReSharper disable twice ExplicitCallerInfoArgument
-	internal ValidationException(IErrorCode errorCode, ValidationExceptionMessage validationMessage, Exception? innerException = null)
+	internal ValidationException(object errorCode, ValidationExceptionMessage validationMessage, Exception? innerException = null)
 		: base(errorCode, validationMessage, innerException)
 	{
 	}
@@ -27,17 +27,17 @@ public class ValidationException : CustomException, IValidationException
 	/// <summary>
 	/// Is communicated externally!
 	/// </summary>
-	public IErrorCode ErrorCode { get; }
+	public string ErrorCode { get; }
 	
-	public ValidationExceptionMessage ValidationMessage { get; }
+	public ValidationExceptionMessage ExternalMessage { get; }
 	
 	/// <param name="errorCode">Is communicated externally!</param>
 	/// <param name="validationMessage">Is communicated externally!</param>
-	internal ValidationException(IErrorCode errorCode, ValidationExceptionMessage validationMessage, Exception? innerException = null)
+	internal ValidationException(object errorCode, ValidationExceptionMessage validationMessage, Exception? innerException = null)
 		: base(message: $"{validationMessage} (error code: {errorCode}).", innerException)
 	{
-		this.ErrorCode = errorCode;
-		this.ValidationMessage = validationMessage;
+		this.ErrorCode = errorCode.ToString() ?? throw new ArgumentNullException(nameof(errorCode));
+		this.ExternalMessage = validationMessage;
 	}
 }
 

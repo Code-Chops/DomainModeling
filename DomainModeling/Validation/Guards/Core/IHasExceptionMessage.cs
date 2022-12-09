@@ -6,5 +6,5 @@ public interface IHasExceptionMessage<TSelf, in TMessageParams> : IGuard
 	/// <summary>
 	/// <em>This message is communicated externally!</em>
 	/// </summary>
-	public static abstract string GetMessage(string objectName, TMessageParams parameter);
+	public static abstract string GetExceptionMessage(string objectName, TMessageParams parameter);
 }

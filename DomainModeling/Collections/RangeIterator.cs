@@ -1,20 +1,14 @@
 ﻿namespace CodeChops.DomainDrivenDesign.DomainModeling.Collections;
 
-public static class Extensions
+/// <summary>
+/// Iterates over an index which resides in the provided range.
+/// </summary>
+public ref struct RangeIterator
 {
-	public static CustomIterator GetEnumerator(this Range range)
-	{
-		return new CustomIterator(range);
-	}
-}
-
-public ref struct CustomIterator
-{
-	// ReSharper disable once MemberCanBePrivate.Global
 	public double Current { get; private set; }
 	private int End { get; }
 	
-	public CustomIterator(Range range)
+	public RangeIterator(Range range)
 	{
 		if (range.End.IsFromEnd)
 			throw new InvalidOperationException($"Cannot iterate a range from start {range.Start} until {range.End}.");
@@ -23,10 +17,15 @@ public ref struct CustomIterator
 		this.End = range.End.Value;
 	}
 
-	// ReSharper disable once UnusedMember.Global
 	public bool MoveNext()
 	{
 		this.Current++;
 		return this.Current <= this.End;
 	}
+}
+
+public static class RangeExtensions
+{
+	public static RangeIterator GetEnumerator(this Range range) 
+		=> new(range);
 }

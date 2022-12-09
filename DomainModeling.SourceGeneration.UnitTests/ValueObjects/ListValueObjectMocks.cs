@@ -2,78 +2,31 @@
 
 namespace CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration.UnitTests.ValueObjects;
 
-[GenerateListValueObject<string>(addCustomValidation: false, generateToString: true, useValidationExceptions: false)]
+[GenerateListValueObject<string>(generateToString: true, useValidationExceptions: false)]
 public partial struct ListStructMock { }
 
-[GenerateListValueObject<string>(addCustomValidation: false, generateToString: true, useValidationExceptions: false)]
+[GenerateListValueObject<string>(generateToString: true, useValidationExceptions: false)]
 public partial record struct ListRecordStructMock;
 
-[GenerateListValueObject<string>(addCustomValidation: false, generateToString: true, useValidationExceptions: false)]
+[GenerateListValueObject<string>(generateToString: true, useValidationExceptions: false)]
 public readonly partial struct ListReadonlyStructMock { }
 
-[GenerateListValueObject<string>(addCustomValidation: false, generateToString: true, useValidationExceptions: false)]
+[GenerateListValueObject<string>(generateToString: true, useValidationExceptions: false)]
 public partial record struct ListReadonlyRecordStructMock;
 
 
-[GenerateListValueObject<string>(addCustomValidation: false, generateToString: true, useValidationExceptions: false)]
+[GenerateListValueObject<string>(generateToString: true, useValidationExceptions: false)]
 public partial class ListClassMock { }
 
-[GenerateListValueObject<string>(addCustomValidation: false, generateToString: true, useValidationExceptions: false)]
+[GenerateListValueObject<string>(generateToString: true, useValidationExceptions: false)]
 public partial record ListRecordClassMock;
 
 
-[GenerateListValueObject<string>(
-	minimumCount: 0, 
-	maximumCount: 10, 
-	generateToString: true, 
-	constructorIsPublic: true,
-	forbidParameterlessConstruction: false,
-	generateComparison: false,
-	addCustomValidation: true,
-	generateStaticDefault: false,
-	propertyName: "Test",
-	generateEnumerable: false,
-	propertyIsPublic: true, 
-	allowNull: true,
-	useValidationExceptions: false)]
-public partial record struct ListRecordStructSettingsMock
-{
-	private partial void Validate(Validator validator) { }
-}
+[GenerateListValueObject<string>(minimumCount: 0, maximumCount: 10, generateToString: true, generateDefaultConstructor: true, forbidParameterlessConstruction: false, generateComparison: false, generateStaticDefault: false, propertyName: "Test", generateEnumerable: false, propertyIsPublic: true, valueIsNullable: true, useValidationExceptions: false)]
+public partial record struct ListRecordStructSettingsMock;
 
-[GenerateListValueObject<string>(
-	minimumCount: 0, 
-	maximumCount: 10, 
-	generateToString: true, 
-	constructorIsPublic: true, 
-	forbidParameterlessConstruction: false, 
-	generateComparison: false, 
-	addCustomValidation: true, 
-	generateStaticDefault: false,
-	propertyName: "Test", 
-	generateEnumerable: false,
-	propertyIsPublic: true, 
-	allowNull: true,
-	useValidationExceptions: false)]
-public partial record ListRecordClassSettingsMock
-{
-	private partial void Validate(Validator validator) { }
-}
+[GenerateListValueObject<string>(minimumCount: 0, maximumCount: 10, generateToString: true, generateDefaultConstructor: true, forbidParameterlessConstruction: false, generateComparison: false, generateStaticDefault: false, propertyName: "Test", generateEnumerable: false, propertyIsPublic: true, valueIsNullable: true, useValidationExceptions: false)]
+public partial record ListRecordClassSettingsMock;
 
-[GenerateListValueObject<string>(
-	minimumCount: 0, 
-	maximumCount: 10, 
-	generateToString: true, 
-	constructorIsPublic: true, 
-	forbidParameterlessConstruction: false, 
-	generateComparison: false, 
-	addCustomValidation: true, 
-	generateStaticDefault: false, 
-	propertyName: "Test",
-	propertyIsPublic: true, 
-	allowNull: true,
-	useValidationExceptions: false)]
-public sealed partial record ListSealedRecordClassSettingsMock
-{
-	private partial void Validate(Validator validator) { }
-}
+[GenerateListValueObject<string>(minimumCount: 0, maximumCount: 10, generateToString: true, generateDefaultConstructor: true, forbidParameterlessConstruction: false, generateComparison: false, generateStaticDefault: false, propertyName: "Test", propertyIsPublic: true, valueIsNullable: true, useValidationExceptions: false)]
+public sealed partial record ListSealedRecordClassSettingsMock;

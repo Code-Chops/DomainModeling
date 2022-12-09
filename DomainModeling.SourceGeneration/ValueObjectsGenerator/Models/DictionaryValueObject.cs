@@ -1,22 +1,21 @@
 namespace CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration.ValueObjectsGenerator.Models;
 
 public record DictionaryValueObject(
-		bool UseValidationExceptions,
-		int? MinimumCount,
-		int? MaximumCount,
 		INamedTypeSymbol ValueObjectType,
 		ITypeSymbol KeyType,
 		ITypeSymbol ValueType,
+		int? MinimumCount,
+		int? MaximumCount,
+		bool GenerateEnumerable,
 		bool GenerateToString,
 		bool GenerateComparison,
-		bool AddCustomValidation,
-		bool ConstructorIsPublic,
+		bool GenerateDefaultConstructor,
 		bool ForbidParameterlessConstruction,
 		bool GenerateStaticDefault,
-		bool GenerateEnumerable,
 		string? PropertyName,
 		bool PropertyIsPublic,
-		bool AllowNull) 
+		bool AllowNull,
+		bool UseValidationExceptions)
 	: ValueObjectBase(
 		UseValidationExceptions: UseValidationExceptions,
 		ValueObjectType: ValueObjectType,
@@ -24,8 +23,7 @@ public record DictionaryValueObject(
 		UnderlyingTypeNameBase: $"Dictionary<{KeyType.Name}, {ValueType.Name}{(AllowNull ? "?" : null)}>",
 		GenerateToString: GenerateToString, 
 		GenerateComparison: GenerateComparison,
-		AddCustomValidation: AddCustomValidation,
-		ConstructorIsPublic: ConstructorIsPublic,
+		GenerateDefaultConstructor: GenerateDefaultConstructor,
 		ForbidParameterlessConstruction: ForbidParameterlessConstruction, 
 		GenerateStaticDefault: GenerateStaticDefault,
 		GenerateEnumerable: GenerateEnumerable,

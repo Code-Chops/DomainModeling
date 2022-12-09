@@ -1,38 +1,36 @@
 namespace CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration.ValueObjectsGenerator.Models;
 
 public record ListValueObject(
-		bool UseValidationExceptions,
-		int? MinimumCount,
-		int? MaximumCount,
 		INamedTypeSymbol ValueObjectType,
 		// ReSharper disable once NotAccessedPositionalProperty.Global
 		AttributeData Attribute,
+		int? MinimumCount,
+		int? MaximumCount,
+		bool GenerateEnumerable,
 		bool GenerateToString,
 		bool GenerateComparison,
-		bool AddCustomValidation,
-		bool ConstructorIsPublic,
+		bool GenerateDefaultConstructor,
 		bool ForbidParameterlessConstruction,
 		bool GenerateStaticDefault,
-		bool GenerateEnumerable,
 		string? PropertyName,
 		bool PropertyIsPublic,
-		bool AllowNull) 
+		bool AllowNull,
+		bool UseValidationExceptions)
 	: ValueObjectBase(
-		UseValidationExceptions: UseValidationExceptions,
 		ValueObjectType: ValueObjectType,
 		UnderlyingTypeName: $"ImmutableList<{Attribute.AttributeClass!.TypeArguments.Single().Name}{(AllowNull ? "?" : null)}>",
 		UnderlyingTypeNameBase: $"List<{Attribute.AttributeClass!.TypeArguments.Single().Name}{(AllowNull ? "?" : null)}>",
 		GenerateToString: GenerateToString,
 		GenerateComparison: GenerateComparison,
-		AddCustomValidation: AddCustomValidation,
-		ConstructorIsPublic: ConstructorIsPublic,
+		GenerateDefaultConstructor: GenerateDefaultConstructor,
 		ForbidParameterlessConstruction: ForbidParameterlessConstruction, 
 		GenerateStaticDefault: GenerateStaticDefault,
 		GenerateEnumerable: GenerateEnumerable,
 		PropertyName: PropertyName ?? "Value",
 		PropertyIsPublic: PropertyIsPublic,
 		AddIComparable: false,
-		AllowNull: AllowNull), 
+		AllowNull: AllowNull,
+		UseValidationExceptions: UseValidationExceptions),
 		IEnumerableValueObject
 {
 	public string ElementTypeName { get; } = $"{Attribute.AttributeClass!.TypeArguments.Single().Name}{(AllowNull ? "?" : null)}";

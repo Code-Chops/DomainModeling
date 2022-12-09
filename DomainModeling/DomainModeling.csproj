@@ -10,8 +10,8 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>1.5.4</Version>
-        <PackageReleaseNotes>Added ICreatable interface without parameters.</PackageReleaseNotes>
+        <Version>1.6.0</Version>
+        <PackageReleaseNotes>Added README.md. Enhanced comments. Added UseRegex-parameter to StringValueObject.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainDrivenDesign.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>
@@ -64,7 +64,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="CodeChops.GenericMath" Version="3.2.2" />
+      <PackageReference Include="CodeChops.GenericMath" Version="3.3.0" />
       <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
     </ItemGroup>
 

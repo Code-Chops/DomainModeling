@@ -5,6 +5,15 @@ namespace CodeChops.DomainDrivenDesign.DomainModeling;
 
 public static class DisplayStringExtensions
 {
+	/// <summary>
+	/// Creates a display string of the domain object by serializing it and changing the ':' to '='. 
+	/// </summary>
+	/// <param name="parameters">
+	/// Provide an anonymous object to customize the string. If omitted, it will create a string of all fields and properties of the class/struct.
+	/// <para>For example, to only show the ID of an entity, use: new { Id = this.Id }</para>
+	/// </param>
+	/// <param name="extraText">Extra text that is added after the serialized string in parenthesis.</param>
+	/// <param name="jsonSerializerOptions">Provide to customize the string serialization.</param>
 	public static string ToDisplayString<TDomainObject>(this TDomainObject o, object? parameters = null, string? extraText = null, JsonSerializerOptions? jsonSerializerOptions = null)
 		where TDomainObject : IDomainObject
 	{

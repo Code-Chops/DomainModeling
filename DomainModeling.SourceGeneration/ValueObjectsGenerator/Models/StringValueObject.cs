@@ -20,23 +20,23 @@ public enum StringFormat
 }
 
 public record StringValueObject(
-		bool UseValidationExceptions,
+		INamedTypeSymbol ValueObjectType,
 		int? MinimumLength,
 		int? MaximumLength,
-		INamedTypeSymbol ValueObjectType,
+		bool UseRegex,
+		StringCaseConversion StringCaseConversion,
+		StringFormat StringFormat,
+		StringComparison StringComparison, 
+		bool GenerateEnumerable,
 		bool GenerateToString,
 		bool GenerateComparison,
-		bool AddCustomValidation,
-		bool ConstructorIsPublic,
+		bool GenerateDefaultConstructor,
 		bool ForbidParameterlessConstruction,
 		bool GenerateStaticDefault,
-		bool GenerateEnumerable,
 		string? PropertyName,
 		bool PropertyIsPublic,
 		bool AllowNull,
-		StringCaseConversion StringCaseConversion,
-		StringFormat StringFormat,
-		StringComparison StringComparison) 
+		bool UseValidationExceptions)
 	: ValueObjectBase(
 		UseValidationExceptions: UseValidationExceptions,
 		ValueObjectType: ValueObjectType,
@@ -44,8 +44,7 @@ public record StringValueObject(
 		UnderlyingTypeNameBase: null,
 		GenerateToString: GenerateToString,
 		GenerateComparison: GenerateComparison,
-		AddCustomValidation: AddCustomValidation,
-		ConstructorIsPublic: ConstructorIsPublic,
+		GenerateDefaultConstructor: GenerateDefaultConstructor,
 		ForbidParameterlessConstruction: ForbidParameterlessConstruction,
 		GenerateStaticDefault: GenerateStaticDefault,
 		GenerateEnumerable: GenerateEnumerable,
@@ -59,7 +58,7 @@ public record StringValueObject(
 
 	public override string[] GetNamespaces()		=> Array.Empty<string>();
 	
-	public override string GetCommentsCode()		=> $"An immutable value type with an underlying value of {(this.StringCaseConversion == StringCaseConversion.NoConversion ? null : $"{this.StringCaseConversion} ")}{this.StringFormat} string.";
+	public override string GetCommentsCode()		=> $"An immutable value type with a {(this.StringCaseConversion == StringCaseConversion.NoConversion ? null : $"{this.StringCaseConversion} ")}{this.StringFormat}-Formatted string as underlying value.";
 
 	public override string GetToStringCode()		=> $"public override string ToString() => this.ToDisplayString(new {{ this.{this.PropertyName} }});";
 	
@@ -85,6 +84,9 @@ public record StringValueObject(
 		if (!this.AllowNull)
 			validation.AppendLine(this.GetGuardLine(Guard.NotNull, null, errorCodeStart));
 
+		if (this.MinimumLength is not null || this.MaximumLength is not null)
+			validation.AppendLine(this.GetGuardLine(Guard.LengthInRange, variableName: this.LocalVariableName, errorCodeStart, genericParameterName: null, this.MinimumLength, this.MaximumLength));
+
 		if (this.StringFormat is not StringFormat.Default)
 		{
 			var formatRegex = this.StringFormat switch
@@ -96,11 +98,11 @@ public record StringValueObject(
 				_										=> throw new ArgumentOutOfRangeException(nameof(this.StringFormat), this.StringFormat, null)
 			};
 
-			validation.AppendLine(this.GetGuardLine(Guard.Regex, this.LocalVariableName, errorCodeStart, genericParameterName: null, $"\"{formatRegex}\""));
+			validation.AppendLine(this.GetGuardLine(Guard.Regex, this.LocalVariableName, errorCodeStart, genericParameterName: null, $"new Regex(\"{formatRegex}\", RegexOptions.Compiled, matchTimeout: TimeSpan.FromSeconds(1))"));
 		}
-			
-		if (this.MinimumLength is not null || this.MaximumLength is not null)
-			validation.AppendLine(this.GetGuardLine<int>(Guard.InRange, valueName: $"{this.LocalVariableName}.Length", errorCodeStart, this.MinimumLength, this.MaximumLength));
+
+		if (this.UseRegex)
+			validation.AppendLine(this.GetGuardLine(Guard.Regex, this.LocalVariableName, errorCodeStart, genericParameterName: null, "ValidationRegex()"));
 		
 		return validation.ToString();
 	}
@@ -112,6 +114,9 @@ public record StringValueObject(
 
 	public override string GetEnumeratorCode() => $"public IEnumerator<{this.ElementTypeName}> GetEnumerator() => this.{this.PropertyName}.GetEnumerator();";
 
-	public override string GetExtraCode()	=> $@"public {(this.IsUnsealedRecordClass ?  "virtual " : null)}{this.ElementTypeName}? this[int index] 
-		=> Validator.Get<{this.Name}>.Default.GuardInRange(this.{this.PropertyName}, index, errorCode: null)!;";
-}
+	public override string GetExtraCode()
+		=> $@"
+	public {(this.IsUnsealedRecordClass ? "virtual " : null)}{this.ElementTypeName}? this[int index] 
+		=> Validator.Get<{this.Name}>.Default.GuardInRange(this.{this.PropertyName}, index, errorCode: null)!;
+";
+	}

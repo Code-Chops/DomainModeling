@@ -10,8 +10,8 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>1.6.2</Version>
-        <PackageReleaseNotes>Updated GenericMath package reference.</PackageReleaseNotes>
+        <Version>1.6.3</Version>
+        <PackageReleaseNotes>Updated GenericMath package reference 2.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainDrivenDesign.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>

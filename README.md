@@ -129,7 +129,7 @@ The generator correctly implements a value object for you by:
 > If a default constructor has to be extended or edited: copy the generated constructor, place it in your domain object, and edit it. Subsequently, parameter `generateDefaultConstructor` has to be set to `false`. 
 
 ## UnderlyingTypes
-It supports the following underlying types: `struct`, `string`, `list`, and `dictionary`. It can even generate objects with multiple underlying values in the form of `ValueTuples`, see (TupleValueObject)[#TupleValueObjectExample].
+It supports the following underlying types: `struct`, `string`, `list`, and `dictionary`. It can even generate objects with multiple underlying values in the form of `ValueTuples`, see [TupleValueObject](#TupleValueObjectExample).
  
 The following attributes can be used:
 - `GenerateValueObjectAttribute<T>`. A value object with a `struct` as underlying value, for example `int`, `DateTime`, `decimal`. 

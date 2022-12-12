@@ -121,7 +121,7 @@ The generator correctly implements a value object for you by:
 - **Exposing indices and `IEnumerable` `IReadOnly`-methods** to value objects with an enumerable as underlying value. Using the parameter `generateEnumerable`.
 - Adding the keyword `readonly` automatically for structs, to **ensure immutability**.
 - Letting you **think about if a underlying value should be `nullable`**. Nullability can be enabled by setting `valueIsNullable` to `true`. 
-- Adding the `StructLayoutAttribute` with `LayoutKind.Auto`. It gives the CLR permission to reorder the bytes corresponding to these fields. It decides exactly how to reorganize the fields for memory usage, packing, etc. By default structs in C# are implemented with `LayoutKind.Sequential`, because if types are commonly used for COM Interop, their fields must stay in the order they were defined. But because our ValueObjects are not expected to be used for COM Interop **the `LayoutKind.Auto' attribute is used to optimize the struct**.
+- Adding the `StructLayoutAttribute` with `LayoutKind.Auto`. It gives the CLR permission to reorder the bytes corresponding to these fields. It decides exactly how to reorganize the fields for memory usage, packing, etc. By default structs in C# are implemented with `LayoutKind.Sequential`, because if types are commonly used for COM Interop, their fields must stay in the order they were defined. But because our ValueObjects are not expected to be used for COM Interop **the `LayoutKind.Auto` attribute is used to optimize the struct**.
 - **Adding basic validation for you**. See [Underlying types](#UnderlyingTypes).
 - Forcing you to **think about string-equality**, for value objects that have an underlying value of `string`.
 - Generating **`Length` or `Count` properties** for you (if applicable).
@@ -129,7 +129,7 @@ The generator correctly implements a value object for you by:
 > If a default constructor has to be extended or edited: copy the generated constructor, place it in your domain object, and edit it. Subsequently, parameter `generateDefaultConstructor` has to be set to `false`. 
 
 ## UnderlyingTypes
-It supports the following underlying types: `struct`, `string`, `list`, and `dictionary`. It can even generate objects with multiple underlying values in the form of `ValueTuples`, see (TupleValueObject)[#TupleValueObjectExample].
+It supports the following underlying types: `struct`, `string`, `list`, and `dictionary`. It can even generate objects with multiple underlying values in the form of `ValueTuples`, see [TupleValueObject](#TupleValueObjectExample).
  
 The following attributes can be used:
 - `GenerateValueObjectAttribute<T>`. A value object with a `struct` as underlying value, for example `int`, `DateTime`, `decimal`. 

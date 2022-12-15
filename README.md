@@ -139,7 +139,7 @@ The following attributes can be used:
   - `minimumLength` and `maximumLength` (required). If provided, the default constructor will guard that the length of the string lies between these values. 
   - `useRegex` (required). If true, it will force you to implement a static method `ValidationRegex` which returns a `Regex`. This regex will be used to (in)validate the object. See the example below.
   - `stringFormat` (required). The default constructor will guard that the string is of one of the following formats: `StringFormat.Default`, `StringFormat.Alpha`, `StringFormat.AlphaWithUnderscore`, `StringFormat.AlphaNumeric`, `StringFormat.AlphaNumericWithUnderscore`.
-  - `stringComparison` (required). Configures the way strings should be compared (`CurrentCulture`, `Ordinal`, `OrdinalIgnoreCase, ...).
+  - `stringComparison` (required). Configures the way strings should be compared (`CurrentCulture`, `Ordinal`, `OrdinalIgnoreCase`, ...).
   - `stringCaseConversion` (optional). Configures if the string should be converted to `LowerInvariant` or `UpperInvariant` automatically. Default: `NoConversion`.
 
 > Warning! Manually added properties won't be included in the `Equals`, `CompareTo` and `GetHashCode`-calculation. To use value objects with multiple underlying values a `ValueTuple` can be provided as type parameter.

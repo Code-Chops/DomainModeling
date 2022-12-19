@@ -10,8 +10,8 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>1.6.4</Version>
-        <PackageReleaseNotes>Updated SourceGeneration.Utilities and GenericMath package references.</PackageReleaseNotes>
+        <Version>1.6.5</Version>
+        <PackageReleaseNotes>Added INewable to ICreatable.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainDrivenDesign.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>

@@ -10,8 +10,8 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>1.6.6</Version>
-        <PackageReleaseNotes>ICreatable does not implement INewable by default.</PackageReleaseNotes>
+        <Version>1.6.7</Version>
+        <PackageReleaseNotes>Fixed type constraints on INewable.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainDrivenDesign.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>

@@ -4,7 +4,7 @@
 /// Has a factory to create objects of type <typeparamref name="TSelf"/>.
 /// </summary>
 /// <typeparam name="TSelf">The type to be created.</typeparam>
-public interface ICreatable<out TSelf> : INewable<TSelf>
+public interface ICreatable<out TSelf>
 	where TSelf : ICreatable<TSelf>, IDomainObject, new()
 {
 	static abstract TSelf Create(Validator? validator = null);

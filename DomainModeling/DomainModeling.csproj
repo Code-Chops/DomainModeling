@@ -10,8 +10,8 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>1.6.7</Version>
-        <PackageReleaseNotes>Fixed type constraints on INewable.</PackageReleaseNotes>
+        <Version>1.6.8</Version>
+        <PackageReleaseNotes>Added source generated code for ValidationExceptionMessage in _temp file because Blazor still does not support generic attributes.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainDrivenDesign.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>

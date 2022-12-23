@@ -47,7 +47,7 @@ Provides a way to easily (in)validate domain objects. It support several modes t
 - Are represented in code as `ValidationException<TGuard>`.
 - Should occur after invalidation of external input.
 - Contain an error code, a message, and values of the validation parameters, which can be communicated externally.
-- This helps localization of messages shown to the end-user for external services. To consume and localize these messages, see: https://github.com/Code-Chops/DomainDrivenDesign.Contracts.
+- This helps localization of messages shown to the end-user for external services. To consume and localize these messages, see the [DDD Contracts library](https://github.com/Code-Chops/DomainDrivenDesign.Contracts).
 
 #### System exceptions
 - Are represented in code as `SystemException<TGuard>`. 

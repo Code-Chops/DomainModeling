@@ -76,6 +76,7 @@ internal static class ValueObjectSyntaxReceiver
 		if (hasListAttribute)
 			return new ListValueObject(
 				ValueObjectType: type,
+				ElementType: (INamedTypeSymbol)attribute.AttributeClass!.TypeArguments.Single(),
 				Attribute: attribute,
 				MinimumCount: attribute.TryGetArgument("minimumCount", out value) && value != Int32.MinValue ? value : null,
 				MaximumCount: attribute.TryGetArgument("maximumCount", out value) && value != Int32.MaxValue ? value : null,
@@ -113,6 +114,7 @@ internal static class ValueObjectSyntaxReceiver
 		if (hasDefaultAttribute)
 			return new DefaultValueObject(
 				ValueObjectType: type,
+				UnderlyingType: (INamedTypeSymbol)attribute.AttributeClass!.TypeArguments.Single(),
 				Attribute: attribute,
 				MinimumValue: attribute.TryGetArgument("minimumValue", out value) && value != Int32.MinValue ? value : null,
 				MaximumValue: attribute.TryGetArgument("maximumValue", out value) && value != Int32.MaxValue ? value : null,

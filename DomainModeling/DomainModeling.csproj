@@ -10,7 +10,7 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>1.6.9</Version>
+        <Version>1.6.10</Version>
         <PackageReleaseNotes>ICreatable{} does not require new() anymore.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainDrivenDesign.DomainModeling</Title>

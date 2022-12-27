@@ -2,6 +2,9 @@
 
 namespace CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration.UnitTests.ValueObjects;
 
+/// <summary>
+/// This is a comment.
+/// </summary>
 [GenerateStringValueObject(minimumLength: Int32.MinValue, maximumLength: Int32.MaxValue, useRegex: false, stringFormat: StringFormat.Default, stringComparison: StringComparison.Ordinal, generateToString: true, useValidationExceptions: false)]
 public partial struct StringClassStructMock { }
 

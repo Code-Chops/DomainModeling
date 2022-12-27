@@ -63,11 +63,7 @@ public class ValueObjectGenerator : IIncrementalGenerator
 
 		code.AppendLine(GetUsings())
 			.AppendLine(GetNamespaceDeclaration)
-			.Append($@"
-/// <summary>
-/// {GetComment()}
-/// </summary>
-")
+			.AppendLine(GetComment, trimEnd: true)
 			.AppendLine(GetStructLayoutAttribute)
 			.AppendLine(GetObjectDeclaration().TrimEnd())
 			.AppendLine("{")
@@ -77,7 +73,7 @@ public class ValueObjectGenerator : IIncrementalGenerator
 			.AppendLine(GetEqualsAndHashCode)
 			.AppendLine(GetComparison)
 			.AppendLine(GetStaticDefault, trimEnd: true)
-			.AppendLine(GetCast)
+			.AppendLine(GetCast, trimEnd: true)
 			.AppendLine(GetEnumerator)
 			.AppendLine(GetConstructors)
 			.AppendLine(GetFactories, trimEnd: true)
@@ -111,6 +107,7 @@ public class ValueObjectGenerator : IIncrementalGenerator
 			});
 			
 			var namespaceUsings = namespaces
+				.Distinct()
 				.OrderBy(ns => ns.StartsWith("CodeChops"))
 				.ThenBy(ns => ns)
 				.Aggregate(new StringBuilder(), (sb, ns) => sb.AppendLine($"using {ns};"))
@@ -127,8 +124,14 @@ public class ValueObjectGenerator : IIncrementalGenerator
 
 		string GetComment()
 		{
-			return $@"{data.GetCommentsCode()}
-/// Extends: <see cref=""{data.ValueObjectType.GetFullTypeNameWithGenericParameters().Replace('<', '{').Replace('>', '}')}""/>.";
+			if (!String.IsNullOrWhiteSpace(data.ValueObjectType.GetDocumentationCommentXml()))
+				return Environment.NewLine;
+			
+			return $@"
+/// <summary>
+/// {data.GetCommentsCode()}
+/// </summary>
+";
 		}
 		
 		
@@ -243,7 +246,7 @@ public class ValueObjectGenerator : IIncrementalGenerator
 ");
 
 			if (!data.ValueObjectType.IsRecord)
-				code.TrimEnd().AppendLine($@"
+				code.TrimEnd().Append($@"
 	[DebuggerHidden]
 	[EditorBrowsable(EditorBrowsableState.Never)]
 	{data.GetObjectEqualsCode()}
@@ -366,7 +369,8 @@ public class ValueObjectGenerator : IIncrementalGenerator
 			if (data is { GenerateDefaultConstructor: false, ForbidParameterlessConstruction: false })
 				return null;
 
-			var code = new StringBuilder().Append("	#region Constructors");
+			var code = new StringBuilder().Append(@"
+	#region Constructors");
 			
 			if (data.GenerateDefaultConstructor)
 			{

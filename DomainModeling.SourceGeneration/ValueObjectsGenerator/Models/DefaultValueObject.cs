@@ -3,6 +3,7 @@ namespace CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration.ValueObje
 
 public sealed record DefaultValueObject(
 		INamedTypeSymbol ValueObjectType,
+		INamedTypeSymbol UnderlyingType,
 		AttributeData Attribute,
 		TypeDeclarationSyntax TypeDeclarationSyntax,
 		int? MinimumValue,
@@ -19,7 +20,7 @@ public sealed record DefaultValueObject(
 	: ValueObjectBase(		
 		UseValidationExceptions: UseValidationExceptions,
 		ValueObjectType: ValueObjectType,
-		UnderlyingTypeName: GetUnderlyingTypeName(GetUnderlyingType(Attribute), AllowNull),
+		UnderlyingTypeName: GetUnderlyingTypeName(UnderlyingType, AllowNull),
 		UnderlyingTypeNameBase: null,
 		GenerateToString: GenerateToString,  
 		GenerateComparison: GenerateComparison,
@@ -32,14 +33,14 @@ public sealed record DefaultValueObject(
 		AddIComparable: true,
 		AllowNull: AllowNull)
 {
-	private static ITypeSymbol GetUnderlyingType(AttributeData attribute) 
-		=> attribute.AttributeClass!.TypeArguments.Single();
 	private static string GetUnderlyingTypeName(ITypeSymbol type, bool valueIsNullable) 
 		=> $"{type.GetTypeNameWithGenericParameters()}{(type.TypeKind is TypeKind.Struct && valueIsNullable ? "?" : null)}";
 
-	public override string[] GetNamespaces()		=> Array.Empty<string>();
+	public override string[] GetNamespaces()		=> this.UnderlyingType.ContainingNamespace.IsGlobalNamespace 
+														? Array.Empty<string>() 
+														: new [] { this.UnderlyingType.ContainingNamespace.ToDisplayString() };
 
-	public override string GetCommentsCode()		=> $"An immutable value object with an underlying value of type {this.UnderlyingTypeName.Replace("<", "&lt;").Replace(">", "&gt;")}.";
+	public override string GetCommentsCode()		=> $@"An immutable value object with an underlying value of type <see cref=""{this.ValueObjectType.GetFullTypeNameWithGenericParameters().Replace('<', '{').Replace('>', '}')}""/>.";
 
 	public override string GetToStringCode()		=> $"public override string ToString() => this.ToDisplayString(new {{ this.{this.PropertyName} }});";
 	
@@ -62,16 +63,14 @@ public sealed record DefaultValueObject(
 	
 	public override string? GetValidationCode(string errorCodeStart)
 	{
-		var underlyingType = GetUnderlyingType(this.Attribute);
-		
-		if (!(underlyingType.IsNumeric(seeThroughNullable: true) || underlyingType.IsType<char>()) || (this.MinimumValue is null && this.MaximumValue is null)) 
+		if (!(this.UnderlyingType.IsNumeric(seeThroughNullable: true) || this.UnderlyingType.IsType<char>()) || (this.MinimumValue is null && this.MaximumValue is null)) 
 			return null;
 
-		var validationType = $"({underlyingType.Name}{(underlyingType.TypeKind is TypeKind.Struct && this.AllowNull ? "?" : null)}){this.LocalVariableName}";
+		var validationType = $"({this.UnderlyingType.Name}{(this.UnderlyingType.TypeKind is TypeKind.Struct && this.AllowNull ? "?" : null)}){this.LocalVariableName}";
 		
-		var underlyingTypeName = underlyingType.IsType<char>() 
+		var underlyingTypeName = this.UnderlyingType.IsType<char>() 
 			? typeof(int).FullName
-			: underlyingType.Name;
+			: this.UnderlyingType.Name;
 		
 		return this.GetGuardLine(Guard.InRange, validationType, errorCodeStart, genericParameterName: underlyingTypeName, this.MinimumValue, this.MaximumValue);
 	}

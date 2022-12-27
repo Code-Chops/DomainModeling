@@ -2,6 +2,7 @@ namespace CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration.ValueObje
 
 public record ListValueObject(
 		INamedTypeSymbol ValueObjectType,
+		INamedTypeSymbol ElementType,
 		// ReSharper disable once NotAccessedPositionalProperty.Global
 		AttributeData Attribute,
 		int? MinimumCount,
@@ -33,17 +34,18 @@ public record ListValueObject(
 		UseValidationExceptions: UseValidationExceptions),
 		IEnumerableValueObject
 {
-	public string ElementTypeName { get; } = $"{Attribute.AttributeClass!.TypeArguments.Single().Name}{(AllowNull ? "?" : null)}";
+	public string ElementTypeName { get; } = $"{ElementType.Name}{(AllowNull ? "?" : null)}";
 
 	public override string[] GetNamespaces()
 	{
 		var elementNamespace = this.Attribute.AttributeClass!.TypeArguments.Single().ContainingNamespace;
-		if (elementNamespace.IsGlobalNamespace) return Array.Empty<string>();
+		if (elementNamespace.IsGlobalNamespace) 
+			return Array.Empty<string>();
 
 		return new[] { elementNamespace.ToDisplayString() };
 	}
 
-	public override string GetCommentsCode()		=> $"An immutable value object with an immutable list of {this.ElementTypeName} as underlying value.";
+	public override string GetCommentsCode()		=> $@"An immutable value object with an immutable list of <see cref=""{this.ElementType.GetFullTypeNameWithGenericParameters().Replace('<', '{').Replace('>', '}')}""/> as underlying value.";
 
 	public override string GetToStringCode()		=> $"public override string ToString() => this.ToDisplayString(new {{ Type = \"{this.ElementTypeName}\" }}, extraText: this.Count.ToString());";
 	

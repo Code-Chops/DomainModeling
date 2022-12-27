@@ -41,9 +41,6 @@ public record DictionaryValueObject(
 		var keyNamespace = this.KeyType.ContainingNamespace;
 		var elementNamespace = this.ValueType.ContainingNamespace;
 
-		if (!keyNamespace.IsGlobalNamespace && !elementNamespace.IsGlobalNamespace && !SymbolEqualityComparer.Default.Equals(keyNamespace, elementNamespace))
-			return new[] { keyNamespace.ToDisplayString(), elementNamespace.ToDisplayString() };
-		
 		if (!keyNamespace.IsGlobalNamespace)
 			return new[] { keyNamespace.ToDisplayString() };
 		
@@ -53,7 +50,7 @@ public record DictionaryValueObject(
 		return Array.Empty<string>();
 	}
 	
-	public override string GetCommentsCode()		=> $"An immutable value object with an immutable dictionary of {this.ValueTypeName} by {this.KeyType.Name} as underlying value.";
+	public override string GetCommentsCode()		=> $@"An immutable value object holding an immutable dictionary with <see cref=""{this.KeyType.GetFullTypeNameWithGenericParameters().Replace('<', '{').Replace('>', '}')}""/> as key and <see cref=""{this.ValueType.GetFullTypeNameWithGenericParameters().Replace('<', '{').Replace('>', '}')}""/> as value.";
 
 	public override string GetToStringCode()		=> $"public override string ToString() => this.ToDisplayString(new {{ Key = \"{this.KeyType.Name}\", Value = \"{this.ValueTypeName}\" }}, extraText: this.Count.ToString());";
 	

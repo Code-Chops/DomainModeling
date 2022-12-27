@@ -138,6 +138,8 @@ See [Underlying types](#Underlying-types).
 Comparison behaviour should be provided for value objects that have an underlying value of `string`.
 - Generating `Length` or `Count` properties:<br/>
 For string or enumerable value objects.
+- Automatically implementing `IValueObject`:<br/>
+Not implementing the interface can lead to unexpected and undesired behaviour in your code.
 
 > If a default constructor has to be extended or edited: copy the generated constructor, place it in your domain object, and edit it. Subsequently, parameter `generateDefaultConstructor` has to be set to `false`. 
 

@@ -651,12 +651,12 @@ public readonly partial record struct ValidationExceptionMessage : IValueObject,
 # Identities
 Entities require a unique identity (ID) in order to be distinguished from other entities. Each entity should have it's strongly typed ID.
 It's important that the scope in which the ID should unique is taken into consideration before implementing them.
-The underlying value of an identity should implement `IEquatable` and `IComparable`. It can be one of the following types:
+The underlying value of an identity should implement `IEquatable`. It can be one of the following types:
 - A primitive type (like `string`, `ulong`, `int`, `byte`, etc.).
 - A (custom implemented) `ValueObject`.
 - A `Guid`.
 - A `Uuid` (which is included in this package, see [Simple value object example](#Simple-value-object-example)): a 32-digit UUID without hyphens.
-- Any other `struct` which implements `IEquatable` and `IComparable`.
+- Any other `struct` which implements `IEquatable`.
 
 Identities can be implemented correctly by using one of the following methods (ordered by preference):
 - Use the [Identity generator](#Identity-generator). This way you can create a readonly struct (which probably lives on the stack).

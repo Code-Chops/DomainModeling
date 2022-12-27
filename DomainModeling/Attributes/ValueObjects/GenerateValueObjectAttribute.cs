@@ -16,7 +16,7 @@
 /// <typeparam name="T">The type of the only structural value.</typeparam>
 [AttributeUsage(AttributeTargets.Struct | AttributeTargets.Class)]
 public sealed class GenerateValueObjectAttribute<T> : Attribute
-	where T : struct, IComparable<T>, IEquatable<T>
+	where T : struct, IEquatable<T>
 {
 	/// <param name="minimumValue">The minimum value.</param>
 	/// <param name="maximumValue">The maximum value.</param>

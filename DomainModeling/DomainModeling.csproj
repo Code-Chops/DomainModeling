@@ -10,8 +10,8 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>1.6.10</Version>
-        <PackageReleaseNotes>ICreatable{} does not require new() anymore.</PackageReleaseNotes>
+        <Version>1.6.11</Version>
+        <PackageReleaseNotes>Removed the IComparable requirement for DefaultValueObjects.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainDrivenDesign.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>

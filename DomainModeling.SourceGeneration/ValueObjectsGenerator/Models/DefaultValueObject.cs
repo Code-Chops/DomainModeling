@@ -88,13 +88,30 @@ public sealed record DefaultValueObject : ValueObjectBase
 		if (this.MinimumValue is null && this.MaximumValue is null)
 			return null;
 
-		var validationType = $"({this.UnderlyingTypeName}){this.LocalVariableName}";
-		
 		var underlyingTypeName = this.UnderlyingType.IsNumeric(seeThroughNullable: true)
 			? this.UnderlyingTypeName.TrimEnd('?')
 			: typeof(int).FullName;
 		
-		return this.GetGuardLine(Guard.InRange, validationType, errorCodeStart, genericParameterName: underlyingTypeName, this.MinimumValue, this.MaximumValue);
+		var validationType = $"({underlyingTypeName}){this.LocalVariableName}";
+
+		var code = new StringBuilder();
+		
+		var guardLine = this.GetGuardLine(
+			Guard.InRange, 
+			validationType, 
+			errorCodeStart, 
+			genericParameterName: underlyingTypeName, 
+			this.MinimumValue is null ? $"({underlyingTypeName}?)null" : this.MinimumValue, 
+			this.MaximumValue is null ? $"({underlyingTypeName}?)null" : this.MaximumValue);
+
+		if (this.AllowNull)
+			code.Append($@"
+		if ({this.LocalVariableName} is not null)
+	");
+
+		code.AppendLine(guardLine);
+
+		return code.ToString();
 	}
 	
 	public override string? GetValueTransformation() => null;

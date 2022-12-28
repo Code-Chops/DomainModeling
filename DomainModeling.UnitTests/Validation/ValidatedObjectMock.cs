@@ -19,7 +19,7 @@ public class ValidatedObjectMock : IDomainObject, ICreatable<ValidatedObjectMock
 		var errorCode = new ErrorCodeMock();
 
 		validator.GuardNotNull(name, errorCode);
-		validator.GuardInRange<int>(name.Length, 1, 10, errorCode);
+		validator.GuardInRange(name.Length, 1, 10, errorCode);
 		validator.GuardKeyExists(this.AgeByName.ContainsKey, name, errorCode);
 		
 		this.Name = name;

@@ -2,7 +2,6 @@
 using System.Text.Json.Serialization;
 using CodeChops.DomainDrivenDesign.DomainModeling.Identities.Serialization.Json;
 using CodeChops.DomainDrivenDesign.DomainModeling.Serialization.Json;
-using CodeChops.GenericMath.Serialization.Json;
 
 namespace CodeChops.DomainDrivenDesign.DomainModeling.Serialization;
 
@@ -11,13 +10,13 @@ public static class JsonSerialization
 	public static JsonSerializerOptions DefaultOptions { get; } = new()
 	{
 		WriteIndented = false, 
-		Converters = { new ValueTupleJsonConverterFactory(), new IdentityJsonConverterFactory(), new NumberJsonConverterFactory() },
+		Converters = { new ValueTupleJsonConverterFactory(), new IdentityJsonConverterFactory() },
 	};
 	
 	public static JsonSerializerOptions DefaultDisplayStringOptions { get; } = new()
 	{
 		WriteIndented = false, 
-		Converters = { new ValueTupleJsonConverterFactory(), new IdentityJsonConverterFactory(), new NumberJsonConverterFactory()  },
+		Converters = { new ValueTupleJsonConverterFactory(), new IdentityJsonConverterFactory() },
 		IgnoreReadOnlyFields = false,
 		DefaultIgnoreCondition = JsonIgnoreCondition.Never,
 		MaxDepth = 3,

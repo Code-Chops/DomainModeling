@@ -2,17 +2,17 @@ using CodeChops.DomainDrivenDesign.DomainModeling.Validation.Guards.Core;
 
 namespace CodeChops.DomainDrivenDesign.DomainModeling.Validation.Guards;
 
-public record InRangeNoOutputGuard<TNumber> : NoOutputGuardBase<InRangeNoOutputGuard<TNumber>, (Number<TNumber> Index, Number<TNumber>? LowerBound, Number<TNumber>? UpperBound)>,
-	IHasExceptionMessage<InRangeNoOutputGuard<TNumber>, (Number<TNumber> Index, Number<TNumber>? LowerBound, Number<TNumber>? UpperBound)>, 
-	INoOutputGuard<(Number<TNumber> Index, Number<TNumber>? LowerBound, Number<TNumber>? UpperBound)>, 
-	IGuard<InRangeNoOutputGuard<TNumber>, (Number<TNumber> Index, Number<TNumber>? LowerBound, Number<TNumber>? UpperBound)> 
-	where TNumber : struct, IComparable<TNumber>, IEquatable<TNumber>, IConvertible
+public record InRangeNoOutputGuard<TNumber> : NoOutputGuardBase<InRangeNoOutputGuard<TNumber>, (TNumber Index, TNumber? LowerBound, TNumber? UpperBound)>,
+	IHasExceptionMessage<InRangeNoOutputGuard<TNumber>, (TNumber Index, TNumber? LowerBound, TNumber? UpperBound)>, 
+	INoOutputGuard<(TNumber Index, TNumber? LowerBound, TNumber? UpperBound)>, 
+	IGuard<InRangeNoOutputGuard<TNumber>, (TNumber Index, TNumber? LowerBound, TNumber? UpperBound)> 
+	where TNumber : struct, INumber<TNumber>
 {
-	public static string GetExceptionMessage(string objectName, (Number<TNumber> Index, Number<TNumber>? LowerBound, Number<TNumber>? UpperBound) parameter)
+	public static string GetExceptionMessage(string objectName, (TNumber Index, TNumber? LowerBound, TNumber? UpperBound) parameter)
 		=> $"Value '{{1}}' is out of range for '{{0}}' {parameter.LowerBound?.Write(" (Lower bound: '{2}')")}{parameter.UpperBound?.Write(" (Upper bound: '{3}')")}.";
 	
-	public static bool IsValid((Number<TNumber> Index, Number<TNumber>? LowerBound, Number<TNumber>? UpperBound) input)
-		=> input.Index >= input.LowerBound && input.Index <= input.UpperBound;
+	public static bool IsValid((TNumber Index, TNumber? LowerBound, TNumber? UpperBound) input)
+		=> (input.LowerBound is null || input.Index >= input.LowerBound) && (input.UpperBound is null || input.Index <= input.UpperBound);
 }
 
 public record InRangeGuard<TElement> : OutputGuardBase<InRangeGuard<TElement>, (IReadOnlyList<TElement> List, int Index), (int Index, int Upperbound), TElement?>, 
@@ -50,17 +50,10 @@ public record InRangeGuard : NoOutputGuardBase<InRangeGuard, (string Value, int?
 
 public static class InRangeGuardExtensions
 {
-	public static void GuardInRange<TNumber>(this Validator validator, Number<TNumber>? index, Number<TNumber>? lowerBound, Number<TNumber>? upperBound, 
+	public static void GuardInRange<TNumber>(this Validator validator, TNumber index, TNumber? lowerBound, TNumber? upperBound, 
 		object? errorCode, Exception? innerException = null)
-		where TNumber : struct, IComparable<TNumber>, IEquatable<TNumber>, IConvertible
-	{
-		if (index is null)
-			return;
-		
-		var parameters = (value: index.Value, lowerBound, upperBound);
-		
-		InRangeNoOutputGuard<TNumber>.Guard(validator, parameters, parameters, errorCode, innerException);
-	}
+		where TNumber : struct, INumber<TNumber> 
+		=> InRangeNoOutputGuard<TNumber>.Guard(validator, input: (index, lowerBound, upperBound), messageParameter: (index, lowerBound, upperBound), errorCode, innerException);
 
 	public static TElement? GuardInRange<TElement>(this Validator validator, IReadOnlyList<TElement> list, int index, object? errorCode, Exception? innerException = null)
 		=> InRangeGuard<TElement>.Guard(validator, (list, index), (index, list.Count), errorCode, innerException);

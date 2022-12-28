@@ -399,7 +399,7 @@ public class ValueObjectGenerator : IIncrementalGenerator
 				var specificValidationCode = data.GetValidationCode(errorCodeStart)?.TrimEnd();
 	
 				if (specificValidationCode is not null)
-					code.AppendLine().AppendLine(specificValidationCode);
+					code.AppendLine(specificValidationCode);
 	
 				code.AppendLine($@"
 		this.{data.BackingFieldName} = {data.LocalVariableName}{data.GetValueTransformation()};

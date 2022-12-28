@@ -20,7 +20,7 @@ global using CodeChops.DomainDrivenDesign.DomainModeling.Identities;
 global using CodeChops.DomainDrivenDesign.DomainModeling.Validation;
 global using CodeChops.DomainDrivenDesign.DomainModeling.Validation.Guards;
 global using CodeChops.DomainDrivenDesign.DomainModeling;
-global using CodeChops.GenericMath;
+global using System.Numerics;
 ";
 
 			i.AddSource("GlobalUsings.g.cs", globalUsingsCode);

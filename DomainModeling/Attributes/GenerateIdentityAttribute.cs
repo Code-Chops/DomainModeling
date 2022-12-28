@@ -3,18 +3,18 @@ namespace CodeChops.DomainDrivenDesign.DomainModeling.Attributes;
 #pragma warning disable IDE0060 // Remove unused parameter
 
 /// <summary>
-/// <inheritdoc cref="GenerateStronglyTypedId{TPrimitive}"/>
+/// <inheritdoc cref="GenerateIdentity{TPrimitive}"/>
 /// <para>
 /// The primitive type of the ID is ulong.
 /// </para>
 /// </summary>
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct)]
-public sealed class GenerateStronglyTypedId : Attribute
+public sealed class GenerateIdentity : Attribute
 {
 	/// <param name="name">If not provided, 'Identity' will be the default name.</param>
 	/// <param name="propertyName">If not provided, 'Id' will be the default property name.</param>
 	// ReSharper disable twice UnusedParameter.Local
-	public GenerateStronglyTypedId(string? name = null, string? propertyName = null)
+	public GenerateIdentity(string? name = null, string? propertyName = null)
 	{
 		// These parameters will be read from the attribute arguments itself and therefore don't need to be assigned.
 	}
@@ -31,12 +31,12 @@ public sealed class GenerateStronglyTypedId : Attribute
 /// </summary>
 /// <typeparam name="T">The underlying value of the ID.</typeparam>
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct)]
-public sealed class GenerateStronglyTypedId<T> : Attribute
+public sealed class GenerateIdentity<T> : Attribute
 	where T : struct, IEquatable<T>, IComparable<T>
 {
 	/// <param name="name">If not provided, 'Identity' will be the default name.</param>
 	/// <param name="propertyName">If not provided, 'Id' will be the default property name.</param>
-	public GenerateStronglyTypedId(string? name = null, string? propertyName = null)
+	public GenerateIdentity(string? name = null, string? propertyName = null)
 	{
 		// These parameters will be read from the attribute arguments itself and therefore don't need to be assigned.
 	}

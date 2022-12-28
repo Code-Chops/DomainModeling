@@ -6,7 +6,7 @@ namespace CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration.UnitTests
 public readonly ref partial struct DefaultRefValueObjectTupleMock<TGuard>
 	where TGuard : IGuard
 {
-	private static readonly string? ErrorCode_CodeChops_ExceptionMessage_TGuard_OutOfRange;
+	private static readonly string? ErrorCode_CodeChops_DefaultRefValueObjectTupleMock_TGuard_OutOfRange;
 
 	public override partial string ToString() => String.Format(this.Message, this.Parameters.ToArray());
 

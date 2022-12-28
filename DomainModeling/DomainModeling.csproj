@@ -10,8 +10,11 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>1.6.11</Version>
-        <PackageReleaseNotes>Removed the IComparable requirement for DefaultValueObjects.</PackageReleaseNotes>
+        <Version>1.7.0</Version>
+        <PackageReleaseNotes>- Comparison is only generated when enabled and IConvertible is implemented.
+			- Renamed GenerateStronglyTypedId attribute to GenerateIdentity.
+			- Enhanced documentation.
+			- Validation code for default value objects is generated when implements IComparable.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainDrivenDesign.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>

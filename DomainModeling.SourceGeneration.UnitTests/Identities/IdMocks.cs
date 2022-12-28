@@ -1,39 +1,39 @@
 ﻿namespace CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration.UnitTests.Identities;
 
-[GenerateStronglyTypedId<byte>]
+[GenerateIdentity<byte>]
 public partial class EntityWithByteIdMock1 : Entity
 {
 }
 
-[GenerateStronglyTypedId]
+[GenerateIdentity]
 public partial class EntityWithByteIdMock2 : Entity
 {
 }
 
-[GenerateStronglyTypedId]
+[GenerateIdentity]
 public partial record RecordWithId;
 
-[GenerateStronglyTypedId]
+[GenerateIdentity]
 // ReSharper disable once UnusedTypeParameter
 public partial record RecordWithGenericType<T>;
 
-[GenerateStronglyTypedId]
+[GenerateIdentity]
 public partial class ClassWithId
 {
 }
 
-[GenerateStronglyTypedId]
+[GenerateIdentity]
 // ReSharper disable once UnusedTypeParameter
 public partial class ClassWithGenericType<T>
 {
 }
 
-[GenerateStronglyTypedId<Uuid>]
+[GenerateIdentity<Uuid>]
 public partial class ClassWithUuid
 {
 }
 
-[GenerateStronglyTypedId<GeneratedValueObjectId>]
+[GenerateIdentity<GeneratedValueObjectId>]
 public partial class ClassWithGeneratedValueObjectId
 {
 }

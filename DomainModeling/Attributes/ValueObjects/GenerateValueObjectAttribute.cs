@@ -18,10 +18,10 @@
 public sealed class GenerateValueObjectAttribute<T> : Attribute
 	where T : struct, IEquatable<T>
 {
-	/// <param name="minimumValue">The minimum value.</param>
-	/// <param name="maximumValue">The maximum value.</param>
+	/// <param name="minimumValue">The minimum value. Default (Int32.MinValue): no minimum.</param>
+	/// <param name="maximumValue">The maximum value. Default (Int32.MaxValue): no maximum.</param>
 	/// <param name="generateToString">Generates a ToString(). Default: true.</param>
-	/// <param name="generateComparison">Generates Equals(), GetHashCode(), comparison operators (and CompareTo() if possible). Default: true.</param>
+	/// <param name="generateComparison">Generates comparison operators and CompareTo. Default: true.</param>
 	/// <param name="generateDefaultConstructor">Set to true if a default constructor should be generated. If it is false, no default constructor will be generated. Default: true.</param>
 	/// <param name="forbidParameterlessConstruction">If true (default), it creates an obsolete parameterless private constructor that throws an exception.</param>
 	/// <param name="generateStaticDefault">Generate a static property with a default value. Default: false.</param>
@@ -31,8 +31,8 @@ public sealed class GenerateValueObjectAttribute<T> : Attribute
 	/// <param name="useValidationExceptions">Throw validation exceptions instead of system exceptions. Default: true.</param>
 	// ReSharper disable always UnusedParameter.Local
 	public GenerateValueObjectAttribute(
-		int minimumValue, 
-		int maximumValue,
+		int minimumValue = Int32.MinValue, 
+		int maximumValue = Int32.MaxValue,
 		bool generateToString = true,
 		bool generateComparison = true,
 		bool generateDefaultConstructor = true,

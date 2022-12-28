@@ -8,7 +8,7 @@ namespace CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration.IdentityG
 public class IdGenerator : IIncrementalGenerator
 {
 	internal const string AttributeNamespace		= "CodeChops.DomainDrivenDesign.DomainModeling.Attributes";
-	internal const string AttributeName				= "GenerateStronglyTypedId";
+	internal const string AttributeName				= "GenerateIdentity";
 	internal const string EntityNamespace			= "CodeChops.DomainDrivenDesign.DomainModeling";
 	internal const string EntityName				= "Entity";
 	internal const string IdNamespace				= "CodeChops.DomainDrivenDesign.DomainModeling.Identities";

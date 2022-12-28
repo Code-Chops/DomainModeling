@@ -113,21 +113,21 @@ internal static class ValueObjectSyntaxReceiver
 		
 		if (hasDefaultAttribute)
 			return new DefaultValueObject(
-				ValueObjectType: type,
-				UnderlyingType: (INamedTypeSymbol)attribute.AttributeClass!.TypeArguments.Single(),
-				Attribute: attribute,
-				MinimumValue: attribute.TryGetArgument("minimumValue", out value) && value != Int32.MinValue ? value : null,
-				MaximumValue: attribute.TryGetArgument("maximumValue", out value) && value != Int32.MaxValue ? value : null,
-				TypeDeclarationSyntax: typeDeclarationSyntax,
-				GenerateToString: generateToString,
-				GenerateComparison: generateComparison,
-				GenerateDefaultConstructor: generateDefaultConstructor,
-				ForbidParameterlessConstruction: forbidParameterlessConstruction,
-				GenerateStaticDefault: generateStaticDefault,
-				PropertyName: propertyName,
-				PropertyIsPublic: propertyIsPublic,
-				AllowNull: valueIsNullable,
-				UseValidationExceptions: useValidationExceptions);
+				valueObjectType: type,
+				underlyingType: (INamedTypeSymbol)attribute.AttributeClass!.TypeArguments.Single(),
+				attribute: attribute,
+				minimumValue: attribute.TryGetArgument("minimumValue", out value) && value != Int32.MinValue ? value : null,
+				maximumValue: attribute.TryGetArgument("maximumValue", out value) && value != Int32.MaxValue ? value : null,
+				typeDeclarationSyntax: typeDeclarationSyntax,
+				generateToString: generateToString,
+				generateComparison: generateComparison,
+				generateDefaultConstructor: generateDefaultConstructor,
+				forbidParameterlessConstruction: forbidParameterlessConstruction,
+				generateStaticDefault: generateStaticDefault,
+				propertyName: propertyName,
+				propertyIsPublic: propertyIsPublic,
+				allowNull: valueIsNullable,
+				useValidationExceptions: useValidationExceptions);
 
 		return null;
 	}

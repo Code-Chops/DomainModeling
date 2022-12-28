@@ -271,10 +271,12 @@ public class ValueObjectGenerator : IIncrementalGenerator
 		
 		string? GetComparison()
 		{
-			if (!data.GenerateComparison) return null;
+			if (!data.GenerateComparison) 
+				return null;
 			
 			var compareToCode = data.GetCompareToCode();
-			if (compareToCode is null) return null;
+			if (compareToCode is null) 
+				return null;
 			
 			return $@"
 	#region Comparison
@@ -300,7 +302,8 @@ public class ValueObjectGenerator : IIncrementalGenerator
 		
 		string? GetStaticDefault()
 		{
-			if (!data.GenerateStaticDefault) return null;
+			if (!data.GenerateStaticDefault) 
+				return null;
 			
 			return data.GenerateDefaultConstructor 
 				? $@"

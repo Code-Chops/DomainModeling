@@ -15,11 +15,11 @@ public class IdBaseTypeExtractionTest
 	}
 	
 	[Theory]
-	[InlineData("[GenerateStronglyTypedId]", 						"global::System.UInt64")]
-	[InlineData("[GenerateStronglyTypedId<ulong>]",					"global::System.UInt64")]				
-	[InlineData("[GenerateStronglyTypedId<string>]",				"global::System.String")] 	
-	[InlineData("[GenerateStronglyTypedId<string>(typeof(Guid))]",	"global::System.String")]
-	[InlineData("[GenerateStronglyTypedId<Tuple>(typeof(Tuple))]",	"global::System.Tuple")]
+	[InlineData("[GenerateIdentity]", 						"global::System.UInt64")]
+	[InlineData("[GenerateIdentity<ulong>]",					"global::System.UInt64")]				
+	[InlineData("[GenerateIdentity<string>]",				"global::System.String")] 	
+	[InlineData("[GenerateIdentity<string>(typeof(Guid))]",	"global::System.String")]
+	[InlineData("[GenerateIdentity<Tuple>(typeof(Tuple))]",	"global::System.Tuple")]
 	public void IdType_Extraction_IsCorrect(string attribute, string expectedPrimitiveType)
 	{
 		var syntaxTree = GetSyntaxTree(attribute);
@@ -58,18 +58,18 @@ namespace CodeChops.Test
 namespace {IdGenerator.AttributeNamespace}
 {{
 	[AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct)]
-	public sealed class GenerateStronglyTypedId<TId> : Attribute
+	public sealed class GenerateIdentity<TId> : Attribute
 		where TPrimitive : IEquatable<TPrimitive>, IComparable<TPrimitive>
 	{{
-		public GenerateStronglyTypedId(StringFormat? baseType = null, string? name = null)
+		public GenerateIdentity(StringFormat? baseType = null, string? name = null)
 		{{
 		}}
 	}}
 	
 	[AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct)]
-	public sealed class GenerateStronglyTypedId : Attribute
+	public sealed class GenerateIdentity : Attribute
 	{{
-		public GenerateStronglyTypedId(string? name = null)
+		public GenerateIdentity(string? name = null)
 		{{
 		}}
 	}}

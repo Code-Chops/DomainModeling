@@ -1,40 +1,59 @@
 // ReSharper disable NotAccessedPositionalProperty.Global
+
 namespace CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration.ValueObjectsGenerator.Models;
 
-public sealed record DefaultValueObject(
-		INamedTypeSymbol ValueObjectType,
-		INamedTypeSymbol UnderlyingType,
-		AttributeData Attribute,
-		TypeDeclarationSyntax TypeDeclarationSyntax,
-		int? MinimumValue,
-		int? MaximumValue,
-		bool GenerateToString,
-		bool GenerateComparison,
-		bool GenerateDefaultConstructor,
-		bool ForbidParameterlessConstruction,
-		bool GenerateStaticDefault,
-		string? PropertyName,
-		bool PropertyIsPublic,
-		bool AllowNull, 
-		bool UseValidationExceptions)
-	: ValueObjectBase(		
-		UseValidationExceptions: UseValidationExceptions,
-		ValueObjectType: ValueObjectType,
-		UnderlyingTypeName: GetUnderlyingTypeName(UnderlyingType, AllowNull),
-		UnderlyingTypeNameBase: null,
-		GenerateToString: GenerateToString,  
-		GenerateComparison: GenerateComparison,
-		GenerateDefaultConstructor: GenerateDefaultConstructor,
-		ForbidParameterlessConstruction: ForbidParameterlessConstruction,  
-		GenerateStaticDefault: GenerateStaticDefault,
-		GenerateEnumerable: false,
-		PropertyName: PropertyName ?? "Value",
-		PropertyIsPublic: PropertyIsPublic,
-		AddIComparable: true,
-		AllowNull: AllowNull)
+public sealed record DefaultValueObject : ValueObjectBase
 {
-	private static string GetUnderlyingTypeName(ITypeSymbol type, bool valueIsNullable) 
-		=> $"{type.GetTypeNameWithGenericParameters()}{(type.TypeKind is TypeKind.Struct && valueIsNullable ? "?" : null)}";
+	public INamedTypeSymbol UnderlyingType { get; }
+	public AttributeData Attribute { get; }
+	public TypeDeclarationSyntax TypeDeclarationSyntax { get; }
+	public int? MinimumValue { get; }
+	public int? MaximumValue { get; }
+	
+	public DefaultValueObject(
+		INamedTypeSymbol valueObjectType,
+		INamedTypeSymbol underlyingType,
+		AttributeData attribute,
+		TypeDeclarationSyntax typeDeclarationSyntax,
+		int? minimumValue,
+		int? maximumValue,
+		bool generateToString,
+		bool generateComparison,
+		bool generateDefaultConstructor,
+		bool forbidParameterlessConstruction,
+		bool generateStaticDefault,
+		string? propertyName,
+		bool propertyIsPublic,
+		bool allowNull, 
+		bool useValidationExceptions) 
+		: base(UseValidationExceptions: useValidationExceptions,
+		ValueObjectType: valueObjectType,
+		UnderlyingTypeName: GetUnderlyingTypeName(underlyingType, allowNull),
+		UnderlyingTypeNameBase: null,
+		GenerateToString: generateToString,  
+		GenerateComparison: generateComparison && ImplementsIComparable(underlyingType),
+		GenerateDefaultConstructor: generateDefaultConstructor,
+		ForbidParameterlessConstruction: forbidParameterlessConstruction,  
+		GenerateStaticDefault: generateStaticDefault,
+		GenerateEnumerable: false,
+		PropertyName: propertyName ?? "Value",
+		PropertyIsPublic: propertyIsPublic,
+		AddIComparable: true,
+		AllowNull: allowNull)
+	{
+		this.UnderlyingType = underlyingType;
+		this.Attribute = attribute;
+		this.TypeDeclarationSyntax = typeDeclarationSyntax;
+		this.MinimumValue = minimumValue;
+		this.MaximumValue = maximumValue;
+	}
+
+	private static bool ImplementsIComparable(ITypeSymbol underlyingType) 
+		=> underlyingType.IsOrImplementsInterface(type => type.IsType(fullTypeName: typeof(IComparable).FullName), out var interf) 
+	        && (interf is not INamedTypeSymbol { TypeArguments.Length: 1 } || interf.HasSingleGenericTypeArgument(underlyingType));
+
+	private static string GetUnderlyingTypeName(ITypeSymbol underlyingType, bool valueIsNullable) 
+		=> $"{underlyingType.GetTypeNameWithGenericParameters()}{(underlyingType.TypeKind is TypeKind.Struct && valueIsNullable ? "?" : null)}";
 
 	public override string[] GetNamespaces()		=> this.UnderlyingType.ContainingNamespace.IsGlobalNamespace 
 														? Array.Empty<string>() 
@@ -63,14 +82,17 @@ public sealed record DefaultValueObject(
 	
 	public override string? GetValidationCode(string errorCodeStart)
 	{
-		if (!(this.UnderlyingType.IsNumeric(seeThroughNullable: true) || this.UnderlyingType.IsType<char>()) || (this.MinimumValue is null && this.MaximumValue is null)) 
+		if (!this.UnderlyingType.IsOrImplementsInterface(type => type.IsType(typeof(IConvertible)), out _))
+			return null;
+		
+		if (this.MinimumValue is null && this.MaximumValue is null)
 			return null;
 
-		var validationType = $"({this.UnderlyingType.Name}{(this.UnderlyingType.TypeKind is TypeKind.Struct && this.AllowNull ? "?" : null)}){this.LocalVariableName}";
+		var validationType = $"({this.UnderlyingTypeName}){this.LocalVariableName}";
 		
-		var underlyingTypeName = this.UnderlyingType.IsType<char>() 
-			? typeof(int).FullName
-			: this.UnderlyingType.Name;
+		var underlyingTypeName = this.UnderlyingType.IsNumeric(seeThroughNullable: true)
+			? this.UnderlyingTypeName.TrimEnd('?')
+			: typeof(int).FullName;
 		
 		return this.GetGuardLine(Guard.InRange, validationType, errorCodeStart, genericParameterName: underlyingTypeName, this.MinimumValue, this.MaximumValue);
 	}

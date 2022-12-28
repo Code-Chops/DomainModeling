@@ -12,11 +12,10 @@ public sealed class GenerateStringValueObjectAttribute : Attribute
 	/// <param name="maximumLength">The maximum length of the string.</param>
 	/// <param name="useRegex">Uses a static regex method to (in)validate.</param>
 	/// <param name="stringFormat">Make the string only accept certain characters.</param>
-	/// <param name="stringComparison">See <see cref="StringComparison"/>.</param>
 	/// <param name="stringCaseConversion">Converts the case to upper/lower case. Default: NoConversion.</param>
 	/// <param name="generateEnumerable">Generates an IEnumerable implementation and indexer. Default: true.</param>
 	/// <param name="generateToString">Generates a ToString(). Default: true.</param>
-	/// <param name="generateComparison">Generates Equals(), GetHashCode(), comparison operators (and CompareTo() if possible). Default: true.</param>
+	/// <param name="generateComparison">Generates comparison operators and CompareTo. Default: true.</param>
 	/// <param name="generateDefaultConstructor">Set to true if a default constructor should be generated. If it is false, no default constructor will be generated. Default: true.</param>
 	/// <param name="forbidParameterlessConstruction">If true (default), it creates an obsolete parameterless private constructor that throws an exception.</param>
 	/// <param name="generateStaticDefault">Generate a static property with a default value. Default: false.</param>

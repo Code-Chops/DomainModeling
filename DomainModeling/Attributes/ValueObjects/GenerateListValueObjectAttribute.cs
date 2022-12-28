@@ -10,11 +10,11 @@
 // ReSharper disable once UnusedTypeParameter
 public sealed class GenerateListValueObjectAttribute<T> : Attribute
 {
-	/// <param name="minimumCount">The minimum element count in the collection. Default: no minimum (Int32.MinValue).</param>
-	/// <param name="maximumCount">The maximum element count in the collection. Default: no maximum (Int32.MaxValue).</param>
+	/// <param name="minimumCount">The minimum element count in the collection. Default (Int32.MinValue): no minimum.</param>
+	/// <param name="maximumCount">The maximum element count in the collection. Default (Int32.MaxValue): no maximum.</param>
 	/// <param name="generateEnumerable">Generates an IEnumerable implementation and indexer. Default: true.</param>
 	/// <param name="generateToString">Generates a ToString(). Default: true.</param>
-	/// <param name="generateComparison">Generates Equals(), GetHashCode(), comparison operators (and CompareTo() if possible). Default: true.</param>
+	/// <param name="generateComparison">Generates comparison operators and CompareTo. Default: true.</param>
 	/// <param name="generateDefaultConstructor">Set to true if a default constructor should be generated. If it is false, no default constructor will be generated. Default: true.</param>
 	/// <param name="forbidParameterlessConstruction">If true (default), it creates an obsolete parameterless private constructor that throws an exception.</param>
 	/// <param name="generateStaticDefault">Generate a static property with a default value. Default: false.</param>

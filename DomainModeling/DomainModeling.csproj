@@ -11,7 +11,7 @@
 
     <PropertyGroup Label="Package">
         <Version>1.8.1</Version>
-        <PackageReleaseNotes>Sub type parameters are being replaced when a generated value object has 1 type parameter.</PackageReleaseNotes>
+        <PackageReleaseNotes>Fix sub type replacement.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainDrivenDesign.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>

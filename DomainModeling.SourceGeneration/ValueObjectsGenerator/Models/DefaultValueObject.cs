@@ -58,7 +58,11 @@ public sealed record DefaultValueObject : ValueObjectBase
 	private static ITypeSymbol GetUnderlyingType(INamedTypeSymbol valueObjectType, ITypeSymbol underlyingType)
 	{
 		var typeParameter = valueObjectType.TypeArguments.FirstOrDefault();
-		return typeParameter ?? underlyingType;
+
+		if (typeParameter is null || underlyingType is INamedTypeSymbol { TypeArguments.Length: > 0 })
+			return underlyingType;
+		
+		return typeParameter;
 	}
 	
 	private static bool ImplementsIComparable(ITypeSymbol underlyingType)

@@ -1,10 +1,9 @@
 // ReSharper disable NotAccessedPositionalProperty.Global
-
 namespace CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration.ValueObjectsGenerator.Models;
 
 public sealed record DefaultValueObject : ValueObjectBase
 {
-	public INamedTypeSymbol UnderlyingType { get; }
+	public ITypeSymbol UnderlyingType { get; }
 	public AttributeData Attribute { get; }
 	public TypeDeclarationSyntax TypeDeclarationSyntax { get; }
 	public int? MinimumValue { get; }
@@ -12,7 +11,7 @@ public sealed record DefaultValueObject : ValueObjectBase
 	
 	public DefaultValueObject(
 		INamedTypeSymbol valueObjectType,
-		INamedTypeSymbol underlyingType,
+		ITypeSymbol underlyingType,
 		AttributeData attribute,
 		TypeDeclarationSyntax typeDeclarationSyntax,
 		int? minimumValue,
@@ -26,40 +25,61 @@ public sealed record DefaultValueObject : ValueObjectBase
 		bool propertyIsPublic,
 		bool allowNull, 
 		bool useValidationExceptions) 
-		: base(UseValidationExceptions: useValidationExceptions,
-		ValueObjectType: valueObjectType,
-		UnderlyingTypeName: GetUnderlyingTypeName(underlyingType, allowNull),
-		UnderlyingTypeNameBase: null,
-		GenerateToString: generateToString,  
-		GenerateComparison: generateComparison && ImplementsIComparable(underlyingType),
-		GenerateDefaultConstructor: generateDefaultConstructor,
-		ForbidParameterlessConstruction: forbidParameterlessConstruction,  
-		GenerateStaticDefault: generateStaticDefault,
-		GenerateEnumerable: false,
-		PropertyName: propertyName ?? "Value",
-		PropertyIsPublic: propertyIsPublic,
-		AddIComparable: true,
-		AllowNull: allowNull)
+		: base(
+			useValidationExceptions: useValidationExceptions,
+			valueObjectType: valueObjectType,
+			generateToString: generateToString,  
+			generateComparison: generateComparison && ImplementsIComparable(GetUnderlyingType(valueObjectType, underlyingType)),
+			generateDefaultConstructor: generateDefaultConstructor,
+			forbidParameterlessConstruction: forbidParameterlessConstruction,  
+			generateStaticDefault: generateStaticDefault,
+			generateEnumerable: false,
+			propertyName: propertyName ?? "Value",
+			propertyIsPublic: propertyIsPublic,
+			addIComparable: true,
+			allowNull: allowNull)
 	{
+		underlyingType = GetUnderlyingType(valueObjectType, underlyingType);
 		this.UnderlyingType = underlyingType;
+		this.UnderlyingTypeName = GetUnderlyingTypeName(underlyingType, allowNull);
+		this.UnderlyingTypeNameBase = null;
 		this.Attribute = attribute;
 		this.TypeDeclarationSyntax = typeDeclarationSyntax;
 		this.MinimumValue = minimumValue;
 		this.MaximumValue = maximumValue;
 	}
 
-	private static bool ImplementsIComparable(ITypeSymbol underlyingType) 
-		=> underlyingType.IsOrImplementsInterface(type => type.IsType(fullTypeName: typeof(IComparable).FullName), out var interf) 
-	        && (interf is not INamedTypeSymbol { TypeArguments.Length: 1 } || interf.HasSingleGenericTypeArgument(underlyingType));
+	private static ITypeSymbol GetUnderlyingType(INamedTypeSymbol valueObjectType, ITypeSymbol underlyingType)
+	{
+		var typeParameter = valueObjectType.TypeArguments.OfType<ITypeSymbol>().FirstOrDefault();
+		return typeParameter ?? underlyingType;
+	}
+	
+	private static bool ImplementsIComparable(ITypeSymbol underlyingType)
+	{
+		return underlyingType
+		    .IsOrImplementsInterface(type => type.IsType(fullTypeName: typeof(IComparable).FullName), out var interf) 
+		       && (interf is not INamedTypeSymbol { TypeArguments.Length: 1 } || interf.HasSingleGenericTypeArgument(underlyingType));
+	}
 
 	private static string GetUnderlyingTypeName(ITypeSymbol underlyingType, bool valueIsNullable) 
 		=> $"{underlyingType.GetTypeNameWithGenericParameters()}{(underlyingType.TypeKind is TypeKind.Struct && valueIsNullable ? "?" : null)}";
+
+	public override string UnderlyingTypeName { get; }
+	public override string? UnderlyingTypeNameBase { get; }
 
 	public override string[] GetNamespaces()		=> this.UnderlyingType.ContainingNamespace.IsGlobalNamespace 
 														? Array.Empty<string>() 
 														: new [] { this.UnderlyingType.ContainingNamespace.ToDisplayString() };
 
-	public override string GetCommentsCode()		=> $@"An immutable value object with an underlying value of type <see cref=""{this.ValueObjectType.GetFullTypeNameWithGenericParameters().Replace('<', '{').Replace('>', '}')}""/>.";
+	public override string GetComments()
+	{
+		var attribute = this.ValueObjectType.IsGenericType
+			? "typeparamref name"
+			: "see cref";
+		
+		return $@"An immutable value object with an underlying value of type <{attribute}=""{this.UnderlyingType.GetFullTypeNameWithGenericParameters().Replace('<', '{').Replace('>', '}')}""/>.";
+	}
 
 	public override string GetToStringCode()		=> $"public override string ToString() => this.ToDisplayString(new {{ this.{this.PropertyName} }});";
 	
@@ -72,7 +92,7 @@ public sealed record DefaultValueObject : ValueObjectBase
 														? $"public override {(this.IsUnsealedRecordClass ? "virtual " : null)}bool Equals(object? other) => false;" 
 														: $"public override {(this.IsUnsealedRecordClass ? "virtual " : null)}bool Equals(object? other) => other is {this.Name} {this.LocalVariableName} && this.Equals({this.LocalVariableName});";
 
-	public override string GetCompareToCode()		=> $"public int CompareTo({this.Name}{this.NullOperator} other) => this.{this.PropertyName}.CompareTo(other{this.NullOperator}.{this.PropertyName});";
+	public override string GetCompareToCode()		=> $"public int CompareTo({this.Name}{this.NullOperator} other) => Comparer<{this.UnderlyingTypeName}{this.NullOperator}>.Default.Compare(this.{this.PropertyName}, other{this.NullOperator}.{this.PropertyName});";
 
 	public override string GetDefaultValue()		=> $"default({this.UnderlyingTypeName})";
 	

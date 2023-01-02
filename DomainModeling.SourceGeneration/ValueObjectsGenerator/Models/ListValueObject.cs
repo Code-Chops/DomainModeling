@@ -1,40 +1,61 @@
 namespace CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration.ValueObjectsGenerator.Models;
 
-public record ListValueObject(
-		INamedTypeSymbol ValueObjectType,
-		INamedTypeSymbol ElementType,
-		// ReSharper disable once NotAccessedPositionalProperty.Global
-		AttributeData Attribute,
-		int? MinimumCount,
-		int? MaximumCount,
-		bool GenerateEnumerable,
-		bool GenerateToString,
-		bool GenerateComparison,
-		bool GenerateDefaultConstructor,
-		bool ForbidParameterlessConstruction,
-		bool GenerateStaticDefault,
-		string? PropertyName,
-		bool PropertyIsPublic,
-		bool AllowNull,
-		bool UseValidationExceptions)
-	: ValueObjectBase(
-		ValueObjectType: ValueObjectType,
-		UnderlyingTypeName: $"ImmutableList<{Attribute.AttributeClass!.TypeArguments.Single().Name}{(AllowNull ? "?" : null)}>",
-		UnderlyingTypeNameBase: $"List<{Attribute.AttributeClass!.TypeArguments.Single().Name}{(AllowNull ? "?" : null)}>",
-		GenerateToString: GenerateToString,
-		GenerateComparison: GenerateComparison,
-		GenerateDefaultConstructor: GenerateDefaultConstructor,
-		ForbidParameterlessConstruction: ForbidParameterlessConstruction, 
-		GenerateStaticDefault: GenerateStaticDefault,
-		GenerateEnumerable: GenerateEnumerable,
-		PropertyName: PropertyName ?? "Value",
-		PropertyIsPublic: PropertyIsPublic,
-		AddIComparable: false,
-		AllowNull: AllowNull,
-		UseValidationExceptions: UseValidationExceptions),
-		IEnumerableValueObject
+public record ListValueObject : ValueObjectBase, IEnumerableValueObject
 {
-	public string ElementTypeName { get; } = $"{ElementType.Name}{(AllowNull ? "?" : null)}";
+	public ListValueObject(
+		INamedTypeSymbol valueObjectType,
+		ITypeSymbol elementType,
+		AttributeData attribute,
+		int? minimumCount,
+		int? maximumCount,
+		bool generateEnumerable,
+		bool generateToString,
+		bool generateComparison,
+		bool generateDefaultConstructor,
+		bool forbidParameterlessConstruction,
+		bool generateStaticDefault,
+		string? propertyName,
+		bool propertyIsPublic,
+		bool allowNull,
+		bool useValidationExceptions) 
+		: base(
+			valueObjectType: valueObjectType,
+			generateToString: generateToString,
+			generateComparison: generateComparison,
+			generateDefaultConstructor: generateDefaultConstructor,
+			forbidParameterlessConstruction: forbidParameterlessConstruction, 
+			generateStaticDefault: generateStaticDefault,
+			generateEnumerable: generateEnumerable,
+			propertyName: propertyName ?? "Value",
+			propertyIsPublic: propertyIsPublic,
+			addIComparable: false,
+			allowNull: allowNull,
+			useValidationExceptions: useValidationExceptions)
+	{
+		elementType = GetElementType(valueObjectType, elementType);
+		this.ElementType = elementType;
+		this.Attribute = attribute;
+		this.MinimumCount = minimumCount;
+		this.MaximumCount = maximumCount;
+		this.ElementTypeName = $"{elementType.Name}{(allowNull ? "?" : null)}";
+		this.UnderlyingTypeName = $"ImmutableList<{elementType.Name}{(allowNull ? "?" : null)}>";
+		this.UnderlyingTypeNameBase = $"List<{elementType.Name}{(allowNull ? "?" : null)}>";
+	}
+	
+	private static ITypeSymbol GetElementType(INamedTypeSymbol valueObjectType, ITypeSymbol elementType)
+	{
+		var typeParameter = valueObjectType.TypeArguments.OfType<ITypeSymbol>().FirstOrDefault();
+		return typeParameter ?? elementType;
+	}
+
+	public string ElementTypeName { get; }
+
+	public override string UnderlyingTypeName { get; }
+	public override string? UnderlyingTypeNameBase { get; }
+	public ITypeSymbol ElementType { get; }
+	public AttributeData Attribute { get; }
+	public int? MinimumCount { get; }
+	public int? MaximumCount { get; }
 
 	public override string[] GetNamespaces()
 	{
@@ -45,7 +66,14 @@ public record ListValueObject(
 		return new[] { elementNamespace.ToDisplayString() };
 	}
 
-	public override string GetCommentsCode()		=> $@"An immutable value object with an immutable list of <see cref=""{this.ElementType.GetFullTypeNameWithGenericParameters().Replace('<', '{').Replace('>', '}')}""/> as underlying value.";
+	public override string GetComments()
+	{
+		var attribute = this.ValueObjectType.IsGenericType
+			? "typeparamref name"
+			: "see cref";
+		
+		return $@"An immutable value object with an immutable list of <{attribute}=""{this.ElementType.GetFullTypeNameWithGenericParameters().Replace('<', '{').Replace('>', '}')}""/> as underlying value.";
+	}
 
 	public override string GetToStringCode()		=> $"public override string ToString() => this.ToDisplayString(new {{ Type = \"{this.ElementTypeName}\" }}, extraText: this.Count.ToString());";
 	
@@ -67,7 +95,7 @@ public record ListValueObject(
 	
 	public override string GetLengthOrCountCode()	=> $"public int Count => this.{this.PropertyName}.Count;";
 
-	public override string GetExtraCastCode()		=> $"public static explicit operator {this.Name}({this.UnderlyingTypeNameBase} {this.LocalVariableName}) => new({this.LocalVariableName}.ToImmutableList());";
+	public override string GetExtraCastCode()		=> $"public static explicit operator {this.Name}({this.UnderlyingTypeNameBase ?? this.UnderlyingTypeName} {this.LocalVariableName}) => new({this.LocalVariableName}.ToImmutableList());";
 
 	public override string GetValidationCode(string errorCodeStart)
 	{

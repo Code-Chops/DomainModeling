@@ -1,45 +1,77 @@
 namespace CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration.ValueObjectsGenerator.Models;
 
-/// <param name="ValueObjectType">The type of the partial class being generated.</param>
-public abstract record ValueObjectBase(
-// ReSharper disable once NotAccessedPositionalProperty.Global
-	INamedTypeSymbol ValueObjectType,
-	string UnderlyingTypeName,
-	string? UnderlyingTypeNameBase,
-	bool GenerateToString, 
-	bool GenerateComparison,
-	bool GenerateDefaultConstructor,
-	bool ForbidParameterlessConstruction,
-	bool GenerateStaticDefault,
-	bool GenerateEnumerable,
-	string PropertyName,
-	bool PropertyIsPublic,
-	bool AllowNull,
-	bool UseValidationExceptions,
-	bool AddIComparable)
+public abstract record ValueObjectBase
 {
-	public bool IsUnsealedRecordClass { get; } = ValueObjectType.IsRecord && ValueObjectType.TypeKind is not TypeKind.Struct && !ValueObjectType.IsSealed;
+	protected ValueObjectBase(INamedTypeSymbol valueObjectType,
+		bool generateToString, 
+		bool generateComparison,
+		bool generateDefaultConstructor,
+		bool forbidParameterlessConstruction,
+		bool generateStaticDefault,
+		bool generateEnumerable,
+		string propertyName,
+		bool propertyIsPublic,
+		bool allowNull,
+		bool useValidationExceptions,
+		bool addIComparable)
+	{
+		this.ValueObjectType = valueObjectType;
+		this.GenerateToString = generateToString;
+		this.GenerateComparison = generateComparison;
+		this.GenerateDefaultConstructor = generateDefaultConstructor;
+		this.ForbidParameterlessConstruction = forbidParameterlessConstruction;
+		this.GenerateStaticDefault = generateStaticDefault;
+		this.GenerateEnumerable = generateEnumerable;
+		this.PropertyName = propertyName;
+		this.PropertyIsPublic = propertyIsPublic;
+		this.AllowNull = allowNull;
+		this.UseValidationExceptions = useValidationExceptions;
+		this.AddIComparable = addIComparable;
+		this.IsUnsealedRecordClass = valueObjectType.IsRecord && valueObjectType.TypeKind is not TypeKind.Struct && !valueObjectType.IsSealed;
+		this.NullOperator = valueObjectType.TypeKind is not TypeKind.Struct ? '?' : null;
+		this.Name = valueObjectType.GetTypeNameWithGenericParameters();
+		this.Namespace = valueObjectType.ContainingNamespace!.IsGlobalNamespace ? null : valueObjectType.ContainingNamespace.ToDisplayString();
+		this.BackingFieldName = $"_{propertyName.Substring(0, 1).ToLowerInvariant()}{propertyName.Substring(1)}{(generateDefaultConstructor ? new Random().Next(0, 9999) : null)}";
+		this.LocalVariableName = propertyName.Substring(0, 1).ToLowerInvariant() + propertyName.Substring(1);
+	}
+
+	public abstract string UnderlyingTypeName { get; }
+	public abstract string? UnderlyingTypeNameBase { get; }
+	
+	public bool IsUnsealedRecordClass { get; }
 
 	/// <summary>
 	/// Null conditional operator for the value object.
 	/// </summary>
-	public char? NullOperator { get; } = ValueObjectType.TypeKind is not TypeKind.Struct ? '?' : null;
+	public char? NullOperator { get; }
 	
 	/// <summary>
 	/// The name of the value object being generated.
 	/// </summary>
-	public string Name { get; } = ValueObjectType.GetTypeNameWithGenericParameters();
-	public string? Namespace { get; } = ValueObjectType.ContainingNamespace!.IsGlobalNamespace ? null : ValueObjectType.ContainingNamespace.ToDisplayString();
+	public string Name { get; }
+	public string? Namespace { get; }
 
-	public string UnderlyingTypeNameBase { get; } = UnderlyingTypeNameBase ?? UnderlyingTypeName;
-	
 	/// <summary>
 	/// Has a different name each time it's generated. In order to prohibit direct usage of the backing field.
 	/// </summary>
-	public string BackingFieldName { get; } = $"_{PropertyName.Substring(0, 1).ToLowerInvariant()}{PropertyName.Substring(1)}{(GenerateDefaultConstructor ? new Random().Next(0, 9999) : null)}";
-	public string LocalVariableName { get; } = PropertyName.Substring(0, 1).ToLowerInvariant() + PropertyName.Substring(1);
+	public string BackingFieldName { get; }
+	public string LocalVariableName { get; }
 
 	public List<string> ErrorCodes { get; } = new();
+
+	public INamedTypeSymbol ValueObjectType { get; }
+
+	public bool GenerateToString { get; }
+	public bool GenerateComparison { get; }
+	public bool GenerateDefaultConstructor { get; }
+	public bool ForbidParameterlessConstruction { get; }
+	public bool GenerateStaticDefault { get; }
+	public bool GenerateEnumerable { get; }
+	public string PropertyName { get; }
+	public bool PropertyIsPublic { get; }
+	public bool AllowNull { get; }
+	public bool UseValidationExceptions { get; }
+	public bool AddIComparable { get; }
 
 	public enum Guard
 	{
@@ -76,7 +108,7 @@ public abstract record ValueObjectBase(
 	}
 	
 	public abstract string[] GetNamespaces();
-	public abstract string GetCommentsCode();
+	public abstract string GetComments();
 	public abstract string GetToStringCode();
 	public abstract string? GetInterfacesCode();
 	public abstract string GetHashCodeCode();
@@ -90,7 +122,7 @@ public abstract record ValueObjectBase(
 	public abstract string? GetValueTransformation();
 	public abstract string? GetEnumeratorCode();
 	/// <summary>
-	/// Don't forget to place [EditorBrowsable(EditorBrowsableState.Never)] and/or [DebuggerHidden] at the each extra line.
+	/// Don't forget to place [EditorBrowsable(EditorBrowsableState.Never)] and/or [DebuggerHidden] at the each extra line, if needed.
 	/// </summary>
 	public abstract string? GetExtraCode();
 }

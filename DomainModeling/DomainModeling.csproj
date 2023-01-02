@@ -10,8 +10,8 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>1.7.1</Version>
-        <PackageReleaseNotes>Now supports C# 11 GenericMath instead of CodeChops.GenericMath.</PackageReleaseNotes>
+        <Version>1.8.0</Version>
+        <PackageReleaseNotes>Support for generated open value object types.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainDrivenDesign.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>

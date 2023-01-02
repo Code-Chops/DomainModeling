@@ -141,16 +141,31 @@ For string or enumerable value objects.
 - Automatically implementing `IValueObject`:<br/>
 Not implementing the interface can lead to unexpected and undesired behaviour in your code.
 
-> If a default constructor has to be extended or edited: copy the generated constructor, place it in your domain object, and edit it. Subsequently, parameter `generateDefaultConstructor` has to be set to `false`. 
+> If the generated default constructor has to be extended or edited: copy the generated constructor, place it in your domain object, and edit it. Also set parameter `generateDefaultConstructor` to `false`. 
+
+> ⚠️ Manually added properties won't be included in the structural equality.<br/>
+><br/> 
+> Manually added properties won't be used in the `Equals`, `CompareTo` and `GetHashCode`-calculation. To use value objects with multiple underlying values a `ValueTuple` can be provided as type parameter.
+> The property should be set to `private` and non-private expression bodied properties should be created that expose each value of the tuple. See the [tuple example below](#Tuple-value-object-example).
 
 ## Underlying types
-It supports the following underlying types: `struct`, `string`, `list`, and `dictionary`. It can even generate objects with multiple underlying values in the form of `ValueTuples`, see [Tuple value object example](#Tuple-value-object-example).
+The value object generator supports the following underlying types: `struct`, `string`, `list`, and `dictionary`. It can even generate objects with multiple underlying values in the form of `ValueTuples`, see [Tuple value object example](#Tuple-value-object-example).
  
-The following attributes can be used:
-- `GenerateValueObjectAttribute<T>`.<br/>A value object with a `struct` as underlying value, for example `int`, `DateTime`, `decimal`. It has 2 optional settings `minimumValue` and `maximumValue`. When the underlying value implements `IComparable`, the default constructor will guard that the value lies between these bounds. 
-- `GenerateDictionaryValueObjectAttribute<TKey, TValue>`.<br/>A value object with an immutable dictionary as underlying type. It has 2 optional settings: `minimumCount` and `maximumCount`. If provided, the default constructor will guard that the `KeyValuePair`-count lies between these values.
-- `GenerateListValueObjectAttribute<T>`.<br/>A value object with an immutable list as underlying type. It has 2 optional settings: `minimumCount`, `maximumCount`. If provided, the default constructor will guard that the element-count lies between these values.
-- `GenerateStringValueObjectAttribute`.<br/>A value object that holds a string as underlying value. It has multiple settings:
+### Struct (default) 
+`GenerateValueObjectAttribute<T>`<br/>
+A value object with a `struct` as underlying value, for example `int`, `DateTime`, `decimal`. It has 2 optional settings `minimumValue` and `maximumValue`. When the underlying value implements `IComparable`, the default constructor will guard that the value lies between these bounds. 
+
+### Dictionary
+`GenerateDictionaryValueObjectAttribute<TKey, TValue>`<br/>
+A value object with an immutable dictionary as underlying type. It has 2 optional settings: `minimumCount` and `maximumCount`. If provided, the default constructor will guard that the `KeyValuePair`-count lies between these values.
+
+### List
+`GenerateListValueObjectAttribute<T>`<br/>
+A value object with an immutable list as underlying type. It has 2 optional settings: `minimumCount`, `maximumCount`. If provided, the default constructor will guard that the element-count lies between these values.
+
+### String 
+`GenerateStringValueObjectAttribute`<br/>
+A value object that holds a string as underlying value. It has multiple settings:
   - `minimumLength` and `maximumLength` (required). If provided, the default constructor will guard that the length of the string lies between these values. 
   - `useRegex` (required). If true, it will force you to implement a static method `ValidationRegex` which returns a `Regex`. This regex will be used to (in)validate the object. See the example below.
   - `stringFormat` (required). The default constructor will guard that the string is of one of the following formats: 
@@ -161,10 +176,6 @@ The following attributes can be used:
 	- `AlphaNumericWithUnderscore`
   - `stringComparison` (required). Configures the way strings should be compared, see [StringComparison](https://learn.microsoft.com/en-us/dotnet/api/system.stringcomparison?system-stringcomparison-ordinalignorecase).
   - `stringCaseConversion` (optional). Configures if the string should be converted to `LowerInvariant` or `UpperInvariant` automatically. Default: `NoConversion`.
-
-> Warning! Manually added properties won't be included in the `Equals`, `CompareTo` and `GetHashCode`-calculation. To use value objects with multiple underlying values a `ValueTuple` can be provided as type parameter.
-> The property should be set to `private` and non-private expression bodied properties should be created that expose each value of the tuple. See the [tuple example below](#Tuple-value-object-example).
-> 
 
 ## Simple value object example
 To create a simple `PlayerAge` value object. Write the following code:
@@ -207,7 +218,7 @@ public readonly partial record struct PlayerAge : IValueObject, ICreatable<Playe
 	[EditorBrowsable(EditorBrowsableState.Never)]
 	public override string ToString() => this.ToDisplayString(new { this.Value });
 
-	#region ValueProperty
+	#region Property
 	/// <summary>
 	/// Get the underlying structural value.
 	/// </summary>
@@ -216,7 +227,7 @@ public readonly partial record struct PlayerAge : IValueObject, ICreatable<Playe
 	private Int32 Value => this._value1332;
 	
 	/// <summary>
-	/// Backing field for <see cref='Value'/>.  Don't use this field, use the Value property instead.
+	/// Backing field for <see cref='Value'/>. Don't use this field, use the Value property instead.
 	/// </summary>
 	[Obsolete("Don't use this field, use the Value property instead.")]
 	[EditorBrowsable(EditorBrowsableState.Never)]
@@ -372,7 +383,7 @@ public readonly partial record struct Uuid : IValueObject, ICreatable<Uuid, Stri
 	[EditorBrowsable(EditorBrowsableState.Never)]
 	public int Length => this.Value.Length;
 
-	#region ValueProperty
+	#region Property
 	/// <summary>
 	/// Get the underlying structural value.
 	/// </summary>
@@ -381,7 +392,7 @@ public readonly partial record struct Uuid : IValueObject, ICreatable<Uuid, Stri
 	private String Value => this._value6796 ?? String.Empty;
 	
 	/// <summary>
-	/// Backing field for <see cref='Value'/>.  Don't use this field, use the Value property instead.
+	/// Backing field for <see cref='Value'/>. Don't use this field, use the Value property instead.
 	/// </summary>
 	[Obsolete("Don't use this field, use the Value property instead.")]
 	[EditorBrowsable(EditorBrowsableState.Never)]
@@ -554,7 +565,7 @@ public readonly partial record struct ValidationExceptionMessage : IValueObject,
 {
 	public override partial string ToString();
 
-	#region ValueProperty
+	#region Property
 	/// <summary>
 	/// Get the underlying structural value.
 	/// </summary>
@@ -563,7 +574,7 @@ public readonly partial record struct ValidationExceptionMessage : IValueObject,
 	private (String, ImmutableList<Object>) Value => this._value2512;
 	
 	/// <summary>
-	/// Backing field for <see cref='Value'/>.  Don't use this field, use the Value property instead.
+	/// Backing field for <see cref='Value'/>. Don't use this field, use the Value property instead.
 	/// </summary>
 	[Obsolete("Don't use this field, use the Value property instead.")]
 	[EditorBrowsable(EditorBrowsableState.Never)]
@@ -647,6 +658,38 @@ public readonly partial record struct ValidationExceptionMessage : IValueObject,
 #pragma warning restore CS0612 // Is deprecated (level 1)
 #nullable restore
 ```
+
+## Open generic type example
+Unfortunately, attribute type arguments cannot use type parameters. In case you want to create a open generic default value object, just add a type parameter to the definition of the type and the type provided in the attribute will be overwritten.
+
+```csharp
+/* Default value object */
+
+[GenerateValueObject<int>(useValidationExceptions: false)] // int is replaced by TNumber
+public partial record struct Point<TNumber>
+	where TNumber : struct, INumber<TNumber>;
+	
+/* List value object */
+
+[GenerateListValueObject<int>(useValidationExceptions: false)] // int is replaced by TId
+public partial record struct IdList<TId>
+	where TId : IId<TId>, IEquatable<TId>, IComparable<TId>;
+	
+/* Dictionary value object */
+
+// Has an underlying value of ImmutableDictionary<String, TObject>
+[GenerateDictionaryValueObject<string, int>(useValidationExceptions: false)] // int is replaced by TObject
+public partial record struct ObjectsByKey<TObject>
+	where TObject : IDomainObject;
+
+// Has an underlying value of ImmutableDictionary<TKey, TObject>
+[GenerateDictionaryValueObject<string, int>(useValidationExceptions: false)] // string is replaced by TKey, int is replaced by TObject
+public partial record struct ObjectsByKey<TKey, TObject>
+	where TKey : IId
+	where TObject : IDomainObject;
+```
+
+
 
 # Identities
 Entities require a unique identity (ID) in order to be distinguished from other entities. Each entity should have it's strongly typed ID.

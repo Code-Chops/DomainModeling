@@ -1,41 +1,74 @@
 namespace CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration.ValueObjectsGenerator.Models;
 
-public record DictionaryValueObject(
-		INamedTypeSymbol ValueObjectType,
-		ITypeSymbol KeyType,
-		ITypeSymbol ValueType,
-		int? MinimumCount,
-		int? MaximumCount,
-		bool GenerateEnumerable,
-		bool GenerateToString,
-		bool GenerateComparison,
-		bool GenerateDefaultConstructor,
-		bool ForbidParameterlessConstruction,
-		bool GenerateStaticDefault,
-		string? PropertyName,
-		bool PropertyIsPublic,
-		bool AllowNull,
-		bool UseValidationExceptions)
-	: ValueObjectBase(
-		UseValidationExceptions: UseValidationExceptions,
-		ValueObjectType: ValueObjectType,
-		UnderlyingTypeName: $"ImmutableDictionary<{KeyType.Name}, {ValueType.Name}{(AllowNull ? "?" : null)}>",
-		UnderlyingTypeNameBase: $"Dictionary<{KeyType.Name}, {ValueType.Name}{(AllowNull ? "?" : null)}>",
-		GenerateToString: GenerateToString, 
-		GenerateComparison: GenerateComparison,
-		GenerateDefaultConstructor: GenerateDefaultConstructor,
-		ForbidParameterlessConstruction: ForbidParameterlessConstruction, 
-		GenerateStaticDefault: GenerateStaticDefault,
-		GenerateEnumerable: GenerateEnumerable,
-		PropertyName: PropertyName ?? "Value",
-		PropertyIsPublic: PropertyIsPublic,
-		AddIComparable: false,
-		AllowNull: AllowNull),
-		IEnumerableValueObject
+public record DictionaryValueObject : ValueObjectBase, IEnumerableValueObject
 {
-	public string ElementTypeName { get; } = $"KeyValuePair<{KeyType.Name}, {ValueType.Name}{(AllowNull ? "?" : null)}>";
-	public string ValueTypeName { get; } = $"{ValueType.Name}{(AllowNull ? "?" : null)}";
-	
+	public DictionaryValueObject(
+		INamedTypeSymbol valueObjectType,
+		ITypeSymbol keyType,
+		ITypeSymbol valueType,
+		int? minimumCount,
+		int? maximumCount,
+		bool generateEnumerable,
+		bool generateToString,
+		bool generateComparison,
+		bool generateDefaultConstructor,
+		bool forbidParameterlessConstruction,
+		bool generateStaticDefault,
+		string? propertyName,
+		bool propertyIsPublic,
+		bool allowNull,
+		bool useValidationExceptions) 
+		: base(
+			useValidationExceptions: useValidationExceptions,
+			valueObjectType: valueObjectType,
+			generateToString: generateToString, 
+			generateComparison: generateComparison,
+			generateDefaultConstructor: generateDefaultConstructor,
+			forbidParameterlessConstruction: forbidParameterlessConstruction, 
+			generateStaticDefault: generateStaticDefault,
+			generateEnumerable: generateEnumerable,
+			propertyName: propertyName ?? "Value",
+			propertyIsPublic: propertyIsPublic,
+			addIComparable: false,
+			allowNull: allowNull)
+	{
+		keyType = GetUnderlyingType(valueObjectType, keyType, isKey: true);
+		valueType = GetUnderlyingType(valueObjectType, valueType, isKey: false);
+		
+		this.KeyType = keyType;
+		this.ValueType = valueType;
+		this.MinimumCount = minimumCount;
+		this.MaximumCount = maximumCount;
+		this.ElementTypeName = $"KeyValuePair<{keyType.Name}, {valueType.Name}{(allowNull ? "?" : null)}>";
+		this.ValueTypeName = $"{valueType.Name}{(allowNull ? "?" : null)}";
+		this.UnderlyingTypeName = $"ImmutableDictionary<{keyType.Name}, {valueType.Name}{(allowNull ? "?" : null)}>";
+		this.UnderlyingTypeNameBase = $"Dictionary<{keyType.Name}, {valueType.Name}{(allowNull ? "?" : null)}>";
+	}
+
+	private static ITypeSymbol GetUnderlyingType(INamedTypeSymbol valueObjectType, ITypeSymbol underlyingType, bool isKey)
+	{
+		var index = isKey 
+			? (valueObjectType.TypeArguments.Length == 1 ? 1 : 0)
+			: (valueObjectType.TypeArguments.Length == 1 ? 0 : 1); 
+		
+		var typeParameter = valueObjectType.TypeArguments
+			.OfType<ITypeSymbol>()
+			.Skip(index)
+			.FirstOrDefault();
+		
+		return typeParameter ?? underlyingType;
+	}
+
+	public string ElementTypeName { get; }
+	public string ValueTypeName { get; }
+
+	public override string UnderlyingTypeName { get; }
+	public override string? UnderlyingTypeNameBase { get; }
+	public ITypeSymbol KeyType { get; }
+	public ITypeSymbol ValueType { get; }
+	public int? MinimumCount { get; }
+	public int? MaximumCount { get; }
+
 	public override string[] GetNamespaces()
 	{
 		var keyNamespace = this.KeyType.ContainingNamespace;
@@ -50,7 +83,18 @@ public record DictionaryValueObject(
 		return Array.Empty<string>();
 	}
 	
-	public override string GetCommentsCode()		=> $@"An immutable value object holding an immutable dictionary with <see cref=""{this.KeyType.GetFullTypeNameWithGenericParameters().Replace('<', '{').Replace('>', '}')}""/> as key and <see cref=""{this.ValueType.GetFullTypeNameWithGenericParameters().Replace('<', '{').Replace('>', '}')}""/> as value.";
+	public override string GetComments()
+	{
+		var attributeKey = this.ValueObjectType.TypeArguments.Length != 1
+			? "typeparamref name"
+			: "see cref";
+		
+		var attributeValue = this.ValueObjectType.TypeArguments.Length > 0
+			? "typeparamref name"
+			: "see cref";
+
+		return $@"An immutable value object holding an immutable dictionary with <{attributeKey}=""{this.KeyType.GetFullTypeNameWithGenericParameters().Replace('<', '{').Replace('>', '}')}""/> as key and <{attributeValue}=""{this.ValueType.GetFullTypeNameWithGenericParameters().Replace('<', '{').Replace('>', '}')}""/> as value.";
+	}
 
 	public override string GetToStringCode()		=> $"public override string ToString() => this.ToDisplayString(new {{ Key = \"{this.KeyType.Name}\", Value = \"{this.ValueTypeName}\" }}, extraText: this.Count.ToString());";
 	
@@ -72,7 +116,7 @@ public record DictionaryValueObject(
 	
 	public override string GetLengthOrCountCode()	=> $"public int Count => this.{this.PropertyName}.Count;";
 
-	public override string GetExtraCastCode()		=> $"public static explicit operator {this.Name}({this.UnderlyingTypeNameBase} {this.LocalVariableName}) => new({this.LocalVariableName}.ToImmutableDictionary());";
+	public override string GetExtraCastCode()		=> $"public static explicit operator {this.Name}({this.UnderlyingTypeNameBase ?? this.UnderlyingTypeName} {this.LocalVariableName}) => new({this.LocalVariableName}.ToImmutableDictionary());";
 
 	public override string GetValidationCode(string errorCodeStart)
 	{

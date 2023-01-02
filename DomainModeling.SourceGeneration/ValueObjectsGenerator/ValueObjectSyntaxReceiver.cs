@@ -52,44 +52,62 @@ internal static class ValueObjectSyntaxReceiver
 		var propertyIsPublic = attribute.GetArgumentOrDefault("propertyIsPublic", defaultValue: false);
 		var valueIsNullable = attribute.GetArgumentOrDefault("valueIsNullable", defaultValue: false);
 		var useValidationExceptions = attribute.GetArgumentOrDefault("useValidationExceptions", defaultValue: true);
-
+		
 		int value;
+		
+		if (hasDefaultAttribute)
+			return new DefaultValueObject(
+				valueObjectType: type,
+				underlyingType: (INamedTypeSymbol)attribute.AttributeClass!.TypeArguments.Single(),
+				attribute: attribute,
+				minimumValue: attribute.TryGetArgument("minimumValue", out value) && value != Int32.MinValue ? value : null,
+				maximumValue: attribute.TryGetArgument("maximumValue", out value) && value != Int32.MaxValue ? value : null,
+				typeDeclarationSyntax: typeDeclarationSyntax,
+				generateToString: generateToString,
+				generateComparison: generateComparison,
+				generateDefaultConstructor: generateDefaultConstructor,
+				forbidParameterlessConstruction: forbidParameterlessConstruction,
+				generateStaticDefault: generateStaticDefault,
+				propertyName: propertyName,
+				propertyIsPublic: propertyIsPublic,
+				allowNull: valueIsNullable,
+				useValidationExceptions: useValidationExceptions);
 		
 		if (hasDictionaryAttribute)
 			return new DictionaryValueObject(
-				ValueObjectType: type,
-				KeyType: attribute.AttributeClass!.TypeArguments[0],
-				ValueType: attribute.AttributeClass!.TypeArguments[1],
-				MinimumCount: attribute.TryGetArgument("minimumCount", out value) && value != Int32.MinValue ? value : null,
-				MaximumCount: attribute.TryGetArgument("maximumCount", out value) && value != Int32.MaxValue ? value : null,
-				GenerateEnumerable: generateEnumerable,
-				GenerateToString: generateToString,
-				GenerateComparison: generateComparison,
-				GenerateDefaultConstructor: generateDefaultConstructor,
-				ForbidParameterlessConstruction: forbidParameterlessConstruction,
-				GenerateStaticDefault: generateStaticDefault,
-				PropertyName: propertyName,
-				PropertyIsPublic: propertyIsPublic,
-				AllowNull: valueIsNullable,
-				UseValidationExceptions: useValidationExceptions);
+				valueObjectType: type,
+				keyType: attribute.AttributeClass!.TypeArguments[0],
+				valueType: attribute.AttributeClass!.TypeArguments[1],
+				minimumCount: attribute.TryGetArgument("minimumCount", out value) && value != Int32.MinValue ? value : null,
+				maximumCount: attribute.TryGetArgument("maximumCount", out value) && value != Int32.MaxValue ? value : null,
+				generateEnumerable: generateEnumerable,
+				generateToString: generateToString,
+				generateComparison: generateComparison,
+				generateDefaultConstructor: generateDefaultConstructor,
+				forbidParameterlessConstruction: forbidParameterlessConstruction,
+				generateStaticDefault: generateStaticDefault,
+				propertyName: propertyName,
+				propertyIsPublic: propertyIsPublic,
+				allowNull: valueIsNullable,
+				useValidationExceptions: useValidationExceptions);
 		
 		if (hasListAttribute)
 			return new ListValueObject(
-				ValueObjectType: type,
-				ElementType: (INamedTypeSymbol)attribute.AttributeClass!.TypeArguments.Single(),
-				Attribute: attribute,
-				MinimumCount: attribute.TryGetArgument("minimumCount", out value) && value != Int32.MinValue ? value : null,
-				MaximumCount: attribute.TryGetArgument("maximumCount", out value) && value != Int32.MaxValue ? value : null,
-				GenerateToString: generateToString,
-				GenerateComparison: generateComparison,
-				GenerateDefaultConstructor: generateDefaultConstructor,
-				ForbidParameterlessConstruction: forbidParameterlessConstruction,
-				GenerateStaticDefault: generateStaticDefault,
-				GenerateEnumerable: generateEnumerable,
-				PropertyName: propertyName,
-				PropertyIsPublic: propertyIsPublic,
-				AllowNull: valueIsNullable,
-				UseValidationExceptions: useValidationExceptions);
+				valueObjectType: type,
+				elementType: (INamedTypeSymbol)attribute.AttributeClass!.TypeArguments.Single(),
+				attribute: attribute,
+				minimumCount: attribute.TryGetArgument("minimumCount", out value) && value != Int32.MinValue ? value : null,
+				maximumCount: attribute.TryGetArgument("maximumCount", out value) && value != Int32.MaxValue ? value : null,
+				generateToString: generateToString,
+				generateComparison: generateComparison,
+				generateDefaultConstructor: generateDefaultConstructor,
+				forbidParameterlessConstruction: forbidParameterlessConstruction,
+				generateStaticDefault: generateStaticDefault,
+				generateEnumerable: generateEnumerable,
+				propertyName: propertyName,
+				propertyIsPublic: propertyIsPublic,
+				allowNull: valueIsNullable,
+				useValidationExceptions: useValidationExceptions);
 		
 		if (hasStringAttribute)
 			return new StringValueObject(
@@ -110,24 +128,6 @@ internal static class ValueObjectSyntaxReceiver
 				PropertyIsPublic: propertyIsPublic,
 				AllowNull: valueIsNullable,
 				UseValidationExceptions: useValidationExceptions);
-		
-		if (hasDefaultAttribute)
-			return new DefaultValueObject(
-				valueObjectType: type,
-				underlyingType: (INamedTypeSymbol)attribute.AttributeClass!.TypeArguments.Single(),
-				attribute: attribute,
-				minimumValue: attribute.TryGetArgument("minimumValue", out value) && value != Int32.MinValue ? value : null,
-				maximumValue: attribute.TryGetArgument("maximumValue", out value) && value != Int32.MaxValue ? value : null,
-				typeDeclarationSyntax: typeDeclarationSyntax,
-				generateToString: generateToString,
-				generateComparison: generateComparison,
-				generateDefaultConstructor: generateDefaultConstructor,
-				forbidParameterlessConstruction: forbidParameterlessConstruction,
-				generateStaticDefault: generateStaticDefault,
-				propertyName: propertyName,
-				propertyIsPublic: propertyIsPublic,
-				allowNull: valueIsNullable,
-				useValidationExceptions: useValidationExceptions);
 
 		return null;
 	}

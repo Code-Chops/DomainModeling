@@ -29,7 +29,7 @@ public readonly partial record struct ValidationExceptionMessage : IValueObject,
 {
 	public override partial string ToString();
 
-	#region ValueProperty
+	#region Property
 	/// <summary>
 	/// Get the underlying structural value.
 	/// </summary>
@@ -38,7 +38,7 @@ public readonly partial record struct ValidationExceptionMessage : IValueObject,
 	private (String, ImmutableList<Object>) Value => this._value3720;
 
 	/// <summary>
-	/// Backing field for <see cref='Value'/>.  Don't use this field, use the Value property instead.
+	/// Backing field for <see cref='Value'/>. Don't use this field, use the Value property instead.
 	/// </summary>
 	[Obsolete("Don't use this field, use the Value property instead.")]
 	[EditorBrowsable(EditorBrowsableState.Never)]

@@ -1,13 +1,8 @@
-﻿using CodeChops.DomainDrivenDesign.DomainModeling.Validation.Guards.Core;
+﻿namespace CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration.UnitTests.ValueObjects.Default;
 
-namespace CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration.UnitTests.ValueObjects.Default;
-
-[GenerateValueObject<(string, List<object>)>(minimumValue: 0, maximumValue: Int32.MaxValue, generateToString: false)]
-public readonly ref partial struct DefaultRefValueObjectTupleMock<TGuard>
-	where TGuard : IGuard
+[GenerateValueObject<(string, List<object>)>(minimumValue: 0, maximumValue: Int32.MaxValue, generateToString: false, useValidationExceptions: false)]
+public readonly ref partial struct DefaultRefValueObjectTupleMock
 {
-	private static readonly string? ErrorCode_CodeChops_DefaultRefValueObjectTupleMock_TGuard_OutOfRange;
-
 	public override partial string ToString() => String.Format(this.Message, this.Parameters.ToArray());
 
 	public string Message => this.Value.Item1;

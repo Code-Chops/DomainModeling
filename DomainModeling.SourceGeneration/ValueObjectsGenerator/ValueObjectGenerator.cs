@@ -61,21 +61,21 @@ public class ValueObjectGenerator : IIncrementalGenerator
 #pragma warning disable CS0618 // Member is obsolete (level 2)
 ");
 
-		code.AppendLine(GetUsings())
-			.AppendLine(GetNamespaceDeclaration)
+		code.AppendLine(GetUsings, trimEnd: true)
+			.AppendLine(GetNamespaceDeclaration, trimEnd: true)
 			.AppendLine(GetComment, trimEnd: true)
-			.AppendLine(GetStructLayoutAttribute)
-			.AppendLine(GetObjectDeclaration().TrimEnd())
+			.AppendLine(GetStructLayoutAttribute, trimEnd: true)
+			.AppendLine(GetObjectDeclaration, trimEnd: true)
 			.AppendLine("{")
-			.AppendLine(GetToString)
-			.AppendLine(GetLengthOrCount)
+			.AppendLine(GetToString, trimEnd: true)
+			.AppendLine(GetLengthOrCount, trimEnd: true)
 			.AppendLine(GetProperty, trimEnd: true)
-			.AppendLine(GetEqualsAndHashCode)
-			.AppendLine(GetComparison)
+			.AppendLine(GetEqualsAndHashCode, trimEnd: true)
+			.AppendLine(GetComparison, trimEnd: true)
 			.AppendLine(GetStaticDefault, trimEnd: true)
 			.AppendLine(GetCast, trimEnd: true)
-			.AppendLine(GetEnumerator)
-			.AppendLine(GetConstructors)
+			.AppendLine(GetEnumerator, trimEnd: true)
+			.AppendLine(GetConstructors, trimEnd: true)
 			.AppendLine(GetFactories, trimEnd: true)
 			.AppendLine(GetExtraCode, trimEnd: true)
 			.AppendLine("}")
@@ -129,7 +129,7 @@ public class ValueObjectGenerator : IIncrementalGenerator
 			
 			return $@"
 /// <summary>
-/// {data.GetCommentsCode()}
+/// {data.GetComments()}
 /// </summary>
 ";
 		}
@@ -204,7 +204,7 @@ public class ValueObjectGenerator : IIncrementalGenerator
 			var code = new StringBuilder();
 			
 			code.Append($@"
-	#region ValueProperty
+	#region Property
 	/// <summary>
 	/// Get the underlying structural value.
 	/// </summary>
@@ -213,7 +213,7 @@ public class ValueObjectGenerator : IIncrementalGenerator
 	{(data.PropertyIsPublic ? "public" : "private")} {data.UnderlyingTypeName} {data.PropertyName} => this.{data.BackingFieldName}{(data is DefaultValueObject ? null : $" ?? {data.GetDefaultValue()}")};
 
 	/// <summary>
-	/// Backing field for <see cref='{data.PropertyName}'/>. {error?.Write()}
+	/// Backing field for <see cref='{data.PropertyName}'/>.{error?.Write()}
 	/// </summary>
 ");
 
@@ -286,16 +286,16 @@ public class ValueObjectGenerator : IIncrementalGenerator
 
 	[DebuggerHidden]
 	[EditorBrowsable(EditorBrowsableState.Never)]
-	public static bool operator <	({data.Name} left, {data.Name} right)	=> left.CompareTo(right) <	0;
+	public static bool operator <	({data.Name} left, {data.Name} right) => left.CompareTo(right) <  0;
 	[DebuggerHidden]
 	[EditorBrowsable(EditorBrowsableState.Never)]
-	public static bool operator <=	({data.Name} left, {data.Name} right)	=> left.CompareTo(right) <= 0;
+	public static bool operator <=	({data.Name} left, {data.Name} right) => left.CompareTo(right) <= 0;
 	[DebuggerHidden]
 	[EditorBrowsable(EditorBrowsableState.Never)]
-	public static bool operator >	({data.Name} left, {data.Name} right)	=> left.CompareTo(right) >	0;
+	public static bool operator >	({data.Name} left, {data.Name} right) => left.CompareTo(right) >  0;
 	[DebuggerHidden]
 	[EditorBrowsable(EditorBrowsableState.Never)]
-	public static bool operator >=	({data.Name} left, {data.Name} right)	=> left.CompareTo(right) >= 0;
+	public static bool operator >=	({data.Name} left, {data.Name} right) => left.CompareTo(right) >= 0;
 	#endregion";
 		}
 		
@@ -412,7 +412,7 @@ public class ValueObjectGenerator : IIncrementalGenerator
 
 				code.Append($@"
 	#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor
-	[Obsolete(""{error}"", true)]
+	[Obsolete(""{error}"", error: true)]
 	[DebuggerHidden]
 	[EditorBrowsable(EditorBrowsableState.Never)]
 	public {data.ValueObjectType.Name}() => throw new InvalidOperationException($""{error}"");

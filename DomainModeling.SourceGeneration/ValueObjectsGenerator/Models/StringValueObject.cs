@@ -38,27 +38,28 @@ public record StringValueObject(
 		bool AllowNull,
 		bool UseValidationExceptions)
 	: ValueObjectBase(
-		UseValidationExceptions: UseValidationExceptions,
-		ValueObjectType: ValueObjectType,
-		UnderlyingTypeName: nameof(String),
-		UnderlyingTypeNameBase: null,
-		GenerateToString: GenerateToString,
-		GenerateComparison: GenerateComparison,
-		GenerateDefaultConstructor: GenerateDefaultConstructor,
-		ForbidParameterlessConstruction: ForbidParameterlessConstruction,
-		GenerateStaticDefault: GenerateStaticDefault,
-		GenerateEnumerable: GenerateEnumerable,
-		PropertyName: PropertyName ?? "Value",
-		PropertyIsPublic: PropertyIsPublic,
-		AddIComparable: true,
-		AllowNull: AllowNull),
+		useValidationExceptions: UseValidationExceptions,
+		valueObjectType: ValueObjectType,
+		generateToString: GenerateToString,
+		generateComparison: GenerateComparison,
+		generateDefaultConstructor: GenerateDefaultConstructor,
+		forbidParameterlessConstruction: ForbidParameterlessConstruction,
+		generateStaticDefault: GenerateStaticDefault,
+		generateEnumerable: GenerateEnumerable,
+		propertyName: PropertyName ?? "Value",
+		propertyIsPublic: PropertyIsPublic,
+		addIComparable: true,
+		allowNull: AllowNull),
 		IEnumerableValueObject
 {
-	public string ElementTypeName => nameof(Char);
+	public string ElementTypeName					=> nameof(Char);
+
+	public override string UnderlyingTypeName		=> nameof(String);
+	public override string? UnderlyingTypeNameBase	=> null;
 
 	public override string[] GetNamespaces()		=> Array.Empty<string>();
 	
-	public override string GetCommentsCode()		=> $"An immutable value type with a {(this.StringCaseConversion == StringCaseConversion.NoConversion ? null : $"{this.StringCaseConversion} ")}{this.StringFormat}-Formatted string as underlying value.";
+	public override string GetComments()			=> $"An immutable value type with a {(this.StringCaseConversion == StringCaseConversion.NoConversion ? null : $"{this.StringCaseConversion} ")}{this.StringFormat}-Formatted string as underlying value.";
 
 	public override string GetToStringCode()		=> $"public override string ToString() => this.ToDisplayString(new {{ this.{this.PropertyName} }});";
 	

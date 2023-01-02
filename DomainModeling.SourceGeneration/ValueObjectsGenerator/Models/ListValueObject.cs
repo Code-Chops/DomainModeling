@@ -72,7 +72,7 @@ public record ListValueObject : ValueObjectBase, IEnumerableValueObject
 			? "typeparamref name"
 			: "see cref";
 		
-		return $@"An immutable value object with an immutable list of <{attribute}=""{this.ElementType.GetFullTypeNameWithGenericParameters().Replace('<', '{').Replace('>', '}')}""/> as underlying value.";
+		return $@"An immutable value object with an immutable list of <{attribute}=""{this.ElementType.GetTypeNameWithGenericParameters().Replace('<', '{').Replace('>', '}')}""/> as underlying value.";
 	}
 
 	public override string GetToStringCode()		=> $"public override string ToString() => this.ToDisplayString(new {{ Type = \"{this.ElementTypeName}\" }}, extraText: this.Count.ToString());";

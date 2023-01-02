@@ -2,7 +2,8 @@ namespace CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration.ValueObje
 
 public abstract record ValueObjectBase
 {
-	protected ValueObjectBase(INamedTypeSymbol valueObjectType,
+	protected ValueObjectBase(
+		INamedTypeSymbol valueObjectType,
 		bool generateToString, 
 		bool generateComparison,
 		bool generateDefaultConstructor,
@@ -27,8 +28,8 @@ public abstract record ValueObjectBase
 		this.AllowNull = allowNull;
 		this.UseValidationExceptions = useValidationExceptions;
 		this.AddIComparable = addIComparable;
-		this.IsUnsealedRecordClass = valueObjectType.IsRecord && valueObjectType.TypeKind is not TypeKind.Struct && !valueObjectType.IsSealed;
-		this.NullOperator = valueObjectType.TypeKind is not TypeKind.Struct ? '?' : null;
+		this.IsUnsealedRecordClass = valueObjectType is { IsRecord: true, TypeKind: not TypeKind.Struct, IsSealed: false };
+		this.NullOperator = valueObjectType.TypeKind is TypeKind.Class ? '?' : null;
 		this.Name = valueObjectType.GetTypeNameWithGenericParameters();
 		this.Namespace = valueObjectType.ContainingNamespace!.IsGlobalNamespace ? null : valueObjectType.ContainingNamespace.ToDisplayString();
 		this.BackingFieldName = $"_{propertyName.Substring(0, 1).ToLowerInvariant()}{propertyName.Substring(1)}{(generateDefaultConstructor ? new Random().Next(0, 9999) : null)}";

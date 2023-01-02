@@ -93,7 +93,7 @@ public record DictionaryValueObject : ValueObjectBase, IEnumerableValueObject
 			? "typeparamref name"
 			: "see cref";
 
-		return $@"An immutable value object holding an immutable dictionary with <{attributeKey}=""{this.KeyType.GetFullTypeNameWithGenericParameters().Replace('<', '{').Replace('>', '}')}""/> as key and <{attributeValue}=""{this.ValueType.GetFullTypeNameWithGenericParameters().Replace('<', '{').Replace('>', '}')}""/> as value.";
+		return $@"An immutable value object holding an immutable dictionary with <{attributeKey}=""{this.KeyType.GetTypeNameWithGenericParameters().Replace('<', '{').Replace('>', '}')}""/> as key and <{attributeValue}=""{this.ValueType.GetTypeNameWithGenericParameters().Replace('<', '{').Replace('>', '}')}""/> as value.";
 	}
 
 	public override string GetToStringCode()		=> $"public override string ToString() => this.ToDisplayString(new {{ Key = \"{this.KeyType.Name}\", Value = \"{this.ValueTypeName}\" }}, extraText: this.Count.ToString());";

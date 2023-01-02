@@ -11,7 +11,7 @@ public sealed record DefaultValueObject : ValueObjectBase
 	
 	public DefaultValueObject(
 		INamedTypeSymbol valueObjectType,
-		ITypeSymbol underlyingType,
+		INamedTypeSymbol underlyingType,
 		AttributeData attribute,
 		TypeDeclarationSyntax typeDeclarationSyntax,
 		int? minimumValue,
@@ -39,9 +39,12 @@ public sealed record DefaultValueObject : ValueObjectBase
 			addIComparable: true,
 			allowNull: allowNull)
 	{
-		underlyingType = GetUnderlyingType(valueObjectType, underlyingType);
-		this.UnderlyingType = underlyingType;
-		this.UnderlyingTypeName = GetUnderlyingTypeName(underlyingType, allowNull);
+		this.SubtypeParameter = underlyingType.TypeArguments.FirstOrDefault();
+		this.ParameterSubstitute = valueObjectType.TypeArguments.FirstOrDefault();
+
+		this.UnderlyingType = GetUnderlyingType(valueObjectType, underlyingType);
+
+		this.UnderlyingTypeName = this.GetUnderlyingTypeName();
 		this.UnderlyingTypeNameBase = null;
 		this.Attribute = attribute;
 		this.TypeDeclarationSyntax = typeDeclarationSyntax;
@@ -49,9 +52,12 @@ public sealed record DefaultValueObject : ValueObjectBase
 		this.MaximumValue = maximumValue;
 	}
 
+	private ITypeSymbol? SubtypeParameter { get; }
+	private ITypeSymbol? ParameterSubstitute { get; }
+	
 	private static ITypeSymbol GetUnderlyingType(INamedTypeSymbol valueObjectType, ITypeSymbol underlyingType)
 	{
-		var typeParameter = valueObjectType.TypeArguments.OfType<ITypeSymbol>().FirstOrDefault();
+		var typeParameter = valueObjectType.TypeArguments.FirstOrDefault();
 		return typeParameter ?? underlyingType;
 	}
 	
@@ -62,9 +68,31 @@ public sealed record DefaultValueObject : ValueObjectBase
 		       && (interf is not INamedTypeSymbol { TypeArguments.Length: 1 } || interf.HasSingleGenericTypeArgument(underlyingType));
 	}
 
-	private static string GetUnderlyingTypeName(ITypeSymbol underlyingType, bool valueIsNullable) 
-		=> $"{underlyingType.GetTypeNameWithGenericParameters()}{(underlyingType.TypeKind is TypeKind.Struct && valueIsNullable ? "?" : null)}";
-
+	private string GetUnderlyingTypeName()
+	{
+		var name = this.UnderlyingType.GetTypeNameWithGenericParameters();
+		
+		// Replace type argument of provided underlying type if needed.
+		if (this.ParameterSubstitute is not null)
+		{
+			if (this.UnderlyingType is INamedTypeSymbol { TypeArguments.Length: 1 })
+			{
+				var startIndex = name.LastIndexOf('<');
+				if (startIndex == -1) startIndex = 0;
+				
+				var endIndex = name.IndexOf(',');
+				if (endIndex == -1) endIndex = name.IndexOf('>');
+				name = $"{name.Substring(0, startIndex + 1)}{this.ParameterSubstitute.Name}{name.Substring(endIndex)}";
+			}
+			else
+			{
+				name = this.ParameterSubstitute.Name;
+			}
+		}
+		
+		return $"{name}{(this.UnderlyingType.TypeKind is TypeKind.Struct && this.AllowNull ? "?" : null)}";
+	}
+	
 	public override string UnderlyingTypeName { get; }
 	public override string? UnderlyingTypeNameBase { get; }
 
@@ -74,11 +102,11 @@ public sealed record DefaultValueObject : ValueObjectBase
 
 	public override string GetComments()
 	{
-		var attribute = this.ValueObjectType.IsGenericType
+		var attribute = this.ParameterSubstitute is not null && this.SubtypeParameter is null
 			? "typeparamref name"
 			: "see cref";
 		
-		return $@"An immutable value object with an underlying value of type <{attribute}=""{this.UnderlyingType.GetFullTypeNameWithGenericParameters().Replace('<', '{').Replace('>', '}')}""/>.";
+		return $@"An immutable value object with an underlying value of type <{attribute}=""{this.UnderlyingType.GetTypeNameWithGenericParameters().Replace('<', '{').Replace('>', '}')}""/>.";
 	}
 
 	public override string GetToStringCode()		=> $"public override string ToString() => this.ToDisplayString(new {{ this.{this.PropertyName} }});";

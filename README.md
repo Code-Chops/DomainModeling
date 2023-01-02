@@ -689,8 +689,6 @@ public partial record struct ObjectsByKey<TKey, TObject>
 	where TObject : IDomainObject;
 ```
 
-
-
 # Identities
 Entities require a unique identity (ID) in order to be distinguished from other entities. Each entity should have it's strongly typed ID.
 It's important that the scope in which the ID should unique is taken into consideration before implementing them.

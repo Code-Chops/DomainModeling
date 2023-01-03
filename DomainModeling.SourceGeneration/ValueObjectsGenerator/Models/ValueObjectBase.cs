@@ -36,6 +36,8 @@ public abstract record ValueObjectBase
 		this.LocalVariableName = propertyName.Substring(0, 1).ToLowerInvariant() + propertyName.Substring(1);
 	}
 
+	public string? ErrorMessage { get; protected set; }
+	
 	public abstract string UnderlyingTypeName { get; }
 	public abstract string? UnderlyingTypeNameBase { get; }
 	

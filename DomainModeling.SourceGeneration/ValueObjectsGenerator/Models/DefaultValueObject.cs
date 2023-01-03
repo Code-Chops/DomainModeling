@@ -1,18 +1,17 @@
-// ReSharper disable NotAccessedPositionalProperty.Global
+using CodeChops.SourceGeneration.Utilities;
+
 namespace CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration.ValueObjectsGenerator.Models;
 
 public sealed record DefaultValueObject : ValueObjectBase
 {
-	public ITypeSymbol UnderlyingType { get; }
-	public AttributeData Attribute { get; }
-	public TypeDeclarationSyntax TypeDeclarationSyntax { get; }
+	public ITypeSymbol UnderlyingType { get; } = null!;
+	public TypeDeclarationSyntax TypeDeclarationSyntax { get; } = null!;
 	public int? MinimumValue { get; }
 	public int? MaximumValue { get; }
 	
 	public DefaultValueObject(
 		INamedTypeSymbol valueObjectType,
-		INamedTypeSymbol underlyingType,
-		AttributeData attribute,
+		INamedTypeSymbol? providedUnderlyingType,
 		TypeDeclarationSyntax typeDeclarationSyntax,
 		int? minimumValue,
 		int? maximumValue,
@@ -29,7 +28,7 @@ public sealed record DefaultValueObject : ValueObjectBase
 			useValidationExceptions: useValidationExceptions,
 			valueObjectType: valueObjectType,
 			generateToString: generateToString,  
-			generateComparison: generateComparison && ImplementsIComparable(GetUnderlyingType(valueObjectType, underlyingType)),
+			generateComparison: generateComparison && ImplementsIComparable(GetUnderlyingType(valueObjectType, providedUnderlyingType, out _)),
 			generateDefaultConstructor: generateDefaultConstructor,
 			forbidParameterlessConstruction: forbidParameterlessConstruction,  
 			generateStaticDefault: generateStaticDefault,
@@ -39,34 +38,51 @@ public sealed record DefaultValueObject : ValueObjectBase
 			addIComparable: true,
 			allowNull: allowNull)
 	{
-		this.SubtypeParameter = underlyingType.TypeArguments.FirstOrDefault();
-		this.ParameterSubstitute = valueObjectType.TypeArguments.FirstOrDefault();
+		var underlyingType = GetUnderlyingType(valueObjectType, providedUnderlyingType, out var parameterSubstitute);
 
-		this.UnderlyingType = GetUnderlyingType(valueObjectType, underlyingType);
-
+		if (underlyingType is null)
+		{
+			this.ErrorMessage = "Underlying type unknown. No underlying type provided as attribute type argument, or as type parameter on the type.";
+			return;
+		}
+		
+		this.UnderlyingType = underlyingType;
+		this.ParameterSubstitute = parameterSubstitute;
+		
 		this.UnderlyingTypeName = this.GetUnderlyingTypeName();
 		this.UnderlyingTypeNameBase = null;
-		this.Attribute = attribute;
 		this.TypeDeclarationSyntax = typeDeclarationSyntax;
 		this.MinimumValue = minimumValue;
 		this.MaximumValue = maximumValue;
 	}
 
-	private ITypeSymbol? SubtypeParameter { get; }
 	private ITypeSymbol? ParameterSubstitute { get; }
 	
-	private static ITypeSymbol GetUnderlyingType(INamedTypeSymbol valueObjectType, ITypeSymbol underlyingType)
+	private static ITypeSymbol? GetUnderlyingType(INamedTypeSymbol valueObjectType, INamedTypeSymbol? providedUnderlyingType, out ITypeSymbol? parameterSubstitute)
 	{
 		var typeParameter = valueObjectType.TypeArguments.FirstOrDefault();
 
-		if (typeParameter is null || underlyingType is INamedTypeSymbol { TypeArguments.Length: > 0 })
-			return underlyingType;
-		
-		return typeParameter;
+		if (providedUnderlyingType is null)
+		{
+			parameterSubstitute = null;
+			return typeParameter;
+		}
+
+		if (typeParameter is null || providedUnderlyingType.TypeArguments.OfType<INamedTypeSymbol>().Any(type => type.InstanceConstructors.Length == 0))
+		{
+			parameterSubstitute = typeParameter;
+			return providedUnderlyingType;
+		}
+
+		parameterSubstitute = null;
+		return providedUnderlyingType;
 	}
 	
-	private static bool ImplementsIComparable(ITypeSymbol underlyingType)
+	private static bool ImplementsIComparable(ITypeSymbol? underlyingType)
 	{
+		if (underlyingType is null)
+			return false;
+		
 		return underlyingType
 		    .IsOrImplementsInterface(type => type.IsType(fullTypeName: typeof(IComparable).FullName), out var interf) 
 		       && (interf is not INamedTypeSymbol { TypeArguments.Length: 1 } || interf.HasSingleGenericTypeArgument(underlyingType));
@@ -79,14 +95,16 @@ public sealed record DefaultValueObject : ValueObjectBase
 		// Replace type argument of provided underlying type if needed.
 		if (this.ParameterSubstitute is not null)
 		{
-			if (this.UnderlyingType is INamedTypeSymbol { TypeArguments.Length: 1 })
+			if (this.UnderlyingType is INamedTypeSymbol { IsGenericType: true})
 			{
-				var startIndex = name.LastIndexOf('<');
-				if (startIndex == -1) startIndex = 0;
+				var startIndex = name.IndexOf('<');
+
+				var parameters = NameHelpers.GetGenericParameters(name)!
+					.TrimStart('<').TrimEnd('>')
+					.Split(',')
+					.Select((p, i) => i == 0 ? this.ParameterSubstitute.Name : p);
 				
-				var endIndex = name.IndexOf(',');
-				if (endIndex == -1) endIndex = name.IndexOf('>');
-				name = $"{name.Substring(0, startIndex + 1)}{this.ParameterSubstitute.Name}{name.Substring(endIndex)}";
+				name = $"{name.Substring(0, startIndex)}<{String.Join(", ", parameters)}>";
 			}
 			else
 			{
@@ -97,7 +115,7 @@ public sealed record DefaultValueObject : ValueObjectBase
 		return $"{name}{(this.UnderlyingType.TypeKind is TypeKind.Struct && this.AllowNull ? "?" : null)}";
 	}
 	
-	public override string UnderlyingTypeName { get; }
+	public override string UnderlyingTypeName { get; } = null!;
 	public override string? UnderlyingTypeNameBase { get; }
 
 	public override string[] GetNamespaces()		=> this.UnderlyingType.ContainingNamespace.IsGlobalNamespace 
@@ -106,7 +124,7 @@ public sealed record DefaultValueObject : ValueObjectBase
 
 	public override string GetComments()
 	{
-		var attribute = this.ParameterSubstitute is not null && this.SubtypeParameter is null
+		var attribute = this.UnderlyingType.IsDefinition
 			? "typeparamref name"
 			: "see cref";
 		

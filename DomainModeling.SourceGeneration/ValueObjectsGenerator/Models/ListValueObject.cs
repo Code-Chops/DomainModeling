@@ -4,8 +4,7 @@ public record ListValueObject : ValueObjectBase, IEnumerableValueObject
 {
 	public ListValueObject(
 		INamedTypeSymbol valueObjectType,
-		ITypeSymbol elementType,
-		AttributeData attribute,
+		ITypeSymbol? providedElementType,
 		int? minimumCount,
 		int? maximumCount,
 		bool generateEnumerable,
@@ -32,34 +31,38 @@ public record ListValueObject : ValueObjectBase, IEnumerableValueObject
 			allowNull: allowNull,
 			useValidationExceptions: useValidationExceptions)
 	{
-		elementType = GetElementType(valueObjectType, elementType);
-		this.ElementType = elementType;
-		this.Attribute = attribute;
+		providedElementType = GetElementType(valueObjectType, providedElementType);
+		
+		if (providedElementType is null)
+		{
+			this.ErrorMessage = "Underlying type for element unknown. No underlying type provided as attribute type argument, or as type parameter on the type.";
+			return;
+		}
+		
+		this.ProvidedElementType = providedElementType;
 		this.MinimumCount = minimumCount;
 		this.MaximumCount = maximumCount;
-		this.ElementTypeName = $"{elementType.Name}{(allowNull ? "?" : null)}";
-		this.UnderlyingTypeName = $"ImmutableList<{elementType.Name}{(allowNull ? "?" : null)}>";
-		this.UnderlyingTypeNameBase = $"List<{elementType.Name}{(allowNull ? "?" : null)}>";
+		this.ElementTypeName = $"{providedElementType.Name}{(allowNull ? "?" : null)}";
+		this.UnderlyingTypeName = $"ImmutableList<{providedElementType.Name}{(allowNull ? "?" : null)}>";
+		this.UnderlyingTypeNameBase = $"List<{providedElementType.Name}{(allowNull ? "?" : null)}>";
 	}
 	
-	private static ITypeSymbol GetElementType(INamedTypeSymbol valueObjectType, ITypeSymbol elementType)
+	private static ITypeSymbol? GetElementType(INamedTypeSymbol valueObjectType, ITypeSymbol? providedElementType)
 	{
-		var typeParameter = valueObjectType.TypeArguments.OfType<ITypeSymbol>().FirstOrDefault();
-		return typeParameter ?? elementType;
+		return providedElementType ?? valueObjectType.TypeArguments.FirstOrDefault();
 	}
 
-	public string ElementTypeName { get; }
+	public string ElementTypeName { get; } = null!;
 
-	public override string UnderlyingTypeName { get; }
+	public override string UnderlyingTypeName { get; } = null!;
 	public override string? UnderlyingTypeNameBase { get; }
-	public ITypeSymbol ElementType { get; }
-	public AttributeData Attribute { get; }
+	public ITypeSymbol ProvidedElementType { get; } = null!;
 	public int? MinimumCount { get; }
 	public int? MaximumCount { get; }
 
 	public override string[] GetNamespaces()
 	{
-		var elementNamespace = this.Attribute.AttributeClass!.TypeArguments.Single().ContainingNamespace;
+		var elementNamespace = this.ProvidedElementType.ContainingNamespace;
 		if (elementNamespace.IsGlobalNamespace) 
 			return Array.Empty<string>();
 
@@ -72,7 +75,7 @@ public record ListValueObject : ValueObjectBase, IEnumerableValueObject
 			? "typeparamref name"
 			: "see cref";
 		
-		return $@"An immutable value object with an immutable list of <{attribute}=""{this.ElementType.GetTypeNameWithGenericParameters().Replace('<', '{').Replace('>', '}')}""/> as underlying value.";
+		return $@"An immutable value object with an immutable list of <{attribute}=""{this.ProvidedElementType.GetTypeNameWithGenericParameters().Replace('<', '{').Replace('>', '}')}""/> as underlying value.";
 	}
 
 	public override string GetToStringCode()		=> $"public override string ToString() => this.ToDisplayString(new {{ Type = \"{this.ElementTypeName}\" }}, extraText: this.Count.ToString());";

@@ -3,7 +3,8 @@ namespace CodeChops.DomainDrivenDesign.DomainModeling.Attributes.ValueObjects;
 #pragma warning disable IDE0060 // Remove unused parameter
 
 /// <summary>
-/// Generates a value object with a string as single structural value.
+/// <para>Generates a value object with a string as single structural value.</para>
+/// <para>Any manually extra added property is not being used for calculating Equals or GetHashCode.</para>
 /// </summary>
 [AttributeUsage(AttributeTargets.Struct | AttributeTargets.Class)]
 public sealed class GenerateStringValueObjectAttribute : Attribute

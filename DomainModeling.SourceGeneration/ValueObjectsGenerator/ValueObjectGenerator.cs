@@ -27,6 +27,12 @@ public class ValueObjectGenerator : IIncrementalGenerator
 		{
 			foreach (var model in models)
 			{
+				if (model.ErrorMessage is not null)
+				{
+					context.ReportDiagnostic(Diagnostic.Create(descriptor: new DiagnosticDescriptor(model.Name, "Error", $"Error generating value object '{model.Name}'. " + model.ErrorMessage, "Compilation", DiagnosticSeverity.Error, isEnabledByDefault: true), null));
+					continue;
+				}
+				
 				var code = CreateSource(model, configOptionsProvider);
 	
 				var fileName = model.Namespace is null 

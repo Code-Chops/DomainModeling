@@ -251,13 +251,13 @@ public readonly partial record struct PlayerAge : IValueObject, ICreatable<Playe
 
 	[DebuggerHidden]
 	[EditorBrowsable(EditorBrowsableState.Never)]
-	public static bool operator <	(PlayerAge left, PlayerAge right)	=> left.CompareTo(right) <	0;
+	public static bool operator <	(PlayerAge left, PlayerAge right)	=> left.CompareTo(right) <  0;
 	[DebuggerHidden]
 	[EditorBrowsable(EditorBrowsableState.Never)]
 	public static bool operator <=	(PlayerAge left, PlayerAge right)	=> left.CompareTo(right) <= 0;
 	[DebuggerHidden]
 	[EditorBrowsable(EditorBrowsableState.Never)]
-	public static bool operator >	(PlayerAge left, PlayerAge right)	=> left.CompareTo(right) >	0;
+	public static bool operator >	(PlayerAge left, PlayerAge right)	=> left.CompareTo(right) >  0;
 	[DebuggerHidden]
 	[EditorBrowsable(EditorBrowsableState.Never)]
 	public static bool operator >=	(PlayerAge left, PlayerAge right)	=> left.CompareTo(right) >= 0;
@@ -659,35 +659,40 @@ public readonly partial record struct ValidationExceptionMessage : IValueObject,
 #nullable restore
 ```
 
-## Open generic type example
+## Generic type example
 Unfortunately, attribute type arguments cannot use type parameters. In case you want to create a open generic default value object, just add a type parameter to the definition of the type and the type provided in the attribute will be overwritten.
 
 ```csharp
 /* Default value object */
 
-[GenerateValueObject<int>(useValidationExceptions: false)] // int is replaced by TNumber
+// Because no type is provided, the first generic type parameter (TNumber) will be used as underlying value.
+[GenerateValueObject(underlyingType: null, useValidationExceptions: false)]
 public partial record struct Point<TNumber>
 	where TNumber : struct, INumber<TNumber>;
 	
 /* List value object */
 
-[GenerateListValueObject<int>(useValidationExceptions: false)] // int is replaced by TId
+// Because no type is provided, the first generic type parameter (TId) will be used as element value.
+[GenerateListValueObject(elementType: null, useValidationExceptions: false)]
 public partial record struct IdList<TId>
 	where TId : IId<TId>, IEquatable<TId>, IComparable<TId>;
 	
 /* Dictionary value object */
 
-// Has an underlying value of ImmutableDictionary<String, TObject>
-[GenerateDictionaryValueObject<string, int>(useValidationExceptions: false)] // int is replaced by TObject
+// Because no value type is provided, the first generic type parameter (TObject) will be used for the value of the dictionary.
+[GenerateDictionaryValueObject(keyType: typeof(string), valueType: null, useValidationExceptions: false)]
 public partial record struct ObjectsByKey<TObject>
 	where TObject : IDomainObject;
 
-// Has an underlying value of ImmutableDictionary<TKey, TObject>
-[GenerateDictionaryValueObject<string, int>(useValidationExceptions: false)] // string is replaced by TKey, int is replaced by TObject
+// Because no key and value type is provided, TKey will be used for the key of the dictionary, and TValue for the value.
+[GenerateDictionaryValueObject(keyType: null, valueType: null, useValidationExceptions: false)]
 public partial record struct ObjectsByKey<TKey, TObject>
 	where TKey : IId
 	where TObject : IDomainObject;
 ```
+
+> ⚠️ As you can see in the example above, non-generic attributes can aso be used to generate value object.
+> Use these non-generic attributes for Blazor WebAssembly, because at the moment generic attributes don't work there: https://github.com/dotnet/runtime/issues/77047. 
 
 # Identities
 Entities require a unique identity (ID) in order to be distinguished from other entities. Each entity should have it's strongly typed ID.

@@ -3,8 +3,7 @@ namespace CodeChops.DomainDrivenDesign.DomainModeling.Exceptions.Validation;
 /// <summary>
 /// A validation message is communicated externally and contains a string message and parameters (which can be used for String.Format).
 /// </summary>
-/// Outcommented attribute and added source generated content in ValidationExceptionMessage_temp file, because generic attributes still don't work in Blazor: https://github.com/dotnet/runtime/issues/77047
-//[GenerateValueObject<(string, ImmutableList<object>)>(minimumValue: 0, maximumValue: Int32.MaxValue, generateToString: false, useValidationExceptions: false)]
+[GenerateValueObject(underlyingType: typeof(ValueTuple<string, ImmutableList<object>>), minimumValue: 0, maximumValue: Int32.MaxValue, generateToString: false, useValidationExceptions: false)]
 public readonly partial record struct ValidationExceptionMessage
 {
 	public override partial string ToString() => String.Format(this.Message, this.Parameters.ToArray());

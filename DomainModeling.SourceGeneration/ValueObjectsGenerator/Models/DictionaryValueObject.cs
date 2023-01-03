@@ -2,10 +2,20 @@ namespace CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration.ValueObje
 
 public record DictionaryValueObject : ValueObjectBase, IEnumerableValueObject
 {
+	public string ElementTypeName { get; } = null!;
+	public string ValueTypeName { get; } = null!;
+
+	public override string UnderlyingTypeName { get; } = null!;
+	public override string? UnderlyingTypeNameBase { get; }
+	public ITypeSymbol ProvidedKeyType { get; } = null!;
+	public ITypeSymbol ProvidedValueType { get; } = null!;
+	public int? MinimumCount { get; }
+	public int? MaximumCount { get; }
+	
 	public DictionaryValueObject(
 		INamedTypeSymbol valueObjectType,
-		ITypeSymbol keyType,
-		ITypeSymbol valueType,
+		ITypeSymbol? providedKeyType,
+		ITypeSymbol? providedValueType,
 		int? minimumCount,
 		int? maximumCount,
 		bool generateEnumerable,
@@ -32,21 +42,35 @@ public record DictionaryValueObject : ValueObjectBase, IEnumerableValueObject
 			addIComparable: false,
 			allowNull: allowNull)
 	{
-		keyType = GetUnderlyingType(valueObjectType, keyType, isKey: true);
-		valueType = GetUnderlyingType(valueObjectType, valueType, isKey: false);
+		providedKeyType = GetUnderlyingType(valueObjectType, providedKeyType, isKey: true);
+		providedValueType = GetUnderlyingType(valueObjectType, providedValueType, isKey: false);
 		
-		this.KeyType = keyType;
-		this.ValueType = valueType;
+		if (providedKeyType is null)
+		{
+			this.ErrorMessage = "Underlying type for key unknown. No underlying type provided as attribute type argument, or as type parameter on the type.";
+			return;
+		}
+		if (providedValueType is null)
+		{
+			this.ErrorMessage = "Underlying type for value unknown. No underlying type provided as attribute type argument, or as type parameter on the type.";
+			return;
+		}
+		
+		this.ProvidedKeyType = providedKeyType;
+		this.ProvidedValueType = providedValueType;
 		this.MinimumCount = minimumCount;
 		this.MaximumCount = maximumCount;
-		this.ElementTypeName = $"KeyValuePair<{keyType.Name}, {valueType.Name}{(allowNull ? "?" : null)}>";
-		this.ValueTypeName = $"{valueType.Name}{(allowNull ? "?" : null)}";
-		this.UnderlyingTypeName = $"ImmutableDictionary<{keyType.Name}, {valueType.Name}{(allowNull ? "?" : null)}>";
-		this.UnderlyingTypeNameBase = $"Dictionary<{keyType.Name}, {valueType.Name}{(allowNull ? "?" : null)}>";
+		this.ElementTypeName = $"KeyValuePair<{providedKeyType.Name}, {providedValueType.Name}{(allowNull ? "?" : null)}>";
+		this.ValueTypeName = $"{providedValueType.Name}{(allowNull ? "?" : null)}";
+		this.UnderlyingTypeName = $"ImmutableDictionary<{providedKeyType.Name}, {providedValueType.Name}{(allowNull ? "?" : null)}>";
+		this.UnderlyingTypeNameBase = $"Dictionary<{providedKeyType.Name}, {providedValueType.Name}{(allowNull ? "?" : null)}>";
 	}
 
-	private static ITypeSymbol GetUnderlyingType(INamedTypeSymbol valueObjectType, ITypeSymbol underlyingType, bool isKey)
+	private static ITypeSymbol? GetUnderlyingType(INamedTypeSymbol valueObjectType, ITypeSymbol? providedUnderlyingType, bool isKey)
 	{
+		if (providedUnderlyingType is not null)
+			return providedUnderlyingType;
+		
 		var index = isKey 
 			? (valueObjectType.TypeArguments.Length == 1 ? 1 : 0)
 			: (valueObjectType.TypeArguments.Length == 1 ? 0 : 1); 
@@ -56,23 +80,13 @@ public record DictionaryValueObject : ValueObjectBase, IEnumerableValueObject
 			.Skip(index)
 			.FirstOrDefault();
 		
-		return typeParameter ?? underlyingType;
+		return typeParameter ?? providedUnderlyingType;
 	}
-
-	public string ElementTypeName { get; }
-	public string ValueTypeName { get; }
-
-	public override string UnderlyingTypeName { get; }
-	public override string? UnderlyingTypeNameBase { get; }
-	public ITypeSymbol KeyType { get; }
-	public ITypeSymbol ValueType { get; }
-	public int? MinimumCount { get; }
-	public int? MaximumCount { get; }
 
 	public override string[] GetNamespaces()
 	{
-		var keyNamespace = this.KeyType.ContainingNamespace;
-		var elementNamespace = this.ValueType.ContainingNamespace;
+		var keyNamespace = this.ProvidedKeyType.ContainingNamespace;
+		var elementNamespace = this.ProvidedValueType.ContainingNamespace;
 
 		if (!keyNamespace.IsGlobalNamespace)
 			return new[] { keyNamespace.ToDisplayString() };
@@ -93,12 +107,12 @@ public record DictionaryValueObject : ValueObjectBase, IEnumerableValueObject
 			? "typeparamref name"
 			: "see cref";
 
-		return $@"An immutable value object holding an immutable dictionary with <{attributeKey}=""{this.KeyType.GetTypeNameWithGenericParameters().Replace('<', '{').Replace('>', '}')}""/> as key and <{attributeValue}=""{this.ValueType.GetTypeNameWithGenericParameters().Replace('<', '{').Replace('>', '}')}""/> as value.";
+		return $@"An immutable value object holding an immutable dictionary with <{attributeKey}=""{this.ProvidedKeyType.GetTypeNameWithGenericParameters().Replace('<', '{').Replace('>', '}')}""/> as key and <{attributeValue}=""{this.ProvidedValueType.GetTypeNameWithGenericParameters().Replace('<', '{').Replace('>', '}')}""/> as value.";
 	}
 
-	public override string GetToStringCode()		=> $"public override string ToString() => this.ToDisplayString(new {{ Key = \"{this.KeyType.Name}\", Value = \"{this.ValueTypeName}\" }}, extraText: this.Count.ToString());";
+	public override string GetToStringCode()		=> $"public override string ToString() => this.ToDisplayString(new {{ Key = \"{this.ProvidedKeyType.Name}\", Value = \"{this.ValueTypeName}\" }}, extraText: this.Count.ToString());";
 	
-	public override string? GetInterfacesCode()		=> this.GenerateEnumerable ? $"IReadOnlyDictionary<{this.KeyType.Name}, {this.ValueType.Name}>" : null;
+	public override string? GetInterfacesCode()		=> this.GenerateEnumerable ? $"IReadOnlyDictionary<{this.ProvidedKeyType.Name}, {this.ProvidedValueType.Name}>" : null;
 
 	public override string GetHashCodeCode()		=> $"public override int GetHashCode() => this.Count == 0 ? 1 : 2;";
 
@@ -135,20 +149,20 @@ public record DictionaryValueObject : ValueObjectBase, IEnumerableValueObject
 	public override string GetEnumeratorCode() => $"public IEnumerator<{this.ElementTypeName}> GetEnumerator() => this.{this.PropertyName}.GetEnumerator();";
 
 	public override string GetExtraCode() => $@"
-	public {(this.IsUnsealedRecordClass ? "virtual " : null)}{this.ValueTypeName} this[{this.KeyType.Name} key] 
+	public {(this.IsUnsealedRecordClass ? "virtual " : null)}{this.ValueTypeName} this[{this.ProvidedKeyType.Name} key] 
 		=> Validator.Get<{this.Name}>.Default.GuardKeyExists(this.{this.PropertyName}.GetValueOrDefault, key, errorCode: null)!;
 
 	[DebuggerHidden]
 	[EditorBrowsable(EditorBrowsableState.Never)]
-	public IEnumerable<{this.KeyType.Name}> Keys => this.{this.PropertyName}.Keys;
+	public IEnumerable<{this.ProvidedKeyType.Name}> Keys => this.{this.PropertyName}.Keys;
 	[DebuggerHidden]
 	[EditorBrowsable(EditorBrowsableState.Never)]
 	public IEnumerable<{this.ValueTypeName}> Values => this.{this.PropertyName}.Values;
 	[DebuggerHidden]
 	[EditorBrowsable(EditorBrowsableState.Never)]
-	public bool ContainsKey({this.KeyType.Name} key) => this.{this.PropertyName}.ContainsKey(key);
+	public bool ContainsKey({this.ProvidedKeyType.Name} key) => this.{this.PropertyName}.ContainsKey(key);
 	[DebuggerHidden]
 	[EditorBrowsable(EditorBrowsableState.Never)]
-	public bool TryGetValue({this.KeyType.Name} key, [MaybeNullWhen(false)] out {this.ValueTypeName} value) => this.{this.PropertyName}.TryGetValue(key, out value)!;
+	public bool TryGetValue({this.ProvidedKeyType.Name} key, [MaybeNullWhen(false)] out {this.ValueTypeName} value) => this.{this.PropertyName}.TryGetValue(key, out value)!;
 ";
 }

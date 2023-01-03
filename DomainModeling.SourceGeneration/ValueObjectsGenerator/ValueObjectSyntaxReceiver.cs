@@ -33,14 +33,22 @@ internal static class ValueObjectSyntaxReceiver
 		if (type is null || type.IsStatic || !typeDeclarationSyntax.Modifiers.Any(m =>  m.IsKind(SyntaxKind.PartialKeyword))) 
 			return null;
 		
-		if (type.TypeKind != TypeKind.Struct && type.TypeKind != TypeKind.Class) return null;
+		if (type.TypeKind != TypeKind.Struct && type.TypeKind != TypeKind.Class) 
+			return null;
 		
-		var hasDefaultAttribute = type.HasAttribute(DefaultAttributeName, AttributeNamespace, out var attribute, expectedGenericTypeParamCount: 1);
+		var hasDefaultAttribute = type.HasAttribute(DefaultAttributeName, AttributeNamespace, out var attribute, expectedGenericTypeParamCount: 0)
+			|| type.HasAttribute(DefaultAttributeName, AttributeNamespace, out attribute, expectedGenericTypeParamCount: 1);
+		
 		var hasStringAttribute = attribute is null && type.HasAttribute(StringAttributeName, AttributeNamespace, out attribute, expectedGenericTypeParamCount: 0);
-		var hasListAttribute = attribute is null && type.HasAttribute(ListAttributeName, AttributeNamespace, out attribute, expectedGenericTypeParamCount: 1);
-		var hasDictionaryAttribute = attribute is null && type.HasAttribute(DictionaryAttributeName, AttributeNamespace, out attribute, expectedGenericTypeParamCount: 2);
 		
-		if (attribute is null) return null;
+		var hasListAttribute = attribute is null && (type.HasAttribute(ListAttributeName, AttributeNamespace, out attribute, expectedGenericTypeParamCount: 0)
+			|| type.HasAttribute(ListAttributeName, AttributeNamespace, out attribute, expectedGenericTypeParamCount: 1));
+		
+		var hasDictionaryAttribute = attribute is null && (type.HasAttribute(DictionaryAttributeName, AttributeNamespace, out attribute, expectedGenericTypeParamCount: 0)
+			|| type.HasAttribute(DictionaryAttributeName, AttributeNamespace, out attribute, expectedGenericTypeParamCount: 2));
+		
+		if (attribute is null) 
+			return null;
 
 		var generateToString = attribute.GetArgumentOrDefault("generateToString", defaultValue: true);
 		var generateComparison = attribute.GetArgumentOrDefault("generateComparison", defaultValue: true);
@@ -52,14 +60,13 @@ internal static class ValueObjectSyntaxReceiver
 		var propertyIsPublic = attribute.GetArgumentOrDefault("propertyIsPublic", defaultValue: false);
 		var valueIsNullable = attribute.GetArgumentOrDefault("valueIsNullable", defaultValue: false);
 		var useValidationExceptions = attribute.GetArgumentOrDefault("useValidationExceptions", defaultValue: true);
-		
+
 		int value;
 		
 		if (hasDefaultAttribute)
 			return new DefaultValueObject(
 				valueObjectType: type,
-				underlyingType: (INamedTypeSymbol)attribute.AttributeClass!.TypeArguments.Single(),
-				attribute: attribute,
+				providedUnderlyingType: (INamedTypeSymbol?)attribute.AttributeClass!.TypeArguments.SingleOrDefault() ?? GetTypeFromConstructor(attribute, index: 0),
 				minimumValue: attribute.TryGetArgument("minimumValue", out value) && value != Int32.MinValue ? value : null,
 				maximumValue: attribute.TryGetArgument("maximumValue", out value) && value != Int32.MaxValue ? value : null,
 				typeDeclarationSyntax: typeDeclarationSyntax,
@@ -76,8 +83,8 @@ internal static class ValueObjectSyntaxReceiver
 		if (hasDictionaryAttribute)
 			return new DictionaryValueObject(
 				valueObjectType: type,
-				keyType: attribute.AttributeClass!.TypeArguments[0],
-				valueType: attribute.AttributeClass!.TypeArguments[1],
+				providedKeyType: attribute.AttributeClass!.TypeArguments.ElementAtOrDefault(0) ?? GetTypeFromConstructor(attribute, index: 0),
+				providedValueType: attribute.AttributeClass!.TypeArguments.ElementAtOrDefault(1) ?? GetTypeFromConstructor(attribute, index: 1),
 				minimumCount: attribute.TryGetArgument("minimumCount", out value) && value != Int32.MinValue ? value : null,
 				maximumCount: attribute.TryGetArgument("maximumCount", out value) && value != Int32.MaxValue ? value : null,
 				generateEnumerable: generateEnumerable,
@@ -94,8 +101,7 @@ internal static class ValueObjectSyntaxReceiver
 		if (hasListAttribute)
 			return new ListValueObject(
 				valueObjectType: type,
-				elementType: (INamedTypeSymbol)attribute.AttributeClass!.TypeArguments.Single(),
-				attribute: attribute,
+				providedElementType: (INamedTypeSymbol?)attribute.AttributeClass!.TypeArguments.SingleOrDefault() ?? GetTypeFromConstructor(attribute, index: 0),
 				minimumCount: attribute.TryGetArgument("minimumCount", out value) && value != Int32.MinValue ? value : null,
 				maximumCount: attribute.TryGetArgument("maximumCount", out value) && value != Int32.MaxValue ? value : null,
 				generateToString: generateToString,
@@ -130,5 +136,9 @@ internal static class ValueObjectSyntaxReceiver
 				UseValidationExceptions: useValidationExceptions);
 
 		return null;
+
+		
+		static INamedTypeSymbol? GetTypeFromConstructor(AttributeData attribute, int index = 0) 
+			=> (INamedTypeSymbol?)attribute.ConstructorArguments.Skip(index).FirstOrDefault(arg => arg.Type?.IsType<Type>() ?? false).Value;
 	}
 }

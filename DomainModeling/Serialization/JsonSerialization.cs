@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using System.Text.Encodings.Web;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 using CodeChops.DomainDrivenDesign.DomainModeling.Identities.Serialization.Json;
 using CodeChops.DomainDrivenDesign.DomainModeling.Serialization.Json;
@@ -21,5 +22,6 @@ public static class JsonSerialization
 		DefaultIgnoreCondition = JsonIgnoreCondition.Never,
 		MaxDepth = 3,
 		ReferenceHandler = ReferenceHandler.IgnoreCycles,
+		Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
 	};
 }

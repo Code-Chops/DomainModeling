@@ -1,4 +1,4 @@
-﻿namespace CodeChops.DomainDrivenDesign.DomainModeling;
+﻿namespace CodeChops.DomainModeling;
 
 /// <summary>
 /// <para><em>Prefer to use a record (struct) instead of this class (and implement <see cref="IValueObject"/>, because records have structural equality comparison built in.</em></para>

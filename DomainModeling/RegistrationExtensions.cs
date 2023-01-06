@@ -1,8 +1,8 @@
-﻿using CodeChops.DomainDrivenDesign.DomainModeling.Identities.Serialization.Json;
-using CodeChops.DomainDrivenDesign.DomainModeling.Serialization.Json;
+﻿using CodeChops.DomainModeling.Identities.Serialization.Json;
+using CodeChops.DomainModeling.Serialization.Json;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace CodeChops.DomainDrivenDesign.DomainModeling;
+namespace CodeChops.DomainModeling;
 
 public static class RegistrationExtensions
 {

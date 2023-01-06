@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace CodeChops.DomainDrivenDesign.DomainModeling.Validation;
+namespace CodeChops.DomainModeling.Validation;
 
 public interface IHasValidationRegex
 {

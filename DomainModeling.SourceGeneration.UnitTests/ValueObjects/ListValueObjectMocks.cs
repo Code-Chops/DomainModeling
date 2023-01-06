@@ -1,6 +1,6 @@
 // ReSharper disable UnusedParameterInPartialMethod
 
-namespace CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration.UnitTests.ValueObjects;
+namespace CodeChops.DomainModeling.SourceGeneration.UnitTests.ValueObjects;
 
 [GenerateListValueObject<string>(generateToString: true, useValidationExceptions: false)]
 public partial struct ListStructMock { }

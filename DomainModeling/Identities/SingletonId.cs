@@ -1,4 +1,4 @@
-﻿namespace CodeChops.DomainDrivenDesign.DomainModeling.Identities;
+﻿namespace CodeChops.DomainModeling.Identities;
 
 /// <summary>
 /// A singleton ID for entities that only have one ID per type. 

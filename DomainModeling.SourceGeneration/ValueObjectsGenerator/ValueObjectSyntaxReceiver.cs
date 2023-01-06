@@ -1,10 +1,10 @@
-﻿using CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration.ValueObjectsGenerator.Models;
+﻿using CodeChops.DomainModeling.SourceGeneration.ValueObjectsGenerator.Models;
 
-namespace CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration.ValueObjectsGenerator;
+namespace CodeChops.DomainModeling.SourceGeneration.ValueObjectsGenerator;
 
 internal static class ValueObjectSyntaxReceiver
 {
-	private const string AttributeNamespace			= "CodeChops.DomainDrivenDesign.DomainModeling.Attributes.ValueObjects";
+	private const string AttributeNamespace			= "CodeChops.DomainModeling.Attributes.ValueObjects";
 	private const string DefaultAttributeName		= "GenerateValueObject";
 	private const string StringAttributeName		= "GenerateStringValueObject";
 	private const string ListAttributeName			= "GenerateListValueObjectAttribute";

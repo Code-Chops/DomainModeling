@@ -1,4 +1,4 @@
-﻿namespace CodeChops.DomainDrivenDesign.DomainModeling;
+﻿namespace CodeChops.DomainModeling;
 
 /// <summary>
 /// A bounded context defines the conditions under which a particular model is defined and applicable (solution space).

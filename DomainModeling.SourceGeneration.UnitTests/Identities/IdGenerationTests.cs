@@ -1,5 +1,5 @@
 ﻿// ReSharper disable SuspiciousTypeConversion.Global
-namespace CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration.UnitTests.Identities;
+namespace CodeChops.DomainModeling.SourceGeneration.UnitTests.Identities;
 
 public class IdGenerationTests
 {

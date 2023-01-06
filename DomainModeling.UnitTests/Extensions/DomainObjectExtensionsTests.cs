@@ -1,4 +1,4 @@
-﻿namespace CodeChops.DomainDrivenDesign.DomainModeling.UnitTests.Extensions;
+﻿namespace CodeChops.DomainModeling.UnitTests.Extensions;
 
 public class DomainObjectExtensionsTests
 {

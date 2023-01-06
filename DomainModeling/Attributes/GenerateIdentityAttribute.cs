@@ -1,4 +1,4 @@
-namespace CodeChops.DomainDrivenDesign.DomainModeling.Attributes;
+namespace CodeChops.DomainModeling.Attributes;
 
 #pragma warning disable IDE0060 // Remove unused parameter
 

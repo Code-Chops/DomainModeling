@@ -1,7 +1,7 @@
 ﻿using System.Text.Json;
-using CodeChops.DomainDrivenDesign.DomainModeling.Serialization;
+using CodeChops.DomainModeling.Serialization;
 
-namespace CodeChops.DomainDrivenDesign.DomainModeling.UnitTests.Identities.Converters.Json;
+namespace CodeChops.DomainModeling.UnitTests.Identities.Converters.Json;
 
 public class IdentityConversionTests
 {

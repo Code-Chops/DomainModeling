@@ -1,4 +1,4 @@
-﻿namespace CodeChops.DomainDrivenDesign.DomainModeling.UnitTests.Identities.Converters.Json;
+﻿namespace CodeChops.DomainModeling.UnitTests.Identities.Converters.Json;
 
 public record IdentityMock : Id<IdentityMock, uint>
 {

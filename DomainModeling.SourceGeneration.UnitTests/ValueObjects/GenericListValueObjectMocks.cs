@@ -1,4 +1,4 @@
-namespace CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration.UnitTests.ValueObjects;
+namespace CodeChops.DomainModeling.SourceGeneration.UnitTests.ValueObjects;
 
 [GenerateListValueObject<string>(generateToString: true, useValidationExceptions: false)]
 // ReSharper disable once UnusedTypeParameter

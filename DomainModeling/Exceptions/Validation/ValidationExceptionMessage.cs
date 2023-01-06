@@ -1,4 +1,4 @@
-namespace CodeChops.DomainDrivenDesign.DomainModeling.Exceptions.Validation;
+namespace CodeChops.DomainModeling.Exceptions.Validation;
 
 /// <summary>
 /// A validation message is communicated externally and contains a string message and parameters (which can be used for String.Format).

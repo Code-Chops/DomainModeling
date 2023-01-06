@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-namespace CodeChops.DomainDrivenDesign.DomainModeling.Validation;
+namespace CodeChops.DomainModeling.Validation;
 
 /// <summary>
 /// <para>

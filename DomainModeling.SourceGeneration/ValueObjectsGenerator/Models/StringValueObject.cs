@@ -1,4 +1,4 @@
-namespace CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration.ValueObjectsGenerator.Models;
+namespace CodeChops.DomainModeling.SourceGeneration.ValueObjectsGenerator.Models;
 
 /// <summary>
 /// DO NOT RENAME!

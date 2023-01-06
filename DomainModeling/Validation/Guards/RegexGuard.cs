@@ -1,7 +1,7 @@
 ﻿using System.Text.RegularExpressions;
-using CodeChops.DomainDrivenDesign.DomainModeling.Validation.Guards.Core;
+using CodeChops.DomainModeling.Validation.Guards.Core;
 
-namespace CodeChops.DomainDrivenDesign.DomainModeling.Validation.Guards;
+namespace CodeChops.DomainModeling.Validation.Guards;
 
 public record RegexGuard : NoOutputGuardBase<RegexGuard, (string Value, Regex Regex), string>, 
 	INoOutputGuard<(string Value, Regex Regex)>, 

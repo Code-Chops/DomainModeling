@@ -1,7 +1,7 @@
 ﻿using System.Text;
 using System.Text.Json;
 
-namespace CodeChops.DomainDrivenDesign.DomainModeling;
+namespace CodeChops.DomainModeling;
 
 public static class DisplayStringExtensions
 {

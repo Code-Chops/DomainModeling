@@ -1,10 +1,10 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Text.RegularExpressions;
-using CodeChops.DomainDrivenDesign.DomainModeling.Factories;
-using CodeChops.DomainDrivenDesign.DomainModeling.Validation;
-using CodeChops.DomainDrivenDesign.DomainModeling.Validation.Guards;
+using CodeChops.DomainModeling.Factories;
+using CodeChops.DomainModeling.Validation;
+using CodeChops.DomainModeling.Validation.Guards;
 
-namespace CodeChops.DomainDrivenDesign.DomainModeling.UnitTests.Validation;
+namespace CodeChops.DomainModeling.UnitTests.Validation;
 
 public class ValidatedObjectMock : IDomainObject, ICreatable<ValidatedObjectMock, string>
 {

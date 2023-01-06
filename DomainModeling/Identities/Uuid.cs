@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace CodeChops.DomainDrivenDesign.DomainModeling.Identities;
+namespace CodeChops.DomainModeling.Identities;
 
 /// <summary>
 /// A 32-digit UUID without hyphens.

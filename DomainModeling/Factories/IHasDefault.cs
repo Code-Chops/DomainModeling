@@ -1,4 +1,4 @@
-namespace CodeChops.DomainDrivenDesign.DomainModeling.Factories;
+namespace CodeChops.DomainModeling.Factories;
 
 /// <summary>
 /// Has a value object (immutable) instance of type <typeparamref name="T"/>.

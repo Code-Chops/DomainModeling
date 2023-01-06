@@ -1,4 +1,4 @@
-namespace CodeChops.DomainDrivenDesign.DomainModeling.Exceptions.Validation;
+namespace CodeChops.DomainModeling.Exceptions.Validation;
 
 /// <summary>
 /// <para>

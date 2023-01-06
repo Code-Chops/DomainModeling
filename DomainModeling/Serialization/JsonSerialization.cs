@@ -1,10 +1,10 @@
 ﻿using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using CodeChops.DomainDrivenDesign.DomainModeling.Identities.Serialization.Json;
-using CodeChops.DomainDrivenDesign.DomainModeling.Serialization.Json;
+using CodeChops.DomainModeling.Identities.Serialization.Json;
+using CodeChops.DomainModeling.Serialization.Json;
 
-namespace CodeChops.DomainDrivenDesign.DomainModeling.Serialization;
+namespace CodeChops.DomainModeling.Serialization;
 
 public static class JsonSerialization
 {

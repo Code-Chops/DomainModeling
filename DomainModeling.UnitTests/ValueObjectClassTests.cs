@@ -1,4 +1,4 @@
-﻿namespace CodeChops.DomainDrivenDesign.DomainModeling.UnitTests;
+﻿namespace CodeChops.DomainModeling.UnitTests;
 
 public class ValueObjectClassTests
 {

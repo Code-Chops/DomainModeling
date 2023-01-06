@@ -1,4 +1,4 @@
-namespace CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration.IdentityGenerator;
+namespace CodeChops.DomainModeling.SourceGeneration.IdentityGenerator;
 
 public record IdDataModel(
 	string OuterClassName, 

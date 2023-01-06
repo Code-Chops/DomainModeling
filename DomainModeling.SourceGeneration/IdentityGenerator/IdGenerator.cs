@@ -2,16 +2,16 @@ using System.Collections.Immutable;
 using CodeChops.SourceGeneration.Utilities;
 using Microsoft.CodeAnalysis.Diagnostics;
 
-namespace CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration.IdentityGenerator;
+namespace CodeChops.DomainModeling.SourceGeneration.IdentityGenerator;
 
 [Generator]
 public class IdGenerator : IIncrementalGenerator
 {
-	internal const string AttributeNamespace		= "CodeChops.DomainDrivenDesign.DomainModeling.Attributes";
+	internal const string AttributeNamespace		= "CodeChops.DomainModeling.Attributes";
 	internal const string AttributeName				= "GenerateIdentity";
-	internal const string EntityNamespace			= "CodeChops.DomainDrivenDesign.DomainModeling";
+	internal const string EntityNamespace			= "CodeChops.DomainModeling";
 	internal const string EntityName				= "Entity";
-	internal const string IdNamespace				= "CodeChops.DomainDrivenDesign.DomainModeling.Identities";
+	internal const string IdNamespace				= "CodeChops.DomainModeling.Identities";
 	internal const string DefaultIdTypeName			= "Identity";
 	internal const string DefaultIdPropertyName		= "Id";
 	internal const string DefaultIdPrimitiveType	= "global::System.UInt64";
@@ -67,7 +67,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.Runtime.CompilerServices;
-using CodeChops.DomainDrivenDesign.DomainModeling.Identities;
+using CodeChops.DomainModeling.Identities;
 
 {GetNamespaceDeclaration()}
 

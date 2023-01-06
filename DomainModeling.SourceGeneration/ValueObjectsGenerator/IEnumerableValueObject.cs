@@ -1,4 +1,4 @@
-﻿namespace CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration.ValueObjectsGenerator;
+﻿namespace CodeChops.DomainModeling.SourceGeneration.ValueObjectsGenerator;
 
 public interface IEnumerableValueObject
 {

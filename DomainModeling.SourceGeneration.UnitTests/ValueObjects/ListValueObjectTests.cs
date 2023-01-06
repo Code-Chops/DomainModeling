@@ -1,4 +1,4 @@
-﻿namespace CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration.UnitTests.ValueObjects;
+﻿namespace CodeChops.DomainModeling.SourceGeneration.UnitTests.ValueObjects;
 
 // ReSharper disable once NotAccessedPositionalProperty.Local
 internal record ValueObjectMock(int Value) : IValueObject;

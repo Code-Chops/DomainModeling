@@ -1,4 +1,4 @@
-﻿namespace CodeChops.DomainDrivenDesign.DomainModeling.Collections;
+﻿namespace CodeChops.DomainModeling.Collections;
 
 /// <summary>
 /// An abstract entity that holds a dictionary and which provides a public readable api. The implementation can decide if this can be mutable or not.

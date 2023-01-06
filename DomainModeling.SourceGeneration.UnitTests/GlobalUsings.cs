@@ -1,4 +1,4 @@
 global using Xunit;
 
-global using CodeChops.DomainDrivenDesign.DomainModeling;
-global using CodeChops.DomainDrivenDesign.DomainModeling.Attributes;
+global using CodeChops.DomainModeling;
+global using CodeChops.DomainModeling.Attributes;

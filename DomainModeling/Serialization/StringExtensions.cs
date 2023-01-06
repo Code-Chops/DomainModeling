@@ -1,4 +1,4 @@
-﻿namespace CodeChops.DomainDrivenDesign.DomainModeling.Serialization;
+﻿namespace CodeChops.DomainModeling.Serialization;
 
 public static class StringExtensions
 {

@@ -1,4 +1,4 @@
-namespace CodeChops.DomainDrivenDesign.DomainModeling.UnitTests.Validation;
+namespace CodeChops.DomainModeling.UnitTests.Validation;
 
 public readonly struct ErrorCodeMock
 {

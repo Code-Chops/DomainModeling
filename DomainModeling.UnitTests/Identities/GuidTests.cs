@@ -1,7 +1,7 @@
-﻿using CodeChops.DomainDrivenDesign.DomainModeling.Exceptions.System;
-using CodeChops.DomainDrivenDesign.DomainModeling.Validation.Guards;
+﻿using CodeChops.DomainModeling.Exceptions.System;
+using CodeChops.DomainModeling.Validation.Guards;
 
-namespace CodeChops.DomainDrivenDesign.DomainModeling.UnitTests.Identities;
+namespace CodeChops.DomainModeling.UnitTests.Identities;
 
 public class GuidTests
 {

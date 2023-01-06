@@ -1,4 +1,4 @@
-﻿namespace CodeChops.DomainDrivenDesign.DomainModeling.Validation;
+﻿namespace CodeChops.DomainModeling.Validation;
 
 public enum ValidatorMode
 {

@@ -1,4 +1,4 @@
-﻿namespace CodeChops.DomainDrivenDesign.DomainModeling.Extensions;
+﻿namespace CodeChops.DomainModeling.Extensions;
 
 public static class TypeExtensions
 {

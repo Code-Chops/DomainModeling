@@ -203,9 +203,9 @@ using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
-using CodeChops.DomainDrivenDesign.DomainModeling;
-using CodeChops.DomainDrivenDesign.DomainModeling.Exceptions;
-using CodeChops.DomainDrivenDesign.DomainModeling.Validation;
+using CodeChops.DomainModeling;
+using CodeChops.DomainModeling.Exceptions;
+using CodeChops.DomainModeling.Validation;
 
 /// <summary>
 /// An immutable value object with an underlying value of type Int32.
@@ -362,15 +362,15 @@ using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
-using CodeChops.DomainDrivenDesign.DomainModeling;
-using CodeChops.DomainDrivenDesign.DomainModeling.Exceptions;
-using CodeChops.DomainDrivenDesign.DomainModeling.Validation;
+using CodeChops.DomainModeling;
+using CodeChops.DomainModeling.Exceptions;
+using CodeChops.DomainModeling.Validation;
 
-namespace CodeChops.DomainDrivenDesign.DomainModeling.Identities;
+namespace CodeChops.DomainModeling.Identities;
 
 /// <summary>
 /// An immutable value type with a Default-Formatted string as underlying value.
-/// Extends: <see cref="global::CodeChops.DomainDrivenDesign.DomainModeling.Identities.Uuid"/>.
+/// Extends: <see cref="global::CodeChops.DomainModeling.Identities.Uuid"/>.
 /// </summary>
 [StructLayout(LayoutKind.Auto)]
 public readonly partial record struct Uuid : IValueObject, ICreatable<Uuid, String>, IEquatable<Uuid>, IComparable<Uuid>, IEnumerable<Char>, IHasValidationRegex
@@ -494,7 +494,7 @@ public readonly partial record struct Uuid : IValueObject, ICreatable<Uuid, Stri
 ## Tuple value object example
 The `ValidationExceptionMessage` used in this package is also created using dogfooding principles. It is implemented as follows:
 ```cs
-namespace CodeChops.DomainDrivenDesign.DomainModeling.Exceptions.Validation;
+namespace CodeChops.DomainModeling.Exceptions.Validation;
 
 /// <summary>
 /// A validation message is communicated externally and contains a string message and parameters (which can be used for String.Format).
@@ -550,15 +550,15 @@ using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
-using CodeChops.DomainDrivenDesign.DomainModeling;
-using CodeChops.DomainDrivenDesign.DomainModeling.Exceptions;
-using CodeChops.DomainDrivenDesign.DomainModeling.Validation;
+using CodeChops.DomainModeling;
+using CodeChops.DomainModeling.Exceptions;
+using CodeChops.DomainModeling.Validation;
 
-namespace CodeChops.DomainDrivenDesign.DomainModeling.Exceptions.Validation;
+namespace CodeChops.DomainModeling.Exceptions.Validation;
 
 /// <summary>
 /// An immutable value object with an underlying value of type (String, ImmutableList&lt;Object&gt;).
-/// Extends: <see cref="global::CodeChops.DomainDrivenDesign.DomainModeling.Exceptions.Validation.ValidationExceptionMessage"/>.
+/// Extends: <see cref="global::CodeChops.DomainModeling.Exceptions.Validation.ValidationExceptionMessage"/>.
 /// </summary>
 [StructLayout(LayoutKind.Auto)]
 public readonly partial record struct ValidationExceptionMessage : IValueObject, ICreatable<ValidationExceptionMessage, (String, ImmutableList<Object>)>, IEquatable<ValidationExceptionMessage>, IComparable<ValidationExceptionMessage>
@@ -749,27 +749,27 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.Runtime.CompilerServices;
-using CodeChops.DomainDrivenDesign.DomainModeling.Identities;
+using CodeChops.DomainModeling.Identities;
 
 public partial class Player : IHasId
 {	
 	public IId Id { get; } = new Identity();
 
-	public readonly partial record struct Identity : IId<Identity, global::CodeChops.DomainDrivenDesign.DomainModeling.Identities.Uuid>
+	public readonly partial record struct Identity : IId<Identity, global::CodeChops.DomainModeling.Identities.Uuid>
 	{ 
 		[DebuggerHidden]
 		[EditorBrowsable(EditorBrowsableState.Never)]
-		public override string ToString() => this.ToDisplayString(new { this.Value, PrimitiveType = nameof(global::CodeChops.DomainDrivenDesign.DomainModeling.Identities.Uuid) });
+		public override string ToString() => this.ToDisplayString(new { this.Value, PrimitiveType = nameof(global::CodeChops.DomainModeling.Identities.Uuid) });
 
 		[EditorBrowsable(EditorBrowsableState.Never)]
-		public global::CodeChops.DomainDrivenDesign.DomainModeling.Identities.Uuid Value { get; private init; }
+		public global::CodeChops.DomainModeling.Identities.Uuid Value { get; private init; }
 	
 		[DebuggerHidden]
 		[EditorBrowsable(EditorBrowsableState.Never)]
-		public static explicit operator Identity(global::CodeChops.DomainDrivenDesign.DomainModeling.Identities.Uuid value) => new() { Value = value };
+		public static explicit operator Identity(global::CodeChops.DomainModeling.Identities.Uuid value) => new() { Value = value };
 		[DebuggerHidden]
 		[EditorBrowsable(EditorBrowsableState.Never)]
-		public static implicit operator global::CodeChops.DomainDrivenDesign.DomainModeling.Identities.Uuid(Identity id) => id.Value;
+		public static implicit operator global::CodeChops.DomainModeling.Identities.Uuid(Identity id) => id.Value;
 	
 		#region Comparison
 		[DebuggerHidden]
@@ -802,10 +802,10 @@ public partial class Player : IHasId
 		public object GetValue() => this.Value;
 	
 		[DebuggerHidden]
-		public bool HasDefaultValue => this.Value.Equals(IId<global::CodeChops.DomainDrivenDesign.DomainModeling.Identities.Uuid>.DefaultValue);
+		public bool HasDefaultValue => this.Value.Equals(IId<global::CodeChops.DomainModeling.Identities.Uuid>.DefaultValue);
 	
 		[DebuggerHidden]
-		public Identity(global::CodeChops.DomainDrivenDesign.DomainModeling.Identities.Uuid value)
+		public Identity(global::CodeChops.DomainModeling.Identities.Uuid value)
 		{
 			this.Value = value;
 		}
@@ -813,7 +813,7 @@ public partial class Player : IHasId
 		[DebuggerHidden]
 		public Identity()
 		{
-			this.Value = default(global::CodeChops.DomainDrivenDesign.DomainModeling.Identities.Uuid);
+			this.Value = default(global::CodeChops.DomainModeling.Identities.Uuid);
 		}
 	}
 

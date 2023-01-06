@@ -1,6 +1,6 @@
-using CodeChops.DomainDrivenDesign.DomainModeling.Validation.Guards.Core;
+using CodeChops.DomainModeling.Validation.Guards.Core;
 
-namespace CodeChops.DomainDrivenDesign.DomainModeling.Exceptions.Validation;
+namespace CodeChops.DomainModeling.Exceptions.Validation;
 
 /// <summary>
 /// <inheritdoc cref="IValidationException"/>

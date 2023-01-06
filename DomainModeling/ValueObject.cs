@@ -1,4 +1,4 @@
-﻿namespace CodeChops.DomainDrivenDesign.DomainModeling;
+﻿namespace CodeChops.DomainModeling;
 
 /// <inheritdoc cref="IValueObject"/>
 public abstract record ValueObject<TSelf> : IValueObject

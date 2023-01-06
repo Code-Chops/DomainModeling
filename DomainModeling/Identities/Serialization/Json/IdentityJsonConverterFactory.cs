@@ -2,7 +2,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace CodeChops.DomainDrivenDesign.DomainModeling.Identities.Serialization.Json;
+namespace CodeChops.DomainModeling.Identities.Serialization.Json;
 
 /// <summary>
 /// Concerts identities to JSON and vice versa.

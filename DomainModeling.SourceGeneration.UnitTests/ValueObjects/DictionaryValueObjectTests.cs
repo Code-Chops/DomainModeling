@@ -1,4 +1,4 @@
-﻿namespace CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration.UnitTests.ValueObjects;
+﻿namespace CodeChops.DomainModeling.SourceGeneration.UnitTests.ValueObjects;
 
 internal record MockId(ulong Value) : Id<MockId, ulong>(Value);
 // ReSharper disable once NotAccessedPositionalProperty.Local

@@ -1,6 +1,6 @@
 using CodeChops.SourceGeneration.Utilities;
 
-namespace CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration.ValueObjectsGenerator.Models;
+namespace CodeChops.DomainModeling.SourceGeneration.ValueObjectsGenerator.Models;
 
 public sealed record DefaultValueObject : ValueObjectBase
 {

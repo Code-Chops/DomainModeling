@@ -1,4 +1,4 @@
-﻿namespace CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration.UnitTests.ValueObjects.Default;
+﻿namespace CodeChops.DomainModeling.SourceGeneration.UnitTests.ValueObjects.Default;
 
 [GenerateValueObject<(string, List<object>)>(minimumValue: 0, maximumValue: Int32.MaxValue, generateToString: false, useValidationExceptions: false)]
 public readonly ref partial struct DefaultRefValueObjectTupleMock

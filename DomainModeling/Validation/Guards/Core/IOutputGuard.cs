@@ -1,4 +1,4 @@
-﻿namespace CodeChops.DomainDrivenDesign.DomainModeling.Validation.Guards.Core;
+﻿namespace CodeChops.DomainModeling.Validation.Guards.Core;
 
 public interface IOutputGuard<in TInput, TOutput> : IGuard
 {

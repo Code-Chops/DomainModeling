@@ -1,6 +1,6 @@
 ﻿// ReSharper disable ExplicitCallerInfoArgument
 
-namespace CodeChops.DomainDrivenDesign.DomainModeling.Validation.Guards.Core;
+namespace CodeChops.DomainModeling.Validation.Guards.Core;
 
 /// <summary>
 /// <inheritdoc cref="NoOutputGuardBase{TSelf,TInput,TMessageParam}"/>

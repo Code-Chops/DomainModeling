@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup Label="Main">
-        <AssemblyName>CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration</AssemblyName>
-        <RootNamespace>CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration</RootNamespace>
+        <AssemblyName>CodeChops.DomainModeling.SourceGeneration</AssemblyName>
+        <RootNamespace>CodeChops.DomainModeling.SourceGeneration</RootNamespace>
         <TargetFramework>netstandard2.0</TargetFramework>
         <LangVersion>11</LangVersion>
         <Nullable>enable</Nullable>

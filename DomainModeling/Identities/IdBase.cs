@@ -1,6 +1,6 @@
 using System.Runtime.Serialization;
 
-namespace CodeChops.DomainDrivenDesign.DomainModeling.Identities;
+namespace CodeChops.DomainModeling.Identities;
 
 /// <summary>
 /// <para>

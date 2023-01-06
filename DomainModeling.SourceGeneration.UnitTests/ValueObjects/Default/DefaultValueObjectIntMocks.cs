@@ -1,6 +1,6 @@
 ﻿// ReSharper disable UnusedParameterInPartialMethod
 
-namespace CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration.UnitTests.ValueObjects.Default;
+namespace CodeChops.DomainModeling.SourceGeneration.UnitTests.ValueObjects.Default;
 
 [GenerateValueObject<int>(minimumValue: Int32.MinValue, maximumValue: Int32.MaxValue, generateToString: true)]
 public partial struct DefaultIntStructMock { }

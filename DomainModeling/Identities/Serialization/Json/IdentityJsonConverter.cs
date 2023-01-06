@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace CodeChops.DomainDrivenDesign.DomainModeling.Identities.Serialization.Json;
+namespace CodeChops.DomainModeling.Identities.Serialization.Json;
 
 internal sealed class IdentityJsonConverter<TId, TPrimitive> : JsonConverter<TId>
 	where TId : IId<TPrimitive>

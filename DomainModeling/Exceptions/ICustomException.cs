@@ -1,4 +1,4 @@
-﻿namespace CodeChops.DomainDrivenDesign.DomainModeling.Exceptions;
+﻿namespace CodeChops.DomainModeling.Exceptions;
 
 public interface ICustomException : IDomainObject
 {

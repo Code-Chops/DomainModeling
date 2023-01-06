@@ -1,9 +1,9 @@
 using System.Collections.Immutable;
-using CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration.ValueObjectsGenerator.Models;
+using CodeChops.DomainModeling.SourceGeneration.ValueObjectsGenerator.Models;
 using CodeChops.SourceGeneration.Utilities;
 using Microsoft.CodeAnalysis.Diagnostics;
 
-namespace CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration.ValueObjectsGenerator;
+namespace CodeChops.DomainModeling.SourceGeneration.ValueObjectsGenerator;
 
 [Generator]
 public class ValueObjectGenerator : IIncrementalGenerator
@@ -107,8 +107,8 @@ public class ValueObjectGenerator : IIncrementalGenerator
 				"System.Globalization",
 				"System.Runtime.InteropServices",
 				"System.Text.RegularExpressions",
-				"CodeChops.DomainDrivenDesign.DomainModeling.Exceptions",
-				"CodeChops.DomainDrivenDesign.DomainModeling.Validation",
+				"CodeChops.DomainModeling.Exceptions",
+				"CodeChops.DomainModeling.Validation",
 				rootNamespace,
 			});
 			

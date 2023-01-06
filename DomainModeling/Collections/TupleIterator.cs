@@ -1,4 +1,4 @@
-﻿namespace CodeChops.DomainDrivenDesign.DomainModeling.Collections;
+﻿namespace CodeChops.DomainModeling.Collections;
 
 /// <summary>
 /// Iterates over the values of a tuple.

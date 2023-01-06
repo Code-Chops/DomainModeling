@@ -1,9 +1,9 @@
-﻿using CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration.IdentityGenerator;
+﻿using CodeChops.DomainModeling.SourceGeneration.IdentityGenerator;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace CodeChops.DomainDrivenDesign.DomainModeling.SourceGeneration.UnitTests.Identities;
+namespace CodeChops.DomainModeling.SourceGeneration.UnitTests.Identities;
 
 public class IdBaseTypeExtractionTest
 {

@@ -1,4 +1,4 @@
-﻿namespace CodeChops.DomainDrivenDesign.DomainModeling.Validation.Guards.Core;
+﻿namespace CodeChops.DomainModeling.Validation.Guards.Core;
 
 public interface IHasExceptionMessage<TSelf, in TMessageParams> : IGuard
 	where TSelf : IHasExceptionMessage<TSelf, TMessageParams>

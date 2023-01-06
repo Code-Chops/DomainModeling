@@ -1,6 +1,6 @@
 // ReSharper disable ExplicitCallerInfoArgument
 
-namespace CodeChops.DomainDrivenDesign.DomainModeling.Validation.Guards.Core;
+namespace CodeChops.DomainModeling.Validation.Guards.Core;
 
 public interface IGuard<TSelf, in TMessageParam> : IGuard<TSelf>
 	where TSelf : IGuard<TSelf, TMessageParam>, IHasExceptionMessage<TSelf, TMessageParam>

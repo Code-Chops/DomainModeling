@@ -1,4 +1,4 @@
-﻿namespace CodeChops.DomainDrivenDesign.DomainModeling;
+﻿namespace CodeChops.DomainModeling;
 
 /// <summary>
 /// An object in the domain model.

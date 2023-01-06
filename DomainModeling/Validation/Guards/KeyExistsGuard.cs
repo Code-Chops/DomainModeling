@@ -1,6 +1,6 @@
-﻿using CodeChops.DomainDrivenDesign.DomainModeling.Validation.Guards.Core;
+﻿using CodeChops.DomainModeling.Validation.Guards.Core;
 
-namespace CodeChops.DomainDrivenDesign.DomainModeling.Validation.Guards;
+namespace CodeChops.DomainModeling.Validation.Guards;
 
 public record KeyExistsNoOutputGuard<TKey> : NoOutputGuardBase<KeyExistsNoOutputGuard<TKey>, (TKey Key, Func<TKey, bool> Retriever), TKey>, 
 	INoOutputGuard<(TKey Key, Func<TKey, bool> Retriever)>, 

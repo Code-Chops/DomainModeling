@@ -1,7 +1,7 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace CodeChops.DomainDrivenDesign.DomainModeling.Serialization.Json;
+namespace CodeChops.DomainModeling.Serialization.Json;
 
 public sealed class ValueTupleJsonConverterFactory : JsonConverterFactory
 {

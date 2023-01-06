@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup Label="Main">
-        <AssemblyName>CodeChops.DomainDrivenDesign.DomainModeling.UnitTests</AssemblyName>
-        <RootNamespace>CodeChops.DomainDrivenDesign.DomainModeling.UnitTests</RootNamespace>
+        <AssemblyName>CodeChops.DomainModeling.UnitTests</AssemblyName>
+        <RootNamespace>CodeChops.DomainModeling.UnitTests</RootNamespace>
         <TargetFramework>net7.0</TargetFramework>
         <LangVersion>11</LangVersion>
         <Nullable>enable</Nullable>

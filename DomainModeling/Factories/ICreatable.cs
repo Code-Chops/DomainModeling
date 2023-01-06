@@ -1,4 +1,4 @@
-﻿namespace CodeChops.DomainDrivenDesign.DomainModeling.Factories;
+﻿namespace CodeChops.DomainModeling.Factories;
 
 /// <summary>
 /// Has a factory to create objects of type <typeparamref name="TSelf"/>.

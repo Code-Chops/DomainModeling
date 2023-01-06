@@ -1,1 +1,1 @@
-﻿[assembly: InternalsVisibleTo("CodeChops.DomainDrivenDesign.Contracts")]
+﻿[assembly: InternalsVisibleTo("CodeChops.Contracts")]

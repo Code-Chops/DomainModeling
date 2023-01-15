@@ -32,7 +32,7 @@ public sealed class GenerateIdentity : Attribute
 /// <typeparam name="T">The underlying value of the ID.</typeparam>
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct)]
 public sealed class GenerateIdentity<T> : Attribute
-	where T : struct, IEquatable<T>, IComparable<T>
+	where T : IEquatable<T>, IComparable<T>
 {
 	/// <param name="name">If not provided, 'Identity' will be the default name.</param>
 	/// <param name="propertyName">If not provided, 'Id' will be the default property name.</param>

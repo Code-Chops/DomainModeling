@@ -42,7 +42,7 @@ public record InRangeGuard : NoOutputGuardBase<InRangeGuard, (string Value, int?
 	IGuard<InRangeGuard, (string Value, int? MinimumLength, int? MaximumLength)> 
 {
 	public static string GetExceptionMessage(string objectName, (string Value, int? MinimumLength, int? MaximumLength) parameter)
-		=> $"Length is out of range for '{{0}}' '{{1}}' (Lower bound: '{2}') (Upper bound: '{3}').";
+		=> "Length is out of range for '{0}' '{1}' (Lower bound: '{2}') (Upper bound: '{3}').";
 	
 	public static bool IsValid((string Value, int? MinimumLength, int? MaximumLength) input)
 		=> input.Value.Length >= input.MinimumLength && input.Value.Length <= input.MaximumLength;

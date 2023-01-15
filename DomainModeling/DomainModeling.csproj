@@ -10,8 +10,8 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>2.1.6</Version>
-        <PackageReleaseNotes>Added generic IEntity.</PackageReleaseNotes>
+        <Version>2.1.7</Version>
+        <PackageReleaseNotes>Added correct IEquatable nullablity for entities with generated identity.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>

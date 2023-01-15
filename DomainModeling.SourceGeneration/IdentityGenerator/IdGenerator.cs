@@ -94,9 +94,10 @@ using CodeChops.DomainModeling.Identities;
 			var iHasIdImplementation = data.IdGenerationMethod != IdGenerationMethod.EntityBase && data.IdPropertyName == DefaultIdPropertyName 
 				? " : IHasId"
 				: null;
-			
-			var iIsEquatable = data.IdGenerationMethod is IdGenerationMethod.Class or IdGenerationMethod.Record
-				? $"{(iHasIdImplementation is null ? null : ", ")}IEquatable<{className}>"
+
+			var isClass = data.IdGenerationMethod is IdGenerationMethod.Class;
+			var iIsEquatable = isClass || data.IdGenerationMethod == IdGenerationMethod.Record
+				? $"{(iHasIdImplementation is null ? null : ", ")}IEquatable<{className}{(isClass ? "?" : null)}>"
 				: null;
 			
 			var code = $"{data.OuterClassDeclaration} {className}{iHasIdImplementation}{iIsEquatable}";

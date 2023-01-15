@@ -10,8 +10,8 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>2.1.4</Version>
-        <PackageReleaseNotes>Removed struct constraint on GenerateIdentity type param.</PackageReleaseNotes>
+        <Version>2.1.5</Version>
+        <PackageReleaseNotes>Now adds IEquatable to class with generated identity and added IEntity.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>

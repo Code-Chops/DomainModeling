@@ -91,11 +91,15 @@ using CodeChops.DomainModeling.Identities;
 
 		string GetClassDeclaration()
 		{
-			var iHasIdImplementation = data.IdGenerationMethod == IdGenerationMethod.EntityBase || data.IdPropertyName != DefaultIdPropertyName 
-				? null
-				: " : IHasId";
+			var iHasIdImplementation = data.IdGenerationMethod != IdGenerationMethod.EntityBase && data.IdPropertyName == DefaultIdPropertyName 
+				? " : IHasId"
+				: null;
 			
-			var code = $"{data.OuterClassDeclaration} {className}{iHasIdImplementation}";
+			var iIsEquatable = data.IdGenerationMethod is IdGenerationMethod.Class or IdGenerationMethod.Record
+				? $"{(iHasIdImplementation is null ? null : ", ")}IEquatable<{className}>"
+				: null;
+			
+			var code = $"{data.OuterClassDeclaration} {className}{iHasIdImplementation}{iIsEquatable}";
 			return code;
 		}
 		

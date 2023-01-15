@@ -68,6 +68,7 @@ public class ValueObjectGenerator : IIncrementalGenerator
 ");
 
 		code.AppendLine(GetUsings, trimEnd: true)
+			.AppendLine()
 			.AppendLine(GetNamespaceDeclaration, trimEnd: true)
 			.AppendLine(GetComment, trimEnd: true)
 			.AppendLine(GetStructLayoutAttribute, trimEnd: true)

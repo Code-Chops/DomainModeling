@@ -29,7 +29,7 @@ public abstract record ValueObjectBase
 		this.UseValidationExceptions = useValidationExceptions;
 		this.AddIComparable = addIComparable;
 		this.IsUnsealedRecordClass = valueObjectType is { IsRecord: true, TypeKind: not TypeKind.Struct, IsSealed: false };
-		this.NullOperator = valueObjectType.TypeKind is TypeKind.Class ? '?' : null;
+		this.NullOperator = valueObjectType.TypeKind is TypeKind.Class || allowNull ? '?' : null;
 		this.Name = valueObjectType.GetTypeNameWithGenericParameters();
 		this.Namespace = valueObjectType.ContainingNamespace!.IsGlobalNamespace ? null : valueObjectType.ContainingNamespace.ToDisplayString();
 		this.BackingFieldName = $"_{propertyName.Substring(0, 1).ToLowerInvariant()}{propertyName.Substring(1)}{(generateDefaultConstructor ? new Random().Next(0, 9999) : null)}";

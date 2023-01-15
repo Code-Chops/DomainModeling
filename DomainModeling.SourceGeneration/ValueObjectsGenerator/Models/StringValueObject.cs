@@ -61,7 +61,7 @@ public record StringValueObject(
 	
 	public override string GetComments()			=> $"An immutable value type with a {(this.StringCaseConversion == StringCaseConversion.NoConversion ? null : $"{this.StringCaseConversion} ")}{this.StringFormat}-Formatted string as underlying value.";
 
-	public override string GetToStringCode()		=> $"public override string? ToString() => {this.PropertyName};";
+	public override string GetToStringCode()		=> $"public override string{this.NullOperator} ToString() => this.{this.PropertyName};";
 	
 	public override string? GetInterfacesCode()		=> null;
 

@@ -128,10 +128,10 @@ public sealed record DefaultValueObject : ValueObjectBase
 			? "typeparamref name"
 			: "see cref";
 		
-		return $@"An immutable value object with an underlying value of type <{attribute}=""{this.UnderlyingType.GetTypeNameWithGenericParameters().Replace('<', '{').Replace('>', '}')}""/>.";
+		return $@"An immutable value object with an underlying value of {(this.AllowNull ? "nullable " : null)}type <{attribute}=""{this.UnderlyingType.GetTypeNameWithGenericParameters().Replace('<', '{').Replace('>', '}')}""/>.";
 	}
 
-	public override string GetToStringCode()		=> $"public override string{this.NullOperator} ToString() => {this.PropertyName}{this.NullOperator}.ToString();";
+	public override string GetToStringCode()		=> $"public override string{this.NullOperator} ToString() => this.{this.PropertyName}.ToString();";
 	
 	public override string? GetInterfacesCode()		=> null;
 	

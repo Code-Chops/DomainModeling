@@ -10,8 +10,8 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>2.1.1</Version>
-        <PackageReleaseNotes>Fixed nullable value object ToString generation.</PackageReleaseNotes>
+        <Version>2.1.2</Version>
+        <PackageReleaseNotes>Fixed nullable value object ToString generation 2.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>

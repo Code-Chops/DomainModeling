@@ -442,12 +442,12 @@ public class ValueObjectGenerator : IIncrementalGenerator
 				code.AppendLine($@"
 	[DebuggerHidden] 
 	[EditorBrowsable(EditorBrowsableState.Never)]
-	public static bool TryCreate({data.UnderlyingTypeName} {data.LocalVariableName}, {(data.NullOperator is null ? null : "[NotNullWhen(true)] ")}out {data.Name}{data.NullOperator} createdObject)
+	public static bool TryCreate({data.UnderlyingTypeName} {data.LocalVariableName}, {(data.NullOperator is null ? null : "[NotNullWhen(true)] ")}out {data.Name} createdObject)
 		=> ICreatable<{data.Name}, {data.UnderlyingTypeName}>.TryCreate({data.LocalVariableName}, out createdObject, out _);
 
 	[DebuggerHidden] 
 	[EditorBrowsable(EditorBrowsableState.Never)]
-	public static bool TryCreate({data.UnderlyingTypeName} {data.LocalVariableName}, {(data.NullOperator is null ? null : "[NotNullWhen(true)] ")}out {data.Name}{data.NullOperator} createdObject, out Validator validator)
+	public static bool TryCreate({data.UnderlyingTypeName} {data.LocalVariableName}, {(data.NullOperator is null ? null : "[NotNullWhen(true)] ")}out {data.Name} createdObject, out Validator validator)
 		=> ICreatable<{data.Name}, {data.UnderlyingTypeName}>.TryCreate({data.LocalVariableName}, out createdObject, out validator);
 ");
 			}

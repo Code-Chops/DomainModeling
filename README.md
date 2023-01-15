@@ -1,6 +1,8 @@
 # Domain modeling (DDD)
 This packages helps with modeling your code in accordance to the principles of Domain-Driven Design (DDD). It contains base types, factories, source generation, identities, validation, and helpers to provide you a clear way to implement DDD easily.
 
+> Check out [CodeChops projects](https://www.CodeChops.nl/projects) for more projects.
+
 ## Base types
 The base types include:
 

@@ -131,7 +131,7 @@ public sealed record DefaultValueObject : ValueObjectBase
 		return $@"An immutable value object with an underlying value of type <{attribute}=""{this.UnderlyingType.GetTypeNameWithGenericParameters().Replace('<', '{').Replace('>', '}')}""/>.";
 	}
 
-	public override string GetToStringCode()		=> $"public override string ToString() => this.ToDisplayString(new {{ this.{this.PropertyName} }});";
+	public override string GetToStringCode()		=> $"public override string{this.NullOperator} ToString() => {this.PropertyName}.ToString();";
 	
 	public override string? GetInterfacesCode()		=> null;
 	

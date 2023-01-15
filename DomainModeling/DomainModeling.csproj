@@ -10,8 +10,8 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>2.0.1</Version>
-        <PackageReleaseNotes>Change InternalsVisibleTo CodeChops.DomainDrivenDesign.Contracts to CodeChops.Contracts.</PackageReleaseNotes>
+        <Version>2.1.0</Version>
+        <PackageReleaseNotes>Changed generated ToString of default value objects and string value objects.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>

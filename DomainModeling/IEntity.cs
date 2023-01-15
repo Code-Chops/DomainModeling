@@ -1,8 +1,20 @@
 ﻿namespace CodeChops.DomainModeling;
 
+/// <inheritdoc cref="IEntity"/>
+public interface IEntity<TSelf> : IEntity, IEquatable<TSelf?>
+	where TSelf : IEntity<TSelf>
+{
+}
+
 /// <summary>
 /// <para>
-/// Entities have an inherent identity and therefore need an ID. Entities have a long lifespan and are mutable.
+/// Entities have an inherent identity and therefore need an ID.
+/// In order to generate an ID, add one of the following attribute to your entity:
+/// <list type="bullet">
+/// <item><see cref="GenerateIdentity"/></item>
+/// <item><see cref="GenerateIdentity{T}"/></item>
+/// </list>
+/// Entities have a long lifespan and are mutable.
 /// They can belong to only one single <see cref="AggregateRoot"/>.
 /// </para>
 /// <para>
@@ -14,6 +26,6 @@
 /// </list>
 /// </para>
 /// </summary>
-public interface IEntity : IDomainObject, IEquatable<Entity?>, IHasId
+public interface IEntity : IDomainObject, IHasId
 {
 }

@@ -10,8 +10,8 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>2.1.5</Version>
-        <PackageReleaseNotes>Now adds IEquatable to class with generated identity and added IEntity.</PackageReleaseNotes>
+        <Version>2.1.6</Version>
+        <PackageReleaseNotes>Added generic IEntity.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>

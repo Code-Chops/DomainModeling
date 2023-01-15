@@ -27,7 +27,8 @@ internal static class IdSyntaxReceiver
 			if (!type.HasAttribute(IdGenerator.AttributeName, IdGenerator.AttributeNamespace, out attribute, expectedGenericTypeParamCount: 0))
 				return null;
 
-		if (attribute is null) return null;
+		if (attribute is null) 
+			return null;
 		
 		var @namespace = type.ContainingNamespace!.IsGlobalNamespace 
 			? null 
@@ -36,7 +37,14 @@ internal static class IdSyntaxReceiver
 
 		var idTypeName = attribute.GetArgumentOrDefault("name", IdGenerator.DefaultIdTypeName)!;
 		var idPropertyName = attribute.GetArgumentOrDefault("propertyName", IdGenerator.DefaultIdPropertyName)!;
-		var primitiveTypeFullName = GetTypeName(attribute);
+		
+		var underlyingType = attribute.AttributeClass?.TypeArguments.SingleOrDefault();
+
+		var nullOperator = underlyingType?.TypeKind is TypeKind.Class ? '?' : (char?)null;
+		
+		var underlyingTypeFullName = underlyingType is null 
+			? IdGenerator.DefaultIdUnderlyingType 
+			: underlyingType.GetFullTypeNameWithGenericParameters() + nullOperator;
 		
 		var data = new IdDataModel(
 			OuterClassName: type.Name,
@@ -45,21 +53,11 @@ internal static class IdSyntaxReceiver
 			OuterClassDeclaration: type.GetObjectDeclaration(),
 			IdTypeName: idTypeName,
 			IdPropertyName: idPropertyName,
-			PrimitiveTypeFullName: primitiveTypeFullName,
+			UnderlyingTypeFullName: underlyingTypeFullName,
 			IdGenerationMethod: GetClassType(type, isEntityBase),
-			NullOperator: type.NullableAnnotation is NullableAnnotation.Annotated && type.TypeKind is not TypeKind.Struct ? '?' : null);
+			NullOperator: nullOperator);
 		
 		return data;
-	}
-
-	private static string GetTypeName(AttributeData attribute)
-	{
-		// Get the primitive type using the generic parameter of the attribute. 
-		var genericParameterName = attribute.AttributeClass?.TypeArguments.SingleOrDefault();
-		
-		return genericParameterName is null 
-			? IdGenerator.DefaultIdPrimitiveType 
-			: genericParameterName.GetFullTypeNameWithGenericParameters();
 	}
 
 	private static IdGenerationMethod GetClassType(INamedTypeSymbol type, bool isEntityBase)

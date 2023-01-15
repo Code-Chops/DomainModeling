@@ -130,7 +130,7 @@ Using the parameter `useValidationExceptions`.
 This can be turned off by setting parameter `generateEnumerable` to `false`.
 - Adding the keyword `readonly` automatically for structs:<br/>
 This will ensure immutability and also optimize the struct.
-- Letting you think about if a underlying value should be `nullable`:<br/>
+- Letting you think about if an underlying value should be `nullable`:<br/>
 Nullability can be enabled by setting `valueIsNullable` to `true`. 
 - Adding the `StructLayoutAttribute` with `LayoutKind.Auto`: <br/>
 It gives the CLR permission to reorder the bytes corresponding to these fields. It decides exactly how to reorganize the fields for memory usage, packing, etc. By default structs in C# are implemented with `LayoutKind.Sequential`, because if types are commonly used for COM Interop, their fields must stay in the order they were defined. But because our ValueObjects are not expected to be used for COM Interop the `LayoutKind.Auto` attribute is used to optimize the struct.
@@ -699,12 +699,12 @@ public partial record struct ObjectsByKey<TKey, TObject>
 # Identities
 Entities require a unique identity (ID) in order to be distinguished from other entities. Each entity should have it's strongly typed ID.
 It's important that the scope in which the ID should unique is taken into consideration before implementing them.
-The underlying value of an identity should implement `IEquatable`. It can be one of the following types:
-- A primitive type (like `string`, `ulong`, `int`, `byte`, etc.).
+The underlying value of an identity should implement `IEquatable` and `IComparable`. It can be one of the following types:
+- An underlying type (like `string`, `ulong`, `int`, `byte`, etc.).
 - A (custom implemented) `ValueObject`.
 - A `Guid`.
 - A `Uuid` (which is included in this package, see [Simple value object example](#Simple-value-object-example)): a 32-digit UUID without hyphens.
-- Any other `struct` which implements `IEquatable`.
+- Any other `struct` which implements `IEquatable` and `IComparable`.
 
 Identities can be implemented correctly by using one of the following methods (ordered by preference):
 - Use the [Identity generator](#Identity-generator). This way you can create a readonly struct (which probably lives on the stack).
@@ -761,7 +761,7 @@ public partial class Player : IHasId
 	{ 
 		[DebuggerHidden]
 		[EditorBrowsable(EditorBrowsableState.Never)]
-		public override string ToString() => this.ToDisplayString(new { this.Value, PrimitiveType = nameof(global::CodeChops.DomainModeling.Identities.Uuid) });
+		public override string ToString() => this.ToDisplayString(new { this.Value, UnderlyingType = nameof(global::CodeChops.DomainModeling.Identities.Uuid) });
 
 		[EditorBrowsable(EditorBrowsableState.Never)]
 		public global::CodeChops.DomainModeling.Identities.Uuid Value { get; private init; }

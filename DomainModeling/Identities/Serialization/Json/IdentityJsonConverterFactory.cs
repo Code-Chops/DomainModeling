@@ -14,11 +14,11 @@ public sealed class IdentityJsonConverterFactory : JsonConverterFactory
 
 	public override JsonConverter CreateConverter(Type typeToConvert, JsonSerializerOptions options)
 	{
-		var idPrimitive = typeToConvert.GetProperty(nameof(IId<int>.Value))?.PropertyType
-		                  ?? throw new InvalidOperationException($"Primitive type of {typeToConvert.Name} was not found.");
+		var idUnderlying = typeToConvert.GetProperty(nameof(IId<int>.Value))?.PropertyType
+		                  ?? throw new InvalidOperationException($"Underlying type of {typeToConvert.Name} was not found.");
 		
 		var converter = Activator.CreateInstance(
-			type: typeof(IdentityJsonConverter<,>).MakeGenericType(typeToConvert, idPrimitive),
+			type: typeof(IdentityJsonConverter<,>).MakeGenericType(typeToConvert, idUnderlying),
 			bindingAttr: BindingFlags.Instance | BindingFlags.Public,
 			binder: null,
 			args: null,

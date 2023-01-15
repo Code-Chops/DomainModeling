@@ -3,9 +3,9 @@ namespace CodeChops.DomainModeling.Attributes;
 #pragma warning disable IDE0060 // Remove unused parameter
 
 /// <summary>
-/// <inheritdoc cref="GenerateIdentity{TPrimitive}"/>
+/// <inheritdoc cref="GenerateIdentity{TUnderlying}"/>
 /// <para>
-/// The primitive type of the ID is ulong.
+/// The underlying type of the ID is ulong.
 /// </para>
 /// </summary>
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct)]

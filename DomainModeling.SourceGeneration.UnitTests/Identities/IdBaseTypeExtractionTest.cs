@@ -16,11 +16,11 @@ public class IdBaseTypeExtractionTest
 	
 	[Theory]
 	[InlineData("[GenerateIdentity]", 						"global::System.UInt64")]
-	[InlineData("[GenerateIdentity<ulong>]",					"global::System.UInt64")]				
-	[InlineData("[GenerateIdentity<string>]",				"global::System.String")] 	
-	[InlineData("[GenerateIdentity<string>(typeof(Guid))]",	"global::System.String")]
-	[InlineData("[GenerateIdentity<Tuple>(typeof(Tuple))]",	"global::System.Tuple")]
-	public void IdType_Extraction_IsCorrect(string attribute, string expectedPrimitiveType)
+	[InlineData("[GenerateIdentity<ulong>]",				"global::System.UInt64")]				
+	[InlineData("[GenerateIdentity<string>]",				"global::System.String?")] 	
+	[InlineData("[GenerateIdentity<string>(typeof(Guid))]",	"global::System.String?")]
+	[InlineData("[GenerateIdentity<Tuple>(typeof(Tuple))]",	"global::System.Tuple?")]
+	public void IdType_Extraction_IsCorrect(string attribute, string expectedUnderlyingType)
 	{
 		var syntaxTree = GetSyntaxTree(attribute);
 		
@@ -36,7 +36,7 @@ public class IdBaseTypeExtractionTest
 		
 		Assert.NotNull(model);
 		
-		Assert.Equal(expectedPrimitiveType, model.PrimitiveTypeFullName, StringComparer.OrdinalIgnoreCase);
+		Assert.Equal(expectedUnderlyingType, model.UnderlyingTypeFullName, StringComparer.OrdinalIgnoreCase);
 	}
 
 	private static SyntaxTree GetSyntaxTree(string attribute)
@@ -59,7 +59,7 @@ namespace {IdGenerator.AttributeNamespace}
 {{
 	[AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct)]
 	public sealed class GenerateIdentity<TId> : Attribute
-		where TPrimitive : IEquatable<TPrimitive>, IComparable<TPrimitive>
+		where TUnderlying : IEquatable<TUnderlying>, IComparable<TUnderlying>
 	{{
 		public GenerateIdentity(StringFormat? baseType = null, string? name = null)
 		{{

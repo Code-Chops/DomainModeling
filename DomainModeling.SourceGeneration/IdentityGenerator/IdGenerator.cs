@@ -14,7 +14,7 @@ public class IdGenerator : IIncrementalGenerator
 	internal const string IdNamespace				= "CodeChops.DomainModeling.Identities";
 	internal const string DefaultIdTypeName			= "Identity";
 	internal const string DefaultIdPropertyName		= "Id";
-	internal const string DefaultIdPrimitiveType	= "global::System.UInt64";
+	internal const string DefaultIdUnderlyingType	= "global::System.UInt64";
 	
 	public void Initialize(IncrementalGeneratorInitializationContext context)
 	{		
@@ -94,10 +94,9 @@ using CodeChops.DomainModeling.Identities;
 			var iHasIdImplementation = data.IdGenerationMethod != IdGenerationMethod.EntityBase && data.IdPropertyName == DefaultIdPropertyName 
 				? " : IHasId"
 				: null;
-
-			var isClass = data.IdGenerationMethod is IdGenerationMethod.Class;
-			var iIsEquatable = isClass || data.IdGenerationMethod == IdGenerationMethod.Record
-				? $"{(iHasIdImplementation is null ? null : ", ")}IEquatable<{className}{(isClass ? "?" : null)}>"
+			
+			var iIsEquatable = data.IdGenerationMethod == IdGenerationMethod.Record
+				? $"{(iHasIdImplementation is null ? null : ", ")}IEquatable<{className}?>"
 				: null;
 			
 			var code = $"{data.OuterClassDeclaration} {className}{iHasIdImplementation}{iIsEquatable}";
@@ -192,57 +191,57 @@ using CodeChops.DomainModeling.Identities;
 				return null;
 			
 			var code = $@"
-	public readonly partial record struct {data.IdTypeName} : IId<{data.IdTypeName}, {data.PrimitiveTypeFullName}>
+	public readonly partial record struct {data.IdTypeName} : IId<{data.IdTypeName}, {data.UnderlyingTypeFullName}>
 	{{ 
 		[DebuggerHidden]
 		[EditorBrowsable(EditorBrowsableState.Never)]
-		public override string ToString() => this.ToDisplayString(new {{ this.Value, PrimitiveType = nameof({data.PrimitiveTypeFullName}) }});
+		public override string ToString() => this.ToDisplayString(new {{ this.Value, UnderlyingType = ""{data.UnderlyingTypeFullName}"" }});
 
 		[EditorBrowsable(EditorBrowsableState.Never)]
-		public {data.PrimitiveTypeFullName} Value {{ get; private init; }}
+		public {data.UnderlyingTypeFullName} Value {{ get; private init; }}
 	
 		[DebuggerHidden]
 		[EditorBrowsable(EditorBrowsableState.Never)]
-		public static explicit operator {data.IdTypeName}({data.PrimitiveTypeFullName} value) => new() {{ Value = value }};
+		public static explicit operator {data.IdTypeName}({data.UnderlyingTypeFullName} value) => new() {{ Value = value }};
 		[DebuggerHidden]
 		[EditorBrowsable(EditorBrowsableState.Never)]
-		public static implicit operator {data.PrimitiveTypeFullName}({data.IdTypeName}{data.NullOperator} id) => id.Value;
+		public static implicit operator {data.UnderlyingTypeFullName}({data.IdTypeName} id) => id.Value;
 	
 		#region Comparison
 		[DebuggerHidden]
 		[EditorBrowsable(EditorBrowsableState.Never)]
 		public int CompareTo({data.IdTypeName} other) 
-			=> {(data.NullOperator is null ? null : "other is null ? 1 : ")}this.Value.CompareTo(({data.IdTypeName})other.GetValue());
+			=> this.Value{data.NullOperator}.CompareTo(({data.IdTypeName})other.Value){(data.NullOperator is not null ? " ?? 1" : null)};
 		
 		[DebuggerHidden]
 		[EditorBrowsable(EditorBrowsableState.Never)]
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static bool operator <	({data.IdTypeName} left, {data.IdTypeName}{data.NullOperator} right)	=> left.CompareTo(right) <	0;
+		public static bool operator <	({data.IdTypeName} left, {data.IdTypeName} right)	=> left.CompareTo(right) <	0;
 		[DebuggerHidden]
 		[EditorBrowsable(EditorBrowsableState.Never)]
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static bool operator <=	({data.IdTypeName} left, {data.IdTypeName}{data.NullOperator} right)	=> left.CompareTo(right) <= 0;
+		public static bool operator <=	({data.IdTypeName} left, {data.IdTypeName} right)	=> left.CompareTo(right) <= 0;
 		[DebuggerHidden]
 		[EditorBrowsable(EditorBrowsableState.Never)]
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static bool operator >	({data.IdTypeName} left, {data.IdTypeName}{data.NullOperator} right)	=> left.CompareTo(right) >	0;
+		public static bool operator >	({data.IdTypeName} left, {data.IdTypeName} right)	=> left.CompareTo(right) >	0;
 		[DebuggerHidden]
 		[EditorBrowsable(EditorBrowsableState.Never)]
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static bool operator >=	({data.IdTypeName} left, {data.IdTypeName}{data.NullOperator} right)	=> left.CompareTo(right) >= 0;
+		public static bool operator >=	({data.IdTypeName} left, {data.IdTypeName} right)	=> left.CompareTo(right) >= 0;
 		#endregion
 	
 		/// <summary>
 		/// Warning. Probably performs boxing!
 		/// </summary>
 		[DebuggerHidden]
-		public object GetValue() => this.Value;
+		public object{data.NullOperator} GetValue() => this.Value;
 	
 		[DebuggerHidden]
-		public bool HasDefaultValue => this.Value.Equals(IId<{data.PrimitiveTypeFullName}>.DefaultValue);
+		public bool HasDefaultValue => this.Value{data.NullOperator}.Equals(IId<{data.UnderlyingTypeFullName}>.DefaultValue){(data.NullOperator is not null ? "?? true" : null)};
 	
 		[DebuggerHidden]
-		public {data.IdTypeName}({data.PrimitiveTypeFullName} value)
+		public {data.IdTypeName}({data.UnderlyingTypeFullName} value)
 		{{
 			this.Value = value;
 		}}
@@ -250,7 +249,7 @@ using CodeChops.DomainModeling.Identities;
 		[DebuggerHidden]
 		public {data.IdTypeName}()
 		{{
-			this.Value = default({data.PrimitiveTypeFullName});
+			this.Value = default({data.UnderlyingTypeFullName});
 		}}
 	}}
 ";

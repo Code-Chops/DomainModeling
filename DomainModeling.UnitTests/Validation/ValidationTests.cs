@@ -10,7 +10,7 @@ public class ValidationTests
 	[Fact]
 	public void Validation_ShouldThrow_OutOfRangeException()
 	{
-		Assert.Throws<ValidationException<InRangeNoOutputGuard<int>>>(Initialized);
+		Assert.Throws<ValidationException<NumberInRangeGuard<int>>>(Initialized);
 
 		static ValidatedObjectMock Initialized()
 		{
@@ -78,7 +78,7 @@ public class ValidationTests
 	[Fact]
 	public void Validation_ShouldThrow_WhenCreate()
 	{
-		Assert.Throws<ValidationException<InRangeNoOutputGuard<int>>>(Initialized);
+		Assert.Throws<ValidationException<NumberInRangeGuard<int>>>(Initialized);
 
 		static void Initialized()
 		{

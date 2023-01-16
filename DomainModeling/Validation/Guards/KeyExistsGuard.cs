@@ -30,11 +30,11 @@ public record KeyExistsGuard<TKey, TValue> : OutputGuardBase<KeyExistsGuard<TKey
 
 public static class GuardKeyExistsExtensions
 {
-	public static void GuardKeyExists<TKey>(this Validator validator, Func<TKey, bool> retriever, TKey key, object? errorCode, Exception? innerException = null)
+	public static Validator GuardKeyExists<TKey>(this Validator validator, Func<TKey, bool> retriever, TKey key, object? errorCode, Exception? innerException = null)
 		where TKey : notnull
 		=> KeyExistsNoOutputGuard<TKey>.Guard(validator, (key, retriever), messageParameter: key, errorCode, innerException);
 	
-	public static TValue? GuardKeyExists<TKey, TValue>(this Validator validator, Func<TKey, TValue?> retriever, TKey key, object? errorCode, Exception? innerException = null)
+	public static TValue GuardKeyExists<TKey, TValue>(this Validator validator, Func<TKey, TValue?> retriever, TKey key, object? errorCode, Exception? innerException = null)
 		where TKey : notnull
 		=> KeyExistsGuard<TKey, TValue>.Guard(validator, (key, retriever), messageParameter: key, errorCode, innerException);
 }

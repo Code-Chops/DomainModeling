@@ -16,6 +16,6 @@ public record IsValueGuard<TValue> : NoOutputGuardBase<IsValueGuard<TValue>, (TV
 
 public static class IsValueGuardExtensions
 {
-	public static void GuardIsValue<TValue>(this Validator validator, TValue currentValue, TValue expectedValue, object? errorCode, Exception? innerException = null)
+	public static Validator GuardIsValue<TValue>(this Validator validator, TValue currentValue, TValue expectedValue, object? errorCode, Exception? innerException = null)
 		=> IsValueGuard<TValue>.Guard(validator, (currentValue, expectedValue), (currentValue, expectedValue), errorCode, innerException);
 }

@@ -484,7 +484,7 @@ public readonly partial record struct Uuid : IValueObject, ICreatable<Uuid, Stri
 	[DebuggerHidden]
 	[EditorBrowsable(EditorBrowsableState.Never)]
 	public Char? this[int index] 
-		=> Validator.Get<Uuid>.Default.GuardInRange(this.Value, index, errorCode: null)!;
+		=> Validator.Get<Uuid>.Default.GuardIndexInRange(this.Value, index, errorCode: null)!;
 	#endregion
 }
 

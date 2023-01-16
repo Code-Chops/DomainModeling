@@ -16,6 +16,6 @@ public record NotNullGuard<TValue> : NoOutputGuardBase<NotNullGuard<TValue?>, TV
 
 public static class NotNullGuardExtensions
 {
-	public static void GuardNotNull<TValue>(this Validator validator, TValue value, object? errorCode, Exception? innerException = null)
+	public static Validator GuardNotNull<TValue>(this Validator validator, TValue value, object? errorCode, Exception? innerException = null)
 		=> NotNullGuard<TValue>.Guard(validator, value, typeof(TValue).Name, errorCode, innerException);
 }

@@ -17,6 +17,6 @@ public record RegexGuard : NoOutputGuardBase<RegexGuard, (string Value, Regex Re
 
 public static class RegexGuardExtensions
 {
-	public static void GuardRegex(this Validator validator, string value, Regex regex, object? errorCode, Exception? innerException = null)
+	public static Validator GuardRegex(this Validator validator, string value, Regex regex, object? errorCode, Exception? innerException = null)
 		=> RegexGuard.Guard(validator, (value, regex), value, errorCode, innerException);
 }

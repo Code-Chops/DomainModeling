@@ -10,8 +10,8 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>2.2.0</Version>
-        <PackageReleaseNotes>Renamed PrimitiveType to UnderlyingType and fixed NRT for identities.</PackageReleaseNotes>
+        <Version>2.3.0</Version>
+        <PackageReleaseNotes>Fixed guards.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>

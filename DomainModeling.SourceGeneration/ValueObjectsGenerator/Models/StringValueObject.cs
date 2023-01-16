@@ -118,6 +118,6 @@ public record StringValueObject(
 	public override string GetExtraCode()
 		=> $@"
 	public {(this.IsUnsealedRecordClass ? "virtual " : null)}{this.ElementTypeName}? this[int index] 
-		=> Validator.Get<{this.Name}>.Default.GuardInRange(this.{this.PropertyName}, index, errorCode: null)!;
+		=> Validator.Get<{this.Name}>.Default.GuardIndexInRange(this.{this.PropertyName}, index, errorCode: null)!;
 ";
 	}

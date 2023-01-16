@@ -2,83 +2,76 @@ using CodeChops.DomainModeling.Validation.Guards.Core;
 
 namespace CodeChops.DomainModeling.Validation.Guards;
 
-public record InRangeNoOutputGuard<TNumber> : NoOutputGuardBase<InRangeNoOutputGuard<TNumber>, (TNumber Index, TNumber? LowerBound, TNumber? UpperBound)>,
-	IHasExceptionMessage<InRangeNoOutputGuard<TNumber>, (TNumber Index, TNumber? LowerBound, TNumber? UpperBound)>, 
+public record NumberInRangeGuard<TNumber> : NoOutputGuardBase<NumberInRangeGuard<TNumber>, (TNumber Index, TNumber? LowerBound, TNumber? UpperBound), (string Name, TNumber Index, TNumber? LowerBound, TNumber? UpperBound)>,
+	IHasExceptionMessage<NumberInRangeGuard<TNumber>, (string Name, TNumber Index, TNumber? LowerBound, TNumber? UpperBound)>, 
 	INoOutputGuard<(TNumber Index, TNumber? LowerBound, TNumber? UpperBound)>, 
-	IGuard<InRangeNoOutputGuard<TNumber>, (TNumber Index, TNumber? LowerBound, TNumber? UpperBound)> 
+	IGuard<NumberInRangeGuard<TNumber>, (string Name, TNumber Index, TNumber? LowerBound, TNumber? UpperBound)> 
 	where TNumber : struct, INumber<TNumber>
 {
-	public static string GetExceptionMessage(string objectName, (TNumber Index, TNumber? LowerBound, TNumber? UpperBound) parameter)
-		=> $"Value '{{1}}' is out of range for '{{0}}' {parameter.LowerBound?.Write(" (Lower bound: '{2}')")}{parameter.UpperBound?.Write(" (Upper bound: '{3}')")}.";
+	public static string GetExceptionMessage(string objectName, (string Name, TNumber Index, TNumber? LowerBound, TNumber? UpperBound) parameter)
+		=> $"{parameter.Name} '{{1}}' is out of range for '{{0}}'{parameter.LowerBound?.Write(" (Minimum: '{2}')")}{parameter.UpperBound?.Write(" (Maximum: '{3}')")}.";
 	
 	public static bool IsValid((TNumber Index, TNumber? LowerBound, TNumber? UpperBound) input)
 		=> (input.LowerBound is null || input.Index >= input.LowerBound) && (input.UpperBound is null || input.Index <= input.UpperBound);
 }
 
-public record InRangeGuard<TElement> : OutputGuardBase<InRangeGuard<TElement>, (IReadOnlyList<TElement> List, int Index), (int Index, int Upperbound), TElement?>, 
-	IOutputGuard<(IReadOnlyList<TElement> List, int Index), TElement?>, 
-	IHasExceptionMessage<InRangeGuard<TElement>, (int Index, int Upperbound)>, 
-	IGuard<InRangeGuard<TElement>, (int Index, int Upperbound)>
+public record IndexInRangeGuard<TEnumerable, TElement> : OutputGuardBase<IndexInRangeGuard<TEnumerable, TElement>, (int Index, TEnumerable Enumerable, Func<TEnumerable, int, TElement> ElementGetter), (int Index, int Upperbound), TElement?>, 
+	IOutputGuard<(int Index, TEnumerable Enumerable, Func<TEnumerable, int, TElement> ElementGetter), TElement?>, 
+	IHasExceptionMessage<IndexInRangeGuard<TEnumerable, TElement>, (int Index, int Upperbound)>, 
+	IGuard<IndexInRangeGuard<TEnumerable, TElement>, (int Index, int Upperbound)>
+	where TEnumerable : class, IEnumerable<TElement>
 {
 	public static string GetExceptionMessage(string objectName, (int Index, int Upperbound) parameter)
-		=> $"Value '{{1}}' is out of range for '{{0}}' (Lower bound: '0') (Upper bound: '{parameter.Upperbound}')";
+		=> "Value '{1}' is out of range for '{0}' (Minimum: '0') (Maximum: '{2}')";
 	
-	public static bool IsValid((IReadOnlyList<TElement> List, int Index) input, out TElement? output)
+	public static bool IsValid((int Index, TEnumerable Enumerable, Func<TEnumerable, int, TElement> ElementGetter) input, out TElement? output)
 	{
-		if (input.Index < 0 || input.Index > input.List.Count)
+		if (!input.Enumerable.TryGetNonEnumeratedCount(out var count))
+			count = input.Enumerable.Count();
+		
+		if (input.Index < 0 || input.Index > count)
 		{
 			output = default;
 			return false;
 		}
 
-		output = input.List[input.Index];
+		output = input.ElementGetter(input.Enumerable, input.Index);
 		return true;
 	}
 }
 
-public record InRangeGuard : NoOutputGuardBase<InRangeGuard, (string Value, int? MinimumLength, int? MaximumLength)>,
-	IHasExceptionMessage<InRangeGuard, (string Value, int? MinimumLength, int? MaximumLength)>, 
-	INoOutputGuard<(string Value, int? MinimumLength, int? MaximumLength)>, 
-	IGuard<InRangeGuard, (string Value, int? MinimumLength, int? MaximumLength)> 
-{
-	public static string GetExceptionMessage(string objectName, (string Value, int? MinimumLength, int? MaximumLength) parameter)
-		=> "Length is out of range for '{0}' '{1}' (Lower bound: '{2}') (Upper bound: '{3}').";
-	
-	public static bool IsValid((string Value, int? MinimumLength, int? MaximumLength) input)
-		=> input.Value.Length >= input.MinimumLength && input.Value.Length <= input.MaximumLength;
-}
-
 public static class InRangeGuardExtensions
 {
-	public static void GuardInRange<TNumber>(this Validator validator, TNumber index, TNumber? lowerBound, TNumber? upperBound, 
-		object? errorCode, Exception? innerException = null)
+	public static Validator GuardInRange<TNumber>(this Validator validator, TNumber value, TNumber? minimum, TNumber? maximum, object? errorCode, Exception? innerException = null)
 		where TNumber : struct, INumber<TNumber> 
-		=> InRangeNoOutputGuard<TNumber>.Guard(validator, input: (index, lowerBound, upperBound), messageParameter: (index, lowerBound, upperBound), errorCode, innerException);
+		=> NumberInRangeGuard<TNumber>.Guard(
+			validator, 
+			input: (value, minimum, maximum), 
+			messageParameter: ("Value", value, minimum, maximum), 
+			errorCode, 
+			innerException);
 
-	public static TElement? GuardInRange<TElement>(this Validator validator, IReadOnlyList<TElement> list, int index, object? errorCode, Exception? innerException = null)
-		=> InRangeGuard<TElement>.Guard(validator, (list, index), (index, list.Count), errorCode, innerException);
+	public static void GuardLengthInRange(this Validator validator, string value, int minimumLength, int? maximumLength, object? errorCode, Exception? innerException = null)
+		=> NumberInRangeGuard<int>.Guard(
+			validator, 
+			input: (value.Length, minimumLength, maximumLength), 
+			messageParameter: ("Length of", value.Length, minimumLength, maximumLength), 
+			errorCode, 
+			innerException);
 	
-	public static char? GuardInRange(this Validator validator, string? value, int index, object? errorCode, Exception? innerException = null)
-	{
-		if (value is null)
-			return null;
-		
-		var parameters = (value, 0, value.Length);
-		
-		InRangeGuard.Guard(validator, parameters, parameters, errorCode, innerException);
-
-		return validator.IsValid
-			? value[index]
-			: default!;
-	}
+	public static TElement? GuardIndexInRange<TElement>(this Validator validator, IReadOnlyList<TElement> list, int index, object? errorCode, Exception? innerException = null)
+		=> IndexInRangeGuard<IReadOnlyList<TElement>, TElement>.Guard(
+			validator, 
+			input: (index, list, static (list, index) => list[index]), 
+			messageParameter: (index, list.Count), 
+			errorCode,
+			innerException);
 	
-	public static void GuardLengthInRange(this Validator validator, string? value, int minimumLength, int? maximumLength, object? errorCode, Exception? innerException = null)
-	{
-		if (value is null)
-			return;
-		
-		var parameters = (value, lowerBound: minimumLength, upperBound: maximumLength);
-		
-		InRangeGuard.Guard(validator, parameters, parameters, errorCode, innerException);
-	}
+	public static char GuardIndexInRange(this Validator validator, string value, int index, object? errorCode, Exception? innerException = null) 
+		=> IndexInRangeGuard<string, char>.Guard(
+			validator, 
+			input: (index, value, static (list, index) => list[index]), 
+			messageParameter: (index, value.Length), 
+			errorCode,
+			innerException);
 }

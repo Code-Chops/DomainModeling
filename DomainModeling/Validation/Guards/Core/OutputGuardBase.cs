@@ -17,25 +17,18 @@ public abstract record OutputGuardBase<TSelf, TInput, TOutput> : OutputGuardBase
 public abstract record OutputGuardBase<TSelf, TInput, TMessageParam, TOutput> : IGuard<TSelf>
 	where TSelf : OutputGuardBase<TSelf, TInput, TMessageParam, TOutput>, IOutputGuard<TInput, TOutput>, IHasExceptionMessage<TSelf, TMessageParam>, IGuard<TSelf, TMessageParam>, new()
 {
-	public static TOutput? Guard(Validator validator, TInput input, TMessageParam messageParameter, object? errorCode, Exception? innerException,
+	public static TOutput Guard(Validator validator, TInput input, TMessageParam messageParameter, object? errorCode, Exception? innerException,
 		[CallerMemberName] string? callerMemberName = null,
 		[CallerFilePath] string? callerFilePath = null, 
 		[CallerLineNumber] int? callerLineNumber = null)
 	{
-		var isValid = TSelf.IsValid(input, out var output);
-		
-		if (!isValid)
-		{
+		if (!TSelf.IsValid(input, out var output))
 			validator.Throw(IGuard<TSelf>.CreateException(
 				message: IGuard<TSelf, TMessageParam>.GetMessage(objectName: validator.ObjectName, messageParameter), 
 				errorCode, 
 				innerException, 
 				callerMemberName, callerFilePath, callerLineNumber));
 
-			// Prohibit returning an invalid object
-			return default;
-		}
-
-		return output;
+		return output!;
 	}
 }

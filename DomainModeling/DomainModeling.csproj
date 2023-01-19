@@ -10,8 +10,8 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>2.3.1</Version>
-        <PackageReleaseNotes>Default constructor generated when parameterless constructor is forbidden.</PackageReleaseNotes>
+        <Version>2.3.2</Version>
+        <PackageReleaseNotes>Generates namespaces for each parameter of value tuple for value objects.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>

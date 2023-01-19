@@ -4,7 +4,7 @@ namespace CodeChops.DomainModeling.SourceGeneration.ValueObjectsGenerator.Models
 
 public sealed record DefaultValueObject : ValueObjectBase
 {
-	public ITypeSymbol UnderlyingType { get; } = null!;
+	public INamedTypeSymbol UnderlyingType { get; } = null!;
 	public TypeDeclarationSyntax TypeDeclarationSyntax { get; } = null!;
 	public int? MinimumValue { get; }
 	public int? MaximumValue { get; }
@@ -58,9 +58,9 @@ public sealed record DefaultValueObject : ValueObjectBase
 
 	private ITypeSymbol? ParameterSubstitute { get; }
 	
-	private static ITypeSymbol? GetUnderlyingType(INamedTypeSymbol valueObjectType, INamedTypeSymbol? providedUnderlyingType, out ITypeSymbol? parameterSubstitute)
+	private static INamedTypeSymbol? GetUnderlyingType(INamedTypeSymbol valueObjectType, INamedTypeSymbol? providedUnderlyingType, out ITypeSymbol? parameterSubstitute)
 	{
-		var typeParameter = valueObjectType.TypeArguments.FirstOrDefault();
+		var typeParameter = valueObjectType.TypeArguments.OfType<INamedTypeSymbol>().FirstOrDefault();
 
 		if (providedUnderlyingType is null)
 		{
@@ -118,9 +118,16 @@ public sealed record DefaultValueObject : ValueObjectBase
 	public override string UnderlyingTypeName { get; } = null!;
 	public override string? UnderlyingTypeNameBase { get; }
 
-	public override string[] GetNamespaces()		=> this.UnderlyingType.ContainingNamespace.IsGlobalNamespace 
-														? Array.Empty<string>() 
-														: new [] { this.UnderlyingType.ContainingNamespace.ToDisplayString() };
+	public override string[] GetNamespaces()
+	{
+		var namespaces = this.UnderlyingType.TupleElements.IsDefaultOrEmpty
+			? Array.Empty<string>()
+			: this.UnderlyingType.TupleElements.Where(e => !e.ContainingNamespace.IsGlobalNamespace).Select(el => el.ContainingNamespace.ToDisplayString());
+
+		return this.UnderlyingType.ContainingNamespace.IsGlobalNamespace 
+			? namespaces.ToArray()
+			: namespaces.Append(this.UnderlyingType.ContainingNamespace.ToDisplayString()).ToArray();
+	}
 
 	public override string GetComments()
 	{

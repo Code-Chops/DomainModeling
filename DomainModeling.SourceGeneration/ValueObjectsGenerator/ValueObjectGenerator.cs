@@ -312,7 +312,7 @@ public class ValueObjectGenerator : IIncrementalGenerator
 			if (!data.GenerateStaticDefault) 
 				return null;
 			
-			return data.GenerateDefaultConstructor 
+			return data.GenerateDefaultConstructor || data.ForbidParameterlessConstruction
 				? $@"
 	[DebuggerHidden]
 	public static {data.Name} Default {{ get; }} = new({data.GetDefaultValue()});

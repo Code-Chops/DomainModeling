@@ -118,16 +118,8 @@ public sealed record DefaultValueObject : ValueObjectBase
 	public override string UnderlyingTypeName { get; } = null!;
 	public override string? UnderlyingTypeNameBase { get; }
 
-	public override string[] GetUsingNamespaces()
-	{
-		var namespaces = this.UnderlyingType.IsTupleType
-			? this.UnderlyingType.TypeArguments.Where(e => !e.ContainingNamespace.IsGlobalNamespace).Select(el => el.ContainingNamespace.ToDisplayString())
-			: Array.Empty<string>();
-		
-		return this.UnderlyingType.ContainingNamespace.IsGlobalNamespace 
-			? namespaces.ToArray()
-			: namespaces.Append(this.UnderlyingType.ContainingNamespace.ToDisplayString()).ToArray();
-	}
+	public override IEnumerable<string> GetUsingNamespaces()
+		=> GetAllUsingNamespacesOfType(this.UnderlyingType);
 
 	public override string GetComments()
 	{

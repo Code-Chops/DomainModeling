@@ -4,7 +4,7 @@ public record ListValueObject : ValueObjectBase, IEnumerableValueObject
 {
 	public ListValueObject(
 		INamedTypeSymbol valueObjectType,
-		ITypeSymbol? providedElementType,
+		INamedTypeSymbol? providedElementType,
 		int? minimumCount,
 		int? maximumCount,
 		bool generateEnumerable,
@@ -47,27 +47,21 @@ public record ListValueObject : ValueObjectBase, IEnumerableValueObject
 		this.UnderlyingTypeNameBase = $"List<{providedElementType.Name}{(allowNull ? "?" : null)}>";
 	}
 	
-	private static ITypeSymbol? GetElementType(INamedTypeSymbol valueObjectType, ITypeSymbol? providedElementType)
+	private static INamedTypeSymbol? GetElementType(INamedTypeSymbol valueObjectType, INamedTypeSymbol? providedElementType)
 	{
-		return providedElementType ?? valueObjectType.TypeArguments.FirstOrDefault();
+		return providedElementType ?? valueObjectType.TypeArguments.OfType<INamedTypeSymbol>().FirstOrDefault();
 	}
 
 	public string ElementTypeName { get; } = null!;
 
 	public override string UnderlyingTypeName { get; } = null!;
 	public override string? UnderlyingTypeNameBase { get; }
-	public ITypeSymbol ProvidedElementType { get; } = null!;
+	public INamedTypeSymbol ProvidedElementType { get; } = null!;
 	public int? MinimumCount { get; }
 	public int? MaximumCount { get; }
 
-	public override string[] GetUsingNamespaces()
-	{
-		var elementNamespace = this.ProvidedElementType.ContainingNamespace;
-		if (elementNamespace.IsGlobalNamespace) 
-			return Array.Empty<string>();
-
-		return new[] { elementNamespace.ToDisplayString() };
-	}
+	public override IEnumerable<string> GetUsingNamespaces()
+		=> GetAllUsingNamespacesOfType(this.ProvidedElementType);
 
 	public override string GetComments()
 	{

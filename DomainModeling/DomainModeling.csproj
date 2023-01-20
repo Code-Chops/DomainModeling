@@ -10,8 +10,8 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>2.3.4</Version>
-        <PackageReleaseNotes>Added value object string validation for spaces.</PackageReleaseNotes>
+        <Version>2.3.5</Version>
+        <PackageReleaseNotes>Added value object usings for subtypes.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>

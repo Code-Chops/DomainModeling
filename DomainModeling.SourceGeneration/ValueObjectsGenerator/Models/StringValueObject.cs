@@ -59,7 +59,7 @@ public record StringValueObject(
 	public override string UnderlyingTypeName		=> nameof(String);
 	public override string? UnderlyingTypeNameBase	=> null;
 
-	public override string[] GetUsingNamespaces()	=> Array.Empty<string>();
+	public override IEnumerable<string> GetUsingNamespaces()	=> Array.Empty<string>();
 	
 	public override string GetComments()			=> $"An immutable value type with a {(this.StringCaseConversion == StringCaseConversion.NoConversion ? null : $"{this.StringCaseConversion} ")}{this.StringFormat}-Formatted string as underlying value.";
 

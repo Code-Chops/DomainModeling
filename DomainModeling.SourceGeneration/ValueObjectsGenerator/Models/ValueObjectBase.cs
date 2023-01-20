@@ -83,6 +83,17 @@ public abstract record ValueObjectBase
 		LengthInRange,
 		Regex,
 	}
+
+	protected static IEnumerable<string> GetAllUsingNamespacesOfType(INamedTypeSymbol type)
+	{
+		if (!type.TypeArguments.IsDefaultOrEmpty)
+			foreach (var s in type.TypeArguments.OfType<INamedTypeSymbol>().SelectMany(GetAllUsingNamespacesOfType))
+				yield return s;
+
+		yield return type.ContainingNamespace.IsGlobalNamespace
+			? "System"
+			: type.ContainingNamespace.ToDisplayString();
+	}
 	
 	public string GetGuardLine<T>(Guard guard, string? variableName, string errorCodeStart, params object?[] parameters)
 		=> this.GetGuardLine(guard, variableName: variableName, errorCodeStart, genericParameterName: typeof(T).Name, parameters);
@@ -110,7 +121,7 @@ public abstract record ValueObjectBase
 		return $@"		validator.Guard{guard}{genericParameterName?.Write($"<{genericParameterName}>")}({parametersString});";
 	}
 	
-	public abstract string[] GetUsingNamespaces();
+	public abstract IEnumerable<string> GetUsingNamespaces();
 	public abstract string GetComments();
 	public abstract string GetToStringCode();
 	public abstract string? GetInterfacesCode();

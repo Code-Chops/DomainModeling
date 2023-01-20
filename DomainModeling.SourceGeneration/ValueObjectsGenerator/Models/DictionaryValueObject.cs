@@ -7,15 +7,15 @@ public record DictionaryValueObject : ValueObjectBase, IEnumerableValueObject
 
 	public override string UnderlyingTypeName { get; } = null!;
 	public override string? UnderlyingTypeNameBase { get; }
-	public ITypeSymbol ProvidedKeyType { get; } = null!;
-	public ITypeSymbol ProvidedValueType { get; } = null!;
+	public INamedTypeSymbol ProvidedKeyType { get; } = null!;
+	public INamedTypeSymbol ProvidedValueType { get; } = null!;
 	public int? MinimumCount { get; }
 	public int? MaximumCount { get; }
 	
 	public DictionaryValueObject(
 		INamedTypeSymbol valueObjectType,
-		ITypeSymbol? providedKeyType,
-		ITypeSymbol? providedValueType,
+		INamedTypeSymbol? providedKeyType,
+		INamedTypeSymbol? providedValueType,
 		int? minimumCount,
 		int? maximumCount,
 		bool generateEnumerable,
@@ -66,7 +66,7 @@ public record DictionaryValueObject : ValueObjectBase, IEnumerableValueObject
 		this.UnderlyingTypeNameBase = $"Dictionary<{providedKeyType.Name}, {providedValueType.Name}{(allowNull ? "?" : null)}>";
 	}
 
-	private static ITypeSymbol? GetUnderlyingType(INamedTypeSymbol valueObjectType, ITypeSymbol? providedUnderlyingType, bool isKey)
+	private static INamedTypeSymbol? GetUnderlyingType(INamedTypeSymbol valueObjectType, INamedTypeSymbol? providedUnderlyingType, bool isKey)
 	{
 		if (providedUnderlyingType is not null)
 			return providedUnderlyingType;
@@ -76,26 +76,16 @@ public record DictionaryValueObject : ValueObjectBase, IEnumerableValueObject
 			: (valueObjectType.TypeArguments.Length == 1 ? 0 : 1); 
 		
 		var typeParameter = valueObjectType.TypeArguments
-			.OfType<ITypeSymbol>()
+			.OfType<INamedTypeSymbol>()
 			.Skip(index)
 			.FirstOrDefault();
 		
 		return typeParameter ?? providedUnderlyingType;
 	}
 
-	public override string[] GetUsingNamespaces()
-	{
-		var keyNamespace = this.ProvidedKeyType.ContainingNamespace;
-		var elementNamespace = this.ProvidedValueType.ContainingNamespace;
-
-		if (!keyNamespace.IsGlobalNamespace)
-			return new[] { keyNamespace.ToDisplayString() };
-		
-		if (!elementNamespace.IsGlobalNamespace)
-			return new[] { elementNamespace.ToDisplayString() };
-
-		return Array.Empty<string>();
-	}
+	public override IEnumerable<string> GetUsingNamespaces()
+		=> GetAllUsingNamespacesOfType(this.ProvidedKeyType)
+			.Concat(GetAllUsingNamespacesOfType(this.ProvidedValueType));
 	
 	public override string GetComments()
 	{

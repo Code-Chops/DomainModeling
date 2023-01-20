@@ -83,8 +83,8 @@ internal static class ValueObjectSyntaxReceiver
 		if (hasDictionaryAttribute)
 			return new DictionaryValueObject(
 				valueObjectType: type,
-				providedKeyType: attribute.AttributeClass!.TypeArguments.ElementAtOrDefault(0) ?? GetTypeFromConstructor(attribute, index: 0),
-				providedValueType: attribute.AttributeClass!.TypeArguments.ElementAtOrDefault(1) ?? GetTypeFromConstructor(attribute, index: 1),
+				providedKeyType: (INamedTypeSymbol?)attribute.AttributeClass!.TypeArguments.ElementAtOrDefault(0) ?? GetTypeFromConstructor(attribute, index: 0),
+				providedValueType: (INamedTypeSymbol?)attribute.AttributeClass!.TypeArguments.ElementAtOrDefault(1) ?? GetTypeFromConstructor(attribute, index: 1),
 				minimumCount: attribute.TryGetArgument("minimumCount", out value) && value != Int32.MinValue ? value : null,
 				maximumCount: attribute.TryGetArgument("maximumCount", out value) && value != Int32.MaxValue ? value : null,
 				generateEnumerable: generateEnumerable,

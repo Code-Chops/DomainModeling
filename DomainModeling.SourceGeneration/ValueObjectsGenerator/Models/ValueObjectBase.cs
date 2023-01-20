@@ -110,7 +110,7 @@ public abstract record ValueObjectBase
 		return $@"		validator.Guard{guard}{genericParameterName?.Write($"<{genericParameterName}>")}({parametersString});";
 	}
 	
-	public abstract string[] GetNamespaces();
+	public abstract string[] GetUsingNamespaces();
 	public abstract string GetComments();
 	public abstract string GetToStringCode();
 	public abstract string? GetInterfacesCode();

@@ -83,7 +83,7 @@ public record DictionaryValueObject : ValueObjectBase, IEnumerableValueObject
 		return typeParameter ?? providedUnderlyingType;
 	}
 
-	public override string[] GetNamespaces()
+	public override string[] GetUsingNamespaces()
 	{
 		var keyNamespace = this.ProvidedKeyType.ContainingNamespace;
 		var elementNamespace = this.ProvidedValueType.ContainingNamespace;

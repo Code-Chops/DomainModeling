@@ -60,7 +60,7 @@ public record ListValueObject : ValueObjectBase, IEnumerableValueObject
 	public int? MinimumCount { get; }
 	public int? MaximumCount { get; }
 
-	public override string[] GetNamespaces()
+	public override string[] GetUsingNamespaces()
 	{
 		var elementNamespace = this.ProvidedElementType.ContainingNamespace;
 		if (elementNamespace.IsGlobalNamespace) 

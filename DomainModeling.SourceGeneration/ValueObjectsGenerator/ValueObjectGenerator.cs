@@ -97,7 +97,7 @@ public class ValueObjectGenerator : IIncrementalGenerator
 		
 		string GetUsings()
 		{
-			var namespaces = data.GetNamespaces().Union(new[]
+			var namespaces = data.GetUsingNamespaces().Union(new[]
 			{
 				"System",
 				"System.Collections",

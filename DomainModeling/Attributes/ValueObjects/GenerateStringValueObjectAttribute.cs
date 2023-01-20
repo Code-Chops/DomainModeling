@@ -61,8 +61,10 @@ public enum StringFormat
 {
 	Default,
 	Alpha,
+	AlphaWithSpace,
 	AlphaWithUnderscore,
 	AlphaNumeric,
+	AlphaNumericWithSpace,
 	AlphaNumericWithUnderscore,
 }
 

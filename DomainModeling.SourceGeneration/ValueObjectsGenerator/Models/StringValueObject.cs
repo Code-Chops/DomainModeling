@@ -14,8 +14,10 @@ public enum StringFormat
 {
 	Default,
 	Alpha,
+	AlphaWithSpace,
 	AlphaWithUnderscore,
 	AlphaNumeric,
+	AlphaNumericWithSpace,
 	AlphaNumericWithUnderscore,
 }
 
@@ -93,8 +95,10 @@ public record StringValueObject(
 			var formatRegex = this.StringFormat switch
 			{
 				StringFormat.Alpha						=> "^[a-zA-Z]+$",
+				StringFormat.AlphaWithSpace				=> "^[a-zA-Z ]*$",
 				StringFormat.AlphaWithUnderscore		=> "^[a-zA-Z_]+$",
 				StringFormat.AlphaNumeric				=> "^[a-zA-Z0-9]+$",
+				StringFormat.AlphaNumericWithSpace		=> "^[a-zA-Z0-9 ]*$",
 				StringFormat.AlphaNumericWithUnderscore => "^[a-zA-Z0-9_]+$",
 				_										=> throw new ArgumentOutOfRangeException(nameof(this.StringFormat), this.StringFormat, null)
 			};

@@ -10,8 +10,8 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>2.3.3</Version>
-        <PackageReleaseNotes>Generates namespaces for each parameter of value tuple for value objects (fixed).</PackageReleaseNotes>
+        <Version>2.3.4</Version>
+        <PackageReleaseNotes>Added value object string validation for spaces.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>

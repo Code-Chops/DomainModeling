@@ -195,7 +195,7 @@ using CodeChops.DomainModeling.Identities;
 	{{ 
 		[DebuggerHidden]
 		[EditorBrowsable(EditorBrowsableState.Never)]
-		public override string ToString() => this.ToDisplayString(new {{ this.Value, UnderlyingType = ""{data.UnderlyingTypeFullName}"" }});
+		public override string ToString() => this.ToDisplayString(new {{ this.Value, UnderlyingType = this.Value.GetType().GetNameWithGenerics() }});
 
 		[EditorBrowsable(EditorBrowsableState.Never)]
 		public {data.UnderlyingTypeFullName} Value {{ get; private init; }}

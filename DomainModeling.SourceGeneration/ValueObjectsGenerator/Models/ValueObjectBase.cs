@@ -29,7 +29,7 @@ public abstract record ValueObjectBase
 		this.UseValidationExceptions = useValidationExceptions;
 		this.AddIComparable = addIComparable;
 		this.IsUnsealedRecordClass = valueObjectType is { IsRecord: true, TypeKind: not TypeKind.Struct, IsSealed: false };
-		this.NullOperator = valueObjectType.TypeKind is TypeKind.Class || allowNull ? '?' : null;
+		this.ValueObjectNullOperator = valueObjectType.TypeKind is TypeKind.Class || allowNull ? '?' : null;
 		this.Name = valueObjectType.GetTypeNameWithGenericParameters();
 		this.Namespace = valueObjectType.ContainingNamespace!.IsGlobalNamespace ? null : valueObjectType.ContainingNamespace.ToDisplayString();
 		this.BackingFieldName = $"_{propertyName.Substring(0, 1).ToLowerInvariant()}{propertyName.Substring(1)}{(generateDefaultConstructor ? new Random().Next(0, 9999) : null)}";
@@ -46,7 +46,7 @@ public abstract record ValueObjectBase
 	/// <summary>
 	/// Null conditional operator for the value object.
 	/// </summary>
-	public char? NullOperator { get; }
+	public char? ValueObjectNullOperator { get; }
 	
 	/// <summary>
 	/// The name of the value object being generated.
@@ -90,7 +90,7 @@ public abstract record ValueObjectBase
 			foreach (var s in type.TypeArguments.OfType<INamedTypeSymbol>().SelectMany(GetAllUsingNamespacesOfType))
 				yield return s;
 
-		yield return type.ContainingNamespace.IsGlobalNamespace
+		yield return type.ContainingNamespace?.IsGlobalNamespace ?? true
 			? "System"
 			: type.ContainingNamespace.ToDisplayString();
 	}

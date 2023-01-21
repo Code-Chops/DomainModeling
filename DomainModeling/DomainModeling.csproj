@@ -10,8 +10,8 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>2.3.5</Version>
-        <PackageReleaseNotes>Added value object usings for subtypes.</PackageReleaseNotes>
+        <Version>2.4.0</Version>
+        <PackageReleaseNotes>Fixed null reference during value object generation when parameter substitution.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>

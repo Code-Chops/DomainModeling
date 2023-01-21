@@ -18,12 +18,12 @@ public static class TypeExtensions
 	}
 
 	/// <summary>
-	/// Gets the name of a class including the generic types.
+	/// Gets the name of a class including the type parameters.
 	/// <para>
 	/// E.g: System.Collections.Generic.Dictionary`2 becomes System.Collections.Generic.Dictionary&lt;System.String,System.Object&gt;.
 	/// </para>
 	/// </summary>
-	public static string GetNameWithGenerics(Type type)
+	public static string GetNameWithTypeParameters(this Type type)
 	{
 		if (type.IsGenericParameter)
 			return type.Name;
@@ -44,7 +44,7 @@ public static class TypeExtensions
 			if (!first)
 				builder.Append(',');
 			
-			builder.Append(GetNameWithGenerics(arg));
+			builder.Append(GetNameWithTypeParameters(arg));
 			first = false;
 		}
 		builder.Append('>');

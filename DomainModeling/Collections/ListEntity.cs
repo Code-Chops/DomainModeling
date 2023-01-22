@@ -4,10 +4,10 @@
 /// An abstract entity that holds a list and which provides a public readable api. The implementation can decide if this can be mutable or not.
 /// </summary>
 /// <typeparam name="TElement">The type of the elements in the list.</typeparam>
-public abstract class ListEntity<TSelf, TElement, TId> : Entity<TId>, IReadOnlyList<TElement>
-	where TSelf : ListEntity<TSelf, TElement, TId>
-	where TElement : IDomainObject
+public abstract class ListEntity<TSelf, TId, TElement> : Entity<TId>, IReadOnlyList<TElement>
+	where TSelf : ListEntity<TSelf, TId, TElement>
 	where TId : IId<TId>
+	where TElement : IDomainObject
 {
 	public override string ToString() => this.ToDisplayString(new { TDomainObject = typeof(TElement).Name });
 	

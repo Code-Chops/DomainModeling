@@ -4,9 +4,9 @@
 /// An abstract entity that holds a hash set and which provides a public readable api. The implementation can decide if this can be mutable or not.
 /// </summary>
 /// <typeparam name="TElement">The type of the elements in the set.</typeparam>
-public abstract class HashSetEntity<TElement, TId> : Entity<TId>, IReadOnlySet<TElement>
-	where TElement : IDomainObject 
+public abstract class HashSetEntity<TId, TElement> : Entity<TId>, IReadOnlySet<TElement>
 	where TId : IId<TId>
+	where TElement : IDomainObject 
 {
 	public override string ToString() => this.ToDisplayString(new { TDomainObject = typeof(TElement).Name });
 	

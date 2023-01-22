@@ -10,8 +10,8 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>2.6.1</Version>
-        <PackageReleaseNotes>Cleaned up IdGeneration attribute.</PackageReleaseNotes>
+        <Version>2.7.0</Version>
+        <PackageReleaseNotes>Reordered entity collections type parameters.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>

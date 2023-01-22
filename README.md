@@ -722,22 +722,20 @@ A `SingletonId<TObject>` is also supported. This is convenient for implementing 
 An identity belongs to an entity. To create an identity for an entity, simply make the class `partial` and add the attribute `GenerateIdentity<T>` (where `T` is the underlying value). 
 The type parameter `<T`> can also be omitted. In this case the underlying value of the identity will be `ulong`.
 A `readonly partial struct` will be generated which is nested in the entity class. The entity will also get a property which contains an instance of the identity. 
-Two parameters can be provided when adding the attribute:
-- `name`. If provided, this will be the name of the identity. The default name is `Identity`.
-- `propertyName`. The name of the identity-property of the entity class. The default name is `Id`.
+Parameter `name ` can be provided when adding the attribute. If provided, this will be the name of the identity. If omitted, the default name is the current class name + 'Id': class `Player` will get an identity of `PlayerId`.
 
-> If entity `Player` has a `GenerateIdentity`-attribute (with default arguments):
-> - `Player.Identity` references the identity type.
-> - `Player.Id` references the instance of the identity.
-
-## Entity with identity example
+## Entity with generated identity example
 
 The following example will generate a strongly typed identity for entity `Player`:
 
 ```cs
 [GenerateIdentity<Uuid]
-public partial class Player
+public class Player : Entity<PlayerId>
 {
+	public Player(PlayerId id) 
+		: base(id)
+	{
+	}
 }
 ```
 
@@ -751,118 +749,65 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using CodeChops.DomainModeling.Identities;
 
-public partial class Player : IHasId
-{	
-	public IId Id { get; } = new Identity();
+[StructLayout(LayoutKind.Auto)]
+public readonly record struct PlayerId : IId<PlayerId, global::CodeChops.DomainModeling.Identities.Uuid>
+{ 
+	[DebuggerHidden]
+	[EditorBrowsable(EditorBrowsableState.Never)]
+	public override string ToString() => this.ToDisplayString(new { this.Value, UnderlyingType = $"{typeof(global::CodeChops.DomainModeling.Identities.Uuid).GetNameWithTypeParameters()}" });
 
-	public readonly partial record struct Identity : IId<Identity, global::CodeChops.DomainModeling.Identities.Uuid>
-	{ 
-		[DebuggerHidden]
-		[EditorBrowsable(EditorBrowsableState.Never)]
-		public override string ToString() => this.ToDisplayString(new { this.Value, UnderlyingType = nameof(global::CodeChops.DomainModeling.Identities.Uuid) });
-
-		[EditorBrowsable(EditorBrowsableState.Never)]
-		public global::CodeChops.DomainModeling.Identities.Uuid Value { get; private init; }
-	
-		[DebuggerHidden]
-		[EditorBrowsable(EditorBrowsableState.Never)]
-		public static explicit operator Identity(global::CodeChops.DomainModeling.Identities.Uuid value) => new() { Value = value };
-		[DebuggerHidden]
-		[EditorBrowsable(EditorBrowsableState.Never)]
-		public static implicit operator global::CodeChops.DomainModeling.Identities.Uuid(Identity id) => id.Value;
-	
-		#region Comparison
-		[DebuggerHidden]
-		[EditorBrowsable(EditorBrowsableState.Never)]
-		public int CompareTo(Identity other) 
-			=> this.Value.CompareTo((Identity)other.GetValue());
-		
-		[DebuggerHidden]
-		[EditorBrowsable(EditorBrowsableState.Never)]
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static bool operator <	(Identity left, Identity right)	=> left.CompareTo(right) <	0;
-		[DebuggerHidden]
-		[EditorBrowsable(EditorBrowsableState.Never)]
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static bool operator <=	(Identity left, Identity right)	=> left.CompareTo(right) <= 0;
-		[DebuggerHidden]
-		[EditorBrowsable(EditorBrowsableState.Never)]
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static bool operator >	(Identity left, Identity right)	=> left.CompareTo(right) >	0;
-		[DebuggerHidden]
-		[EditorBrowsable(EditorBrowsableState.Never)]
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static bool operator >=	(Identity left, Identity right)	=> left.CompareTo(right) >= 0;
-		#endregion
-	
-		/// <summary>
-		/// Warning. Probably performs boxing!
-		/// </summary>
-		[DebuggerHidden]
-		public object GetValue() => this.Value;
-	
-		[DebuggerHidden]
-		public bool HasDefaultValue => this.Value.Equals(IId<global::CodeChops.DomainModeling.Identities.Uuid>.DefaultValue);
-	
-		[DebuggerHidden]
-		public Identity(global::CodeChops.DomainModeling.Identities.Uuid value)
-		{
-			this.Value = value;
-		}
-		
-		[DebuggerHidden]
-		public Identity()
-		{
-			this.Value = default(global::CodeChops.DomainModeling.Identities.Uuid);
-		}
-	}
+	[EditorBrowsable(EditorBrowsableState.Never)]
+	public global::CodeChops.DomainModeling.Identities.Uuid Value { get; private init; }
 
 	[DebuggerHidden]
 	[EditorBrowsable(EditorBrowsableState.Never)]
-	public sealed override int GetHashCode()
-	{
-		return this.Id.HasDefaultValue
-			? HashCode.Combine(this)
-			: this.Id.GetHashCode();
-	}
-
-	[DebuggerHidden]
-	[EditorBrowsable(EditorBrowsableState.Never)]	
-	public bool Equals(Player? other)
-	{
-		if (other is null) return false;
-		if (ReferenceEquals(this, other)) return true;
-		if (other.GetType() != this.GetType()) return false;
-		
-		return !this.Id.HasDefaultValue && this.Id.Equals(other.Id);
-	}
-
+	public static explicit operator PlayerId(global::CodeChops.DomainModeling.Identities.Uuid value) => new() { Value = value };
 	[DebuggerHidden]
 	[EditorBrowsable(EditorBrowsableState.Never)]
-	public sealed override bool Equals(object? obj)
-	{
-		return obj is Player other 
-		       && obj.GetType() == this.GetType() 
-		       && this.Equals(other);
-	}
+	public static implicit operator global::CodeChops.DomainModeling.Identities.Uuid(PlayerId id) => id.Value;
 
+	#region Comparison
 	[DebuggerHidden]
 	[EditorBrowsable(EditorBrowsableState.Never)]
-	public static bool operator ==(Player? left, Player? right)
-	{
-		if (left is null && right is null) return true;
-		if (left is null || right is null) return false;
-		return left.Equals(right);
-	}
+	public int CompareTo(PlayerId other) 
+		=> this.Value.CompareTo((PlayerId)other.Value);
 	
 	[DebuggerHidden]
 	[EditorBrowsable(EditorBrowsableState.Never)]
-	public static bool operator !=(Player? left, Player? right) 
-		=> !(left == right);
+	[MethodImpl(MethodImplOptions.AggressiveInlining)]
+	public static bool operator <	(PlayerId left, PlayerId right)	=> left.CompareTo(right) <	0;
+	[DebuggerHidden]
+	[EditorBrowsable(EditorBrowsableState.Never)]
+	[MethodImpl(MethodImplOptions.AggressiveInlining)]
+	public static bool operator <=	(PlayerId left, PlayerId right)	=> left.CompareTo(right) <= 0;
+	[DebuggerHidden]
+	[EditorBrowsable(EditorBrowsableState.Never)]
+	[MethodImpl(MethodImplOptions.AggressiveInlining)]
+	public static bool operator >	(PlayerId left, PlayerId right)	=> left.CompareTo(right) >	0;
+	[DebuggerHidden]
+	[EditorBrowsable(EditorBrowsableState.Never)]
+	[MethodImpl(MethodImplOptions.AggressiveInlining)]
+	public static bool operator >=	(PlayerId left, PlayerId right)	=> left.CompareTo(right) >= 0;
+	#endregion
+
+	/// <summary>
+	/// Warning. Probably performs boxing!
+	/// </summary>
+	[DebuggerHidden]
+	public object GetValue() => this.Value;
+
+	[DebuggerHidden]
+	public bool HasDefaultValue => this.Value.Equals(IId<PlayerId, global::CodeChops.DomainModeling.Identities.Uuid>.DefaultValue);
+
+	[DebuggerHidden]
+	public PlayerId(global::CodeChops.DomainModeling.Identities.Uuid value)
+	{
+		this.Value = value;
+	}
 }
-
 #nullable restore
 ```
 

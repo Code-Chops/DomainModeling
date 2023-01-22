@@ -1,9 +1,9 @@
 namespace CodeChops.DomainModeling.SourceGeneration.UnitTests.Identities;
 
-[GenerateIdentity<string>]
-public partial class StringIdGeneration : Entity<StringIdGeneration.Identity>
+[GenerateIdentity<string>(nameof(StringIdGenerationId))]
+public class StringIdGeneration : Entity<StringIdGenerationId>
 {
-	public StringIdGeneration(Identity id) 
+	public StringIdGeneration(StringIdGenerationId id) 
 		: base(id)
 	{
 	}

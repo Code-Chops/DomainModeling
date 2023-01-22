@@ -6,15 +6,15 @@ public class IdGenerationTests
 	[Fact]
 	public void Explicit_Id_ShouldBe_Generated()
 	{
-		var id = new EntityWithByteIdMock1.Identity();
+		var id = new EntityWithByteIdMock1Id();
 		Assert.Equal(typeof(byte), id.GetValue().GetType());
 	}
 	
 	[Fact]
 	public void Implicit_Id_ShouldBe_Generated()
 	{
-		var entityId = new EntityWithByteIdMock2.Identity();
-		var classId = new ClassWithId.Identity();
+		var entityId = new EntityWithByteIdMock2Id();
+		var classId = new ClassWithIdId();
 		Assert.Equal(typeof(ulong), entityId.GetValue().GetType());
 		Assert.Equal(typeof(ulong), classId.GetValue().GetType());
 	}
@@ -22,18 +22,18 @@ public class IdGenerationTests
 	[Fact]
 	public void ClassWithGenericType_Id_ShouldBe_Generated()
 	{
-		var entity = new ClassWithGenericType<int>.Identity();
+		var entity = new ClassWithGenericTypeId();
 		Assert.Equal(typeof(ulong), entity.GetValue().GetType());
 	}
 	
 	[Fact]
 	public void Id_WithoutValue_ShouldBe_Default()
 	{
-		var id1 = new EntityWithByteIdMock1.Identity();
-		var id2 = new EntityWithByteIdMock2.Identity();
-		var id3 = new ClassWithId.Identity();
-		var id4 = new ClassWithGenericType<int>.Identity();
-		var id5 = new ClassWithUuid.Identity();
+		var id1 = new EntityWithByteIdMock1Id();
+		var id2 = new EntityWithByteIdMock2Id();
+		var id3 = new ClassWithIdId();
+		var id4 = new ClassWithGenericTypeId();
+		var id5 = new ClassWithUuidId();
 		
 		Assert.True(id1.HasDefaultValue);
 		Assert.True(id2.HasDefaultValue);
@@ -45,11 +45,11 @@ public class IdGenerationTests
 	[Fact]
 	public void Id_WithValue_ShouldNotBe_Default()
 	{
-		var id1 = new EntityWithByteIdMock1.Identity(1);
-		var id2 = new EntityWithByteIdMock2.Identity(2);
-		var id3 = new ClassWithId.Identity(3);
-		var id4 = new ClassWithGenericType<int>.Identity(4);
-		var id5 = new ClassWithUuid.Identity(new Uuid("2FD110A01D304B4593B4D44680DE152C"));
+		var id1 = new EntityWithByteIdMock1Id(1);
+		var id2 = new EntityWithByteIdMock2Id(2);
+		var id3 = new ClassWithIdId(3);
+		var id4 = new ClassWithGenericTypeId(4);
+		var id5 = new ClassWithUuidId(new Uuid("2FD110A01D304B4593B4D44680DE152C"));
 		
 		Assert.False(id1.HasDefaultValue);
 		Assert.False(id2.HasDefaultValue);
@@ -61,16 +61,16 @@ public class IdGenerationTests
 	[Fact]
 	public void Ids_WithDifferentValue_ShouldNotBe_Equal()
 	{
-		var id1A = new EntityWithByteIdMock1.Identity(1);
-		var id1B = new EntityWithByteIdMock1.Identity(2);
-		var id2A = new EntityWithByteIdMock2.Identity(1);
-		var id2B = new EntityWithByteIdMock2.Identity(2);
-		var id3A = new ClassWithId.Identity(1);
-		var id3B = new ClassWithId.Identity(2);
-		var id4A = new ClassWithGenericType<int>.Identity(1);
-		var id4B = new ClassWithGenericType<int>.Identity(2);
-		var id5A = new ClassWithUuid.Identity(new Uuid("2FD110A01D304B4593B4D44680DE152C"));
-		var id5B = new ClassWithUuid.Identity(new Uuid("3AD110A01D304B4593B4D44680DE152D"));
+		var id1A = new EntityWithByteIdMock1Id(1);
+		var id1B = new EntityWithByteIdMock1Id(2);
+		var id2A = new EntityWithByteIdMock2Id(1);
+		var id2B = new EntityWithByteIdMock2Id(2);
+		var id3A = new ClassWithIdId(1);
+		var id3B = new ClassWithIdId(2);
+		var id4A = new ClassWithGenericTypeId(1);
+		var id4B = new ClassWithGenericTypeId(2);
+		var id5A = new ClassWithUuidId(new Uuid("2FD110A01D304B4593B4D44680DE152C"));
+		var id5B = new ClassWithUuidId(new Uuid("3AD110A01D304B4593B4D44680DE152D"));
 		
 		Assert.True(!id1A.Equals(id1B) && id1A != id1B);
 		Assert.True(!id2A.Equals(id2B) && id2A != id2B);
@@ -82,11 +82,11 @@ public class IdGenerationTests
 	[Fact]
 	public void Ids_OfDifferentType_ShouldNotBe_Equal()
 	{
-		var id1 = new EntityWithByteIdMock1.Identity(1);
-		var id2 = new EntityWithByteIdMock2.Identity(1);
-		var id3 = new ClassWithId.Identity(1);
-		var id4 = new ClassWithGenericType<int>.Identity(1);
-		var id5 = new ClassWithUuid.Identity(new Uuid("2FD110A01D304B4593B4D44680DE152C"));
+		var id1 = new EntityWithByteIdMock1Id(1);
+		var id2 = new EntityWithByteIdMock2Id(1);
+		var id3 = new ClassWithIdId(1);
+		var id4 = new ClassWithGenericTypeId(1);
+		var id5 = new ClassWithUuidId(new Uuid("2FD110A01D304B4593B4D44680DE152C"));
 		
 		Assert.False(id1.Equals(id2));
 		Assert.False(id2.Equals(id3));
@@ -97,16 +97,16 @@ public class IdGenerationTests
 	[Fact]
 	public void IdenticalIds_ShouldBe_Equal()
 	{
-		var id1A = new EntityWithByteIdMock1.Identity(1);
-		var id1B = new EntityWithByteIdMock1.Identity(1);
-		var id2A = new EntityWithByteIdMock2.Identity(1);
-		var id2B = new EntityWithByteIdMock2.Identity(1);
-		var id3A = new ClassWithId.Identity(1);
-		var id3B = new ClassWithId.Identity(1);
-		var id4A = new ClassWithGenericType<int>.Identity(1);
-		var id4B = new ClassWithGenericType<int>.Identity(1);
-		var id5A = new ClassWithUuid.Identity(new Uuid("2FD110A01D304B4593B4D44680DE152C"));
-		var id5B = new ClassWithUuid.Identity(new Uuid("2FD110A01D304B4593B4D44680DE152C"));
+		var id1A = new EntityWithByteIdMock1Id(1);
+		var id1B = new EntityWithByteIdMock1Id(1);
+		var id2A = new EntityWithByteIdMock2Id(1);
+		var id2B = new EntityWithByteIdMock2Id(1);
+		var id3A = new ClassWithIdId(1);
+		var id3B = new ClassWithIdId(1);
+		var id4A = new ClassWithGenericTypeId(1);
+		var id4B = new ClassWithGenericTypeId(1);
+		var id5A = new ClassWithUuidId(new Uuid("2FD110A01D304B4593B4D44680DE152C"));
+		var id5B = new ClassWithUuidId(new Uuid("2FD110A01D304B4593B4D44680DE152C"));
 		
 		Assert.True(id1A.Equals(id1B) && id1A == id1B);
 		Assert.True(id2A.Equals(id2B) && id2A == id2B);
@@ -118,16 +118,16 @@ public class IdGenerationTests
 	[Fact]
 	public void DefaultIds_ShouldBe_Equal()
 	{
-		var id1A = new EntityWithByteIdMock1.Identity();
-		var id1B = new EntityWithByteIdMock1.Identity();
-		var id2A = new EntityWithByteIdMock2.Identity();
-		var id2B = new EntityWithByteIdMock2.Identity();
-		var id3A = new ClassWithId.Identity();
-		var id3B = new ClassWithId.Identity();
-		var id4A = new ClassWithGenericType<int>.Identity();
-		var id4B = new ClassWithGenericType<int>.Identity();
-		var id5A = new ClassWithUuid.Identity();
-		var id5B = new ClassWithUuid.Identity();
+		var id1A = new EntityWithByteIdMock1Id();
+		var id1B = new EntityWithByteIdMock1Id();
+		var id2A = new EntityWithByteIdMock2Id();
+		var id2B = new EntityWithByteIdMock2Id();
+		var id3A = new ClassWithIdId();
+		var id3B = new ClassWithIdId();
+		var id4A = new ClassWithGenericTypeId();
+		var id4B = new ClassWithGenericTypeId();
+		var id5A = new ClassWithUuidId();
+		var id5B = new ClassWithUuidId();
 		
 		Assert.True(id1A.Equals(id1B) && id1A == id1B);
 		Assert.True(id2A.Equals(id2B) && id2A == id2B);
@@ -139,11 +139,11 @@ public class IdGenerationTests
 	[Fact]
 	public void DefaultIds_OfDifferentTypes_ShouldNotBe_Equal()
 	{
-		var id1 = new EntityWithByteIdMock1.Identity();
-		var id2 = new EntityWithByteIdMock2.Identity();
-		var id3 = new ClassWithId.Identity();
-		var id4 = new ClassWithGenericType<int>.Identity();
-		var id5 = new ClassWithUuid.Identity();
+		var id1 = new EntityWithByteIdMock1Id();
+		var id2 = new EntityWithByteIdMock2Id();
+		var id3 = new ClassWithIdId();
+		var id4 = new ClassWithGenericTypeId();
+		var id5 = new ClassWithUuidId();
 		
 		Assert.False(id1.Equals(id2));
 		Assert.False(id2.Equals(id3));

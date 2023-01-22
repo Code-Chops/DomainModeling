@@ -1,54 +1,50 @@
 ﻿namespace CodeChops.DomainModeling.SourceGeneration.UnitTests.Identities;
 
 [GenerateIdentity<byte>]
-public partial class EntityWithByteIdMock1 : Entity<EntityWithByteIdMock1.Identity>
+public class EntityWithByteIdMock1 : Entity<EntityWithByteIdMock1Id>
 {
-	public EntityWithByteIdMock1(Identity id) 
+	public EntityWithByteIdMock1(EntityWithByteIdMock1Id id) 
 		: base(id)
 	{
 	}
 }
 
 [GenerateIdentity]
-public partial class EntityWithByteIdMock2 : Entity<EntityWithByteIdMock2.Identity>
+public class EntityWithByteIdMock2 : Entity<EntityWithByteIdMock2Id>
 {
-	public EntityWithByteIdMock2(Identity id) 
+	public EntityWithByteIdMock2(EntityWithByteIdMock2Id id) 
 		: base(id)
 	{
 	}
 }
 
 [GenerateIdentity]
-public partial record RecordWithId;
+public record RecordWithId;
 
 [GenerateIdentity]
 // ReSharper disable once UnusedTypeParameter
-public partial record RecordWithGenericType<T>;
+public record RecordWithGenericType<T>;
 
 [GenerateIdentity]
-public partial class ClassWithId
+public class ClassWithId
 {
 }
 
 [GenerateIdentity]
 // ReSharper disable once UnusedTypeParameter
-public partial class ClassWithGenericType<T>
+public class ClassWithGenericType<T>
 {
 }
 
 [GenerateIdentity<Uuid>]
-public partial class ClassWithUuid
+public class ClassWithUuid
 {
 }
 
 [GenerateIdentity<GeneratedValueObjectId>]
-public partial class ClassWithGeneratedValueObjectId
+public class ClassWithGeneratedValueObjectId
 {
 }
 
-public class EntityWithGeneratedId
-{
-	[GenerateValueObject<int>(minimumValue: 9, maximumValue: Int32.MaxValue, useValidationExceptions: false)]
-	public readonly partial record struct GeneratedValueObjectId;
-}
-
+[GenerateValueObject<int>(minimumValue: 9, maximumValue: Int32.MaxValue, useValidationExceptions: false)]
+public readonly partial record struct GeneratedValueObjectId;

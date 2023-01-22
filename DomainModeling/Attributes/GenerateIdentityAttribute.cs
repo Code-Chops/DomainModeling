@@ -11,10 +11,10 @@ namespace CodeChops.DomainModeling.Attributes;
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct)]
 public sealed class GenerateIdentity : Attribute
 {
-	/// <param name="name">If not provided, 'Identity' will be the default name.</param>
-	/// <param name="propertyName">If not provided, 'Id' will be the default property name.</param>
+	/// <param name="name">If provided, this will be the name of the identity. If omitted, the default name is the current class name + 'Id': class 'Player' will get an identity of 'PlayerId'.</param>
+	/// <param name="createNestedStruct">If true, the created identity will be nested in the current class (default: false).</param>
 	// ReSharper disable twice UnusedParameter.Local
-	public GenerateIdentity(string? name = null, string? propertyName = null)
+	public GenerateIdentity(string? name = null, bool createNestedStruct = false)
 	{
 		// These parameters will be read from the attribute arguments itself and therefore don't need to be assigned.
 	}

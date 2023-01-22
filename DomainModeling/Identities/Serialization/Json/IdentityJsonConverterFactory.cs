@@ -14,7 +14,7 @@ public sealed class IdentityJsonConverterFactory : JsonConverterFactory
 
 	public override JsonConverter CreateConverter(Type typeToConvert, JsonSerializerOptions options)
 	{
-		var idUnderlying = typeToConvert.GetProperty(nameof(IId<int>.Value))?.PropertyType
+		var idUnderlying = typeToConvert.GetProperty("Value")?.PropertyType
 		                  ?? throw new InvalidOperationException($"Underlying type of {typeToConvert.Name} was not found.");
 		
 		var converter = Activator.CreateInstance(

@@ -7,7 +7,7 @@ using System.Text.Json.Serialization;
 namespace CodeChops.DomainModeling.Identities.Serialization.Json;
 
 internal sealed class IdentityJsonConverter<TId, TUnderlying> : JsonConverter<TId>
-	where TId : IId<TUnderlying>
+	where TId : IId<TId, TUnderlying>
 	where TUnderlying : IEquatable<TUnderlying?>, IComparable<TUnderlying?>
 {
 	public override bool CanConvert(Type typeToConvert) 
@@ -18,7 +18,8 @@ internal sealed class IdentityJsonConverter<TId, TUnderlying> : JsonConverter<TI
 	public override TId? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
 	{
 		// Check for null values
-		if (reader.TokenType == JsonTokenType.Null) return default;
+		if (reader.TokenType == JsonTokenType.Null) 
+			return default;
 		
 		if (reader.TokenType is not JsonTokenType.String and not JsonTokenType.Number) 
 			throw new JsonException($"Unexpected token found in JSON: {reader.TokenType}. Expected: {JsonTokenType.String}.");
@@ -30,8 +31,8 @@ internal sealed class IdentityJsonConverter<TId, TUnderlying> : JsonConverter<TI
 		if (type is null)
 			throw new InvalidOperationException($"Expected type '{typeof(TId).Name}' to have a base type.");
 		
-		var propertyInfo = type.GetProperty(nameof(IId<TUnderlying>.Value), BindingFlags.Instance | BindingFlags.Public | BindingFlags.GetProperty)
-			?? throw new InvalidOperationException($"Could not find settable property '{nameof(IId<TUnderlying>.Value)}' of {typeof(TId).Name}.");
+		var propertyInfo = type.GetProperty(nameof(IId<TId, TUnderlying>.Value), BindingFlags.Instance | BindingFlags.Public | BindingFlags.GetProperty)
+			?? throw new InvalidOperationException($"Could not find settable property '{nameof(IId<TId, TUnderlying>.Value)}' of {typeof(TId).Name}.");
 		
 		var underlyingValue = DefaultConverter.Read(ref reader, typeof(TUnderlying), options)!;
 		

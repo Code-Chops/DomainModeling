@@ -4,9 +4,10 @@
 /// An abstract entity that holds a list and which provides a public readable api. The implementation can decide if this can be mutable or not.
 /// </summary>
 /// <typeparam name="TElement">The type of the elements in the list.</typeparam>
-public abstract class ListEntity<TSelf, TElement> : Entity, IReadOnlyList<TElement>
-	where TSelf : ListEntity<TSelf, TElement>
+public abstract class ListEntity<TSelf, TElement, TId> : Entity<TId>, IReadOnlyList<TElement>
+	where TSelf : ListEntity<TSelf, TElement, TId>
 	where TElement : IDomainObject
+	where TId : IId<TId>
 {
 	public override string ToString() => this.ToDisplayString(new { TDomainObject = typeof(TElement).Name });
 	
@@ -20,4 +21,9 @@ public abstract class ListEntity<TSelf, TElement> : Entity, IReadOnlyList<TEleme
 
 	IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
 	public IEnumerator<TElement> GetEnumerator() => this.List.GetEnumerator();
+
+	protected ListEntity(TId id) 
+		: base(id)
+	{
+	}
 }

@@ -1,13 +1,21 @@
 ﻿namespace CodeChops.DomainModeling.SourceGeneration.UnitTests.Identities;
 
 [GenerateIdentity<byte>]
-public partial class EntityWithByteIdMock1 : Entity
+public partial class EntityWithByteIdMock1 : Entity<EntityWithByteIdMock1.Identity>
 {
+	public EntityWithByteIdMock1(Identity id) 
+		: base(id)
+	{
+	}
 }
 
 [GenerateIdentity]
-public partial class EntityWithByteIdMock2 : Entity
+public partial class EntityWithByteIdMock2 : Entity<EntityWithByteIdMock2.Identity>
 {
+	public EntityWithByteIdMock2(Identity id) 
+		: base(id)
+	{
+	}
 }
 
 [GenerateIdentity]

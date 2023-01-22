@@ -1,11 +1,5 @@
 ﻿namespace CodeChops.DomainModeling;
 
-/// <inheritdoc cref="IEntity"/>
-public interface IEntity<TSelf> : IEntity, IEquatable<TSelf?>
-	where TSelf : IEntity<TSelf>
-{
-}
-
 /// <summary>
 /// <para>
 /// Entities have an inherent identity and therefore need an ID.
@@ -15,17 +9,17 @@ public interface IEntity<TSelf> : IEntity, IEquatable<TSelf?>
 /// <item><see cref="GenerateIdentity{T}"/></item>
 /// </list>
 /// Entities have a long lifespan and are mutable.
-/// They can belong to only one single <see cref="AggregateRoot"/>.
+/// They can belong to only one single <see cref="AggregateRoot{TId}"/>.
 /// </para>
 /// <para>
 /// If an entity uses a collection under the hood, you can make use of the following base-entities:
 /// <list type="bullet">
-/// <item><see cref="DictionaryEntity{TSelf,TKey,TValue}"/></item>
-/// <item><see cref="HashSetEntity{T}"/></item>
-/// <item><see cref="ListEntity{TSelf, TElement}"/></item>
+/// <item><see cref="DictionaryEntity{TSelf,TKey,TValue,TId}"/></item>
+/// <item><see cref="HashSetEntity{T,TId}"/></item>
+/// <item><see cref="ListEntity{TSelf, TElement,TId}"/></item>
 /// </list>
 /// </para>
 /// </summary>
-public interface IEntity : IDomainObject, IHasId
+public interface IEntity : IDomainObject
 {
 }

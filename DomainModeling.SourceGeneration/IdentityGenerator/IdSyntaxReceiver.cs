@@ -60,7 +60,7 @@ internal static class IdSyntaxReceiver
 		return data;
 	}
 
-	private static IdGenerationMethod GetClassType(INamedTypeSymbol type, bool isEntityBase)
+	private static IdGenerationMethod GetClassType(ITypeSymbol type, bool isEntityBase)
 	{
 		if (isEntityBase)
 			return IdGenerationMethod.EntityBase;

@@ -67,58 +67,63 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using CodeChops.DomainModeling.Identities;
+");
 
-{GetNamespaceDeclaration()}
+		code.AppendLine(GetNamespaceDeclaration);
+		code.AppendLine(GetClassDeclaration());
 
-{GetClassDeclaration()}
-{{	
-	{GetIdPropertyCreation()}
-	{GetIdObjectCreation()}
-	{GetEqualityComparison()}
-}}
+		code.Append(@"
+{
+".Trim());
+		
+		code.AppendLine(GetIdPropertyCreation, trimEnd: true);
+		code.AppendLine(GetIdObjectCreation, trimEnd: true);
+		code.AppendLine(GetEqualityComparison, trimEnd: true);
+		code.AppendLine(@"
+}
 
 #nullable restore
-").TrimEnd();
+".Trim());
 
 		return code.ToString();
 
 
 		// Creates the namespace definition of the location of the enum definition (or null if the namespace is not defined).
 		string? GetNamespaceDeclaration() 
-			=> data.Namespace is null ? null : $@"namespace {data.Namespace};";
+			=> data.Namespace is null ? null : $@"
+namespace {data.Namespace};
+";
 
 
 		string GetClassDeclaration()
 		{
-			var iHasIdImplementation = data.IdGenerationMethod != IdGenerationMethod.EntityBase && data.IdPropertyName == DefaultIdPropertyName 
-				? " : IHasId"
-				: null;
-			
 			var iIsEquatable = data.IdGenerationMethod == IdGenerationMethod.Record
-				? $"{(iHasIdImplementation is null ? null : ", ")}IEquatable<{className}?>"
+				? $" : IEquatable<{className}?>"
 				: null;
 			
-			var code = $"{data.OuterClassDeclaration} {className}{iHasIdImplementation}{iIsEquatable}";
+			var code = $"{data.OuterClassDeclaration} {className}{iIsEquatable}";
 			return code;
 		}
 		
 		
-		string GetIdPropertyCreation()
+		string? GetIdPropertyCreation()
 		{
 			if (data.IdGenerationMethod == IdGenerationMethod.EntityBase)
 			{
 				return @$"
 	[DebuggerHidden]
-	public abstract IId {data.IdPropertyName} {{ get; }}
-".TrimStart();
+	public TId {data.IdPropertyName} {{ get; }}
+";
 			}
 
-			var code = $@"
-	public {(data.IdGenerationMethod == IdGenerationMethod.EntityImplementation ? "override " : "")}IId {data.IdPropertyName} {{ get; }} = new {data.IdTypeName}();
-".TrimStart();
-
-			return code;
+			if (data.IdGenerationMethod == IdGenerationMethod.EntityImplementation)
+				return null;
+			
+			return $@"
+	public {data.IdTypeName} {data.IdPropertyName} {{ get; }}
+";
 		}
 
 		
@@ -134,7 +139,7 @@ using CodeChops.DomainModeling.Identities;
 			code.Append(@$"
 	[DebuggerHidden]
 	[EditorBrowsable(EditorBrowsableState.Never)]
-	public {(isRecord ? null : "sealed")} override int GetHashCode()
+	public {(isRecord ? null : "sealed ")}override int GetHashCode()
 	{{
 		return this.Id.HasDefaultValue
 			? HashCode.Combine(this)
@@ -181,7 +186,7 @@ using CodeChops.DomainModeling.Identities;
 ");
 			}
 			
-			return code.ToString().Trim();
+			return code.ToString();
 		}
 		
 		
@@ -191,6 +196,7 @@ using CodeChops.DomainModeling.Identities;
 				return null;
 			
 			var code = $@"
+	[StructLayout(LayoutKind.Auto)]
 	public readonly partial record struct {data.IdTypeName} : IId<{data.IdTypeName}, {data.UnderlyingTypeFullName}>
 	{{ 
 		[DebuggerHidden]
@@ -238,7 +244,7 @@ using CodeChops.DomainModeling.Identities;
 		public object{data.NullOperator} GetValue() => this.Value;
 	
 		[DebuggerHidden]
-		public bool HasDefaultValue => this.Value{data.NullOperator}.Equals(IId<{data.UnderlyingTypeFullName}>.DefaultValue){(data.NullOperator is not null ? "?? true" : null)};
+		public bool HasDefaultValue => this.Value{data.NullOperator}.Equals(IId<{data.IdTypeName}, {data.UnderlyingTypeFullName}>.DefaultValue){(data.NullOperator is not null ? "?? true" : null)};
 	
 		[DebuggerHidden]
 		public {data.IdTypeName}({data.UnderlyingTypeFullName} value)
@@ -254,7 +260,7 @@ using CodeChops.DomainModeling.Identities;
 	}}
 ";
 
-			return code.TrimStart();
+			return code;
 		}
 	}
 }

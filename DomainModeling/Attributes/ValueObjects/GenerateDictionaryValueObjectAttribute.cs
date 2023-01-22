@@ -9,8 +9,7 @@
 /// <typeparam name="TKey">The type of the dictionary keys.</typeparam>
 /// <typeparam name="TValue">The type of the dictionary values.</typeparam>
 [AttributeUsage(AttributeTargets.Struct | AttributeTargets.Class)]
-public sealed class GenerateDictionaryValueObjectAttribute<TKey, TValue> : GenerateDictionaryValueObjectAttributeBase 
-	where TKey : IComparable<TKey> 
+public sealed class GenerateDictionaryValueObjectAttribute<TKey, TValue> : GenerateDictionaryValueObjectAttributeBase
 {
 	/// <inheritdoc />
 	public GenerateDictionaryValueObjectAttribute(int minimumCount = Int32.MinValue, int maximumCount = Int32.MaxValue, bool generateEnumerable = true, 

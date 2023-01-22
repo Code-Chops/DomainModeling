@@ -4,7 +4,7 @@
 /// A singleton ID for entities that only have one ID per type. 
 /// </summary>
 public sealed record SingletonId<TEntity> : Id<SingletonId<TEntity>, string>
-    where TEntity : Entity
+    where TEntity : Entity<SingletonId<TEntity>>
 {
     public static SingletonId<TEntity> Instance { get; } = new();
     

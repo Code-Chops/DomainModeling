@@ -10,7 +10,7 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>2.4.2</Version>
+        <Version>2.5.0</Version>
         <PackageReleaseNotes>Added GetNameWithGenerics to TypeExtensions (fixed).</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainModeling</Title>

@@ -5,8 +5,3 @@ public interface IHasId<out TId>
 {
 	TId Id { get; }
 }
-
-public interface IHasId
-{
-	IId Id { get; }
-}

@@ -5,10 +5,11 @@
 /// </summary>
 /// <typeparam name="TKey">The type of the keys in the dictionary (which should be a domain object).</typeparam>
 /// <typeparam name="TValue">The type of the values in the dictionary (which should be a domain object).</typeparam>
-public abstract class DictionaryEntity<TSelf, TKey, TValue> : Entity, IReadOnlyDictionary<TKey, TValue>
-	where TSelf : DictionaryEntity<TSelf, TKey, TValue>
+public abstract class DictionaryEntity<TSelf, TKey, TValue, TId> : Entity<TId>, IReadOnlyDictionary<TKey, TValue>
+	where TSelf : DictionaryEntity<TSelf, TKey, TValue, TId>
 	where TKey : IDomainObject
 	where TValue : IDomainObject
+	where TId : IId<TId>
 {
 	public override string ToString() => this.ToDisplayString(new { TId = typeof(TKey).Name, TDomainObject = typeof(TValue).Name });
 	
@@ -28,4 +29,9 @@ public abstract class DictionaryEntity<TSelf, TKey, TValue> : Entity, IReadOnlyD
 
 	public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator() => this.Dictionary.GetEnumerator();
 	IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
+
+	protected DictionaryEntity(TId id) 
+		: base(id)
+	{
+	}
 }

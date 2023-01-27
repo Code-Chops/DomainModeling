@@ -7,6 +7,9 @@ namespace CodeChops.DomainModeling.Identities;
 /// An abstract identifier with a generic type as underlying value.
 /// </para>
 /// <para>
+/// <b>Don't add extra properties (besides <see cref="Value"/>) when implementing this base class as they will be ignored.</b>
+/// </para>
+/// <para>
 /// <em>Prefer to use ID generation <see cref="GenerateIdentity{TNumber}"/> in order to use struct IDs.</em>
 /// </para>
 /// </summary>
@@ -20,12 +23,7 @@ public abstract record Id<TSelf, TUnderlying> : IId<TSelf, TUnderlying>
 	// ReSharper disable once MemberCanBePrivate.Global
 	public TUnderlying Value { get; protected init; }
 
-	/// <summary>
-	/// Create new instances when explicitly casting. Used to avoid the new() constraint.
-	/// </summary>
-	private static readonly TSelf CachedUninitializedMember = (TSelf)FormatterServices.GetUninitializedObject(typeof(TSelf));
-	
-	public static explicit operator Id<TSelf, TUnderlying>(TUnderlying value) => CachedUninitializedMember with { Value = value };
+	public static explicit operator Id<TSelf, TUnderlying>(TUnderlying value) => Create() with { Value = value };
 	public static implicit operator TUnderlying(Id<TSelf, TUnderlying> id) => id.Value;
 
 	#region Comparison
@@ -57,5 +55,18 @@ public abstract record Id<TSelf, TUnderlying> : IId<TSelf, TUnderlying>
 	protected Id()
 	{
 		this.Value = default!;
+	}
+
+	/// <summary>
+	/// Create new instances when explicitly casting. Used to avoid the new() constraint.
+	/// </summary>
+	private static readonly TSelf CachedUninitializedMember = (TSelf)FormatterServices.GetUninitializedObject(typeof(TSelf));
+
+	/// <summary>
+	/// Initializes the ID with a default value.
+	/// </summary>
+	public static TSelf Create(Validator? validator = null)
+	{
+		return CachedUninitializedMember with { Value = default! };
 	}
 }

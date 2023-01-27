@@ -10,8 +10,8 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>2.7.0</Version>
-        <PackageReleaseNotes>Reordered entity collections type parameters.</PackageReleaseNotes>
+        <Version>2.8.0</Version>
+        <PackageReleaseNotes>ID is now Creatable without parameters (not newable).</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>

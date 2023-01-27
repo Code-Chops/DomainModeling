@@ -12,4 +12,12 @@ public sealed record SingletonId<TEntity> : Id<SingletonId<TEntity>, string>
         : base(typeof(TEntity).FullName ?? typeof(TEntity).Name)
     {
     }
+    
+    /// <summary>
+    /// Returns the <see cref="Instance"/>. 
+    /// </summary>
+    public static new SingletonId<TEntity> Create(Validator? validator = null)
+    {
+	    return Instance;
+    }
 }

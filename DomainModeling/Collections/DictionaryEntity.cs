@@ -29,9 +29,4 @@ public abstract class DictionaryEntity<TSelf, TId, TKey, TValue> : Entity<TId>, 
 
 	public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator() => this.Dictionary.GetEnumerator();
 	IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
-
-	protected DictionaryEntity(TId id) 
-		: base(id)
-	{
-	}
 }

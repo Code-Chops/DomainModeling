@@ -24,9 +24,4 @@ public abstract class AggregateRoot<TId> : Entity<TId>
 	where TId : IId<TId>
 {
 	public override string ToString() => this.ToDisplayString(extraText: nameof(AggregateRoot<TId>));
-
-	protected AggregateRoot(TId id) 
-		: base(id)
-	{
-	}
 }

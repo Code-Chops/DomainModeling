@@ -25,9 +25,4 @@ public abstract class HashSetEntity<TId, TElement> : Entity<TId>, IReadOnlySet<T
 	public bool IsSupersetOf(IEnumerable<TElement> other) => this.HashSet.IsSupersetOf(other);
 	public bool Overlaps(IEnumerable<TElement> other) => this.HashSet.Overlaps(other);
 	public bool SetEquals(IEnumerable<TElement> other) => this.HashSet.SetEquals(other);
-
-	protected HashSetEntity(TId id) 
-		: base(id)
-	{
-	}
 }

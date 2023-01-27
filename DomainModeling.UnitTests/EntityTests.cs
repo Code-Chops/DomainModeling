@@ -9,23 +9,17 @@ public class EntityTests
 
 	private class EntityMock1 : Entity<IdMock>
 	{
-		public EntityMock1(IdMock id) : base(id)
-		{
-		}
 	}
 	
 	private class EntityMock2 : Entity<IdMock>
 	{
-		public EntityMock2(IdMock id) : base(id)
-		{
-		}
 	}
 	
 	[Fact]
 	public void Entities_WithSameId_ShouldBe_Equal()
 	{
-		var entity1 = new EntityMock1(new IdMock(1));
-		var entity2 = new EntityMock1(new IdMock(1));
+		var entity1 = new EntityMock1() { Id = new IdMock(1) };
+		var entity2 = new EntityMock1() { Id = new IdMock(1) };
 		
 		Assert.Equal(entity1, entity2);
 		Assert.True(entity1 == entity2);
@@ -34,8 +28,8 @@ public class EntityTests
 	[Fact]
 	public void Entities_WithDifferentIds_ShouldNotBe_Equal()
 	{
-		var entity1 = new EntityMock1(new IdMock(1));
-		var entity2 = new EntityMock1(new IdMock(2));
+		var entity1 = new EntityMock1() { Id = new IdMock(1) };
+		var entity2 = new EntityMock1() { Id = new IdMock(2) };
 		
 		Assert.NotEqual(entity1, entity2);
 		Assert.False(entity1 == entity2);
@@ -44,8 +38,8 @@ public class EntityTests
 	[Fact]
 	public void Entities_OfDifferentType_ShouldNotBe_Equal()
 	{
-		var entity1 = new EntityMock1(new IdMock(1));
-		var entity2 = new EntityMock2(new IdMock(1));
+		var entity1 = new EntityMock1() { Id = new IdMock(1) };
+		var entity2 = new EntityMock2() { Id = new IdMock(1) };
 		
 		Assert.NotEqual(entity1, (IEntity)entity2);
 		Assert.False(entity1 == entity2);
@@ -54,8 +48,8 @@ public class EntityTests
 	[Fact]
 	public void DifferentEntities_WithDefaultIds_ShouldNotBe_Equal()
 	{
-		var entity1 = new EntityMock1(null!);
-		var entity2 = new EntityMock2(null!);
+		var entity1 = new EntityMock1();
+		var entity2 = new EntityMock2();
 		
 		Assert.NotEqual(entity1, (IEntity)entity2);
 		Assert.False(entity1 == entity2);
@@ -64,7 +58,7 @@ public class EntityTests
 	[Fact]
 	public void SameEntities_WithDefaultIds_ShouldBe_Equal()
 	{
-		var entity1 = new EntityMock1(null!);
+		var entity1 = new EntityMock1();
 		var entity2 = entity1;
 		
 		Assert.Equal(entity1, entity2);

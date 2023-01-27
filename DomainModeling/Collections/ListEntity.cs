@@ -21,9 +21,4 @@ public abstract class ListEntity<TSelf, TId, TElement> : Entity<TId>, IReadOnlyL
 
 	IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
 	public IEnumerator<TElement> GetEnumerator() => this.List.GetEnumerator();
-
-	protected ListEntity(TId id) 
-		: base(id)
-	{
-	}
 }

@@ -3,19 +3,11 @@
 [GenerateIdentity<byte>]
 public class EntityWithByteIdMock1 : Entity<EntityWithByteIdMock1Id>
 {
-	public EntityWithByteIdMock1(EntityWithByteIdMock1Id id) 
-		: base(id)
-	{
-	}
 }
 
 [GenerateIdentity]
 public class EntityWithByteIdMock2 : Entity<EntityWithByteIdMock2Id>
 {
-	public EntityWithByteIdMock2(EntityWithByteIdMock2Id id) 
-		: base(id)
-	{
-	}
 }
 
 [GenerateIdentity]

@@ -6,12 +6,7 @@ public abstract class Entity<TId> : IEntity, IEquatable<Entity<TId>?>, IHasId<TI
 {
 	public override string ToString() => this.ToDisplayString(new { this.Id });
 
-	public TId Id { get; }
-	
-	protected Entity(TId id)
-	{
-		this.Id = id;
-	}
+	public TId Id { get; init; } = TId.Create();
 	
 	public sealed override int GetHashCode()
 	{

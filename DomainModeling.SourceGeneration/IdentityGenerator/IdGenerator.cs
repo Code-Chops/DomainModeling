@@ -106,8 +106,7 @@ public readonly partial record struct {data.IdTypeName} : IId<{data.IdTypeName},
 	#region Comparison
 	[DebuggerHidden]
 	[EditorBrowsable(EditorBrowsableState.Never)]
-	public int CompareTo({data.IdTypeName} other) 
-		=> this.Value{data.NullOperator}.CompareTo(({data.IdTypeName})other.Value){(data.NullOperator is not null ? " ?? 1" : null)};
+	public int CompareTo({data.IdTypeName} other) => Comparer<{data.UnderlyingTypeFullName}>.Default.Compare(this.Value, other.Value);
 	
 	[DebuggerHidden]
 	[EditorBrowsable(EditorBrowsableState.Never)]
@@ -140,6 +139,15 @@ public readonly partial record struct {data.IdTypeName} : IId<{data.IdTypeName},
 	public {data.IdTypeName}({data.UnderlyingTypeFullName} value)
 	{{
 		this.Value = value;
+	}}
+
+	/// <summary>
+	/// Initializes the ID with a default value.
+	/// </summary>
+	[DebuggerHidden]
+	public static {data.IdTypeName} Create(Validator? validator = null)
+	{{
+		return new(default);
 	}}
 }}
 ";

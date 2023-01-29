@@ -10,8 +10,8 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>2.8.0</Version>
-        <PackageReleaseNotes>ID is now Creatable without parameters (not newable).</PackageReleaseNotes>
+        <Version>2.8.1</Version>
+        <PackageReleaseNotes>Fix open generic type parameter substitution for value object generation.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>

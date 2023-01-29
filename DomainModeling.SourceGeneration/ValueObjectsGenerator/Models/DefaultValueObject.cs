@@ -69,7 +69,7 @@ public sealed record DefaultValueObject : ValueObjectBase
 			return namedTypeParameter;
 		}
 
-		if (typeParameter is null || (providedUnderlyingType is not null && providedUnderlyingType.TypeArguments.OfType<INamedTypeSymbol>().Any(type => type.InstanceConstructors.Length == 0)))
+		if (typeParameter is null || (providedUnderlyingType is not null && providedUnderlyingType.IsUnboundGenericType))
 		{
 			parameterSubstitute = typeParameter;
 			return providedUnderlyingType;

@@ -384,6 +384,8 @@ public class ValueObjectGenerator : IIncrementalGenerator
 			
 			if (data.GenerateDefaultConstructor)
 			{
+				code.AppendLine(data.GetExtraConstructorCode());
+				
 				code.Append(@$"
 	[DebuggerHidden] 
 	public {data.ValueObjectType.Name}({data.UnderlyingTypeName} {data.LocalVariableName}, Validator? validator = null)

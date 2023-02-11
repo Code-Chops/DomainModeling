@@ -1,6 +1,6 @@
 namespace CodeChops.DomainModeling.SourceGeneration.ValueObjectsGenerator.Models;
 
-public record ListValueObject : ValueObjectBase, IEnumerableValueObject
+public sealed record ListValueObject : ValueObjectBase, IEnumerableValueObject
 {
 	public ListValueObject(
 		INamedTypeSymbol valueObjectType,
@@ -72,28 +72,30 @@ public record ListValueObject : ValueObjectBase, IEnumerableValueObject
 		return $@"An immutable value object with an immutable list of <{attribute}=""{this.ProvidedElementType.GetTypeNameWithGenericParameters().Replace('<', '{').Replace('>', '}')}""/> as underlying value.";
 	}
 
-	public override string GetToStringCode()		=> $"public override string ToString() => this.ToDisplayString(new {{ Type = \"{this.ElementTypeName}\" }}, extraText: this.Count.ToString());";
+	public override string GetToStringCode()			=> $"public override string ToString() => this.ToDisplayString(new {{ Type = \"{this.ElementTypeName}\" }}, extraText: this.Count.ToString());";
 	
-	public override string? GetInterfacesCode()		=> this.GenerateEnumerable ? $"IReadOnlyList<{this.ElementTypeName}>" : null;
+	public override string? GetInterfacesCode()			=> this.GenerateEnumerable ? $"IReadOnlyList<{this.ElementTypeName}>" : null;
 
-	public override string GetHashCodeCode()		=> $"public override int GetHashCode() => this.Count == 0 ? 1 : 2;";
+	public override string GetHashCodeCode()			=> "public override int GetHashCode() => this.Count == 0 ? 1 : 2;";
 
-	public override string GetEqualsCode()			=> $@"public {(this.IsUnsealedRecordClass ? "virtual " : null)}bool Equals({this.Name}{this.ValueObjectNullOperator} other)
+	public override string GetEqualsCode()				=> $@"public {(this.IsUnsealedRecordClass ? "virtual " : null)}bool Equals({this.Name}{this.ValueObjectNullOperator} other)
 	{{
 		if (ReferenceEquals(this.{this.PropertyName}, other{this.ValueObjectNullOperator}.{this.PropertyName})) return true;
 		if (other{this.ValueObjectNullOperator}.{this.PropertyName} is not {{ }} otherValue) return false;
 		return this.{this.PropertyName}.SequenceEqual(otherValue);
 	}}";
-	public override string GetObjectEqualsCode()	=> $"public override {(this.IsUnsealedRecordClass ? "virtual " : null)}bool Equals(object? other) => other is {this.Name} {this.LocalVariableName} && this.Equals({this.LocalVariableName});";
+	public override string GetObjectEqualsCode()		=> $"public override {(this.IsUnsealedRecordClass ? "virtual " : null)}bool Equals(object? other) => other is {this.Name} {this.LocalVariableName} && this.Equals({this.LocalVariableName});";
 
-	public override string? GetCompareToCode()		=> null;
+	public override string? GetCompareToCode()			=> null;
 
-	public override string GetDefaultValue()		=> $"ImmutableList<{this.ElementTypeName}>.Empty";
+	public override string GetDefaultValue()			=> $"ImmutableList<{this.ElementTypeName}>.Empty";
 	
-	public override string GetLengthOrCountCode()	=> $"public int Count => this.{this.PropertyName}.Count;";
+	public override string GetLengthOrCountCode()		=> $"public int Count => this.{this.PropertyName}.Count;";
 
-	public override string GetExtraCastCode()		=> $"public static explicit operator {this.Name}({this.UnderlyingTypeNameBase ?? this.UnderlyingTypeName} {this.LocalVariableName}) => new({this.LocalVariableName}.ToImmutableList());";
+	public override string GetExtraCastCode()			=> $"public static explicit operator {this.Name}({this.UnderlyingTypeNameBase ?? this.UnderlyingTypeName} {this.LocalVariableName}) => new({this.LocalVariableName}.ToImmutableList());";
 
+	public override string? GetExtraConstructorCode()	=> null;
+	
 	public override string GetValidationCode(string errorCodeStart)
 	{
 		var validation = new StringBuilder();

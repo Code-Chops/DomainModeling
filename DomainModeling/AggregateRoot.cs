@@ -20,7 +20,7 @@
 /// Aggregates can only reference to each other by id.
 /// </para>
 /// </summary>
-public abstract class AggregateRoot<TId> : Entity<TId> 
+public abstract class AggregateRoot<TId> : Entity<TId>, IAggregateRoot 
 	where TId : IId<TId>
 {
 	public override string ToString() => this.ToDisplayString(extraText: nameof(AggregateRoot<TId>));

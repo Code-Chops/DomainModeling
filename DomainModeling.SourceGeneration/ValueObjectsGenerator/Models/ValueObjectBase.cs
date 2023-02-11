@@ -132,6 +132,7 @@ public abstract record ValueObjectBase
 	public abstract string GetDefaultValue();
 	public abstract string? GetLengthOrCountCode();
 	public abstract string? GetExtraCastCode();
+	public abstract string? GetExtraConstructorCode();
 	public abstract string? GetValidationCode(string errorCodeStart);
 	public abstract string? GetValueTransformation();
 	public abstract string? GetEnumeratorCode();

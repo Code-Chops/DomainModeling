@@ -132,24 +132,26 @@ public sealed record DefaultValueObject : ValueObjectBase
 		return $@"An immutable value object with an underlying value of {(this.AllowNull ? "nullable " : null)}type <{attribute}=""{this.UnderlyingType.GetTypeNameWithGenericParameters().Replace('<', '{').Replace('>', '}')}""/>.";
 	}
 
-	public override string GetToStringCode()		=> $"public override string{this.UnderlyingTypeNullOperator} ToString() => this.{this.PropertyName}{this.UnderlyingTypeNullOperator}.ToString();";
+	public override string GetToStringCode()			=> $"public override string{this.UnderlyingTypeNullOperator} ToString() => this.{this.PropertyName}{this.UnderlyingTypeNullOperator}.ToString();";
 	
-	public override string? GetInterfacesCode()		=> null;
+	public override string? GetInterfacesCode()			=> null;
 	
-	public override string GetHashCodeCode()		=> $"public override int GetHashCode() => this.{this.PropertyName}.GetHashCode();";
+	public override string GetHashCodeCode()			=> $"public override int GetHashCode() => this.{this.PropertyName}.GetHashCode();";
 
-	public override string GetEqualsCode()			=> $"public {(this.IsUnsealedRecordClass ? "virtual " : null)}bool Equals({this.Name}{this.ValueObjectNullOperator} other) => this.{this.PropertyName}.Equals(other{this.ValueObjectNullOperator}.{this.PropertyName});";
-	public override string GetObjectEqualsCode()	=> this.ValueObjectType.IsRefLikeType
+	public override string GetEqualsCode()				=> $"public {(this.IsUnsealedRecordClass ? "virtual " : null)}bool Equals({this.Name}{this.ValueObjectNullOperator} other) => this.{this.PropertyName}.Equals(other{this.ValueObjectNullOperator}.{this.PropertyName});";
+	public override string GetObjectEqualsCode()		=> this.ValueObjectType.IsRefLikeType
 														? $"public override {(this.IsUnsealedRecordClass ? "virtual " : null)}bool Equals(object? other) => false;" 
 														: $"public override {(this.IsUnsealedRecordClass ? "virtual " : null)}bool Equals(object? other) => other is {this.Name} {this.LocalVariableName} && this.Equals({this.LocalVariableName});";
 
-	public override string GetCompareToCode()		=> $"public int CompareTo({this.Name}{this.ValueObjectNullOperator} other) => Comparer<{this.UnderlyingTypeName}{this.ValueObjectNullOperator}>.Default.Compare(this.{this.PropertyName}, other{this.ValueObjectNullOperator}.{this.PropertyName});";
+	public override string GetCompareToCode()			=> $"public int CompareTo({this.Name}{this.ValueObjectNullOperator} other) => Comparer<{this.UnderlyingTypeName}{this.ValueObjectNullOperator}>.Default.Compare(this.{this.PropertyName}, other{this.ValueObjectNullOperator}.{this.PropertyName});";
 
-	public override string GetDefaultValue()		=> $"default({this.UnderlyingTypeName})";
+	public override string GetDefaultValue()			=> $"default({this.UnderlyingTypeName})";
 	
-	public override string? GetLengthOrCountCode()	=> null;
+	public override string? GetLengthOrCountCode()		=> null;
 
-	public override string? GetExtraCastCode()		=> null;
+	public override string? GetExtraCastCode()			=> null;
+
+	public override string? GetExtraConstructorCode()	=> null;
 	
 	public override string? GetValidationCode(string errorCodeStart)
 	{

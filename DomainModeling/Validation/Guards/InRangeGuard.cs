@@ -9,7 +9,7 @@ public record NumberInRangeGuard<TNumber> : NoOutputGuardBase<NumberInRangeGuard
 	where TNumber : struct, INumber<TNumber>
 {
 	public static string GetExceptionMessage(string objectName, (string Name, TNumber Index, TNumber? LowerBound, TNumber? UpperBound) parameter)
-		=> $"{parameter.Name} '{{1}}' is out of range for '{{0}}'{parameter.LowerBound?.Write(" (Minimum: '{2}')")}{parameter.UpperBound?.Write(" (Maximum: '{3}')")}.";
+		=> $"{{1}} '{{2}}' is out of range for '{{0}}'{parameter.LowerBound?.Write(" (Minimum: '{3}')")}{parameter.UpperBound?.Write(" (Maximum: '{4}')")}.";
 	
 	public static bool IsValid((TNumber Index, TNumber? LowerBound, TNumber? UpperBound) input)
 		=> (input.LowerBound is null || input.Index >= input.LowerBound) && (input.UpperBound is null || input.Index <= input.UpperBound);

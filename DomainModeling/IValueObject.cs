@@ -41,7 +41,7 @@
 /// Don’t introduce separate tables for value objects in the database. Just inline them into the parent entity’s table.
 /// </para>
 /// <para>
-/// Value objects can belong to multiple <see cref="AggregateRoot{TId}"/>s.
+/// Value objects can belong to multiple <see cref="IAggregateRoot"/>s.
 /// </para>
 /// </summary>
 public interface IValueObject : IDomainObject

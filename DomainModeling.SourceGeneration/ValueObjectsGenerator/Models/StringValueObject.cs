@@ -51,7 +51,8 @@ public sealed record StringValueObject(
 		propertyName: PropertyName ?? "Value",
 		propertyIsPublic: PropertyIsPublic,
 		addIComparable: true,
-		allowNull: AllowNull),
+		allowNull: AllowNull,
+		useCustomProperty: false),
 		IEnumerableValueObject
 {
 	public string ElementTypeName					=> nameof(Char);

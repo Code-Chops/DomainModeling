@@ -29,7 +29,8 @@ public sealed record ListValueObject : ValueObjectBase, IEnumerableValueObject
 			propertyIsPublic: propertyIsPublic,
 			addIComparable: false,
 			allowNull: allowNull,
-			useValidationExceptions: useValidationExceptions)
+			useValidationExceptions: useValidationExceptions,
+			useCustomProperty: false)
 	{
 		providedElementType = GetElementType(valueObjectType, providedElementType);
 		

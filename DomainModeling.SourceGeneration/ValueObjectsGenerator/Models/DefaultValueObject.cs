@@ -23,20 +23,22 @@ public sealed record DefaultValueObject : ValueObjectBase
 		string? propertyName,
 		bool propertyIsPublic,
 		bool allowNull, 
-		bool useValidationExceptions) 
+		bool useValidationExceptions,
+		bool useCustomProperty) 
 		: base(
 			useValidationExceptions: useValidationExceptions,
 			valueObjectType: valueObjectType,
 			generateToString: generateToString,  
 			generateComparison: generateComparison && ImplementsIComparable(GetUnderlyingType(valueObjectType, providedUnderlyingType, out _)),
-			generateDefaultConstructor: generateDefaultConstructor,
+			generateDefaultConstructor: generateDefaultConstructor && !useCustomProperty,
 			forbidParameterlessConstruction: forbidParameterlessConstruction,  
 			generateStaticDefault: generateStaticDefault,
 			generateEnumerable: false,
 			propertyName: propertyName ?? "Value",
 			propertyIsPublic: propertyIsPublic,
 			addIComparable: true,
-			allowNull: allowNull)
+			allowNull: allowNull,
+			useCustomProperty: useCustomProperty)
 	{
 		var underlyingType = GetUnderlyingType(valueObjectType, providedUnderlyingType, out var parameterSubstitute);
 

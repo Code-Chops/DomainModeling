@@ -202,8 +202,11 @@ public class ValueObjectGenerator : IIncrementalGenerator
 		}
 
 
-		string GetProperty()
+		string? GetProperty()
 		{
+			if (data.UseCustomProperty)
+				return null;
+			
 			var error = data.GenerateDefaultConstructor 
 				? $"Don't use this field, use the {data.PropertyName} property instead."
 				: null;
@@ -312,14 +315,14 @@ public class ValueObjectGenerator : IIncrementalGenerator
 			if (!data.GenerateStaticDefault) 
 				return null;
 			
-			return data.GenerateDefaultConstructor || data.ForbidParameterlessConstruction
+			return data is { HasEmptyConstructor: true, GenerateDefaultConstructor: false }
 				? $@"
 	[DebuggerHidden]
-	public static {data.Name} Default {{ get; }} = new({data.GetDefaultValue()});
+	public static {data.Name} Default {{ get; }} = new();
 "
 				: $@"
 	[DebuggerHidden]
-	public static {data.Name} Default {{ get; }} = new();
+	public static {data.Name} Default {{ get; }} = new({data.GetDefaultValue()});
 ";
 		}
 		

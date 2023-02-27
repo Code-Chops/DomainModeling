@@ -40,7 +40,8 @@ public sealed record DictionaryValueObject : ValueObjectBase, IEnumerableValueOb
 			propertyName: propertyName ?? "Value",
 			propertyIsPublic: propertyIsPublic,
 			addIComparable: false,
-			allowNull: allowNull)
+			allowNull: allowNull,
+			useCustomProperty: false)
 	{
 		providedKeyType = GetUnderlyingType(valueObjectType, providedKeyType, isKey: true);
 		providedValueType = GetUnderlyingType(valueObjectType, providedValueType, isKey: false);

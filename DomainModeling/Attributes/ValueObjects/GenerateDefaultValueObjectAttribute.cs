@@ -14,9 +14,9 @@ public sealed class GenerateValueObjectAttribute<TUnderlyingValue> : GenerateVal
 	/// <inheritdoc />
 	public GenerateValueObjectAttribute(int minimumValue = Int32.MinValue, int maximumValue = Int32.MaxValue, bool generateToString = true, 
 		bool generateComparison = true, bool generateDefaultConstructor = true, bool forbidParameterlessConstruction = true, bool generateStaticDefault = false, 
-		string? propertyName = null, bool propertyIsPublic = false, bool valueIsNullable = false, bool useValidationExceptions = true) 
+		string? propertyName = null, bool propertyIsPublic = false, bool valueIsNullable = false, bool useValidationExceptions = true, bool useCustomProperty = false) 
 		: base(underlyingType: typeof(TUnderlyingValue), minimumValue, maximumValue, generateToString, generateComparison, generateDefaultConstructor, forbidParameterlessConstruction, 
-			generateStaticDefault, propertyName, propertyIsPublic, valueIsNullable, useValidationExceptions)
+			generateStaticDefault, propertyName, propertyIsPublic, valueIsNullable, useValidationExceptions, useCustomProperty)
 	{
 	}
 }
@@ -31,9 +31,9 @@ public sealed class GenerateValueObjectAttribute : GenerateValueObjectAttributeB
 	/// <inheritdoc />
 	public GenerateValueObjectAttribute(Type? underlyingType, int minimumValue = Int32.MinValue, int maximumValue = Int32.MaxValue, bool generateToString = true, 
 		bool generateComparison = true, bool generateDefaultConstructor = true, bool forbidParameterlessConstruction = true, bool generateStaticDefault = false, 
-		string? propertyName = null, bool propertyIsPublic = false, bool valueIsNullable = false, bool useValidationExceptions = true) 
+		string? propertyName = null, bool propertyIsPublic = false, bool valueIsNullable = false, bool useValidationExceptions = true, bool useCustomProperty = false) 
 		: base(underlyingType, minimumValue, maximumValue, generateToString, generateComparison, generateDefaultConstructor, forbidParameterlessConstruction, 
-			generateStaticDefault, propertyName, propertyIsPublic, valueIsNullable, useValidationExceptions)
+			generateStaticDefault, propertyName, propertyIsPublic, valueIsNullable, useValidationExceptions, useCustomProperty)
 	{
 	}
 }
@@ -61,6 +61,7 @@ public abstract class GenerateValueObjectAttributeBase : Attribute
 	/// <param name="propertyIsPublic">If true, the generated property will be publicly accessible (not settable). Default: false.</param>
 	/// <param name="valueIsNullable">Allow the underlying value to be null. Default: false.</param>
 	/// <param name="useValidationExceptions">Throw validation exceptions instead of system exceptions. Default: true.</param>
+	/// <param name="useCustomProperty">Enable if you want to use a custom property (will not create a default constructor). Default: false.</param>
 	// ReSharper disable always UnusedParameter.Local
 	protected GenerateValueObjectAttributeBase(
 		Type? underlyingType,
@@ -74,7 +75,8 @@ public abstract class GenerateValueObjectAttributeBase : Attribute
 		string? propertyName = null,
 		bool propertyIsPublic = false,
 		bool valueIsNullable = false,
-		bool useValidationExceptions = true)
+		bool useValidationExceptions = true, 
+		bool useCustomProperty = false)
 	{
 		// These parameters will be read from the attribute arguments itself and therefore don't need to be assigned.
 	}

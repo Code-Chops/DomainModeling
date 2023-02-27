@@ -22,11 +22,11 @@ public partial class DefaultByteClassMock { }
 public partial record DefaultByteRecordClassMock;
 
 
-[GenerateValueObject<byte>(minimumValue: 0, maximumValue: 10, generateDefaultConstructor: true, forbidParameterlessConstruction: false, generateComparison: false, generateStaticDefault: true, generateToString: true, propertyName: "Test", valueIsNullable: true, useValidationExceptions: false)]
-public partial record struct DefaultByteRecordStructSettingsMock;
+[GenerateValueObject<byte>(minimumValue: 0, maximumValue: 10, generateDefaultConstructor: true, forbidParameterlessConstruction: false, generateComparison: false, generateStaticDefault: true, generateToString: true, propertyName: "Test", valueIsNullable: true, useValidationExceptions: false, propertyIsPublic: true, useCustomProperty: true)]
+public partial record struct DefaultByteRecordStructSettingsMock(byte? Test, Validator? Validator = null);
 
-[GenerateValueObject<byte>(minimumValue: 0, maximumValue: 10, generateDefaultConstructor: true, forbidParameterlessConstruction: false, generateComparison: false, generateStaticDefault: true, generateToString: true, propertyName: "Test", valueIsNullable: true, useValidationExceptions: false)]
-public partial record DefaultByteRecordClassSettingsMock;
+[GenerateValueObject<byte>(minimumValue: 0, maximumValue: 10, generateDefaultConstructor: true, forbidParameterlessConstruction: false, generateComparison: false, generateStaticDefault: true, generateToString: true, propertyName: "Test", valueIsNullable: true, useValidationExceptions: false, propertyIsPublic: true, useCustomProperty: true)]
+public partial record DefaultByteRecordClassSettingsMock(byte? Test, Validator? Validator = null);
 
-[GenerateValueObject<byte>(minimumValue: 0, maximumValue: 10, generateDefaultConstructor: true, forbidParameterlessConstruction: false, generateComparison: false, generateStaticDefault: true, generateToString: true, propertyName: "Test", valueIsNullable: true, useValidationExceptions: false)]
-public sealed partial record DefaultByteSealedRecordClassSettingsMock;
+[GenerateValueObject<byte>(minimumValue: 0, maximumValue: 10, generateDefaultConstructor: true, forbidParameterlessConstruction: false, generateComparison: false, generateStaticDefault: true, generateToString: true, propertyName: "Test", valueIsNullable: true, useValidationExceptions: false, propertyIsPublic: true, useCustomProperty: true)]
+public sealed partial record DefaultByteSealedRecordClassSettingsMock(byte? Test, Validator? Validator = null);

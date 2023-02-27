@@ -60,6 +60,7 @@ internal static class ValueObjectSyntaxReceiver
 		var propertyIsPublic = attribute.GetArgumentOrDefault("propertyIsPublic", defaultValue: false);
 		var valueIsNullable = attribute.GetArgumentOrDefault("valueIsNullable", defaultValue: false);
 		var useValidationExceptions = attribute.GetArgumentOrDefault("useValidationExceptions", defaultValue: true);
+		var useCustomProperty = attribute.GetArgumentOrDefault("useCustomProperty", defaultValue: true);
 
 		int value;
 		
@@ -78,7 +79,8 @@ internal static class ValueObjectSyntaxReceiver
 				propertyName: propertyName,
 				propertyIsPublic: propertyIsPublic,
 				allowNull: valueIsNullable,
-				useValidationExceptions: useValidationExceptions);
+				useValidationExceptions: useValidationExceptions,
+				useCustomProperty: useCustomProperty);
 		
 		if (hasDictionaryAttribute)
 			return new DictionaryValueObject(

@@ -22,11 +22,11 @@ public partial class DefaultCharClassMock { }
 public partial record DefaultCharRecordClassMock;
 
 
-[GenerateValueObject<char>(minimumValue: 0, maximumValue: 10, generateDefaultConstructor: true, forbidParameterlessConstruction: false, generateComparison: false, generateStaticDefault: true, generateToString: true, propertyName: "Test", valueIsNullable: true, useValidationExceptions: false)]
-public partial record struct DefaultCharRecordStructSettingsMock;
+[GenerateValueObject<char>(minimumValue: 0, maximumValue: 10, generateDefaultConstructor: true, forbidParameterlessConstruction: false, generateComparison: false, generateStaticDefault: true, generateToString: true, propertyName: "Test", valueIsNullable: true, useValidationExceptions: false, propertyIsPublic: true, useCustomProperty: true)]
+public partial record struct DefaultCharRecordStructSettingsMock(char? Test, Validator? Validator = null);
 
-[GenerateValueObject<char>(minimumValue: 0, maximumValue: 10, generateDefaultConstructor: true, forbidParameterlessConstruction: false, generateComparison: false, generateStaticDefault: true, generateToString: true, propertyName: "Test", valueIsNullable: true, useValidationExceptions: false)]
-public partial record DefaultCharRecordClassSettingsMock;
+[GenerateValueObject<char>(minimumValue: 0, maximumValue: 10, generateDefaultConstructor: true, forbidParameterlessConstruction: false, generateComparison: false, generateStaticDefault: true, generateToString: true, propertyName: "Test", valueIsNullable: true, useValidationExceptions: false, propertyIsPublic: true, useCustomProperty: true)]
+public partial record DefaultCharRecordClassSettingsMock(char? Test, Validator? Validator = null);
 
-[GenerateValueObject<char>(minimumValue: 0, maximumValue: 10, generateDefaultConstructor: true, forbidParameterlessConstruction: false, generateComparison: false, generateStaticDefault: true, generateToString: true, propertyName: "Test", valueIsNullable: true, useValidationExceptions: false)]
-public sealed partial record DefaultCharSealedRecordClassSettingsMock;
+[GenerateValueObject<char>(minimumValue: 0, maximumValue: 10, generateDefaultConstructor: true, forbidParameterlessConstruction: false, generateComparison: false, generateStaticDefault: true, generateToString: true, propertyName: "Test", valueIsNullable: true, useValidationExceptions: false, propertyIsPublic: true, useCustomProperty: true)]
+public sealed partial record DefaultCharSealedRecordClassSettingsMock(char? Test, Validator? Validator = null);

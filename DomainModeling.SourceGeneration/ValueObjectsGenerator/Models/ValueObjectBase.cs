@@ -14,7 +14,8 @@ public abstract record ValueObjectBase
 		bool propertyIsPublic,
 		bool allowNull,
 		bool useValidationExceptions,
-		bool addIComparable)
+		bool addIComparable,
+		bool useCustomProperty)
 	{
 		this.ValueObjectType = valueObjectType;
 		this.GenerateToString = generateToString;
@@ -34,6 +35,7 @@ public abstract record ValueObjectBase
 		this.Namespace = valueObjectType.ContainingNamespace!.IsGlobalNamespace ? null : valueObjectType.ContainingNamespace.ToDisplayString();
 		this.BackingFieldName = $"_{propertyName.Substring(0, 1).ToLowerInvariant()}{propertyName.Substring(1)}{(generateDefaultConstructor ? new Random().Next(0, 9999) : null)}";
 		this.LocalVariableName = propertyName.Substring(0, 1).ToLowerInvariant() + propertyName.Substring(1);
+		this.UseCustomProperty = useCustomProperty;
 	}
 
 	public string? ErrorMessage { get; protected set; }
@@ -75,7 +77,10 @@ public abstract record ValueObjectBase
 	public bool AllowNull { get; }
 	public bool UseValidationExceptions { get; }
 	public bool AddIComparable { get; }
+	public bool UseCustomProperty { get; }
 
+	public bool HasEmptyConstructor => !this.ForbidParameterlessConstruction && this.ValueObjectType.TypeKind == TypeKind.Structure;
+	
 	public enum Guard
 	{
 		NotNull,

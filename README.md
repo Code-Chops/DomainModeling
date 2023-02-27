@@ -151,19 +151,24 @@ Not implementing the interface can lead to unexpected and undesired behaviour in
 > The property should be set to `private` and non-private expression bodied properties should be created that expose each value of the tuple. See the [tuple example below](#Tuple-value-object-example).
 
 ## Underlying types
-The value object generator supports the following underlying types: `struct`, `string`, `list`, and `dictionary`. It can even generate objects with multiple underlying values in the form of `ValueTuples`, see [Tuple value object example](#Tuple-value-object-example).
+The value object generator supports the following underlying types: `struct`, `string`, `list`, and `dictionary`. 
+It can even generate objects with multiple underlying values in the form of `ValueTuples`, see [Tuple value object example](#Tuple-value-object-example).
  
 ### Struct (default) 
 `GenerateValueObjectAttribute<T>`<br/>
-A value object with a `struct` as underlying value, for example `int`, `DateTime`, `decimal`. It has 2 optional settings `minimumValue` and `maximumValue`. When the underlying value implements `IComparable`, the default constructor will guard that the value lies between these bounds. 
+A value object with a `struct` as underlying value, for example `int`, `DateTime`, `decimal`. It has 3 optional settings:
+- `minimumValue` and / or `maximumValue`: When the underlying value implements `IComparable`, the default constructor will guard that the value lies between these bounds.
+- `useCustomProperty`: When enabled, the property that contains the value should be implemented manually.
 
 ### Dictionary
 `GenerateDictionaryValueObjectAttribute<TKey, TValue>`<br/>
-A value object with an immutable dictionary as underlying type. It has 2 optional settings: `minimumCount` and `maximumCount`. If provided, the default constructor will guard that the `KeyValuePair`-count lies between these values.
+A value object with an immutable dictionary as underlying type. It has 2 optional settings: 
+- `minimumCount` and / or `maximumCount`: If provided, the default constructor will guard that the `KeyValuePair`-count lies between these values.
 
 ### List
 `GenerateListValueObjectAttribute<T>`<br/>
-A value object with an immutable list as underlying type. It has 2 optional settings: `minimumCount`, `maximumCount`. If provided, the default constructor will guard that the element-count lies between these values.
+A value object with an immutable list as underlying type. It has 2 optional settings: 
+- `minimumCount` and / or `maximumCount`: If provided, the default constructor will guard that the element-count lies between these values.
 
 ### String 
 `GenerateStringValueObjectAttribute`<br/>

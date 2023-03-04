@@ -133,7 +133,7 @@ public readonly partial record struct {data.IdTypeName} : IId<{data.IdTypeName},
 	public object{data.NullOperator} GetValue() => this.Value;
 
 	[DebuggerHidden]
-	public bool HasDefaultValue => this.Value{data.NullOperator}.Equals(IId<{data.IdTypeName}, {data.UnderlyingTypeFullName}>.DefaultValue){(data.NullOperator is not null ? "?? true" : null)};
+	bool IId.HasDefaultValue => this.Value == default;
 
 	[DebuggerHidden]
 	public {data.IdTypeName}({data.UnderlyingTypeFullName} value)

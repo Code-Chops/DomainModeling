@@ -798,14 +798,8 @@ public readonly record struct PlayerId : IId<PlayerId, global::CodeChops.DomainM
 	public static bool operator >=	(PlayerId left, PlayerId right)	=> left.CompareTo(right) >= 0;
 	#endregion
 
-	/// <summary>
-	/// Warning. Probably performs boxing!
-	/// </summary>
 	[DebuggerHidden]
-	public object GetValue() => this.Value;
-
-	[DebuggerHidden]
-	public bool HasDefaultValue => this.Value.Equals(IId<PlayerId, global::CodeChops.DomainModeling.Identities.Uuid>.DefaultValue);
+	bool IId.IId<HasDefaultValue => this.Value == default;
 
 	[DebuggerHidden]
 	public PlayerId(global::CodeChops.DomainModeling.Identities.Uuid value)

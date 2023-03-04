@@ -1,4 +1,4 @@
-﻿// ReSharper disable SuspiciousTypeConversion.Global
+// ReSharper disable SuspiciousTypeConversion.Global
 namespace CodeChops.DomainModeling.SourceGeneration.UnitTests.Identities;
 
 public class IdGenerationTests
@@ -29,11 +29,11 @@ public class IdGenerationTests
 	[Fact]
 	public void Id_WithoutValue_ShouldBe_Default()
 	{
-		var id1 = new EntityWithByteIdMock1Id();
-		var id2 = new EntityWithByteIdMock2Id();
-		var id3 = new ClassWithIdId();
-		var id4 = new ClassWithGenericTypeId();
-		var id5 = new ClassWithUuidId();
+		IId id1 = new EntityWithByteIdMock1Id();
+		IId id2 = new EntityWithByteIdMock2Id();
+		IId id3 = new ClassWithIdId();
+		IId id4 = new ClassWithGenericTypeId();
+		IId id5 = new ClassWithUuidId();
 		
 		Assert.True(id1.HasDefaultValue);
 		Assert.True(id2.HasDefaultValue);
@@ -45,11 +45,11 @@ public class IdGenerationTests
 	[Fact]
 	public void Id_WithValue_ShouldNotBe_Default()
 	{
-		var id1 = new EntityWithByteIdMock1Id(1);
-		var id2 = new EntityWithByteIdMock2Id(2);
-		var id3 = new ClassWithIdId(3);
-		var id4 = new ClassWithGenericTypeId(4);
-		var id5 = new ClassWithUuidId(new Uuid("2FD110A01D304B4593B4D44680DE152C"));
+		IId id1 = new EntityWithByteIdMock1Id(1);
+		IId id2 = new EntityWithByteIdMock2Id(2);
+		IId id3 = new ClassWithIdId(3);
+		IId id4 = new ClassWithGenericTypeId(4);
+		IId id5 = new ClassWithUuidId(new Uuid("2FD110A01D304B4593B4D44680DE152C"));
 		
 		Assert.False(id1.HasDefaultValue);
 		Assert.False(id2.HasDefaultValue);

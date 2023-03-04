@@ -64,12 +64,10 @@ public record Validator
 			case ValidatorMode.Oblivious:
 				return default;
 			case ValidatorMode.Default:
-				{
-					if (exception is IValidationException validationException) validationException.Throw<int>();
-					if (exception is ISystemException systemException) systemException.Throw<int>();
-			
-					throw new InvalidOperationException($"An unknown exception type was thrown during validation. Exception: {exception.GetType().Name}.");
-				}
+				if (exception is ISystemException systemException) systemException.Throw<int>();
+				if (exception is IValidationException validationException) validationException.Throw<int>();
+		
+				throw new InvalidOperationException($"An unknown exception type was thrown during validation. Exception: {exception.GetType().Name}.");
 			case ValidatorMode.DoNotThrow:
 				this._currentExceptions.Add(exception);
 				break;

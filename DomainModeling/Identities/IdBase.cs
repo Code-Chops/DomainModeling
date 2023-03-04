@@ -45,7 +45,7 @@ public abstract record Id<TSelf, TUnderlying> : IId<TSelf, TUnderlying>
 	/// </summary>
 	public object GetValue() => this.Value;
 
-	public bool HasDefaultValue => this.Value.Equals(IId<TSelf, TUnderlying>.DefaultValue);
+	bool IId.HasDefaultValue => this.Value.Equals(default);
 
 	protected Id(TUnderlying value)
 	{

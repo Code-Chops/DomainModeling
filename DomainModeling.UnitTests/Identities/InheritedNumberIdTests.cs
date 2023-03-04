@@ -17,7 +17,7 @@ public class InheritedNumberIdTests
 	[Fact]
 	public void Id_WithoutValue_ShouldBe_Default()
 	{
-		var guid = new IntIdMock();
+		IId guid = new IntIdMock();
 		
 		Assert.True(guid.HasDefaultValue);
 	}
@@ -25,7 +25,7 @@ public class InheritedNumberIdTests
 	[Fact]
 	public void Id_WithValue_ShouldNotBe_Default()
 	{
-		var guid = new IntIdMock(1);
+		IId guid = new IntIdMock(1);
 		
 		Assert.False(guid.HasDefaultValue);
 	}

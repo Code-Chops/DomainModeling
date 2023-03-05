@@ -2,27 +2,23 @@ using CodeChops.DomainModeling.Validation.Guards.Core;
 
 namespace CodeChops.DomainModeling.Exceptions.Validation;
 
-/// <summary>
-/// <inheritdoc cref="IValidationException"/>
-/// </summary>
+/// <inheritdoc cref="ValidationException"/>
 // ReSharper disable once UnusedTypeParameter
 public class ValidationException<TGuard> : ValidationException
 	where TGuard : IGuard
 {
-	/// <param name="errorCode">Is communicated externally!</param>
-	/// <param name="validationMessage">Is communicated externally!</param>
-	// ReSharper disable twice ExplicitCallerInfoArgument
-	internal ValidationException(object errorCode, ValidationExceptionMessage validationMessage, Exception? innerException = null)
+	internal ValidationException(object errorCode, ValidationExceptionMessage validationMessage, Exception? innerException = null) 
 		: base(errorCode, validationMessage, innerException)
 	{
 	}
 }
 
 /// <summary>
-/// <inheritdoc cref="IValidationException"/>
+/// An exception which occurs after invalidation of external user input.
+/// Validation exceptions contain an <see cref="ErrorCode"/> and <see cref="ExternalMessage"/> which are communicated externally.
+/// It helps localization of messages that are shown to the end-user. To consume and localize these messages, see: https://github.com/Code-Chops/DomainDrivenDesign.Contracts.
 /// </summary>
-// ReSharper disable once UnusedTypeParameter
-public class ValidationException : CustomException, IValidationException
+public class ValidationException : CustomException
 {
 	/// <summary>
 	/// Is communicated externally!
@@ -39,5 +35,16 @@ public class ValidationException : CustomException, IValidationException
 		this.ErrorCode = errorCode.ToString() ?? throw new ArgumentNullException(nameof(errorCode));
 		this.ExternalMessage = validationMessage;
 	}
-}
+	
+	/// <summary>
+	/// Throws the exception. Returns the default of the provided return type (so it can be used in an inline if-else).
+	/// </summary>
+	[DoesNotReturn]
+	public override TReturn Throw<TReturn>() => throw this;
 
+	/// <summary>
+	/// Throws the exception.
+	/// </summary>
+	[DoesNotReturn]
+	public override void Throw() => throw this;
+}

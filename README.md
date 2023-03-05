@@ -33,10 +33,10 @@ These entities publish a readonly API (indices, ContainsKey, GetEnumerator, Coun
 Validation should be performed in the constructor of an object. A `Validator` class can be passed to constructors or factory methods [Factories](#Factories) which gives control (from the outside) over the behaviour during (in)validation.
 
 ### Validator
-Provides a way to easily (in)validate domain objects. It support several modes to handle `ValidationExceptions`: 
-- `Default`: throws an exception when the guard invalidates (immutable).
-- `DoNotThrow`: does not throw when the guard invalidates. This is being used by the `TryCreate` factory, see [Factories](#Factories). It remembers every validation exception that occured during invalidation (mutable).
-- `Oblivious`: does *not* throw. It does *not* collect validation exception (immutable).
+Provides a way to easily (in)validate domain objects. It support several modes to handle `ValidationExceptions`. There are different types of validators:
+- `Default`: throws an exception on the first invalidation of a guard (immutable).
+- `Aggregate`: does not immediately throw when the guard invalidates, but collects the exceptions in an `ValidationAggregateException` and throws them when disposed (mutable). Initialize this with a `using` statement or declaration. Throwing of the exceptions when disposing can be disabled by setting the property `ThrowWhenDisposed` to `false`.
+- `Ignore`: does *not* throw. It does *not* collect validation exception (immutable).
 
 ### Guards
 - Are an extension method on the `Validator` and contains logic to validate a domain object. It therefore *guards* that an object will be in a valid state. 
@@ -47,8 +47,8 @@ Provides a way to easily (in)validate domain objects. It support several modes t
 ### Exceptions
 #### ValidationExceptions 
 - Are represented in code as `ValidationException<TGuard>`.
-- Should occur after invalidation of external input.
-- Contain an error code, a message, and values of the validation parameters, which can be communicated externally.
+- Should occur after invalidation of external user input.
+- Contain an error code, a message, and values of the validation parameters, which can be communicated externally to the user.
 - This helps localization of messages shown to the end-user for external services. To consume and localize these messages, see the [DDD Contracts library](https://github.com/Code-Chops/DomainDrivenDesign.Contracts).
 
 #### System exceptions
@@ -56,7 +56,11 @@ Provides a way to easily (in)validate domain objects. It support several modes t
 - Contain system-information and therefore should not be visible to the user.
 		
 ### Factories
-Factories can be created by implementing the static abstract method `ICreatable<TObject,T1,T2,..)` (the value object generator will automatically create them for you). When they are implemented, a `TryCreate` or `Create` factory method can be used. The `TryCreate` method offers a good way to try to construct domain objects without having to use an expensive `try-catch` to catch the validation exception. This factory uses the `DoNotThrow` Validator-method behind the scenes.
+Factories can be used by implementing the interface `ICreatable<TObject,T1,T2,..>`. 
+The value object generator will automatically create references to these methods for you). 
+When this interface is implemented, `TryCreate` or `Create` factory methods can be used. 
+The `TryCreate` method offers a good way to try to construct domain objects without having to use an expensive `try-catch` to catch the validation exception. 
+This factory uses the `Aggregate` Validator-method behind the scenes (with `ThrowWhenDisposed` set to `false`).
 	
 ## Examples
 
@@ -96,6 +100,7 @@ public record Person(Name Name) : ValueObject<Person>
 {
 	public bool Exists(string nameString)
 	{
+		/* Invalid name, so a person with the name does not exist. */
 		if (!ICreatable<Name, string>.TryCreate(nameString, out _))
 			return false;
 		

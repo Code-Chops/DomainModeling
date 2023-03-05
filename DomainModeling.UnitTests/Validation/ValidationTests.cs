@@ -1,5 +1,6 @@
 using CodeChops.DomainModeling.Exceptions.System;
 using CodeChops.DomainModeling.Exceptions.Validation;
+using CodeChops.DomainModeling.Factories;
 using CodeChops.DomainModeling.Validation;
 using CodeChops.DomainModeling.Validation.Guards;
 
@@ -46,7 +47,7 @@ public class ValidationTests
 	[Fact]
 	public void Validation_ShouldThrow_RegexException()
 	{
-		Assert.Throws<SystemException<RegexGuard>>(() => Initialized());
+		Assert.Throws<CustomSystemException<RegexGuard>>(() => Initialized());
 		
 		static Uuid Initialized() => new("12345678901234567890123456789012!");
 	}
@@ -54,25 +55,17 @@ public class ValidationTests
 	[Fact]
 	public void Validation_ShouldNotThrow_WhenTryCreate()
 	{
-		var valid = ValidatedObjectMock.TryCreate("ThisNameIsTooLong", out var o, out var validation);
+		var valid = ICreatable<ValidatedObjectMock, string>.TryCreate("ThisNameIsTooLong", out var o);
 		
 		Assert.False(valid);
-		Assert.Null(o);
-		Assert.NotEmpty(validation.CurrentExceptions);
-		Assert.False(validation.IsValid);
-		Assert.Equal(nameof(ValidatedObjectMock), validation.ObjectName);
 	}
 	
 	[Fact]
 	public void Validation_ShouldBeCorrect_WhenTryCreate()
 	{
-		var valid = ValidatedObjectMock.TryCreate("Max", out var o, out var validation);
+		var valid = ICreatable<ValidatedObjectMock, string>.TryCreate("Max", out var o);
 		
 		Assert.True(valid);
-		Assert.NotNull(o);
-		Assert.Empty(validation.CurrentExceptions);
-		Assert.True(validation.IsValid);
-		Assert.Equal(nameof(ValidatedObjectMock), validation.ObjectName);
 	}
 	
 	[Fact]

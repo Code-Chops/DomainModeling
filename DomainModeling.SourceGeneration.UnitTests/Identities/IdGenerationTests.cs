@@ -7,7 +7,7 @@ public class IdGenerationTests
 	public void Explicit_Id_ShouldBe_Generated()
 	{
 		var id = new EntityWithByteIdMock1Id();
-		Assert.Equal(typeof(byte), id.GetValue().GetType());
+		Assert.Equal(typeof(byte), id.Value.GetType());
 	}
 	
 	[Fact]
@@ -15,15 +15,15 @@ public class IdGenerationTests
 	{
 		var entityId = new EntityWithByteIdMock2Id();
 		var classId = new ClassWithIdId();
-		Assert.Equal(typeof(ulong), entityId.GetValue().GetType());
-		Assert.Equal(typeof(ulong), classId.GetValue().GetType());
+		Assert.Equal(typeof(ulong), entityId.Value.GetType());
+		Assert.Equal(typeof(ulong), classId.Value.GetType());
 	}
 	
 	[Fact]
 	public void ClassWithGenericType_Id_ShouldBe_Generated()
 	{
 		var entity = new ClassWithGenericTypeId();
-		Assert.Equal(typeof(ulong), entity.GetValue().GetType());
+		Assert.Equal(typeof(ulong), entity.Value.GetType());
 	}
 	
 	[Fact]

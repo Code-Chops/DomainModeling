@@ -3,13 +3,27 @@
 namespace CodeChops.DomainModeling.Exceptions.System;
 
 /// <summary>
-/// <inheritdoc cref="ISystemException"/>
+/// An exception that contains system-information and therefore should not be visible to the user.
 /// </summary>
 // ReSharper disable once UnusedTypeParameter
-public class SystemException<TGuard> : CustomException, ISystemException
+// ReSharper disable ExplicitCallerInfoArgument
+public class CustomSystemException<TGuard> : CustomSystemException
 	where TGuard : IGuard
 {
-	/// <summary>
+	public CustomSystemException(ValidationExceptionMessage message, Exception? innerException = null, string? callerMemberName = null, string? callerFilePath = null, int? callerLineNumber = null) 
+		: base(message, innerException, callerMemberName, callerFilePath, callerLineNumber)
+	{
+	}
+
+	public CustomSystemException(string message, Exception? innerException = null, string? callerMemberName = null, string? callerFilePath = null, int? callerLineNumber = null) 
+		: base(message, innerException, callerMemberName, callerFilePath, callerLineNumber)
+	{
+	}
+}
+
+public class CustomSystemException : CustomException
+{
+		/// <summary>
 	/// The name of the member in which the exception occurred.
 	/// </summary>
 	public string? MemberName { get; }
@@ -25,7 +39,7 @@ public class SystemException<TGuard> : CustomException, ISystemException
 	public int? LineNumber { get; }
 	
 	// ReSharper disable ExplicitCallerInfoArgument
-	public SystemException(ValidationExceptionMessage message, Exception? innerException = null,
+	public CustomSystemException(ValidationExceptionMessage message, Exception? innerException = null,
 		[CallerMemberName] string? callerMemberName = null,
 		[CallerFilePath] string? callerFilePath = null, 
 		[CallerLineNumber] int? callerLineNumber = null)
@@ -38,7 +52,7 @@ public class SystemException<TGuard> : CustomException, ISystemException
 	{
 	}
 	
-	public SystemException(string message, Exception? innerException = null,
+	public CustomSystemException(string message, Exception? innerException = null,
 		[CallerMemberName] string? callerMemberName = null,
 		[CallerFilePath] string? callerFilePath = null, 
 		[CallerLineNumber] int? callerLineNumber = null)
@@ -58,4 +72,16 @@ public class SystemException<TGuard> : CustomException, ISystemException
 			
 		return message;
 	}
+	
+	/// <summary>
+	/// Throws the exception. Returns the default of the provided return type (so it can be used in an inline if-else).
+	/// </summary>
+	[DoesNotReturn]
+	public override TReturn Throw<TReturn>() => throw this;
+
+	/// <summary>
+	/// Throws the exception.
+	/// </summary>
+	[DoesNotReturn]
+	public override void Throw() => throw this;	
 }

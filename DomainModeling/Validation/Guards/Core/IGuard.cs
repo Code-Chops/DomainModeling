@@ -9,15 +9,14 @@ public interface IGuard<TSelf, in TMessageParam> : IGuard<TSelf>
 		[CallerMemberName] string? callerMemberName = null,
 		[CallerFilePath] string? callerFilePath = null, 
 		[CallerLineNumber] int? callerLineNumber = null)
-		where TException : ISystemException
+		where TException : CustomSystemException
 		=> this.Throw<TException, int>(objectName, messageParameter, errorCode, innerException, callerMemberName, callerFilePath, callerLineNumber);
 
-	[DoesNotReturn]
 	public TReturn Throw<TException, TReturn>(string objectName, TMessageParam messageParameter, object? errorCode, Exception? innerException,
 		[CallerMemberName] string? callerMemberName = null,
 		[CallerFilePath] string? callerFilePath = null, 
 		[CallerLineNumber] int? callerLineNumber = null)
-		where TException : ISystemException
+		where TException : CustomSystemException
 	{
 		var message = GetMessage(objectName, messageParameter);
 		var exception = CreateException(message, errorCode, innerException, callerMemberName, callerFilePath, callerLineNumber);
@@ -48,7 +47,7 @@ public interface IGuard<TSelf> : IGuard
 		[CallerLineNumber] int? callerLineNumber = null)
 	{
 		return errorCode is null
-			? new SystemException<TSelf>(message, innerException, callerMemberName, callerFilePath, callerLineNumber)
+			? new CustomSystemException<TSelf>(message, innerException, callerMemberName, callerFilePath, callerLineNumber)
 			: new ValidationException<TSelf>(errorCode, message, innerException);
 	}
 }
@@ -57,7 +56,7 @@ public interface IGuard<TSelf> : IGuard
 /// <para>
 /// A guard contains domain object validation logic and an exception message.
 /// This way validation checks can be re-used and exception messages are consistent.
-/// Consistency of messages is especially relevant when using <see cref="IValidationException"/>s.
+/// Consistency of messages is especially relevant when using <see cref="ValidationException"/>s.
 /// </para>
 /// <para>
 /// Guards also help avoid the usage of the throw keyword in hot paths as throw keywords prevent JIT-inlining.

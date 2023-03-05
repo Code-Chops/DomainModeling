@@ -27,17 +27,6 @@ public class ValidatedObjectMock : IDomainObject, ICreatable<ValidatedObjectMock
 
 	public static ValidatedObjectMock Create(string name, Validator? validator = null)
 		=> new(name, validator);
-	
-	public static bool TryCreate(string name, [NotNullWhen(true)] out ValidatedObjectMock? createdObject, out Validator validator)
-	{
-		validator = Validator.Get<ValidatedObjectMock>.DoNotThrow();
-		createdObject = Create(name, validator);
-		
-		if (!validator.IsValid)
-			createdObject = default;
-		
-		return validator.IsValid;
-	}
 }
 
 public enum ErrorCode

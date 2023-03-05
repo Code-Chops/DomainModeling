@@ -28,7 +28,7 @@ public abstract record Id<TSelf, TUnderlying> : IId<TSelf, TUnderlying>
 
 	#region Comparison
 	public int CompareTo(TSelf? other) 
-		=> other is null ? 1 : this.Value.CompareTo((TUnderlying)other.GetValue());
+		=> other is null ? 1 : this.Value.CompareTo(other.Value);
 	
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	public static bool operator <	(Id<TSelf, TUnderlying> left, TSelf? right)	=> left.CompareTo(right) <	0;
@@ -39,11 +39,6 @@ public abstract record Id<TSelf, TUnderlying> : IId<TSelf, TUnderlying>
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	public static bool operator >=	(Id<TSelf, TUnderlying> left, TSelf? right)	=> left.CompareTo(right) >= 0;
 	#endregion
-
-	/// <summary>
-	/// Warning. Performs boxing!
-	/// </summary>
-	public object GetValue() => this.Value;
 
 	bool IId.HasDefaultValue => this.Value.Equals(default);
 

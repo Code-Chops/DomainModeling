@@ -126,12 +126,6 @@ public readonly partial record struct {data.IdTypeName} : IId<{data.IdTypeName},
 	public static bool operator >=	({data.IdTypeName} left, {data.IdTypeName} right)	=> left.CompareTo(right) >= 0;
 	#endregion
 
-	/// <summary>
-	/// Warning. Probably performs boxing!
-	/// </summary>
-	[DebuggerHidden]
-	public object{data.NullOperator} GetValue() => this.Value;
-
 	[DebuggerHidden]
 	bool IId.HasDefaultValue => this.Value == default;
 

@@ -29,7 +29,7 @@ public class ValidationException : CustomException
 	
 	/// <param name="errorCode">Is communicated externally!</param>
 	/// <param name="validationMessage">Is communicated externally!</param>
-	internal ValidationException(object errorCode, ValidationExceptionMessage validationMessage, Exception? innerException = null)
+	public ValidationException(object errorCode, ValidationExceptionMessage validationMessage, Exception? innerException = null)
 		: base(message: $"{validationMessage} (error code: {errorCode}).", innerException)
 	{
 		this.ErrorCode = errorCode.ToString() ?? throw new ArgumentNullException(nameof(errorCode));

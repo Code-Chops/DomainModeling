@@ -18,6 +18,11 @@ public readonly partial record struct ValidationExceptionMessage
 	/// </summary>
 	public ImmutableList<object?> Parameters => this.Value.Item2!;
 
+	public ValidationExceptionMessage(string objectName, string message)
+		: this((message, new object[] { objectName }.ToImmutableList()))
+	{
+	}
+	
 	public ValidationExceptionMessage(string objectName, string message, IEnumerable<object?> parameters)
 		: this((message, new object?[] { objectName}.Concat(parameters).ToImmutableList())!)
 	{

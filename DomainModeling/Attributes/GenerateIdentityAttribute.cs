@@ -8,7 +8,7 @@ namespace CodeChops.DomainModeling.Attributes;
 /// The underlying type of the ID is ulong.
 /// </para>
 /// </summary>
-[AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct, AllowMultiple = true)]
+[AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct)]
 public sealed class GenerateIdentity : Attribute
 {
 	/// <param name="name">If provided, this will be the name of the identity. If omitted, the default name is the current class name + 'Id': class 'Player' will get an identity of 'PlayerId'.</param>
@@ -29,7 +29,7 @@ public sealed class GenerateIdentity : Attribute
 /// </para>
 /// </summary>
 /// <typeparam name="T">The underlying value of the ID.</typeparam>
-[AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct, AllowMultiple = true)]
+[AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct)]
 public sealed class GenerateIdentity<T> : Attribute
 	where T : IEquatable<T>, IComparable<T>
 {

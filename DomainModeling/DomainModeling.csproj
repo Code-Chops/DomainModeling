@@ -10,8 +10,8 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>2.10.2</Version>
-        <PackageReleaseNotes>Opened up non-generic ValidationException constructor and simplified ValidationExceptionMessage.</PackageReleaseNotes>
+        <Version>2.10.3</Version>
+        <PackageReleaseNotes>Don't allow multiple generate identity attributes.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>

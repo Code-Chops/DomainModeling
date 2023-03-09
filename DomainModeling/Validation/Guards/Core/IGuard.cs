@@ -2,21 +2,13 @@
 
 namespace CodeChops.DomainModeling.Validation.Guards.Core;
 
-public interface IGuard<TSelf, in TMessageParam> : IGuard<TSelf>
+public interface IGuard<out TSelf, in TMessageParam> : IGuard<TSelf>
 	where TSelf : IGuard<TSelf, TMessageParam>, IHasExceptionMessage<TSelf, TMessageParam>
 {
-	public void Throw<TException>(string objectName, TMessageParam messageParameter, object? errorCode, Exception? innerException,
+	public static TReturn ThrowException<TReturn>(string objectName, TMessageParam messageParameter, object? errorCode, Exception? innerException,
 		[CallerMemberName] string? callerMemberName = null,
 		[CallerFilePath] string? callerFilePath = null, 
 		[CallerLineNumber] int? callerLineNumber = null)
-		where TException : CustomSystemException
-		=> this.Throw<TException, int>(objectName, messageParameter, errorCode, innerException, callerMemberName, callerFilePath, callerLineNumber);
-
-	public TReturn Throw<TException, TReturn>(string objectName, TMessageParam messageParameter, object? errorCode, Exception? innerException,
-		[CallerMemberName] string? callerMemberName = null,
-		[CallerFilePath] string? callerFilePath = null, 
-		[CallerLineNumber] int? callerLineNumber = null)
-		where TException : CustomSystemException
 	{
 		var message = GetMessage(objectName, messageParameter);
 		var exception = CreateException(message, errorCode, innerException, callerMemberName, callerFilePath, callerLineNumber);
@@ -38,7 +30,7 @@ public interface IGuard<TSelf, in TMessageParam> : IGuard<TSelf>
 	}
 }
 
-public interface IGuard<TSelf> : IGuard
+public interface IGuard<out TSelf> : IGuard
 	where TSelf : IGuard<TSelf>
 {
 	public static CustomException CreateException(ValidationExceptionMessage message, object? errorCode, Exception? innerException,

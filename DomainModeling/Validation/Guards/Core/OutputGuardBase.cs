@@ -17,6 +17,12 @@ public abstract record OutputGuardBase<TSelf, TInput, TOutput> : OutputGuardBase
 public abstract record OutputGuardBase<TSelf, TInput, TMessageParam, TOutput> : IGuard<TSelf>
 	where TSelf : OutputGuardBase<TSelf, TInput, TMessageParam, TOutput>, IOutputGuard<TInput, TOutput>, IHasExceptionMessage<TSelf, TMessageParam>, IGuard<TSelf, TMessageParam>, new()
 {
+	public static TReturn ThrowException<TReturn>(string objectName, TMessageParam messageParameter, object? errorCode, Exception? innerException,
+		[CallerMemberName] string? callerMemberName = null,
+		[CallerFilePath] string? callerFilePath = null, 
+		[CallerLineNumber] int? callerLineNumber = null)
+		=> IGuard<TSelf, TMessageParam>.ThrowException<TReturn>(objectName, messageParameter, errorCode, innerException, callerMemberName, callerFilePath, callerLineNumber);
+	
 	public static TOutput Guard(Validator validator, TInput input, TMessageParam messageParameter, object? errorCode, Exception? innerException,
 		[CallerMemberName] string? callerMemberName = null,
 		[CallerFilePath] string? callerFilePath = null, 

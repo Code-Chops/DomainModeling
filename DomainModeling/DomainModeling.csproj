@@ -10,7 +10,7 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>2.10.3</Version>
+        <Version>2.10.4</Version>
         <PackageReleaseNotes>Don't allow multiple generate identity attributes.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainModeling</Title>

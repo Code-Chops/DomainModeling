@@ -55,7 +55,7 @@ public class ValidationTests
 	[Fact]
 	public void Validation_ShouldNotThrow_WhenTryCreate()
 	{
-		var valid = ICreatable<ValidatedObjectMock, string>.TryCreate("ThisNameIsTooLong", out var o);
+		var valid = ICreatable<ValidatedObjectMock, string>.TryCreate("ThisNameIsTooLong", out _);
 		
 		Assert.False(valid);
 	}
@@ -63,7 +63,7 @@ public class ValidationTests
 	[Fact]
 	public void Validation_ShouldBeCorrect_WhenTryCreate()
 	{
-		var valid = ICreatable<ValidatedObjectMock, string>.TryCreate("Max", out var o);
+		var valid = ICreatable<ValidatedObjectMock, string>.TryCreate("Max", out _);
 		
 		Assert.True(valid);
 	}

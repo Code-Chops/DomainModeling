@@ -5,7 +5,7 @@ namespace CodeChops.DomainModeling.Validation.Guards.Core;
 public interface IGuard<out TSelf, in TMessageParam> : IGuard<TSelf>
 	where TSelf : IGuard<TSelf, TMessageParam>, IHasExceptionMessage<TSelf, TMessageParam>
 {
-	public static TReturn ThrowException<TReturn>(string objectName, TMessageParam messageParameter, object? errorCode, Exception? innerException,
+	public static TReturn ThrowException<TReturn>(string objectName, TMessageParam messageParameter, object? errorCode, Exception? innerException = null,
 		[CallerMemberName] string? callerMemberName = null,
 		[CallerFilePath] string? callerFilePath = null, 
 		[CallerLineNumber] int? callerLineNumber = null)
@@ -33,7 +33,7 @@ public interface IGuard<out TSelf, in TMessageParam> : IGuard<TSelf>
 public interface IGuard<out TSelf> : IGuard
 	where TSelf : IGuard<TSelf>
 {
-	public static CustomException CreateException(ValidationExceptionMessage message, object? errorCode, Exception? innerException,
+	public static CustomException CreateException(ValidationExceptionMessage message, object? errorCode, Exception? innerException = null,
 		[CallerMemberName] string? callerMemberName = null,
 		[CallerFilePath] string? callerFilePath = null, 
 		[CallerLineNumber] int? callerLineNumber = null)

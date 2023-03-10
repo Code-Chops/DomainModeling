@@ -10,8 +10,8 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>2.10.4</Version>
-        <PackageReleaseNotes>Don't allow multiple generate identity attributes.</PackageReleaseNotes>
+        <Version>2.10.5</Version>
+        <PackageReleaseNotes>Inner exception is an optional parameter now.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>

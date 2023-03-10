@@ -6,7 +6,7 @@ public abstract class CustomException : Exception
 	
 	public abstract void Throw();
 
-	protected CustomException(string message, Exception? innerException)
+	protected CustomException(string message, Exception? innerException = null)
 		: base(message, innerException)
 	{
 	}

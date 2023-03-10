@@ -1,4 +1,4 @@
-﻿namespace CodeChops.DomainModeling.Exceptions;
+﻿namespace CodeChops.DomainModeling.Exceptions.Validation;
 
 public class ValidationAggregateException : AggregateException
 {

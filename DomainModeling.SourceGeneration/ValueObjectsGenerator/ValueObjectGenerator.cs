@@ -394,6 +394,12 @@ public class ValueObjectGenerator : IIncrementalGenerator
 	public {data.ValueObjectType.Name}({data.UnderlyingTypeName} {data.LocalVariableName}, Validator? validator = null)
 	{{	
 ");
+
+				if (data.AllowNull)
+					code.TrimEnd().AppendLine($@"
+		if ({data.LocalVariableName} is null)
+			return;
+");
 				
 				var validatorInstantiation = data.ValueObjectType.IsRefLikeType 
 					? $"new DefaultValidator(objectName: typeof({data.ValueObjectType.GetTypeNameWithGenericParameters()}).Name);" 

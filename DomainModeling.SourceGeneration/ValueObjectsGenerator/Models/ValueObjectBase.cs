@@ -31,6 +31,8 @@ public abstract record ValueObjectBase
 		this.AddIComparable = addIComparable;
 		this.IsUnsealedRecordClass = valueObjectType is { IsRecord: true, TypeKind: not TypeKind.Struct, IsSealed: false };
 		this.ValueObjectNullOperator = valueObjectType.TypeKind is TypeKind.Class || allowNull ? '?' : null;
+		this.UnderlyingTypeNullOperator = allowNull ? '?' : null;
+
 		this.Name = valueObjectType.GetTypeNameWithGenericParameters();
 		this.Namespace = valueObjectType.ContainingNamespace!.IsGlobalNamespace ? null : valueObjectType.ContainingNamespace.ToDisplayString();
 		this.BackingFieldName = $"_{propertyName.Substring(0, 1).ToLowerInvariant()}{propertyName.Substring(1)}{(generateDefaultConstructor ? new Random().Next(0, 9999) : null)}";
@@ -42,7 +44,8 @@ public abstract record ValueObjectBase
 	
 	public abstract string UnderlyingTypeName { get; }
 	public abstract string? UnderlyingTypeNameBase { get; }
-	
+	public char? UnderlyingTypeNullOperator { get; }
+
 	public bool IsUnsealedRecordClass { get; }
 
 	/// <summary>

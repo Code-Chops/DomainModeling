@@ -57,6 +57,7 @@ public sealed record ListValueObject : ValueObjectBase, IEnumerableValueObject
 
 	public override string UnderlyingTypeName { get; } = null!;
 	public override string? UnderlyingTypeNameBase { get; }
+	
 	public INamedTypeSymbol ProvidedElementType { get; } = null!;
 	public int? MinimumCount { get; }
 	public int? MaximumCount { get; }

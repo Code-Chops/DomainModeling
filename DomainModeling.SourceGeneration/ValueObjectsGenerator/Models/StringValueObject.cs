@@ -57,15 +57,15 @@ public sealed record StringValueObject(
 {
 	public string ElementTypeName					=> nameof(Char);
 
-	public override string UnderlyingTypeName		=> nameof(String);
+	public override string UnderlyingTypeName { get; } = AllowNull ? $"{nameof(String)}?" : nameof(String);
 	public override string? UnderlyingTypeNameBase	=> null;
-
+	
 	public override IEnumerable<string> GetUsingNamespaces()	
 		=> Array.Empty<string>();
 	
 	public override string GetComments()				=> $"An immutable value type with a {(this.StringCaseConversion == StringCaseConversion.NoConversion ? null : $"{this.StringCaseConversion} ")}{this.StringFormat}-Formatted string as underlying value.";
 
-	public override string GetToStringCode()			=> $"public override string{this.ValueObjectNullOperator} ToString() => this.{this.PropertyName};";
+	public override string GetToStringCode()			=> $"public override {this.UnderlyingTypeName} ToString() => this.{this.PropertyName};";
 	
 	public override string? GetInterfacesCode()			=> null;
 
@@ -78,7 +78,9 @@ public sealed record StringValueObject(
 
 	public override string GetDefaultValue()			=> "String.Empty";
 	
-	public override string GetLengthOrCountCode()		=> $"public int Length => this.{this.PropertyName}.Length;";
+	public override string GetLengthOrCountCode()		=> this.AllowNull 
+		? $"public int Length => this.{this.PropertyName}?.Length ?? 0;" 
+		: $"public int Length => this.{this.PropertyName}.Length;";
 
 	public override string? GetExtraCastCode()			=> null;
 
@@ -124,8 +126,13 @@ public sealed record StringValueObject(
 	public override string GetEnumeratorCode() => $"public IEnumerator<{this.ElementTypeName}> GetEnumerator() => this.{this.PropertyName}.GetEnumerator();";
 
 	public override string GetExtraCode()
-		=> $@"
+		=> this.AllowNull 
+			? $@"
 	public {(this.IsUnsealedRecordClass ? "virtual " : null)}{this.ElementTypeName}? this[int index] 
-		=> Validator.Get<{this.Name}>.Default.GuardIndexInRange(this.{this.PropertyName}, index, errorCode: null)!;
+		=> this.{this.PropertyName} is null ? null : Validator.Get<{this.Name}>.Default.GuardIndexInRange(this.{this.PropertyName}, index, errorCode: null);
+"
+			: $@"
+	public {(this.IsUnsealedRecordClass ? "virtual " : null)}{this.ElementTypeName} this[int index] 
+		=> Validator.Get<{this.Name}>.Default.GuardIndexInRange(this.{this.PropertyName}, index, errorCode: null);
 ";
 	}

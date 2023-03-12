@@ -50,8 +50,6 @@ public sealed record DefaultValueObject : ValueObjectBase
 		
 		this.UnderlyingType = underlyingType;
 		this.ParameterSubstitute = parameterSubstitute;
-		
-		this.UnderlyingTypeNullOperator = this.UnderlyingType.TypeKind is TypeKind.Class || this.AllowNull ? '?' : null;
 		this.UnderlyingTypeName = this.GetUnderlyingTypeName();
 		this.UnderlyingTypeNameBase = null;
 		this.TypeDeclarationSyntax = typeDeclarationSyntax;
@@ -120,7 +118,6 @@ public sealed record DefaultValueObject : ValueObjectBase
 	
 	public override string UnderlyingTypeName { get; } = null!;
 	public override string? UnderlyingTypeNameBase { get; }
-	public char? UnderlyingTypeNullOperator { get; }
 	
 	public override IEnumerable<string> GetUsingNamespaces()
 		=> GetAllUsingNamespacesOfType(this.UnderlyingType);

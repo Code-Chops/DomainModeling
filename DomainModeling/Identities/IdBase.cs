@@ -18,7 +18,7 @@ public abstract record Id<TSelf, TUnderlying> : IId<TSelf, TUnderlying>
 	where TSelf : Id<TSelf, TUnderlying>
 	where TUnderlying : IEquatable<TUnderlying?>, IComparable<TUnderlying?>
 {
-	public override string ToString() => this.ToDisplayString(new { this.Value, UnderlyingType = typeof(TUnderlying).Name });
+	public override string ToString() => this.Value.ToString()!;
 
 	// ReSharper disable once MemberCanBePrivate.Global
 	public TUnderlying Value { get; protected init; }

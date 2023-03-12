@@ -91,7 +91,7 @@ public readonly partial record struct {data.IdTypeName} : IId<{data.IdTypeName},
 {{ 
 	[DebuggerHidden]
 	[EditorBrowsable(EditorBrowsableState.Never)]
-	public override string ToString() => this.ToDisplayString(new {{ this.Value, UnderlyingType = $""{{typeof({data.UnderlyingTypeFullName.Trim('?')}).GetNameWithTypeParameters()}}{data.NullOperator}"" }});
+	public override string ToString() => this.Value.ToString()!;
 
 	[EditorBrowsable(EditorBrowsableState.Never)]
 	public {data.UnderlyingTypeFullName} Value {{ get; private init; }}

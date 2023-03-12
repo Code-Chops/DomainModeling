@@ -123,7 +123,10 @@ public sealed record StringValueObject(
 			? $".To{this.StringCaseConversion}()"
 			: null;
 
-	public override string GetEnumeratorCode() => $"public IEnumerator<{this.ElementTypeName}> GetEnumerator() => this.{this.PropertyName}.GetEnumerator();";
+	public override string GetEnumeratorCode() 
+		=> this.AllowNull
+			? $"public IEnumerator<{this.ElementTypeName}> GetEnumerator() => this.{this.PropertyName} is null ? Array.Empty<{this.UnderlyingTypeName}>();"
+			: $"public IEnumerator<{this.ElementTypeName}> GetEnumerator() => this.{this.PropertyName}.GetEnumerator();";
 
 	public override string GetExtraCode()
 		=> this.AllowNull 

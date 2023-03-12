@@ -10,8 +10,8 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>2.12.2</Version>
-        <PackageReleaseNotes>Fixed nullability of string value objects enumeration 2.</PackageReleaseNotes>
+        <Version>2.12.3</Version>
+        <PackageReleaseNotes>Fixed nullability of string value objects enumeration 3.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>

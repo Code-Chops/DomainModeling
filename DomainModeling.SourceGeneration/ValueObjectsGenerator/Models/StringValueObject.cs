@@ -125,7 +125,7 @@ public sealed record StringValueObject(
 
 	public override string GetEnumeratorCode() 
 		=> this.AllowNull
-			? $"public IEnumerator<{this.ElementTypeName}> GetEnumerator() => (this.{this.PropertyName} ?? Array.Empty<{this.ElementTypeName}>()).GetEnumerator();"
+			? $"public IEnumerator<{this.ElementTypeName}> GetEnumerator() => (this.{this.PropertyName} ?? String.Empty).GetEnumerator();"
 			: $"public IEnumerator<{this.ElementTypeName}> GetEnumerator() => this.{this.PropertyName}.GetEnumerator();";
 
 	public override string GetExtraCode()

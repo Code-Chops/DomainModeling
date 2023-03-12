@@ -171,7 +171,7 @@ public class ValueObjectGenerator : IIncrementalGenerator
 			var interfaces = new StringBuilder($" : IValueObject, ICreatable<{data.Name}, {data.UnderlyingTypeName}>");
 			if (data.GenerateComparison && data.GetCompareToCode() is not null) interfaces.Append($", IEquatable<{data.Name}{data.ValueObjectNullOperator}>");
 			if (data.GenerateStaticDefault) interfaces.Append($", IHasDefault<{data.Name}>");
-			if (data.AddIComparable && data.GenerateComparison) interfaces.Append($", IComparable<{data.Name}>");
+			if (data.AddIComparable && data.GenerateComparison) interfaces.Append($", IComparable<{data.Name}{data.ValueObjectNullOperator}>");
 			if (data.GenerateEnumerable && data is IEnumerableValueObject enumerableValueObject) interfaces.Append($", IEnumerable<{enumerableValueObject.ElementTypeName}>");
 			if (data is StringValueObject { UseRegex: true }) interfaces.Append($", IHasValidationRegex");
 			

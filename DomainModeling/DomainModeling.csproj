@@ -10,8 +10,8 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>2.12.3</Version>
-        <PackageReleaseNotes>Fixed nullability of string value objects enumeration 3.</PackageReleaseNotes>
+        <Version>2.13.0</Version>
+        <PackageReleaseNotes>ID is newable now instead of creatable.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>

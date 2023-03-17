@@ -134,15 +134,6 @@ public readonly partial record struct {data.IdTypeName} : IId<{data.IdTypeName},
 	{{
 		this.Value = value;
 	}}
-
-	/// <summary>
-	/// Initializes the ID with a default value.
-	/// </summary>
-	[DebuggerHidden]
-	public static {data.IdTypeName} Create(Validator? validator = null)
-	{{
-		return new(default);
-	}}
 }}
 ";
 

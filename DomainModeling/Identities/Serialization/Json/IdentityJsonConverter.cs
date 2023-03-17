@@ -7,7 +7,7 @@ using System.Text.Json.Serialization;
 namespace CodeChops.DomainModeling.Identities.Serialization.Json;
 
 internal sealed class IdentityJsonConverter<TId, TUnderlying> : JsonConverter<TId>
-	where TId : IId<TId, TUnderlying>
+	where TId : IId<TId, TUnderlying>, new() 
 	where TUnderlying : IEquatable<TUnderlying?>, IComparable<TUnderlying?>
 {
 	public override bool CanConvert(Type typeToConvert) 

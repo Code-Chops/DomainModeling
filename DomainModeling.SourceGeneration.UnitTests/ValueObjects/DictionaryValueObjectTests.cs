@@ -1,6 +1,17 @@
 ﻿namespace CodeChops.DomainModeling.SourceGeneration.UnitTests.ValueObjects;
 
-internal record MockId(ulong Value) : Id<MockId, ulong>(Value);
+internal record MockId : Id<MockId, ulong>
+{
+	public MockId(ulong value)
+	{
+		this.Value = value;
+	}
+
+	public MockId()
+	{
+	}
+}
+
 // ReSharper disable once NotAccessedPositionalProperty.Local
 internal record DictionaryValueObjectMock(int Value) : IValueObject;
 

@@ -15,7 +15,7 @@ namespace CodeChops.DomainModeling.Identities;
 /// </summary>
 /// <typeparam name="TUnderlying">The underlying value of the identifier.</typeparam>
 public abstract record Id<TSelf, TUnderlying> : IId<TSelf, TUnderlying>
-	where TSelf : Id<TSelf, TUnderlying>
+	where TSelf : Id<TSelf, TUnderlying>, new() 
 	where TUnderlying : IEquatable<TUnderlying?>, IComparable<TUnderlying?>
 {
 	public override string ToString() => this.Value.ToString()!;
@@ -23,7 +23,7 @@ public abstract record Id<TSelf, TUnderlying> : IId<TSelf, TUnderlying>
 	// ReSharper disable once MemberCanBePrivate.Global
 	public TUnderlying Value { get; protected init; }
 
-	public static explicit operator Id<TSelf, TUnderlying>(TUnderlying value) => Create() with { Value = value };
+	public static explicit operator Id<TSelf, TUnderlying>(TUnderlying value) => new TSelf() { Value = value };
 	public static implicit operator TUnderlying(Id<TSelf, TUnderlying> id) => id.Value;
 
 	#region Comparison
@@ -56,12 +56,4 @@ public abstract record Id<TSelf, TUnderlying> : IId<TSelf, TUnderlying>
 	/// Create new instances when explicitly casting. Used to avoid the new() constraint.
 	/// </summary>
 	private static readonly TSelf CachedUninitializedMember = (TSelf)FormatterServices.GetUninitializedObject(typeof(TSelf));
-
-	/// <summary>
-	/// Initializes the ID with a default value.
-	/// </summary>
-	public static TSelf Create(Validator? validator = null)
-	{
-		return CachedUninitializedMember with { Value = default! };
-	}
 }

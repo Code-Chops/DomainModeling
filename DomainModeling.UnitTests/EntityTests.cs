@@ -5,6 +5,10 @@ public class EntityTests
 	private record IdMock : Id<IdMock, int>
 	{
 		public IdMock(int value) : base(value) { }
+
+		public IdMock()
+		{
+		}
 	}
 
 	private class EntityMock1 : Entity<IdMock>

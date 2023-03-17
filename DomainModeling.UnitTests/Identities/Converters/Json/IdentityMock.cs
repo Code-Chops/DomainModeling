@@ -6,4 +6,8 @@ public record IdentityMock : Id<IdentityMock, uint>
 		: base(value)
 	{
 	}
+
+	public IdentityMock()
+	{
+	}
 }

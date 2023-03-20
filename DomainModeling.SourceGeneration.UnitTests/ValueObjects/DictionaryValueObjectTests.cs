@@ -5,9 +5,7 @@ namespace CodeChops.DomainModeling.SourceGeneration.UnitTests.ValueObjects;
 internal record MockId : Id<MockId, ulong>
 {
 	[SetsRequiredMembers]
-#pragma warning disable CS8618
 	public MockId(ulong value) 
-#pragma warning restore CS8618
 	{
 		this.Value = value;
 	}

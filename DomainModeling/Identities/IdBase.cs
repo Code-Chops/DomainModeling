@@ -18,16 +18,16 @@ public abstract record Id<TSelf, TUnderlying> : IId<TSelf, TUnderlying>, IHasDef
 	where TSelf : Id<TSelf, TUnderlying>
 	where TUnderlying : IEquatable<TUnderlying?>, IComparable<TUnderlying?>
 {
-	public override string ToString() => this.Value.ToString()!;
+	public override string? ToString() => this.Value?.ToString()!;
 
-	public required TUnderlying Value { get; init; }
+	public TUnderlying? Value { get; init; }
 
 	public static explicit operator Id<TSelf, TUnderlying>(TUnderlying value) => Default with { Value = value };
-	public static implicit operator TUnderlying(Id<TSelf, TUnderlying> id) => id.Value;
+	public static implicit operator TUnderlying?(Id<TSelf, TUnderlying> id) => id.Value;
 
 	#region Comparison
 	public int CompareTo(TSelf? other) 
-		=> other is null ? 1 : this.Value.CompareTo(other.Value);
+		=> other is null ? 1 : this.Value?.CompareTo(other.Value) ?? -1;
 	
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	public static bool operator <	(Id<TSelf, TUnderlying> left, TSelf? right)	=> left.CompareTo(right) <	0;
@@ -40,5 +40,5 @@ public abstract record Id<TSelf, TUnderlying> : IId<TSelf, TUnderlying>, IHasDef
 	#endregion
 
 	public static TSelf Default { get; } = (TSelf)FormatterServices.GetUninitializedObject(typeof(TSelf));
-	bool IId.HasDefaultValue => this.Value.Equals(default);
+	bool IId.HasDefaultValue => this.Value?.Equals(default) ?? true;
 }

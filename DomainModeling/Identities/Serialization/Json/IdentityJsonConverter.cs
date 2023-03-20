@@ -42,5 +42,5 @@ internal sealed class IdentityJsonConverter<TId, TUnderlying> : JsonConverter<TI
 	}
 
 	public override void Write(Utf8JsonWriter writer, TId id, JsonSerializerOptions options) 
-		=> DefaultConverter.Write(writer, id.Value, options);
+		=> DefaultConverter.Write(writer, id.Value!, options);
 }

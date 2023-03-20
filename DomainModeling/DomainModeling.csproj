@@ -10,8 +10,8 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>2.14.0</Version>
-        <PackageReleaseNotes>ID is IHasDefault now instead of newable.</PackageReleaseNotes>
+        <Version>2.15.0</Version>
+        <PackageReleaseNotes>ID value is now not required and is nullable.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>

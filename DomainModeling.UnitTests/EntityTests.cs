@@ -7,9 +7,7 @@ public class EntityTests
 	private record IdMock : Id<IdMock, int>
 	{
 		[SetsRequiredMembers]
-#pragma warning disable CS8618
 		public IdMock(int value) 
-#pragma warning restore CS8618
 		{
 			this.Value = value; 
 		}

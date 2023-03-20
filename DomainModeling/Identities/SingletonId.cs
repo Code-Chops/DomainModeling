@@ -7,9 +7,7 @@ public sealed record SingletonId<TEntity> : Id<SingletonId<TEntity>, string>
 	where TEntity : Entity<SingletonId<TEntity>>
 {
 	[SetsRequiredMembers]
-#pragma warning disable CS8618
     public SingletonId()
-#pragma warning restore CS8618
     {
 	    this.Value = typeof(TEntity).FullName ?? typeof(TEntity).Name;
     }

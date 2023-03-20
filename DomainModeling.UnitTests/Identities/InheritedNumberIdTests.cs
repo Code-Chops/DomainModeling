@@ -7,9 +7,7 @@ public class InheritedNumberIdTests
 	private record IntIdMock : Id<IntIdMock, int>
 	{
 		[SetsRequiredMembers]
-#pragma warning disable CS8618
 		public IntIdMock(int value)
-#pragma warning restore CS8618
 		{
 			this.Value = value;
 		}
@@ -18,9 +16,7 @@ public class InheritedNumberIdTests
 	private record UIntIdMock : Id<UIntIdMock, uint>
 	{
 		[SetsRequiredMembers]
-#pragma warning disable CS8618
 		public UIntIdMock(uint value) 
-#pragma warning restore CS8618
 		{
 			this.Value = value; 
 		}

@@ -87,7 +87,7 @@ namespace {data.Namespace};
 		{
 			var code = $@"
 [StructLayout(LayoutKind.Auto)]
-public readonly partial record struct {data.IdTypeName} : IId<{data.IdTypeName}, {data.UnderlyingTypeFullName}>
+public readonly partial record struct {data.IdTypeName} : IId<{data.IdTypeName}, {data.UnderlyingTypeFullName}>, IHasDefault<{data.IdTypeName}>
 {{ 
 	[DebuggerHidden]
 	[EditorBrowsable(EditorBrowsableState.Never)]
@@ -128,6 +128,8 @@ public readonly partial record struct {data.IdTypeName} : IId<{data.IdTypeName},
 
 	[DebuggerHidden]
 	bool IId.HasDefaultValue => this.Value == default;
+	[DebuggerHidden]
+	static {data.IdTypeName} IHasDefault<{data.IdTypeName}>.Default => default;
 
 	[DebuggerHidden]
 	public {data.IdTypeName}({data.UnderlyingTypeFullName} value)

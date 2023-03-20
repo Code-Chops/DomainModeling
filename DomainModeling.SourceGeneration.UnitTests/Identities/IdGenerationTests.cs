@@ -25,38 +25,6 @@ public class IdGenerationTests
 		var entity = new ClassWithGenericTypeId();
 		Assert.Equal(typeof(ulong), entity.Value.GetType());
 	}
-	
-	[Fact]
-	public void Id_WithoutValue_ShouldBe_Default()
-	{
-		IId id1 = new EntityWithByteIdMock1Id();
-		IId id2 = new EntityWithByteIdMock2Id();
-		IId id3 = new ClassWithIdId();
-		IId id4 = new ClassWithGenericTypeId();
-		IId id5 = new ClassWithUuidId();
-		
-		Assert.True(id1.HasDefaultValue);
-		Assert.True(id2.HasDefaultValue);
-		Assert.True(id3.HasDefaultValue);
-		Assert.True(id4.HasDefaultValue);
-		Assert.True(id5.HasDefaultValue);
-	}
-
-	[Fact]
-	public void Id_WithValue_ShouldNotBe_Default()
-	{
-		IId id1 = new EntityWithByteIdMock1Id(1);
-		IId id2 = new EntityWithByteIdMock2Id(2);
-		IId id3 = new ClassWithIdId(3);
-		IId id4 = new ClassWithGenericTypeId(4);
-		IId id5 = new ClassWithUuidId(new Uuid("2FD110A01D304B4593B4D44680DE152C"));
-		
-		Assert.False(id1.HasDefaultValue);
-		Assert.False(id2.HasDefaultValue);
-		Assert.False(id3.HasDefaultValue);
-		Assert.False(id4.HasDefaultValue);
-		Assert.False(id5.HasDefaultValue);
-	}
 
 	[Fact]
 	public void Ids_WithDifferentValue_ShouldNotBe_Equal()

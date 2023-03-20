@@ -2,11 +2,11 @@
 
 /// <inheritdoc cref="IEntity"/>
 public abstract class Entity<TId> : IEntity, IEquatable<Entity<TId>?>, IHasId<TId>
-	where TId : IId<TId>, new()
+	where TId : IId<TId>, IHasDefault<TId>
 {
 	public override string ToString() => this.ToDisplayString(new { this.Id });
 
-	public TId Id { get; init; } = new();
+	public required TId Id { get; init; }
 	
 	public sealed override int GetHashCode()
 	{

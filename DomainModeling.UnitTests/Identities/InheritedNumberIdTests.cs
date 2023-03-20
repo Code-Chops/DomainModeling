@@ -1,23 +1,35 @@
-﻿namespace CodeChops.DomainModeling.UnitTests.Identities;
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace CodeChops.DomainModeling.UnitTests.Identities;
 
 public class InheritedNumberIdTests
 {
 	private record IntIdMock : Id<IntIdMock, int>
 	{
-		public IntIdMock(int value) : base(value) { }
-		public IntIdMock() { }
+		[SetsRequiredMembers]
+#pragma warning disable CS8618
+		public IntIdMock(int value)
+#pragma warning restore CS8618
+		{
+			this.Value = value;
+		}
 	}
 	
 	private record UIntIdMock : Id<UIntIdMock, uint>
 	{
-		public UIntIdMock(uint value) : base(value) { }
-		public UIntIdMock() { }
+		[SetsRequiredMembers]
+#pragma warning disable CS8618
+		public UIntIdMock(uint value) 
+#pragma warning restore CS8618
+		{
+			this.Value = value; 
+		}
 	}
 	
 	[Fact]
 	public void Id_WithoutValue_ShouldBe_Default()
 	{
-		IId guid = new IntIdMock();
+		IId guid = new IntIdMock(0);
 		
 		Assert.True(guid.HasDefaultValue);
 	}
@@ -63,8 +75,8 @@ public class InheritedNumberIdTests
 	[Fact]
 	public void DefaultIds_ShouldBe_Equal()
 	{
-		var id1 = new IntIdMock();
-		var id2 = new IntIdMock();
+		var id1 = new IntIdMock(0);
+		var id2 = new IntIdMock(0);
 		
 		Assert.True(id1 == id2);
 		Assert.Equal(id1, id2);
@@ -73,8 +85,8 @@ public class InheritedNumberIdTests
 	[Fact]
 	public void DefaultIds_OfDifferentTypes_ShouldNotBe_Equal()
 	{
-		var id1 = (IId)new IntIdMock();
-		var id2 = (IId)new UIntIdMock();
+		var id1 = (IId)new IntIdMock(0);
+		var id2 = (IId)new UIntIdMock(0);
 		
 		Assert.False(id1 == id2);
 		Assert.False(id1.Equals(id2));

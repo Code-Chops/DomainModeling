@@ -4,12 +4,13 @@
 /// A singleton ID for entities that only have one ID per type. 
 /// </summary>
 public sealed record SingletonId<TEntity> : Id<SingletonId<TEntity>, string>
-    where TEntity : Entity<SingletonId<TEntity>>
+	where TEntity : Entity<SingletonId<TEntity>>
 {
-    public static SingletonId<TEntity> Instance { get; } = new();
-
+	[SetsRequiredMembers]
+#pragma warning disable CS8618
     public SingletonId()
-        : base(typeof(TEntity).FullName ?? typeof(TEntity).Name)
+#pragma warning restore CS8618
     {
+	    this.Value = typeof(TEntity).FullName ?? typeof(TEntity).Name;
     }
 }

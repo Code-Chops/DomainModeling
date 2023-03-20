@@ -1,13 +1,14 @@
-﻿namespace CodeChops.DomainModeling.UnitTests.Identities.Converters.Json;
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace CodeChops.DomainModeling.UnitTests.Identities.Converters.Json;
 
 public record IdentityMock : Id<IdentityMock, uint>
 {
-	public IdentityMock(uint value) 
-		: base(value)
+	[SetsRequiredMembers]
+#pragma warning disable CS8618
+	public IdentityMock(uint value)
+#pragma warning restore CS8618
 	{
-	}
-
-	public IdentityMock()
-	{
+		this.Value = value;
 	}
 }

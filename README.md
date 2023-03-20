@@ -804,9 +804,6 @@ public readonly record struct PlayerId : IId<PlayerId, global::CodeChops.DomainM
 	#endregion
 
 	[DebuggerHidden]
-	bool IId.IId<HasDefaultValue => this.Value == default;
-
-	[DebuggerHidden]
 	public PlayerId(global::CodeChops.DomainModeling.Identities.Uuid value)
 	{
 		this.Value = value;

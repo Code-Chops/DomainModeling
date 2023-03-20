@@ -6,7 +6,7 @@
 /// <typeparam name="TElement">The type of the elements in the list.</typeparam>
 public abstract class ListEntity<TSelf, TId, TElement> : Entity<TId>, IReadOnlyList<TElement>
 	where TSelf : ListEntity<TSelf, TId, TElement>
-	where TId : IId<TId>, new()
+	where TId : IId<TId>, IHasDefault<TId>
 	where TElement : IDomainObject
 {
 	public override string ToString() => this.ToDisplayString(new { TDomainObject = typeof(TElement).Name });

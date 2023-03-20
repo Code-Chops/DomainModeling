@@ -1,14 +1,19 @@
-﻿namespace CodeChops.DomainModeling.UnitTests;
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace CodeChops.DomainModeling.UnitTests;
 
 public class EntityTests
 {
 	private record IdMock : Id<IdMock, int>
 	{
-		public IdMock(int value) : base(value) { }
-
-		public IdMock()
+		[SetsRequiredMembers]
+#pragma warning disable CS8618
+		public IdMock(int value) 
+#pragma warning restore CS8618
 		{
+			this.Value = value; 
 		}
+
 	}
 
 	private class EntityMock1 : Entity<IdMock>
@@ -52,8 +57,8 @@ public class EntityTests
 	[Fact]
 	public void DifferentEntities_WithDefaultIds_ShouldNotBe_Equal()
 	{
-		var entity1 = new EntityMock1();
-		var entity2 = new EntityMock2();
+		var entity1 = new EntityMock1() { Id = new(0) };
+		var entity2 = new EntityMock2() { Id = new(0) };
 		
 		Assert.NotEqual(entity1, (IEntity)entity2);
 		Assert.False(entity1 == entity2);
@@ -62,7 +67,7 @@ public class EntityTests
 	[Fact]
 	public void SameEntities_WithDefaultIds_ShouldBe_Equal()
 	{
-		var entity1 = new EntityMock1();
+		var entity1 = new EntityMock1() { Id = new(0) };
 		var entity2 = entity1;
 		
 		Assert.Equal(entity1, entity2);

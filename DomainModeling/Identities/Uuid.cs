@@ -8,12 +8,13 @@ namespace CodeChops.DomainModeling.Identities;
 [GenerateStringValueObject(
 	minimumLength: 32, maximumLength: 36, stringFormat: StringFormat.Default, stringComparison: StringComparison.Ordinal, useRegex: true, propertyIsPublic: true,
 	forbidParameterlessConstruction: false, useValidationExceptions: false)]
-public partial record struct Uuid : IId<Uuid, string>
+public partial record struct Uuid : IId<Uuid, string>, IHasDefault<Uuid>
 {
 	[GeneratedRegex("^[0-9A-F]{32}$", RegexOptions.CultureInvariant, matchTimeoutMilliseconds: 1000)]
 	public static partial Regex ValidationRegex();
     
-	public bool HasDefaultValue => this.Value == "";
+	public bool HasDefaultValue => this.Value == Default;
+    public static Uuid Default { get; } = new("");
 	
 	public Uuid(Validator? validator = null)
 		: this(Guid.NewGuid().ToString("N").ToUpper(), validator)
@@ -24,4 +25,5 @@ public partial record struct Uuid : IId<Uuid, string>
 		: this(uuid.ToString("N").ToUpper(), validator)
     {
     }
+
 }

@@ -10,7 +10,7 @@ public sealed record DefaultValidator : Validator
 	/// <summary>
 	/// Is always true, because it throws when it encounters an exception.
 	/// </summary>
-	public override bool IsValid => true;
+	public override bool HasException => true;
 	
 	/// <summary>
 	/// Only use this constructor if the object to be validated is a ref struct.

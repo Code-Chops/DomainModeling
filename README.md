@@ -35,7 +35,7 @@ Validation should be performed in the constructor of an object. A `Validator` cl
 ### Validator
 Provides a way to easily (in)validate domain objects. It support several modes to handle `ValidationExceptions`. There are different types of validators:
 - `Default`: throws an exception on the first invalidation of a guard (immutable).
-- `Aggregate`: does not immediately throw when the guard invalidates, but collects the exceptions in an `ValidationAggregateException` and throws them when disposed (mutable). Initialize this with a `using` statement or declaration. Throwing of the exceptions when disposing can be disabled by setting the property `ThrowWhenDisposed` to `false`.
+- `Aggregate`: does not immediately throw when the guard invalidates, but collects the exceptions in an `CustomAggregateException` and throws them when disposed (mutable). Initialize this with a `using` statement or declaration. Throwing of the exceptions when disposing can be disabled by setting the property `ThrowWhenDisposed` to `false`.
 - `Ignore`: does *not* throw. It does *not* collect validation exception (immutable).
 
 ### Guards

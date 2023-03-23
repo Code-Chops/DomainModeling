@@ -6,7 +6,7 @@ namespace CodeChops.DomainModeling.Validation;
 public abstract record Validator
 {
 	public string ObjectName { get; }
-	public abstract bool IsValid { get; }
+	public abstract bool HasException { get; }
 	
 	protected Validator(string objectName)
 	{

@@ -3,12 +3,19 @@
 /// <summary>
 /// A singleton ID for entities that only have one ID per type. 
 /// </summary>
-public sealed record SingletonId<TEntity> : Id<SingletonId<TEntity>, string>
-	where TEntity : Entity<SingletonId<TEntity>>
+public record SingletonId<TEntity> : IId<SingletonId<TEntity>, string>
+	where TEntity : IId<TEntity>
 {
-	[SetsRequiredMembers]
-    public SingletonId()
-    {
-	    this.Value = typeof(TEntity).FullName ?? typeof(TEntity).Name;
-    }
+	public int CompareTo(SingletonId<TEntity>? other) => String.Compare(this.Value, other?.Value ?? "", StringComparison.Ordinal);
+
+	public override string ToString() => $"{typeof(SingletonId<TEntity>).Name} of {typeof(TEntity).Name}";
+	
+	public static SingletonId<TEntity> Default { get; } = new();
+	public string Value { get; } = typeof(TEntity).FullName!;
+
+	public bool HasDefaultValue { get; } = true;
+
+	private SingletonId()
+	{
+	}
 }

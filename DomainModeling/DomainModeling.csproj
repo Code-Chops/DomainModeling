@@ -10,8 +10,8 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>2.15.0</Version>
-        <PackageReleaseNotes>ID value is now not required and is nullable.</PackageReleaseNotes>
+        <Version>2.16.0</Version>
+        <PackageReleaseNotes>Singleton ID is now a struct. AggregateValidator does not throw always on non-validation errors anymore. Updated README.md.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>

@@ -11,7 +11,6 @@ public class EntityTests
 		{
 			this.Value = value; 
 		}
-
 	}
 
 	private class EntityMock1 : Entity<IdMock>

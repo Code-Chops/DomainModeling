@@ -11,7 +11,7 @@ public record IgnoreValidator : Validator
 	/// <summary>
 	/// Is always true.
 	/// </summary>
-	public override bool IsValid => true;
+	public override bool HasException => true;
 	
 	/// <inheritdoc />
 	internal IgnoreValidator(string objectName) 

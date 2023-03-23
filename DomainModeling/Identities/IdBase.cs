@@ -14,7 +14,7 @@ namespace CodeChops.DomainModeling.Identities;
 /// </para>
 /// </summary>
 /// <typeparam name="TUnderlying">The underlying value of the identifier.</typeparam>
-public abstract record Id<TSelf, TUnderlying> : IId<TSelf, TUnderlying>, IHasDefault<TSelf> 
+public abstract record Id<TSelf, TUnderlying> : IId<TSelf, TUnderlying> 
 	where TSelf : Id<TSelf, TUnderlying>
 	where TUnderlying : IEquatable<TUnderlying?>, IComparable<TUnderlying?>
 {

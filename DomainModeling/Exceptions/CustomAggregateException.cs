@@ -1,8 +1,8 @@
-﻿namespace CodeChops.DomainModeling.Exceptions.Validation;
+﻿namespace CodeChops.DomainModeling.Exceptions;
 
-public class ValidationAggregateException : AggregateException
+public class CustomAggregateException : AggregateException
 {
-	internal ValidationAggregateException(IEnumerable<ValidationException> exceptions)
+	internal CustomAggregateException(IEnumerable<CustomException> exceptions)
 		: base(exceptions)
 	{
 	}

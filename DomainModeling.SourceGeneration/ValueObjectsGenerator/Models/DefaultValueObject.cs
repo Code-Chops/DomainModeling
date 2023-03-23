@@ -4,7 +4,7 @@ namespace CodeChops.DomainModeling.SourceGeneration.ValueObjectsGenerator.Models
 
 public sealed record DefaultValueObject : ValueObjectBase
 {
-	public INamedTypeSymbol UnderlyingType { get; } = null!;
+	public ITypeSymbol UnderlyingType { get; } = null!;
 	public TypeDeclarationSyntax TypeDeclarationSyntax { get; } = null!;
 	public int? MinimumValue { get; }
 	public int? MaximumValue { get; }
@@ -59,20 +59,23 @@ public sealed record DefaultValueObject : ValueObjectBase
 
 	private ITypeSymbol? ParameterSubstitute { get; }
 	
-	private static INamedTypeSymbol? GetUnderlyingType(INamedTypeSymbol valueObjectType, INamedTypeSymbol? providedUnderlyingType, out ITypeSymbol? parameterSubstitute)
+	private static ITypeSymbol? GetUnderlyingType(INamedTypeSymbol valueObjectType, ITypeSymbol? providedUnderlyingType, out ITypeSymbol? parameterSubstitute)
 	{
 		var typeParameter = valueObjectType.TypeArguments.FirstOrDefault();
 
-		if (providedUnderlyingType is null && typeParameter is INamedTypeSymbol namedTypeParameter)
+		if (typeParameter is ITypeParameterSymbol namedTypeParameter)
 		{
-			parameterSubstitute = null;
-			return namedTypeParameter;
-		}
+			if (providedUnderlyingType is null)
+			{
+				parameterSubstitute = typeParameter;
+				return namedTypeParameter;
+			}
 
-		if (typeParameter is null || (providedUnderlyingType is not null && providedUnderlyingType.IsUnboundGenericType))
-		{
-			parameterSubstitute = typeParameter;
-			return providedUnderlyingType;
+			if (providedUnderlyingType is INamedTypeSymbol providedNamedUnderlyingType && providedNamedUnderlyingType.IsUnboundGenericType)
+			{
+				parameterSubstitute = typeParameter;
+				return providedNamedUnderlyingType;
+			}
 		}
 
 		parameterSubstitute = null;
@@ -96,7 +99,7 @@ public sealed record DefaultValueObject : ValueObjectBase
 		// Replace type argument of provided underlying type if needed.
 		if (this.ParameterSubstitute is not null)
 		{
-			if (this.UnderlyingType is { IsGenericType: true})
+			if (this.UnderlyingType is INamedTypeSymbol { IsGenericType: true})
 			{
 				var startIndex = name.IndexOf('<');
 
@@ -120,7 +123,9 @@ public sealed record DefaultValueObject : ValueObjectBase
 	public override string? UnderlyingTypeNameBase { get; }
 	
 	public override IEnumerable<string> GetUsingNamespaces()
-		=> GetAllUsingNamespacesOfType(this.UnderlyingType);
+		=> this.UnderlyingType is INamedTypeSymbol namedTypeSymbol 
+		? GetAllUsingNamespacesOfType(namedTypeSymbol)
+		: Array.Empty<string>();
 
 	public override string GetComments()
 	{

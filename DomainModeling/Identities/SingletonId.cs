@@ -4,7 +4,6 @@
 /// A singleton ID for entities that only have one instance.
 /// </summary>
 public record SingletonId<TEntity> : IId<SingletonId<TEntity>, SingletonId<TEntity>>
-	where TEntity : IId<TEntity>
 {
 	public int CompareTo(SingletonId<TEntity>? other) => 0;
 

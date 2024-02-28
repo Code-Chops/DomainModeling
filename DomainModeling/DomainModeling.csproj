@@ -10,8 +10,8 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>2.17.1</Version>
-        <PackageReleaseNotes>Removed generic type constraint SingletonId.</PackageReleaseNotes>
+        <Version>2.17.2</Version>
+        <PackageReleaseNotes>ID to primary constructors.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>

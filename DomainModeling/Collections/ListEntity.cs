@@ -4,19 +4,19 @@
 /// An abstract entity that holds a list and which provides a public readable api. The implementation can decide if this can be mutable or not.
 /// </summary>
 /// <typeparam name="TElement">The type of the elements in the list.</typeparam>
-public abstract class ListEntity<TSelf, TId, TElement> : Entity<TId>, IReadOnlyList<TElement>
+public abstract class ListEntity<TSelf, TId, TElement>(TId id) : Entity<TId>(id), IReadOnlyList<TElement>
 	where TSelf : ListEntity<TSelf, TId, TElement>
 	where TId : IId<TId>, IHasDefault<TId>
 	where TElement : IDomainObject
 {
 	public override string ToString() => this.ToDisplayString(new { TDomainObject = typeof(TElement).Name });
-	
+
 	// Is readonly (i.e.: readable) in order to make covariance possible.
 	protected abstract IReadOnlyList<TElement> List { get; }
 
 	public int Count => this.List.Count;
-	
-	public virtual TElement this[int index] 
+
+	public virtual TElement this[int index]
 		=> Validator.Get<TSelf>.Default.GuardIndexInRange(this.List, index, errorCode: null)!;
 
 	IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();

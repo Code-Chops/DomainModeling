@@ -1,33 +1,33 @@
 ﻿namespace CodeChops.DomainModeling;
 
 /// <inheritdoc cref="IEntity"/>
-public abstract class Entity<TId> : IEntity, IEquatable<Entity<TId>?>, IHasId<TId>
+public abstract class Entity<TId>(TId id) : IEntity, IEquatable<Entity<TId>?>, IHasId<TId>
 	where TId : IId<TId>, IHasDefault<TId>
 {
 	public override string ToString() => this.ToDisplayString(new { this.Id });
 
-	public required TId Id { get; init; }
-	
+	public TId Id { get; } = id;
+
 	public sealed override int GetHashCode()
 	{
 		return this.Id.HasDefaultValue
 			? HashCode.Combine(this)
 			: this.Id.GetHashCode();
 	}
-	
+
 	public bool Equals(Entity<TId>? other)
 	{
 		if (other is null) return false;
 		if (ReferenceEquals(this, other)) return true;
 		if (other.GetType() != this.GetType()) return false;
-		
+
 		return !this.Id.HasDefaultValue && this.Id.Equals(other.Id);
 	}
-	
+
 	public sealed override bool Equals(object? obj)
 	{
-		return obj is Entity<TId> other 
-		       && obj.GetType() == this.GetType() 
+		return obj is Entity<TId> other
+		       && obj.GetType() == this.GetType()
 		       && this.Equals(other);
 	}
 
@@ -38,6 +38,6 @@ public abstract class Entity<TId> : IEntity, IEquatable<Entity<TId>?>, IHasId<TI
 		return left.Equals(right);
 	}
 
-	public static bool operator !=(Entity<TId>? left, Entity<TId>? right) 
+	public static bool operator !=(Entity<TId>? left, Entity<TId>? right)
 		=> !(left == right);
 }

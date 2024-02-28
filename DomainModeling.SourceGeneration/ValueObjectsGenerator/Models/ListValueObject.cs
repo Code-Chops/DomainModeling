@@ -16,13 +16,13 @@ public sealed record ListValueObject : ValueObjectBase, IEnumerableValueObject
 		string? propertyName,
 		bool propertyIsPublic,
 		bool allowNull,
-		bool useValidationExceptions) 
+		bool useValidationExceptions)
 		: base(
 			valueObjectType: valueObjectType,
 			generateToString: generateToString,
 			generateComparison: generateComparison,
 			generateDefaultConstructor: generateDefaultConstructor,
-			forbidParameterlessConstruction: forbidParameterlessConstruction, 
+			forbidParameterlessConstruction: forbidParameterlessConstruction,
 			generateStaticDefault: generateStaticDefault,
 			generateEnumerable: generateEnumerable,
 			propertyName: propertyName ?? "Value",
@@ -33,13 +33,13 @@ public sealed record ListValueObject : ValueObjectBase, IEnumerableValueObject
 			useCustomProperty: false)
 	{
 		providedElementType = GetElementType(valueObjectType, providedElementType);
-		
+
 		if (providedElementType is null)
 		{
 			this.ErrorMessage = "Underlying type for element unknown. No underlying type provided as attribute type argument, or as type parameter on the type.";
 			return;
 		}
-		
+
 		this.ProvidedElementType = providedElementType;
 		this.MinimumCount = minimumCount;
 		this.MaximumCount = maximumCount;
@@ -47,7 +47,7 @@ public sealed record ListValueObject : ValueObjectBase, IEnumerableValueObject
 		this.UnderlyingTypeName = $"ImmutableList<{providedElementType.Name}{(allowNull ? "?" : null)}>";
 		this.UnderlyingTypeNameBase = $"List<{providedElementType.Name}{(allowNull ? "?" : null)}>";
 	}
-	
+
 	private static INamedTypeSymbol? GetElementType(INamedTypeSymbol valueObjectType, INamedTypeSymbol? providedElementType)
 	{
 		return providedElementType ?? valueObjectType.TypeArguments.OfType<INamedTypeSymbol>().FirstOrDefault();
@@ -57,7 +57,7 @@ public sealed record ListValueObject : ValueObjectBase, IEnumerableValueObject
 
 	public override string UnderlyingTypeName { get; } = null!;
 	public override string? UnderlyingTypeNameBase { get; }
-	
+
 	public INamedTypeSymbol ProvidedElementType { get; } = null!;
 	public int? MinimumCount { get; }
 	public int? MaximumCount { get; }
@@ -70,12 +70,12 @@ public sealed record ListValueObject : ValueObjectBase, IEnumerableValueObject
 		var attribute = this.ValueObjectType.IsGenericType
 			? "typeparamref name"
 			: "see cref";
-		
+
 		return $@"An immutable value object with an immutable list of <{attribute}=""{this.ProvidedElementType.GetTypeNameWithGenericParameters().Replace('<', '{').Replace('>', '}')}""/> as underlying value.";
 	}
 
 	public override string GetToStringCode()			=> $"public override string ToString() => this.ToDisplayString(new {{ Type = \"{this.ElementTypeName}\" }}, extraText: this.Count.ToString());";
-	
+
 	public override string? GetInterfacesCode()			=> this.GenerateEnumerable ? $"IReadOnlyList<{this.ElementTypeName}>" : null;
 
 	public override string GetHashCodeCode()			=> "public override int GetHashCode() => this.Count == 0 ? 1 : 2;";
@@ -91,13 +91,13 @@ public sealed record ListValueObject : ValueObjectBase, IEnumerableValueObject
 	public override string? GetCompareToCode()			=> null;
 
 	public override string GetDefaultValue()			=> $"ImmutableList<{this.ElementTypeName}>.Empty";
-	
+
 	public override string GetLengthOrCountCode()		=> $"public int Count => this.{this.PropertyName}.Count;";
 
 	public override string GetExtraCastCode()			=> $"public static explicit operator {this.Name}({this.UnderlyingTypeNameBase ?? this.UnderlyingTypeName} {this.LocalVariableName}) => new({this.LocalVariableName}.ToImmutableList());";
 
 	public override string? GetExtraConstructorCode()	=> null;
-	
+
 	public override string GetValidationCode(string errorCodeStart)
 	{
 		var validation = new StringBuilder();

@@ -3,19 +3,19 @@
 namespace CodeChops.DomainModeling.SourceGeneration.UnitTests.ValueObjects;
 
 [GenerateDictionaryValueObject<int, string>(generateToString: true, useValidationExceptions: false)]
-public partial struct DictionaryClassStructMock { }
+public partial struct DictionaryClassStructMock;
 
 [GenerateDictionaryValueObject<int, string>(generateToString: true, useValidationExceptions: false)]
 public partial record struct DictionaryRecordStructMock;
 
 [GenerateDictionaryValueObject<int, string>(generateToString: true, useValidationExceptions: false)]
-public readonly partial struct DictionaryReadonlyStructMock { }
+public readonly partial struct DictionaryReadonlyStructMock;
 
 [GenerateDictionaryValueObject<int, string>(generateToString: true, useValidationExceptions: false)]
 public partial record struct DictionaryReadonlyRecordStructMock;
 
 [GenerateDictionaryValueObject<int, string>(generateToString: true, useValidationExceptions: false)]
-public partial class DictionaryClassMock { }
+public partial class DictionaryClassMock;
 
 [GenerateDictionaryValueObject<int, string>(generateToString: true, useValidationExceptions: false)]
 public partial record DictionaryRecordClassMock;

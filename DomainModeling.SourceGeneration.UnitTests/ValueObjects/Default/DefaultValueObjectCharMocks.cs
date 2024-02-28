@@ -3,20 +3,20 @@
 namespace CodeChops.DomainModeling.SourceGeneration.UnitTests.ValueObjects.Default;
 
 [GenerateValueObject<char>(minimumValue: Int32.MinValue, maximumValue: Int32.MaxValue, generateToString: true, useValidationExceptions: false)]
-public partial struct DefaultCharStructMock { }
+public partial struct DefaultCharStructMock;
 
 [GenerateValueObject<char>(minimumValue: Int32.MinValue, maximumValue: Int32.MaxValue, generateToString: true, useValidationExceptions: false)]
 public partial record struct DefaultCharRecordStructMock;
 
 [GenerateValueObject<char>(minimumValue: Int32.MinValue, maximumValue: Int32.MaxValue, generateToString: true, useValidationExceptions: false)]
-public readonly partial struct DefaultCharReadonlyStructMock { }
+public readonly partial struct DefaultCharReadonlyStructMock;
 
 [GenerateValueObject<char>(minimumValue: Int32.MinValue, maximumValue: Int32.MaxValue, generateToString: true, useValidationExceptions: false)]
 public partial record struct DefaultCharReadonlyRecordStructMock;
 
 
 [GenerateValueObject<char>(minimumValue: Int32.MinValue, maximumValue: Int32.MaxValue, generateToString: true, useValidationExceptions: false)]
-public partial class DefaultCharClassMock { }
+public partial class DefaultCharClassMock;
 
 [GenerateValueObject<char>(minimumValue: Int32.MinValue, maximumValue: Int32.MaxValue, generateToString: true, useValidationExceptions: false)]
 public partial record DefaultCharRecordClassMock;

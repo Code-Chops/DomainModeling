@@ -3,20 +3,20 @@
 namespace CodeChops.DomainModeling.SourceGeneration.UnitTests.ValueObjects;
 
 [GenerateListValueObject<string>(generateToString: true, useValidationExceptions: false)]
-public partial struct ListStructMock { }
+public partial struct ListStructMock;
 
 [GenerateListValueObject<string>(generateToString: true, useValidationExceptions: false)]
 public partial record struct ListRecordStructMock;
 
 [GenerateListValueObject<string>(generateToString: true, useValidationExceptions: false)]
-public readonly partial struct ListReadonlyStructMock { }
+public readonly partial struct ListReadonlyStructMock;
 
 [GenerateListValueObject<string>(generateToString: true, useValidationExceptions: false)]
 public partial record struct ListReadonlyRecordStructMock;
 
 
 [GenerateListValueObject<string>(generateToString: true, useValidationExceptions: false)]
-public partial class ListClassMock { }
+public partial class ListClassMock;
 
 [GenerateListValueObject<string>(generateToString: true, useValidationExceptions: false)]
 public partial record ListRecordClassMock;

@@ -3,20 +3,20 @@
 namespace CodeChops.DomainModeling.SourceGeneration.UnitTests.ValueObjects.Default;
 
 [GenerateValueObject<byte>(minimumValue: Int32.MinValue, maximumValue: Int32.MaxValue, generateToString: true, useValidationExceptions: false)]
-public partial struct DefaultByteStructMock { }
+public partial struct DefaultByteStructMock;
 
 [GenerateValueObject<byte>(minimumValue: Int32.MinValue, maximumValue: Int32.MaxValue, generateToString: true, useValidationExceptions: false)]
 public partial record struct DefaultByteRecordStructMock;
 
 [GenerateValueObject<byte>(minimumValue: Int32.MinValue, maximumValue: Int32.MaxValue, generateToString: true, useValidationExceptions: false)]
-public readonly partial struct DefaultByteReadonlyStructMock { }
+public readonly partial struct DefaultByteReadonlyStructMock;
 
 [GenerateValueObject<byte>(minimumValue: Int32.MinValue, maximumValue: Int32.MaxValue, generateToString: true, useValidationExceptions: false)]
 public partial record struct DefaultByteReadonlyRecordStructMock;
 
 
 [GenerateValueObject<byte>(minimumValue: Int32.MinValue, maximumValue: Int32.MaxValue, generateToString: true, useValidationExceptions: false)]
-public partial class DefaultByteClassMock { }
+public partial class DefaultByteClassMock;
 
 [GenerateValueObject<byte>(minimumValue: Int32.MinValue, maximumValue: Int32.MaxValue, generateToString: true, useValidationExceptions: false)]
 public partial record DefaultByteRecordClassMock;

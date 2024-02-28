@@ -8,6 +8,4 @@
 /// Must must be stateless and reside in the domain layer. Shouldn't communicate with classes outside of the domain layer.
 /// </para>
 /// </summary>
-public interface IDomainService : IDomainObject
-{
-}
+public interface IDomainService : IDomainObject;

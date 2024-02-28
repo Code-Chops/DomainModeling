@@ -11,7 +11,7 @@ public sealed record DictionaryValueObject : ValueObjectBase, IEnumerableValueOb
 	public INamedTypeSymbol ProvidedValueType { get; } = null!;
 	public int? MinimumCount { get; }
 	public int? MaximumCount { get; }
-	
+
 	public DictionaryValueObject(
 		INamedTypeSymbol valueObjectType,
 		INamedTypeSymbol? providedKeyType,
@@ -27,14 +27,14 @@ public sealed record DictionaryValueObject : ValueObjectBase, IEnumerableValueOb
 		string? propertyName,
 		bool propertyIsPublic,
 		bool allowNull,
-		bool useValidationExceptions) 
+		bool useValidationExceptions)
 		: base(
 			useValidationExceptions: useValidationExceptions,
 			valueObjectType: valueObjectType,
-			generateToString: generateToString, 
+			generateToString: generateToString,
 			generateComparison: generateComparison,
 			generateDefaultConstructor: generateDefaultConstructor,
-			forbidParameterlessConstruction: forbidParameterlessConstruction, 
+			forbidParameterlessConstruction: forbidParameterlessConstruction,
 			generateStaticDefault: generateStaticDefault,
 			generateEnumerable: generateEnumerable,
 			propertyName: propertyName ?? "Value",
@@ -45,7 +45,7 @@ public sealed record DictionaryValueObject : ValueObjectBase, IEnumerableValueOb
 	{
 		providedKeyType = GetUnderlyingType(valueObjectType, providedKeyType, isKey: true);
 		providedValueType = GetUnderlyingType(valueObjectType, providedValueType, isKey: false);
-		
+
 		if (providedKeyType is null)
 		{
 			this.ErrorMessage = "Underlying type for key unknown. No underlying type provided as attribute type argument, or as type parameter on the type.";
@@ -56,7 +56,7 @@ public sealed record DictionaryValueObject : ValueObjectBase, IEnumerableValueOb
 			this.ErrorMessage = "Underlying type for value unknown. No underlying type provided as attribute type argument, or as type parameter on the type.";
 			return;
 		}
-		
+
 		this.ProvidedKeyType = providedKeyType;
 		this.ProvidedValueType = providedValueType;
 		this.MinimumCount = minimumCount;
@@ -71,29 +71,29 @@ public sealed record DictionaryValueObject : ValueObjectBase, IEnumerableValueOb
 	{
 		if (providedUnderlyingType is not null)
 			return providedUnderlyingType;
-		
-		var index = isKey 
+
+		var index = isKey
 			? (valueObjectType.TypeArguments.Length == 1 ? 1 : 0)
-			: (valueObjectType.TypeArguments.Length == 1 ? 0 : 1); 
-		
+			: (valueObjectType.TypeArguments.Length == 1 ? 0 : 1);
+
 		var typeParameter = valueObjectType.TypeArguments
 			.OfType<INamedTypeSymbol>()
 			.Skip(index)
 			.FirstOrDefault();
-		
+
 		return typeParameter ?? providedUnderlyingType;
 	}
 
 	public override IEnumerable<string> GetUsingNamespaces()
 		=> GetAllUsingNamespacesOfType(this.ProvidedKeyType)
 			.Concat(GetAllUsingNamespacesOfType(this.ProvidedValueType));
-	
+
 	public override string GetComments()
 	{
 		var attributeKey = this.ValueObjectType.TypeArguments.Length != 1
 			? "typeparamref name"
 			: "see cref";
-		
+
 		var attributeValue = this.ValueObjectType.TypeArguments.Length > 0
 			? "typeparamref name"
 			: "see cref";
@@ -102,7 +102,7 @@ public sealed record DictionaryValueObject : ValueObjectBase, IEnumerableValueOb
 	}
 
 	public override string GetToStringCode()			=> $"public override string ToString() => this.ToDisplayString(new {{ Key = \"{this.ProvidedKeyType.Name}\", Value = \"{this.ValueTypeName}\" }}, extraText: this.Count.ToString());";
-	
+
 	public override string? GetInterfacesCode()			=> this.GenerateEnumerable ? $"IReadOnlyDictionary<{this.ProvidedKeyType.Name}, {this.ProvidedValueType.Name}>" : null;
 
 	public override string GetHashCodeCode()			=> "public override int GetHashCode() => this.Count == 0 ? 1 : 2;";
@@ -118,13 +118,13 @@ public sealed record DictionaryValueObject : ValueObjectBase, IEnumerableValueOb
 	public override string? GetCompareToCode()			=> null;
 
 	public override string GetDefaultValue()			=> $"{this.UnderlyingTypeName}.Empty";
-	
+
 	public override string GetLengthOrCountCode()		=> $"public int Count => this.{this.PropertyName}.Count;";
 
 	public override string GetExtraCastCode()			=> $"public static explicit operator {this.Name}({this.UnderlyingTypeNameBase ?? this.UnderlyingTypeName} {this.LocalVariableName}) => new({this.LocalVariableName}.ToImmutableDictionary());";
 
 	public override string? GetExtraConstructorCode()	=> null;
-	
+
 	public override string GetValidationCode(string errorCodeStart)
 	{
 		var validation = new StringBuilder();

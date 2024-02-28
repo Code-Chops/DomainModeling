@@ -28,7 +28,7 @@ public sealed record StringValueObject(
 		bool UseRegex,
 		StringCaseConversion StringCaseConversion,
 		StringFormat StringFormat,
-		StringComparison StringComparison, 
+		StringComparison StringComparison,
 		bool GenerateEnumerable,
 		bool GenerateToString,
 		bool GenerateComparison,
@@ -59,14 +59,14 @@ public sealed record StringValueObject(
 
 	public override string UnderlyingTypeName { get; } = AllowNull ? $"{nameof(String)}?" : nameof(String);
 	public override string? UnderlyingTypeNameBase	=> null;
-	
-	public override IEnumerable<string> GetUsingNamespaces()	
+
+	public override IEnumerable<string> GetUsingNamespaces()
 		=> Array.Empty<string>();
-	
+
 	public override string GetComments()				=> $"An immutable value type with a {(this.StringCaseConversion == StringCaseConversion.NoConversion ? null : $"{this.StringCaseConversion} ")}{this.StringFormat}-Formatted string as underlying value.";
 
 	public override string GetToStringCode()			=> $"public override {this.UnderlyingTypeName} ToString() => this.{this.PropertyName};";
-	
+
 	public override string? GetInterfacesCode()			=> null;
 
 	public override string GetHashCodeCode()			=> $"public override int GetHashCode() => String.GetHashCode(this.{this.PropertyName}, StringComparison.{this.StringComparison});";
@@ -77,15 +77,15 @@ public sealed record StringValueObject(
 	public override string GetCompareToCode()			=> $"public int CompareTo({this.Name}{this.ValueObjectNullOperator} other) => String.Compare(this.{this.PropertyName}, other{this.ValueObjectNullOperator}.{this.PropertyName}, StringComparison.{this.StringComparison});";
 
 	public override string GetDefaultValue()			=> "String.Empty";
-	
-	public override string GetLengthOrCountCode()		=> this.AllowNull 
-		? $"public int Length => this.{this.PropertyName}?.Length ?? 0;" 
+
+	public override string GetLengthOrCountCode()		=> this.AllowNull
+		? $"public int Length => this.{this.PropertyName}?.Length ?? 0;"
 		: $"public int Length => this.{this.PropertyName}.Length;";
 
 	public override string? GetExtraCastCode()			=> null;
 
 	public override string? GetExtraConstructorCode()	=> null;
-	
+
 	public override string GetValidationCode(string errorCodeStart)
 	{
 		var validation = new StringBuilder();
@@ -114,22 +114,22 @@ public sealed record StringValueObject(
 
 		if (this.UseRegex)
 			validation.AppendLine(this.GetGuardLine(Guard.Regex, this.LocalVariableName, errorCodeStart, genericParameterName: null, "ValidationRegex()"));
-		
+
 		return validation.ToString();
 	}
-	
-	public override string? GetValueTransformation() 
-		=> this.StringCaseConversion is not StringCaseConversion.NoConversion 
+
+	public override string? GetValueTransformation()
+		=> this.StringCaseConversion is not StringCaseConversion.NoConversion
 			? $".To{this.StringCaseConversion}()"
 			: null;
 
-	public override string GetEnumeratorCode() 
+	public override string GetEnumeratorCode()
 		=> this.AllowNull
 			? $"public IEnumerator<{this.ElementTypeName}> GetEnumerator() => (this.{this.PropertyName} ?? String.Empty).GetEnumerator();"
 			: $"public IEnumerator<{this.ElementTypeName}> GetEnumerator() => this.{this.PropertyName}.GetEnumerator();";
 
 	public override string GetExtraCode()
-		=> this.AllowNull 
+		=> this.AllowNull
 			? $@"
 	public {(this.IsUnsealedRecordClass ? "virtual " : null)}{this.ElementTypeName}? this[int index] 
 		=> this.{this.PropertyName} is null ? null : Validator.Get<{this.Name}>.Default.GuardIndexInRange(this.{this.PropertyName}, index, errorCode: null);

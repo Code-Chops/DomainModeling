@@ -111,7 +111,7 @@ public abstract record ValueObjectBase
 		var errorCode = "errorCode: null";
 		if (this.UseValidationExceptions)
 		{
-			errorCode = $@"errorCode: ErrorCode_{errorCodeStart}_{guard switch
+			errorCode = $"errorCode: ErrorCode_{errorCodeStart}_{guard switch
 			{
 				Guard.NotNull		=> "Null",
 				Guard.InRange		=> "OutOfRange",

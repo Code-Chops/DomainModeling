@@ -8,6 +8,4 @@
 /// Must be stateless and reside outside of the domain layer. Shouldn't contain domain logic.
 /// </para>
 /// </summary>
-public interface IApplicationService
-{
-}
+public interface IApplicationService;

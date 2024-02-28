@@ -3,20 +3,20 @@
 namespace CodeChops.DomainModeling.SourceGeneration.UnitTests.ValueObjects.Default;
 
 [GenerateValueObject<int>(minimumValue: Int32.MinValue, maximumValue: Int32.MaxValue, generateToString: true)]
-public partial struct DefaultIntStructMock { }
+public partial struct DefaultIntStructMock;
 
 [GenerateValueObject<int>(minimumValue: Int32.MinValue, maximumValue: Int32.MaxValue, generateToString: true)]
 public partial record struct DefaultIntRecordStructMock;
 
 [GenerateValueObject<int>(minimumValue: Int32.MinValue, maximumValue: Int32.MaxValue, generateToString: true)]
-public readonly partial struct DefaultIntReadonlyStructMock { }
+public readonly partial struct DefaultIntReadonlyStructMock;
 
 [GenerateValueObject<int>(minimumValue: Int32.MinValue, maximumValue: Int32.MaxValue, generateToString: true)]
 public partial record struct DefaultIntReadonlyRecordStructMock;
 
 
 [GenerateValueObject<int>(minimumValue: Int32.MinValue, maximumValue: Int32.MaxValue, generateToString: true)]
-public partial class DefaultIntClassMock { }
+public partial class DefaultIntClassMock;
 
 [GenerateValueObject<int>(minimumValue: Int32.MinValue, maximumValue: Int32.MaxValue, generateToString: true)]
 public partial record DefaultIntRecordClassMock;

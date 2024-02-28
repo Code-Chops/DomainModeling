@@ -6,8 +6,8 @@ public class DomainObjectExtensionsTests
 	{
 		public override string ToString() => this.ToDisplayString(new { A, this.B, C, D = D() }, "ExtraInfo");
 		
-		public static string A { get; } = "1";
-		private int B { get; } = 2;
+		public static string A => "1";
+		private int B => 2;
 		internal const int C = 3;
 		protected static int D() => 4;
 	}

@@ -13,13 +13,9 @@ public class EntityTests
 		}
 	}
 
-	private class EntityMock1 : Entity<IdMock>
-	{
-	}
+	private class EntityMock1 : Entity<IdMock>;
 	
-	private class EntityMock2 : Entity<IdMock>
-	{
-	}
+	private class EntityMock2 : Entity<IdMock>;
 	
 	[Fact]
 	public void Entities_WithSameId_ShouldBe_Equal()

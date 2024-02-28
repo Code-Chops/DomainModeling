@@ -61,6 +61,4 @@ public interface IGuard<out TSelf> : IGuard
 /// </list>
 /// </para>
 /// </summary>
-public interface IGuard
-{
-}
+public interface IGuard;

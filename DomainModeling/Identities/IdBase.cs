@@ -1,5 +1,3 @@
-using System.Runtime.Serialization;
-
 namespace CodeChops.DomainModeling.Identities;
 
 /// <summary>
@@ -14,7 +12,7 @@ namespace CodeChops.DomainModeling.Identities;
 /// </para>
 /// </summary>
 /// <typeparam name="TUnderlying">The underlying value of the identifier.</typeparam>
-public abstract record Id<TSelf, TUnderlying> : IId<TSelf, TUnderlying> 
+public abstract record Id<TSelf, TUnderlying> : IId<TSelf, TUnderlying>
 	where TSelf : Id<TSelf, TUnderlying>
 	where TUnderlying : IEquatable<TUnderlying?>, IComparable<TUnderlying?>
 {
@@ -26,9 +24,9 @@ public abstract record Id<TSelf, TUnderlying> : IId<TSelf, TUnderlying>
 	public static implicit operator TUnderlying?(Id<TSelf, TUnderlying> id) => id.Value;
 
 	#region Comparison
-	public int CompareTo(TSelf? other) 
+	public int CompareTo(TSelf? other)
 		=> other is null ? 1 : this.Value?.CompareTo(other.Value) ?? -1;
-	
+
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	public static bool operator <	(Id<TSelf, TUnderlying> left, TSelf? right)	=> left.CompareTo(right) <	0;
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -39,6 +37,6 @@ public abstract record Id<TSelf, TUnderlying> : IId<TSelf, TUnderlying>
 	public static bool operator >=	(Id<TSelf, TUnderlying> left, TSelf? right)	=> left.CompareTo(right) >= 0;
 	#endregion
 
-	public static TSelf Default { get; } = (TSelf)FormatterServices.GetUninitializedObject(typeof(TSelf));
+	public static TSelf Default { get; } = (TSelf)RuntimeHelpers.GetUninitializedObject(typeof(TSelf));
 	bool IId.HasDefaultValue => this.Value?.Equals(default) ?? true;
 }

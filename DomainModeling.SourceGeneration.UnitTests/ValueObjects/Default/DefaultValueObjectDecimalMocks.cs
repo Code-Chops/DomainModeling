@@ -3,20 +3,20 @@
 namespace CodeChops.DomainModeling.SourceGeneration.UnitTests.ValueObjects.Default;
 
 [GenerateValueObject<decimal>(minimumValue: Int32.MinValue, maximumValue: Int32.MaxValue, generateToString: true, useValidationExceptions: false)]
-public partial struct DefaultDecimalStructMock { }
+public partial struct DefaultDecimalStructMock;
 
 [GenerateValueObject<decimal>(minimumValue: Int32.MinValue, maximumValue: Int32.MaxValue, generateToString: true, useValidationExceptions: false)]
 public partial record struct DefaultDecimalRecordStructMock;
 
 [GenerateValueObject<decimal>(minimumValue: Int32.MinValue, maximumValue: Int32.MaxValue, generateToString: true, useValidationExceptions: false)]
-public readonly partial struct DefaultDecimalReadonlyStructMock { }
+public readonly partial struct DefaultDecimalReadonlyStructMock;
 
 [GenerateValueObject<decimal>(minimumValue: Int32.MinValue, maximumValue: Int32.MaxValue, generateToString: true, useValidationExceptions: false)]
 public partial record struct DefaultDecimalReadonlyRecordStructMock;
 
 
 [GenerateValueObject<decimal>(minimumValue: Int32.MinValue, maximumValue: Int32.MaxValue, generateToString: true, useValidationExceptions: false)]
-public partial class DefaultDecimalClassMock { }
+public partial class DefaultDecimalClassMock;
 
 [GenerateValueObject<decimal>(minimumValue: Int32.MinValue, maximumValue: Int32.MaxValue, generateToString: true, useValidationExceptions: false)]
 public partial record DefaultDecimalRecordClassMock;

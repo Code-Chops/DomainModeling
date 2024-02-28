@@ -6,20 +6,20 @@ namespace CodeChops.DomainModeling.SourceGeneration.UnitTests.ValueObjects;
 /// This is a comment.
 /// </summary>
 [GenerateStringValueObject(minimumLength: Int32.MinValue, maximumLength: Int32.MaxValue, useRegex: false, stringFormat: StringFormat.Default, stringComparison: StringComparison.Ordinal, generateToString: true, useValidationExceptions: false)]
-public partial struct StringClassStructMock { }
+public partial struct StringClassStructMock;
 
 [GenerateStringValueObject(minimumLength: Int32.MinValue, maximumLength: Int32.MaxValue, useRegex: false, stringFormat: StringFormat.Default, stringComparison: StringComparison.Ordinal, generateToString: true, useValidationExceptions: false)]
 public partial record struct StringRecordStructMock;
 
 [GenerateStringValueObject(minimumLength: Int32.MinValue, maximumLength: Int32.MaxValue, useRegex: false, stringFormat: StringFormat.Default, stringComparison: StringComparison.Ordinal, generateToString: true, useValidationExceptions: false)]
-public readonly partial struct StringReadonlyStructMock { }
+public readonly partial struct StringReadonlyStructMock;
 
 [GenerateStringValueObject(minimumLength: Int32.MinValue, maximumLength: Int32.MaxValue, useRegex: false, stringFormat: StringFormat.Default, stringComparison: StringComparison.Ordinal, generateToString: true, useValidationExceptions: false)]
 public partial record struct StringReadonlyRecordStructMock;
 
 
 [GenerateStringValueObject(minimumLength: Int32.MinValue, maximumLength: Int32.MaxValue, useRegex: false, stringFormat: StringFormat.Default, stringComparison: StringComparison.Ordinal, generateToString: true, useValidationExceptions: false)]
-public partial class StringClassMock { }
+public partial class StringClassMock;
 
 [GenerateStringValueObject(minimumLength: Int32.MinValue, maximumLength: Int32.MaxValue, useRegex: false, stringFormat: StringFormat.Default, stringComparison: StringComparison.Ordinal, generateToString: true, useValidationExceptions: false)]
 public partial record StringRecordClassMock;

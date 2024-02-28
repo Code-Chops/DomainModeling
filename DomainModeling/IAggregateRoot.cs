@@ -20,6 +20,4 @@
 /// Aggregates can only reference to each other by id.
 /// </para>
 /// </summary>
-public interface IAggregateRoot
-{
-}
+public interface IAggregateRoot;

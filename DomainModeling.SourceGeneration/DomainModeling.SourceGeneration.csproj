@@ -4,14 +4,15 @@
         <AssemblyName>CodeChops.DomainModeling.SourceGeneration</AssemblyName>
         <RootNamespace>CodeChops.DomainModeling.SourceGeneration</RootNamespace>
         <TargetFramework>netstandard2.0</TargetFramework>
-        <LangVersion>11</LangVersion>
+        <LangVersion>12</LangVersion>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <IsPackable>false</IsPackable>
         <DevelopmentDependency>true</DevelopmentDependency>
         <IncludeBuildOutput>false</IncludeBuildOutput>
         <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
-    </PropertyGroup>
+		<EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
+	</PropertyGroup>
 
     <ItemGroup Label="InternalsVisibleTo">
         <InternalsVisibleTo Include="$(AssemblyName).UnitTests" />
@@ -33,11 +34,11 @@
     </Target>
 
     <ItemGroup Label="PackageReferences">
-        <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.5.0">
+        <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.8.0">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="CodeChops.SourceGeneration.Utilities" Version="0.9.0" PrivateAssets="all" GeneratePathProperty="true" />
+        <PackageReference Include="CodeChops.SourceGeneration.Utilities" Version="0.9.1" PrivateAssets="all" GeneratePathProperty="true" />
     </ItemGroup>
 
 </Project>

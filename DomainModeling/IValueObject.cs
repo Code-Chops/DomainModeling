@@ -44,6 +44,4 @@
 /// Value objects can belong to multiple <see cref="IAggregateRoot"/>s.
 /// </para>
 /// </summary>
-public interface IValueObject : IDomainObject
-{
-}
+public interface IValueObject : IDomainObject;

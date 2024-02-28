@@ -1,4 +1,5 @@
 using System.Collections.Immutable;
+using System.Diagnostics;
 using CodeChops.SourceGeneration.Utilities;
 using Microsoft.CodeAnalysis.Diagnostics;
 
@@ -12,9 +13,9 @@ public class IdGenerator : IIncrementalGenerator
 	internal const string IdNamespace				= "CodeChops.DomainModeling.Identities";
 	internal const string DefaultIdPropertyName		= "Id";
 	internal const string DefaultIdUnderlyingType	= "global::System.UInt64";
-	
+
 	public void Initialize(IncrementalGeneratorInitializationContext context)
-	{		
+	{
 		var valueProvider = context.SyntaxProvider
 			.CreateSyntaxProvider(
 				predicate: IdSyntaxReceiver.CheckIfProbablyNeedsStronglyTypedId,
@@ -22,10 +23,10 @@ public class IdGenerator : IIncrementalGenerator
 			.Where(static model => model is not null)
 			.Collect()
 			.Combine(context.AnalyzerConfigOptionsProvider);
-		
+
 		context.RegisterSourceOutput(source: valueProvider, action: static (context, valueProvider) => CreateSource(context, valueProvider.Left!, valueProvider.Right));
 	}
-	
+
 	private static void CreateSource(SourceProductionContext context, ImmutableArray<IdDataModel> models, AnalyzerConfigOptionsProvider configOptionsProvider)
 	{
 		try
@@ -33,7 +34,6 @@ public class IdGenerator : IIncrementalGenerator
 			foreach (var model in models)
 			{
 				var code = CreateSource(model);
-
 				var fileName = model.Namespace is null ? model.IdTypeName : $"{model.Namespace}.{model.IdTypeName}";
 
 				fileName = $"{fileName}.{model.IdTypeName}";
@@ -42,7 +42,7 @@ public class IdGenerator : IIncrementalGenerator
 				context.AddSource(fileName, SourceText.From(code, Encoding.UTF8));
 			}
 		}
-		
+
 		catch (Exception e)
 		{
 			var descriptor = new DiagnosticDescriptor(nameof(IdGenerator), "Error", $"{nameof(IdGenerator)} failed to generate due to an error. Please inform CodeChops (www.CodeChops.nl). Error: {e}", "Compilation", DiagnosticSeverity.Error, isEnabledByDefault: true);
@@ -77,11 +77,11 @@ using CodeChops.DomainModeling.Identities;
 
 
 		// Creates the namespace definition of the location of the enum definition (or null if the namespace is not defined).
-		string? GetNamespaceDeclaration() 
+		string? GetNamespaceDeclaration()
 			=> data.Namespace is null ? null : $@"
 namespace {data.Namespace};
 ";
-		
+
 
 		string? GetIdObjectCreation()
 		{

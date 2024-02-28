@@ -8,9 +8,7 @@ public interface IId<TSelf, out TUnderlying> : IId<TSelf>
 }
 
 public interface IId<TSelf> : IId, IComparable<TSelf>, IHasDefault<TSelf> 
-	where TSelf : IId<TSelf>
-{
-}
+	where TSelf : IId<TSelf>;
 
 public interface IId : IValueObject
 {

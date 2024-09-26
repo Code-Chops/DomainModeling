@@ -20,4 +20,7 @@
 /// </list>
 /// </para>
 /// </summary>
-public interface IEntity : IDomainObject;
+public interface IEntity : IDomainObject
+{
+	object GetId();
+}

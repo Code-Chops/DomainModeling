@@ -7,10 +7,11 @@ public interface IId<TSelf, out TUnderlying> : IId<TSelf>
 	TUnderlying? Value { get; }
 }
 
-public interface IId<TSelf> : IId, IComparable<TSelf>, IHasDefault<TSelf> 
+public interface IId<TSelf> : IId, IComparable<TSelf>, IHasDefault<TSelf>
 	where TSelf : IId<TSelf>;
 
 public interface IId : IValueObject
 {
 	bool HasDefaultValue { get; }
+	object GetValue();
 }

@@ -20,6 +20,7 @@ public abstract record Id<TSelf, TUnderlying> : IId<TSelf, TUnderlying>
 
 	public TUnderlying? Value { get; init; }
 
+	public object GetValue() => this.Value!;
 	public static explicit operator Id<TSelf, TUnderlying>(TUnderlying value) => Default with { Value = value };
 	public static implicit operator TUnderlying?(Id<TSelf, TUnderlying> id) => id.Value;
 

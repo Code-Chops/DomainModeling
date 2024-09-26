@@ -12,10 +12,11 @@ public partial record struct Uuid : IId<Uuid, string>
 {
 	[GeneratedRegex("^[0-9A-F]{32}$", RegexOptions.CultureInvariant, matchTimeoutMilliseconds: 1000)]
 	public static partial Regex ValidationRegex();
-    
+
 	public bool HasDefaultValue => this.Value == Default;
     public static Uuid Default { get; } = new("");
-	
+    public object GetValue() => this.Value;
+
 	public Uuid(Validator? validator = null)
 		: this(Guid.NewGuid().ToString("N").ToUpper(), validator)
     {

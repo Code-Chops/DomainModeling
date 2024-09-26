@@ -10,6 +10,7 @@ public record SingletonId<TEntity> : IId<SingletonId<TEntity>, SingletonId<TEnti
 	public override string ToString() => $"{typeof(SingletonId<TEntity>).Name} of {typeof(TEntity).Name}";
 
 	public static SingletonId<TEntity> Default { get; } = new();
+	public object GetValue() => this.Value;
 	public SingletonId<TEntity> Value => this;
 
 	public bool HasDefaultValue => true;

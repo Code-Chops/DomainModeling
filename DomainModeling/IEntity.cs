@@ -22,5 +22,5 @@
 /// </summary>
 public interface IEntity : IDomainObject
 {
-	object GetId();
+	IId GetId();
 }

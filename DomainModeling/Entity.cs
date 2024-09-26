@@ -8,7 +8,7 @@ public abstract class Entity<TId>(TId id) : IEntity, IEquatable<Entity<TId>?>, I
 
 	public TId Id { get; } = id;
 
-	public object GetId() => this.Id;
+	public IId GetId() => this.Id;
 
 	public sealed override int GetHashCode()
 	{

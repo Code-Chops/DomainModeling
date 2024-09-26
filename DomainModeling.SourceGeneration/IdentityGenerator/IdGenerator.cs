@@ -96,6 +96,9 @@ public readonly partial record struct {data.IdTypeName} : IId<{data.IdTypeName},
 	[EditorBrowsable(EditorBrowsableState.Never)]
 	public {data.UnderlyingTypeFullName} Value {{ get; private init; }}
 
+	[EditorBrowsable(EditorBrowsableState.Never)]
+	public object GetValue() => this.Value;
+
 	[DebuggerHidden]
 	[EditorBrowsable(EditorBrowsableState.Never)]
 	public static explicit operator {data.IdTypeName}({data.UnderlyingTypeFullName} value) => new() {{ Value = value }};

@@ -13,7 +13,7 @@ public abstract class Entity<TId>(TId id) : IEntity, IEquatable<Entity<TId>?>, I
 	public sealed override int GetHashCode()
 	{
 		return this.Id.HasDefaultValue
-			? HashCode.Combine(this)
+			? RuntimeHelpers.GetHashCode(this)
 			: this.Id.GetHashCode();
 	}
 

@@ -1,10 +1,10 @@
 ﻿namespace CodeChops.DomainModeling.SourceGeneration.UnitTests.Identities;
 
 [GenerateIdentity<byte>]
-public class EntityWithByteIdMock1 : Entity<EntityWithByteIdMock1Id>;
+public class EntityWithByteIdMock1(EntityWithByteIdMock1Id id) : Entity<EntityWithByteIdMock1Id>(id);
 
 [GenerateIdentity]
-public class EntityWithByteIdMock2 : Entity<EntityWithByteIdMock2Id>;
+public class EntityWithByteIdMock2(EntityWithByteIdMock2Id id) : Entity<EntityWithByteIdMock2Id>(id);
 
 [GenerateIdentity]
 public record RecordWithId;

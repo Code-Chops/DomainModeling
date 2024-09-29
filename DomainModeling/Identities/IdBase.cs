@@ -14,7 +14,7 @@ namespace CodeChops.DomainModeling.Identities;
 /// <typeparam name="TUnderlying">The underlying value of the identifier.</typeparam>
 public abstract record Id<TSelf, TUnderlying> : IId<TSelf, TUnderlying>
 	where TSelf : Id<TSelf, TUnderlying>
-	where TUnderlying : class, IEquatable<TUnderlying?>, IComparable<TUnderlying?>
+	where TUnderlying : IEquatable<TUnderlying?>, IComparable<TUnderlying?>
 {
 	public override string? ToString() => this.Value?.ToString()!;
 

@@ -2,7 +2,7 @@
 
 /// <inheritdoc cref="IEntity"/>
 public abstract class Entity<TId>(TId id) : IEntity, IEquatable<Entity<TId>?>, IHasId<TId>
-	where TId : IId<TId>, IHasDefault<TId>
+	where TId : IId, IHasDefault<TId>
 {
 	public override string ToString() => this.ToDisplayString(new { this.Id });
 

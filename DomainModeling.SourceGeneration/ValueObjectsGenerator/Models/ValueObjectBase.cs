@@ -4,7 +4,7 @@ public abstract record ValueObjectBase
 {
 	protected ValueObjectBase(
 		INamedTypeSymbol valueObjectType,
-		bool generateToString, 
+		bool generateToString,
 		bool generateComparison,
 		bool generateDefaultConstructor,
 		bool forbidParameterlessConstruction,
@@ -35,13 +35,13 @@ public abstract record ValueObjectBase
 
 		this.Name = valueObjectType.GetTypeNameWithGenericParameters();
 		this.Namespace = valueObjectType.ContainingNamespace!.IsGlobalNamespace ? null : valueObjectType.ContainingNamespace.ToDisplayString();
-		this.BackingFieldName = $"_{propertyName.Substring(0, 1).ToLowerInvariant()}{propertyName.Substring(1)}{(generateDefaultConstructor ? new Random().Next(0, 9999) : null)}";
+		this.BackingFieldName = "_value";
 		this.LocalVariableName = propertyName.Substring(0, 1).ToLowerInvariant() + propertyName.Substring(1);
 		this.UseCustomProperty = useCustomProperty;
 	}
 
 	public string? ErrorMessage { get; protected set; }
-	
+
 	public abstract string UnderlyingTypeName { get; }
 	public abstract string? UnderlyingTypeNameBase { get; }
 	public char? UnderlyingTypeNullOperator { get; }
@@ -52,7 +52,7 @@ public abstract record ValueObjectBase
 	/// Null conditional operator for the value object.
 	/// </summary>
 	public char? ValueObjectNullOperator { get; }
-	
+
 	/// <summary>
 	/// The name of the value object being generated.
 	/// </summary>
@@ -83,7 +83,7 @@ public abstract record ValueObjectBase
 	public bool UseCustomProperty { get; }
 
 	public bool HasEmptyConstructor => !this.ForbidParameterlessConstruction && this.ValueObjectType.TypeKind == TypeKind.Structure;
-	
+
 	public enum Guard
 	{
 		NotNull,
@@ -102,10 +102,10 @@ public abstract record ValueObjectBase
 			? "System"
 			: type.ContainingNamespace.ToDisplayString();
 	}
-	
+
 	public string GetGuardLine<T>(Guard guard, string? variableName, string errorCodeStart, params object?[] parameters)
 		=> this.GetGuardLine(guard, variableName: variableName, errorCodeStart, genericParameterName: typeof(T).Name, parameters);
-	
+
 	public string GetGuardLine(Guard guard, string? variableName, string errorCodeStart, string? genericParameterName = null, params object?[] parameters)
 	{
 		var errorCode = "errorCode: null";
@@ -119,16 +119,16 @@ public abstract record ValueObjectBase
 				Guard.Regex			=> "Regex",
 				_					=> "_Unknown_",
 			}}";
-		
+
 			this.ErrorCodes.Add(errorCode);
 		}
 
 		var stringParameters = new[] { variableName ?? this.LocalVariableName }.Concat(parameters.Select(p => p?.ToString() ?? "null")).Append(errorCode);
 		var parametersString = String.Join(", ", stringParameters);
-		
+
 		return $@"		validator.Guard{guard}{genericParameterName?.Write($"<{genericParameterName}>")}({parametersString});";
 	}
-	
+
 	public abstract IEnumerable<string> GetUsingNamespaces();
 	public abstract string GetComments();
 	public abstract string GetToStringCode();

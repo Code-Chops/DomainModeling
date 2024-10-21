@@ -18,7 +18,7 @@ public abstract record Id<TSelf, TUnderlying> : IId<TSelf, TUnderlying>
 {
 	public override string? ToString() => this.Value?.ToString()!;
 
-	public TUnderlying? Value { get; init; }
+	public TUnderlying? Value { get; protected init; }
 
 	public object GetValue() => this.Value!;
 	public static explicit operator Id<TSelf, TUnderlying>(TUnderlying value) => Default with { Value = value };

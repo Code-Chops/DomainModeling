@@ -23,6 +23,7 @@ public sealed class ValueTupleJsonConverterFactory : JsonConverterFactory
 			// And add other cases as needed
 			_ => throw new NotSupportedException(),
 		};
-		return (JsonConverter)(Activator.CreateInstance(converterType) ?? throw new InvalidOperationException($"Could not create an instance of {converterType.Name}"));
+		return (JsonConverter)(Activator.CreateInstance(converterType)
+		                       ?? throw new InvalidOperationException($"Could not create an instance of {converterType.Name}"));
 	}
 }

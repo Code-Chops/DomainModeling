@@ -15,6 +15,7 @@
 
     <ItemGroup Label="ProjectReference">
         <ProjectReference Include="..\DomainModeling\DomainModeling.csproj" />
+		<ProjectReference Include="..\DomainModeling.SourceGeneration\DomainModeling.SourceGeneration.csproj" OutputItemType="Analyzer" />
     </ItemGroup>
 
     <ItemGroup Label="PackageReferences">

@@ -5,7 +5,7 @@
 /// </summary>
 /// <typeparam name="TElement">The type of the elements in the set.</typeparam>
 public abstract class HashSetEntity<TId, TElement>(TId id) : Entity<TId>(id), IReadOnlySet<TElement>
-	where TId : IId<TId>, IHasDefault<TId>
+	where TId : IId, IHasDefault<TId>
 	where TElement : IDomainObject
 {
 	public override string ToString() => this.ToDisplayString(new { TDomainObject = typeof(TElement).Name });

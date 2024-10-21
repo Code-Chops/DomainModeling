@@ -7,7 +7,7 @@
 /// <typeparam name="TValue">The type of the values in the dictionary (which should be a domain object).</typeparam>
 public abstract class DictionaryEntity<TSelf, TId, TKey, TValue>(TId id) : Entity<TId>(id), IReadOnlyDictionary<TKey, TValue>
 	where TSelf : DictionaryEntity<TSelf, TId, TKey, TValue>
-	where TId : IId<TId>, IHasDefault<TId>
+	where TId : IId, IHasDefault<TId>
 	where TKey : IDomainObject
 	where TValue : IDomainObject
 {

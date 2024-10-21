@@ -1,5 +1,4 @@
 using System.Collections.Immutable;
-using System.Diagnostics;
 using CodeChops.SourceGeneration.Utilities;
 using Microsoft.CodeAnalysis.Diagnostics;
 

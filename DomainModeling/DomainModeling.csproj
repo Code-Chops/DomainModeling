@@ -10,8 +10,8 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>2.18.1</Version>
-        <PackageReleaseNotes>Added factories to identities.</PackageReleaseNotes>
+        <Version>2.18.2</Version>
+        <PackageReleaseNotes>Added ICreatable from object.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>

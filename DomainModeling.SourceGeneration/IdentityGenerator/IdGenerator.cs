@@ -87,7 +87,7 @@ namespace {data.Namespace};
 		{
 			return $@"
 [StructLayout(LayoutKind.Auto)]
-public readonly partial record struct {data.Name} : IId<{data.Name}, {data.UnderlyingTypeName}>, IHasDefault<{data.Name}>, ICreatable<{data.Name}, {data.UnderlyingTypeName}>
+public readonly partial record struct {data.Name} : IId<{data.Name}, {data.UnderlyingTypeName}>, IHasDefault<{data.Name}>, ICreatable<{data.Name}, {data.UnderlyingTypeName}>, ICreatable<{data.Name}, object>
 {{ 
 	[DebuggerHidden]
 	[EditorBrowsable(EditorBrowsableState.Never)]
@@ -156,6 +156,11 @@ public readonly partial record struct {data.Name} : IId<{data.Name}, {data.Under
 	[EditorBrowsable(EditorBrowsableState.Never)]
 	public static {data.Name} Create({data.UnderlyingTypeName} value, Validator? validator = null) 
 		=> new(value, validator);
+
+	[DebuggerHidden] 
+	[EditorBrowsable(EditorBrowsableState.Never)]
+	public static {data.Name} Create(object value, Validator? validator = null) 
+		=> new(({data.UnderlyingTypeName})value, validator);
 
 	#endregion
 }}

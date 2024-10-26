@@ -169,9 +169,9 @@ public class ValueObjectGenerator : IIncrementalGenerator
 				return null;
 
 			var interfaces = new StringBuilder($" : IValueObject, ICreatable<{data.Name}, {data.UnderlyingTypeName}>");
-			if (data.GenerateComparison && data.GetCompareToCode() is not null) interfaces.Append($", IEquatable<{data.Name}{data.ValueObjectNullOperator}>");
+			if (data.GenerateComparison && data.GetCompareToCode() is not null) interfaces.Append($", IEquatable<{data.Name}{data.NullOperator}>");
 			if (data.GenerateStaticDefault) interfaces.Append($", IHasDefault<{data.Name}>");
-			if (data is { AddIComparable: true, GenerateComparison: true }) interfaces.Append($", IComparable<{data.Name}{data.ValueObjectNullOperator}>");
+			if (data is { AddIComparable: true, GenerateComparison: true }) interfaces.Append($", IComparable<{data.Name}{data.NullOperator}>");
 			if (data.GenerateEnumerable && data is IEnumerableValueObject enumerableValueObject) interfaces.Append($", IEnumerable<{enumerableValueObject.ElementTypeName}>");
 			if (data is StringValueObject { UseRegex: true }) interfaces.Append($", IHasValidationRegex");
 
@@ -454,12 +454,12 @@ public class ValueObjectGenerator : IIncrementalGenerator
 				code.AppendLine($@"
 	[DebuggerHidden] 
 	[EditorBrowsable(EditorBrowsableState.Never)]
-	public static bool TryCreate({data.UnderlyingTypeName} {data.LocalVariableName}, {(data.ValueObjectNullOperator is null ? null : "[NotNullWhen(true)] ")}out {data.Name} createdObject)
+	public static bool TryCreate({data.UnderlyingTypeName} {data.LocalVariableName}, {(data.NullOperator is null ? null : "[NotNullWhen(true)] ")}out {data.Name} createdObject)
 		=> ICreatable<{data.Name}, {data.UnderlyingTypeName}>.TryCreate({data.LocalVariableName}, out createdObject, out _);
 
 	[DebuggerHidden] 
 	[EditorBrowsable(EditorBrowsableState.Never)]
-	public static bool TryCreate({data.UnderlyingTypeName} {data.LocalVariableName}, {(data.ValueObjectNullOperator is null ? null : "[NotNullWhen(true)] ")}out {data.Name} createdObject, out Validator validator)
+	public static bool TryCreate({data.UnderlyingTypeName} {data.LocalVariableName}, {(data.NullOperator is null ? null : "[NotNullWhen(true)] ")}out {data.Name} createdObject, out Validator validator)
 		=> ICreatable<{data.Name}, {data.UnderlyingTypeName}>.TryCreate({data.LocalVariableName}, out createdObject, out validator);
 ");
 			}

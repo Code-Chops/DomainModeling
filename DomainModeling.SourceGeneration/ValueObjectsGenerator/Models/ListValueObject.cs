@@ -80,10 +80,10 @@ public sealed record ListValueObject : ValueObjectBase, IEnumerableValueObject
 
 	public override string GetHashCodeCode()			=> "public override int GetHashCode() => this.Count == 0 ? 1 : 2;";
 
-	public override string GetEqualsCode()				=> $@"public {(this.IsUnsealedRecordClass ? "virtual " : null)}bool Equals({this.Name}{this.ValueObjectNullOperator} other)
+	public override string GetEqualsCode()				=> $@"public {(this.IsUnsealedRecordClass ? "virtual " : null)}bool Equals({this.Name}{this.NullOperator} other)
 	{{
-		if (ReferenceEquals(this.{this.PropertyName}, other{this.ValueObjectNullOperator}.{this.PropertyName})) return true;
-		if (other{this.ValueObjectNullOperator}.{this.PropertyName} is not {{ }} otherValue) return false;
+		if (ReferenceEquals(this.{this.PropertyName}, other{this.NullOperator}.{this.PropertyName})) return true;
+		if (other{this.NullOperator}.{this.PropertyName} is not {{ }} otherValue) return false;
 		return this.{this.PropertyName}.SequenceEqual(otherValue);
 	}}";
 	public override string GetObjectEqualsCode()		=> $"public override {(this.IsUnsealedRecordClass ? "virtual " : null)}bool Equals(object? other) => other is {this.Name} {this.LocalVariableName} && this.Equals({this.LocalVariableName});";

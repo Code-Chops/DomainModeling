@@ -33,9 +33,9 @@ public class IdGenerator : IIncrementalGenerator
 			foreach (var model in models)
 			{
 				var code = CreateSource(model);
-				var fileName = model.Namespace is null ? model.IdTypeName : $"{model.Namespace}.{model.IdTypeName}";
+				var fileName = model.Namespace is null ? model.Name : $"{model.Namespace}.{model.Name}";
 
-				fileName = $"{fileName}.{model.IdTypeName}";
+				fileName = $"{fileName}.{model.Name}";
 				fileName = FileNameHelpers.GetFileName(fileName, configOptionsProvider);
 
 				context.AddSource(fileName, SourceText.From(code, Encoding.UTF8));
@@ -59,6 +59,7 @@ public class IdGenerator : IIncrementalGenerator
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -84,64 +85,81 @@ namespace {data.Namespace};
 
 		string? GetIdObjectCreation()
 		{
-			var code = $@"
+			return $@"
 [StructLayout(LayoutKind.Auto)]
-public readonly partial record struct {data.IdTypeName} : IId<{data.IdTypeName}, {data.UnderlyingTypeFullName}>, IHasDefault<{data.IdTypeName}>
+public readonly partial record struct {data.Name} : IId<{data.Name}, {data.UnderlyingTypeName}>, IHasDefault<{data.Name}>, ICreatable<{data.Name}, {data.UnderlyingTypeName}>
 {{ 
 	[DebuggerHidden]
 	[EditorBrowsable(EditorBrowsableState.Never)]
 	public override string{data.NullOperator} ToString() => this.Value{data.NullOperator}.ToString();
 
 	[EditorBrowsable(EditorBrowsableState.Never)]
-	public {data.UnderlyingTypeFullName} Value {{ get; private init; }}
+	public {data.UnderlyingTypeName} Value {{ get; private init; }}
 
 	[EditorBrowsable(EditorBrowsableState.Never)]
 	public object GetValue() => this.Value!;
 
 	[DebuggerHidden]
 	[EditorBrowsable(EditorBrowsableState.Never)]
-	public static explicit operator {data.IdTypeName}({data.UnderlyingTypeFullName} value) => new() {{ Value = value }};
+	public static explicit operator {data.Name}({data.UnderlyingTypeName} value) => new() {{ Value = value }};
 	[DebuggerHidden]
 	[EditorBrowsable(EditorBrowsableState.Never)]
-	public static implicit operator {data.UnderlyingTypeFullName}({data.IdTypeName} id) => id.Value;
+	public static implicit operator {data.UnderlyingTypeName}({data.Name} id) => id.Value;
 
 	#region Comparison
 	[DebuggerHidden]
 	[EditorBrowsable(EditorBrowsableState.Never)]
-	public int CompareTo({data.IdTypeName} other) => Comparer<{data.UnderlyingTypeFullName}>.Default.Compare(this.Value, other.Value);
+	public int CompareTo({data.Name} other) => Comparer<{data.UnderlyingTypeName}>.Default.Compare(this.Value, other.Value);
 	
 	[DebuggerHidden]
 	[EditorBrowsable(EditorBrowsableState.Never)]
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	public static bool operator <	({data.IdTypeName} left, {data.IdTypeName} right)	=> left.CompareTo(right) <	0;
+	public static bool operator <	({data.Name} left, {data.Name} right)	=> left.CompareTo(right) <	0;
 	[DebuggerHidden]
 	[EditorBrowsable(EditorBrowsableState.Never)]
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	public static bool operator <=	({data.IdTypeName} left, {data.IdTypeName} right)	=> left.CompareTo(right) <= 0;
+	public static bool operator <=	({data.Name} left, {data.Name} right)	=> left.CompareTo(right) <= 0;
 	[DebuggerHidden]
 	[EditorBrowsable(EditorBrowsableState.Never)]
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	public static bool operator >	({data.IdTypeName} left, {data.IdTypeName} right)	=> left.CompareTo(right) >	0;
+	public static bool operator >	({data.Name} left, {data.Name} right)	=> left.CompareTo(right) >	0;
 	[DebuggerHidden]
 	[EditorBrowsable(EditorBrowsableState.Never)]
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	public static bool operator >=	({data.IdTypeName} left, {data.IdTypeName} right)	=> left.CompareTo(right) >= 0;
+	public static bool operator >=	({data.Name} left, {data.Name} right)	=> left.CompareTo(right) >= 0;
 	#endregion
 
 	[DebuggerHidden]
 	bool IId.HasDefaultValue => this.Value == default;
 	[DebuggerHidden]
-	static {data.IdTypeName} IHasDefault<{data.IdTypeName}>.Default => default;
+	static {data.Name} IHasDefault<{data.Name}>.Default => default;
 
 	[DebuggerHidden]
-	public {data.IdTypeName}({data.UnderlyingTypeFullName} value)
+	public {data.Name}({data.UnderlyingTypeName} value, Validator? validator = null)
 	{{
 		this.Value = value;
 	}}
+
+	#region Factories
+
+	[DebuggerHidden] 
+	[EditorBrowsable(EditorBrowsableState.Never)]
+	public static bool TryCreate({data.UnderlyingTypeName} value, {(data.NullOperator is null ? null : "[NotNullWhen(true)] ")}out {data.Name} createdObject)
+		=> ICreatable<{data.Name}, {data.UnderlyingTypeName}>.TryCreate(value, out createdObject, out _);
+
+	[DebuggerHidden] 
+	[EditorBrowsable(EditorBrowsableState.Never)]
+	public static bool TryCreate({data.UnderlyingTypeName} value, {(data.NullOperator is null ? null : "[NotNullWhen(true)] ")}out {data.Name} createdObject, out Validator validator)
+		=> ICreatable<{data.Name}, {data.UnderlyingTypeName}>.TryCreate(value, out createdObject, out validator);
+
+	[DebuggerHidden] 
+	[EditorBrowsable(EditorBrowsableState.Never)]
+	public static {data.Name} Create({data.UnderlyingTypeName} value, Validator? validator = null) 
+		=> new(value, validator);
+
+	#endregion
 }}
 ";
-
-			return code;
 		}
 	}
 }

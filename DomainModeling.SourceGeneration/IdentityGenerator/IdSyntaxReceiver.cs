@@ -46,8 +46,8 @@ internal static class IdSyntaxReceiver
 		
 		var data = new IdDataModel(
 			Namespace: @namespace,
-			IdTypeName: idTypeName,
-			UnderlyingTypeFullName: underlyingTypeFullName,
+			Name: idTypeName,
+			UnderlyingTypeName: underlyingTypeFullName,
 			NullOperator: nullOperator);
 		
 		return data;

@@ -10,8 +10,8 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>2.18.0</Version>
-        <PackageReleaseNotes>Fixed JSON converters and changed IId interface.</PackageReleaseNotes>
+        <Version>2.18.1</Version>
+        <PackageReleaseNotes>Added factories to identities.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>

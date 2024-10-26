@@ -36,7 +36,7 @@ public class IdBaseTypeExtractionTest
 		
 		Assert.NotNull(model);
 		
-		Assert.Equal(expectedUnderlyingType, model.UnderlyingTypeFullName, StringComparer.OrdinalIgnoreCase);
+		Assert.Equal(expectedUnderlyingType, model.UnderlyingTypeName, StringComparer.OrdinalIgnoreCase);
 	}
 
 	private static SyntaxTree GetSyntaxTree(string attribute)

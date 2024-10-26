@@ -1,7 +1,7 @@
 namespace CodeChops.DomainModeling.Identities;
 
 public interface IId<TSelf, out TUnderlying> : IId<TUnderlying>, IComparable<TSelf>, IHasDefault<TSelf>
-	where TSelf : IId<TSelf, TUnderlying>
+	where TSelf : IId<TSelf, TUnderlying>, ICreatable<TSelf, TUnderlying>
 	where TUnderlying : IEquatable<TUnderlying>?, IComparable<TUnderlying>?;
 
 public interface IId<out TUnderlying> : IId

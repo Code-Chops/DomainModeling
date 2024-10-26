@@ -6,7 +6,8 @@ namespace CodeChops.DomainModeling.Identities;
 /// A 32-digit UUID without hyphens.
 /// </summary>
 [GenerateStringValueObject(
-	minimumLength: 32, maximumLength: 36, stringFormat: StringFormat.Default, stringComparison: StringComparison.Ordinal, useRegex: true, propertyIsPublic: true,
+	minimumLength: 32, maximumLength: 36, stringFormat: StringFormat.Default,
+	stringComparison: StringComparison.Ordinal, useRegex: true, propertyIsPublic: true,
 	forbidParameterlessConstruction: false, useValidationExceptions: false)]
 public partial record struct Uuid : IId<Uuid, string>
 {
@@ -26,5 +27,4 @@ public partial record struct Uuid : IId<Uuid, string>
 		: this(uuid.ToString("N").ToUpper(), validator)
     {
     }
-
 }

@@ -142,12 +142,12 @@ public sealed record DefaultValueObject : ValueObjectBase
 	
 	public override string GetHashCodeCode()			=> $"public override int GetHashCode() => this.{this.PropertyName}.GetHashCode();";
 
-	public override string GetEqualsCode()				=> $"public {(this.IsUnsealedRecordClass ? "virtual " : null)}bool Equals({this.Name}{this.ValueObjectNullOperator} other) => this.{this.PropertyName}.Equals(other{this.ValueObjectNullOperator}.{this.PropertyName});";
+	public override string GetEqualsCode()				=> $"public {(this.IsUnsealedRecordClass ? "virtual " : null)}bool Equals({this.Name}{this.NullOperator} other) => this.{this.PropertyName}.Equals(other{this.NullOperator}.{this.PropertyName});";
 	public override string GetObjectEqualsCode()		=> this.ValueObjectType.IsRefLikeType
 														? $"public override {(this.IsUnsealedRecordClass ? "virtual " : null)}bool Equals(object? other) => false;" 
 														: $"public override {(this.IsUnsealedRecordClass ? "virtual " : null)}bool Equals(object? other) => other is {this.Name} {this.LocalVariableName} && this.Equals({this.LocalVariableName});";
 
-	public override string GetCompareToCode()			=> $"public int CompareTo({this.Name}{this.ValueObjectNullOperator} other) => Comparer<{this.UnderlyingTypeName}{this.ValueObjectNullOperator}>.Default.Compare(this.{this.PropertyName}, other{this.ValueObjectNullOperator}.{this.PropertyName});";
+	public override string GetCompareToCode()			=> $"public int CompareTo({this.Name}{this.NullOperator} other) => Comparer<{this.UnderlyingTypeName}{this.NullOperator}>.Default.Compare(this.{this.PropertyName}, other{this.NullOperator}.{this.PropertyName});";
 
 	public override string GetDefaultValue()			=> $"default({this.UnderlyingTypeName})";
 	

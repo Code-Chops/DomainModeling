@@ -2,6 +2,6 @@ namespace CodeChops.DomainModeling.SourceGeneration.IdentityGenerator;
 
 public record IdDataModel(
 	string? Namespace,
-	string IdTypeName,
-	string UnderlyingTypeFullName,
+	string Name,
+	string UnderlyingTypeName,
 	char? NullOperator);

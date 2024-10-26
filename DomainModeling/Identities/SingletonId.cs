@@ -3,7 +3,8 @@
 /// <summary>
 /// A singleton ID for entities that only have one instance.
 /// </summary>
-public record SingletonId<TEntity> : IId<SingletonId<TEntity>, SingletonId<TEntity>>
+public record SingletonId<TEntity> : IId<SingletonId<TEntity>, SingletonId<TEntity>>,
+	ICreatable<SingletonId<TEntity>, SingletonId<TEntity>>
 {
 	public int CompareTo(SingletonId<TEntity>? other) => 0;
 
@@ -17,5 +18,10 @@ public record SingletonId<TEntity> : IId<SingletonId<TEntity>, SingletonId<TEnti
 
 	private SingletonId()
 	{
+	}
+
+	public static SingletonId<TEntity> Create(SingletonId<TEntity> parameter, Validator? validator = null)
+	{
+		return Default;
 	}
 }

@@ -12,8 +12,8 @@ namespace CodeChops.DomainModeling.Identities;
 /// </para>
 /// </summary>
 /// <typeparam name="TUnderlying">The underlying value of the identifier.</typeparam>
-public abstract record Id<TSelf, TUnderlying> : IId<TSelf, TUnderlying>
-	where TSelf : Id<TSelf, TUnderlying>
+public abstract record Id<TSelf, TUnderlying> : IId<TSelf, TUnderlying>, ICreatable<TSelf, TUnderlying>
+	where TSelf : Id<TSelf, TUnderlying>, ICreatable<TSelf, TUnderlying>
 	where TUnderlying : IEquatable<TUnderlying?>, IComparable<TUnderlying?>
 {
 	public override string? ToString() => this.Value?.ToString()!;
@@ -40,4 +40,9 @@ public abstract record Id<TSelf, TUnderlying> : IId<TSelf, TUnderlying>
 
 	public static TSelf Default { get; } = (TSelf)RuntimeHelpers.GetUninitializedObject(typeof(TSelf));
 	bool IId.HasDefaultValue => this.Value?.Equals(default) ?? true;
+
+	public static TSelf Create(TUnderlying parameter, Validator? validator = null)
+	{
+		return Default with { Value = parameter };
+	}
 }

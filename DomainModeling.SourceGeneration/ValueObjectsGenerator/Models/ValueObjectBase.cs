@@ -30,7 +30,7 @@ public abstract record ValueObjectBase
 		this.UseValidationExceptions = useValidationExceptions;
 		this.AddIComparable = addIComparable;
 		this.IsUnsealedRecordClass = valueObjectType is { IsRecord: true, TypeKind: not TypeKind.Struct, IsSealed: false };
-		this.ValueObjectNullOperator = valueObjectType.TypeKind is TypeKind.Class || allowNull ? '?' : null;
+		this.NullOperator = valueObjectType.TypeKind is TypeKind.Class || allowNull ? '?' : null;
 		this.UnderlyingTypeNullOperator = allowNull ? '?' : null;
 
 		this.Name = valueObjectType.GetTypeNameWithGenericParameters();
@@ -51,7 +51,7 @@ public abstract record ValueObjectBase
 	/// <summary>
 	/// Null conditional operator for the value object.
 	/// </summary>
-	public char? ValueObjectNullOperator { get; }
+	public char? NullOperator { get; }
 
 	/// <summary>
 	/// The name of the value object being generated.

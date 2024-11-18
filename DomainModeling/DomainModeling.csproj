@@ -10,8 +10,8 @@
     </PropertyGroup>
 
     <PropertyGroup Label="Package">
-        <Version>2.18.3</Version>
-        <PackageReleaseNotes>Id.Value Ignore JSON.</PackageReleaseNotes>
+        <Version>2.18.4</Version>
+        <PackageReleaseNotes>Id.Value is now virtual.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.DomainModeling</Title>
         <Description>Easy domain modeling in accordance with the principles of Domain Driven Design.</Description>

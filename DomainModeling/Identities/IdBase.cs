@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace CodeChops.DomainModeling.Identities;
 
 /// <summary>
@@ -18,6 +20,7 @@ public abstract record Id<TSelf, TUnderlying> : IId<TSelf, TUnderlying>, ICreata
 {
 	public override string? ToString() => this.Value?.ToString()!;
 
+	[JsonIgnore]
 	public TUnderlying? Value { get; protected init; }
 
 	public object GetValue() => this.Value!;

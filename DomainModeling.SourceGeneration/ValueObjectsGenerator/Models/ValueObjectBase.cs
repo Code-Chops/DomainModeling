@@ -1,86 +1,48 @@
 namespace CodeChops.DomainModeling.SourceGeneration.ValueObjectsGenerator.Models;
 
-public abstract record ValueObjectBase
+public abstract record ValueObjectBase(
+	INamedTypeSymbol ValueObjectType,
+	bool GenerateToString,
+	bool GenerateComparison,
+	bool GenerateDefaultConstructor,
+	bool ForbidParameterlessConstruction,
+	bool GenerateStaticDefault,
+	bool GenerateEnumerable,
+	string PropertyName,
+	bool PropertyIsPublic,
+	bool AllowNull,
+	bool UseValidationExceptions,
+	bool AddIComparable,
+	bool UseCustomProperty)
 {
-	protected ValueObjectBase(
-		INamedTypeSymbol valueObjectType,
-		bool generateToString,
-		bool generateComparison,
-		bool generateDefaultConstructor,
-		bool forbidParameterlessConstruction,
-		bool generateStaticDefault,
-		bool generateEnumerable,
-		string propertyName,
-		bool propertyIsPublic,
-		bool allowNull,
-		bool useValidationExceptions,
-		bool addIComparable,
-		bool useCustomProperty)
-	{
-		this.ValueObjectType = valueObjectType;
-		this.GenerateToString = generateToString;
-		this.GenerateComparison = generateComparison;
-		this.GenerateDefaultConstructor = generateDefaultConstructor;
-		this.ForbidParameterlessConstruction = forbidParameterlessConstruction;
-		this.GenerateStaticDefault = generateStaticDefault;
-		this.GenerateEnumerable = generateEnumerable;
-		this.PropertyName = propertyName;
-		this.PropertyIsPublic = propertyIsPublic;
-		this.AllowNull = allowNull;
-		this.UseValidationExceptions = useValidationExceptions;
-		this.AddIComparable = addIComparable;
-		this.IsUnsealedRecordClass = valueObjectType is { IsRecord: true, TypeKind: not TypeKind.Struct, IsSealed: false };
-		this.NullOperator = valueObjectType.TypeKind is TypeKind.Class || allowNull ? '?' : null;
-		this.UnderlyingTypeNullOperator = allowNull ? '?' : null;
-
-		this.Name = valueObjectType.GetTypeNameWithGenericParameters();
-		this.Namespace = valueObjectType.ContainingNamespace!.IsGlobalNamespace ? null : valueObjectType.ContainingNamespace.ToDisplayString();
-		this.BackingFieldName = "_value";
-		this.LocalVariableName = propertyName.Substring(0, 1).ToLowerInvariant() + propertyName.Substring(1);
-		this.UseCustomProperty = useCustomProperty;
-	}
-
 	public string? ErrorMessage { get; protected set; }
 
 	public abstract string UnderlyingTypeName { get; }
 	public abstract string? UnderlyingTypeNameBase { get; }
-	public char? UnderlyingTypeNullOperator { get; }
+	public char? UnderlyingTypeNullOperator { get; } = AllowNull ? '?' : null;
 
-	public bool IsUnsealedRecordClass { get; }
+	public bool IsUnsealedRecordClass { get; } = ValueObjectType is { IsRecord: true, TypeKind: not TypeKind.Struct, IsSealed: false };
 
 	/// <summary>
 	/// Null conditional operator for the value object.
 	/// </summary>
-	public char? NullOperator { get; }
+	public char? NullOperator { get; } = ValueObjectType.TypeKind is TypeKind.Class || AllowNull ? '?' : null;
 
 	/// <summary>
 	/// The name of the value object being generated.
 	/// </summary>
-	public string Name { get; }
-	public string? Namespace { get; }
+	public string Name { get; } = ValueObjectType.GetTypeNameWithGenericParameters();
+
+	public string? Namespace { get; } = ValueObjectType.ContainingNamespace!.IsGlobalNamespace ? null : ValueObjectType.ContainingNamespace.ToDisplayString();
 
 	/// <summary>
 	/// Has a different name each time it's generated. In order to prohibit direct usage of the backing field.
 	/// </summary>
-	public string BackingFieldName { get; }
-	public string LocalVariableName { get; }
+	public string BackingFieldName { get; } = "_value";
+
+	public string LocalVariableName { get; } = PropertyName.Substring(0, 1).ToLowerInvariant() + PropertyName.Substring(1);
 
 	public List<string> ErrorCodes { get; } = new();
-
-	public INamedTypeSymbol ValueObjectType { get; }
-
-	public bool GenerateToString { get; }
-	public bool GenerateComparison { get; }
-	public bool GenerateDefaultConstructor { get; }
-	public bool ForbidParameterlessConstruction { get; }
-	public bool GenerateStaticDefault { get; }
-	public bool GenerateEnumerable { get; }
-	public string PropertyName { get; }
-	public bool PropertyIsPublic { get; }
-	public bool AllowNull { get; }
-	public bool UseValidationExceptions { get; }
-	public bool AddIComparable { get; }
-	public bool UseCustomProperty { get; }
 
 	public bool HasEmptyConstructor => !this.ForbidParameterlessConstruction && this.ValueObjectType.TypeKind == TypeKind.Structure;
 

@@ -3,16 +3,10 @@ namespace CodeChops.DomainModeling.Validation;
 /// <summary>
 /// Provides a way to easily use validation in different ways and enables the usage of <see cref="Guards.Core.IGuard"/>s.
 /// </summary>
-public abstract record Validator
+public abstract record Validator(string ObjectName)
 {
-	public string ObjectName { get; }
 	public abstract bool HasException { get; }
-	
-	protected Validator(string objectName)
-	{
-		this.ObjectName = objectName;
-	}
-	
+
 	// ReSharper disable twice ExplicitCallerInfoArgument
 	public void Throw<TException>(TException exception)
 		where TException : CustomException
@@ -24,7 +18,7 @@ public abstract record Validator
 	/// </summary>
 	public abstract TReturn Throw<TException, TReturn>(TException exception)
 		where TException : CustomException;
-	
+
 	public static class Get<TObject>
 	{
 		public static DefaultValidator Default { get; } = new(objectName: typeof(TObject).Name);

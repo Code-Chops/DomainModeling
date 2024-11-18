@@ -29,19 +29,19 @@ public sealed record DictionaryValueObject : ValueObjectBase, IEnumerableValueOb
 		bool allowNull,
 		bool useValidationExceptions)
 		: base(
-			useValidationExceptions: useValidationExceptions,
-			valueObjectType: valueObjectType,
-			generateToString: generateToString,
-			generateComparison: generateComparison,
-			generateDefaultConstructor: generateDefaultConstructor,
-			forbidParameterlessConstruction: forbidParameterlessConstruction,
-			generateStaticDefault: generateStaticDefault,
-			generateEnumerable: generateEnumerable,
-			propertyName: propertyName ?? "Value",
-			propertyIsPublic: propertyIsPublic,
-			addIComparable: false,
-			allowNull: allowNull,
-			useCustomProperty: false)
+			UseValidationExceptions: useValidationExceptions,
+			ValueObjectType: valueObjectType,
+			GenerateToString: generateToString,
+			GenerateComparison: generateComparison,
+			GenerateDefaultConstructor: generateDefaultConstructor,
+			ForbidParameterlessConstruction: forbidParameterlessConstruction,
+			GenerateStaticDefault: generateStaticDefault,
+			GenerateEnumerable: generateEnumerable,
+			PropertyName: propertyName ?? "Value",
+			PropertyIsPublic: propertyIsPublic,
+			AddIComparable: false,
+			AllowNull: allowNull,
+			UseCustomProperty: false)
 	{
 		providedKeyType = GetUnderlyingType(valueObjectType, providedKeyType, isKey: true);
 		providedValueType = GetUnderlyingType(valueObjectType, providedValueType, isKey: false);

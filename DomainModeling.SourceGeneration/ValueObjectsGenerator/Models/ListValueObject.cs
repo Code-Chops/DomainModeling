@@ -18,19 +18,19 @@ public sealed record ListValueObject : ValueObjectBase, IEnumerableValueObject
 		bool allowNull,
 		bool useValidationExceptions)
 		: base(
-			valueObjectType: valueObjectType,
-			generateToString: generateToString,
-			generateComparison: generateComparison,
-			generateDefaultConstructor: generateDefaultConstructor,
-			forbidParameterlessConstruction: forbidParameterlessConstruction,
-			generateStaticDefault: generateStaticDefault,
-			generateEnumerable: generateEnumerable,
-			propertyName: propertyName ?? "Value",
-			propertyIsPublic: propertyIsPublic,
-			addIComparable: false,
-			allowNull: allowNull,
-			useValidationExceptions: useValidationExceptions,
-			useCustomProperty: false)
+			ValueObjectType: valueObjectType,
+			GenerateToString: generateToString,
+			GenerateComparison: generateComparison,
+			GenerateDefaultConstructor: generateDefaultConstructor,
+			ForbidParameterlessConstruction: forbidParameterlessConstruction,
+			GenerateStaticDefault: generateStaticDefault,
+			GenerateEnumerable: generateEnumerable,
+			PropertyName: propertyName ?? "Value",
+			PropertyIsPublic: propertyIsPublic,
+			AddIComparable: false,
+			AllowNull: allowNull,
+			UseValidationExceptions: useValidationExceptions,
+			UseCustomProperty: false)
 	{
 		providedElementType = GetElementType(valueObjectType, providedElementType);
 

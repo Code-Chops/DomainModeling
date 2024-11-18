@@ -40,19 +40,19 @@ public sealed record StringValueObject(
 		bool AllowNull,
 		bool UseValidationExceptions)
 	: ValueObjectBase(
-		useValidationExceptions: UseValidationExceptions,
-		valueObjectType: ValueObjectType,
-		generateToString: GenerateToString,
-		generateComparison: GenerateComparison,
-		generateDefaultConstructor: GenerateDefaultConstructor,
-		forbidParameterlessConstruction: ForbidParameterlessConstruction,
-		generateStaticDefault: GenerateStaticDefault,
-		generateEnumerable: GenerateEnumerable,
-		propertyName: PropertyName ?? "Value",
-		propertyIsPublic: PropertyIsPublic,
-		addIComparable: true,
-		allowNull: AllowNull,
-		useCustomProperty: false),
+		UseValidationExceptions: UseValidationExceptions,
+		ValueObjectType: ValueObjectType,
+		GenerateToString: GenerateToString,
+		GenerateComparison: GenerateComparison,
+		GenerateDefaultConstructor: GenerateDefaultConstructor,
+		ForbidParameterlessConstruction: ForbidParameterlessConstruction,
+		GenerateStaticDefault: GenerateStaticDefault,
+		GenerateEnumerable: GenerateEnumerable,
+		PropertyName: PropertyName ?? "Value",
+		PropertyIsPublic: PropertyIsPublic,
+		AddIComparable: true,
+		AllowNull: AllowNull,
+		UseCustomProperty: false),
 		IEnumerableValueObject
 {
 	public string ElementTypeName					=> nameof(Char);
